@@ -2,6 +2,6 @@
 
 int main(void)
 {
-	printf("RICHI");
+	printf("RICHI nunca DUERME!!!!!!!!!!!!!!!!");
 	return 0;
 }
