@@ -10,6 +10,26 @@ var users = require('./routes/users');
 
 var app = express();
 
+
+function insertarAnimal( objectAnimal){
+    MongoClient.connect('mongodb://127.0.0.1:27017/Inge1', function (err, db) {
+    if (err) {
+        throw err;
+    } else {
+        console.log("Inserting animal");
+		var collection = db.collection('animales');
+	    collection.insert(objectAnimal, function(err, docs) {
+	        collection.count(function(err, count) {
+	            console.log(format("count = %s", count));
+	            db.close();
+	        });
+	    });
+	    console.log("successfully inserted animal ");
+    }
+    db.close();
+});
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -24,6 +44,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+
+
+var MongoClient = require('mongodb').MongoClient
+    , format = require('util').format;
+
+
+
+
+insertarAnimal({"Nombre":"Horimiga","numPatas":"Patitias"});
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
