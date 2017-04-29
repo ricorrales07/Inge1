@@ -15,7 +15,7 @@ public class Piece extends Entity {
     }
 
     public int getPieceId(){
-
+        return pieceId;
     }
 
     public void setPieceId()
