@@ -7,7 +7,8 @@ import org.antlr.stringtemplate.StringTemplateGroup;
  * Created by Ricardo on 29/4/2017.
  */
 public class ViewCreator {
-    StringTemplateGroup group = new StringTemplateGroup("templates",System.getProperty("user.dir") + "\\src\\main\\resources\\assets\\templates\\");
+
+    StringTemplateGroup group = new StringTemplateGroup("templates",".\\src\\main\\resources\\assets\\templates\\");
     public ViewCreator(){
 
     }
