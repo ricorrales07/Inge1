@@ -2,6 +2,7 @@ package com.health;
 
 import com.mongodb.MongoClient;
 import com.codahale.metrics.health.HealthCheck;
+
 /**
  * Created by Gabriel on 4/29/2017.
  */
@@ -15,7 +16,14 @@ public class MongoHealthCheck extends HealthCheck {
 
     @Override
     protected Result check() throws Exception {
-        mongoClient.getDatabaseNames();
-        return Result.healthy();
+        StringBuilder dbNames = new StringBuilder("dbs: ");
+        try {
+            for(String doc : mongoClient.listDatabaseNames()) {
+                dbNames.append(doc).append(", ");
+            }
+        } catch(Exception mongoError) {
+            return Result.unhealthy(mongoError);
+        }
+        return Result.healthy(dbNames.toString());
     }
 }

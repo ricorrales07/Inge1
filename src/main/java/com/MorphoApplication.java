@@ -20,7 +20,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
 
     @Override
     public String getName() {
-        return "hello-world";
+        return "morpho";
     }
 
     @Override
