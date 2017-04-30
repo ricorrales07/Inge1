@@ -1,4 +1,4 @@
-package com.health;
+package com.morpho.health;
 
 import com.mongodb.MongoClient;
 import com.codahale.metrics.health.HealthCheck;

@@ -1,4 +1,4 @@
-package com;
+package com.morpho;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;

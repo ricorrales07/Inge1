@@ -1,6 +1,6 @@
-package com.resources;
+package com.morpho.resources;
 
-import com.ViewCreator;
+import com.morpho.ViewCreator;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

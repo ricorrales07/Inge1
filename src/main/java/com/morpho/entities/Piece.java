@@ -1,4 +1,4 @@
-package com.entities;
+package com.morpho.entities;
 
 /**
  * Created by Ricardo on 29/4/2017.

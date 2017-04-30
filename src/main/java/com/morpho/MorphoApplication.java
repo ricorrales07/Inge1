@@ -1,11 +1,11 @@
 /**
  * Created by Ricardo on 29/4/2017.
  */
-package com;
+package com.morpho;
 
-import com.resources.AppResourcesPages;
-import com.server.DBAdministrator;
-import com.health.MongoHealthCheck;
+import com.morpho.resources.AppResourcesPages;
+import com.morpho.server.DBAdministrator;
+import com.morpho.health.MongoHealthCheck;
 
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;

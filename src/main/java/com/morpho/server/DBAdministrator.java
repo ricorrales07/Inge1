@@ -1,4 +1,4 @@
-package com.server;
+package com.morpho.server;
 
 import io.dropwizard.lifecycle.Managed;
 import com.mongodb.MongoClient;
