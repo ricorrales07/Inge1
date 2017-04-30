@@ -2,13 +2,10 @@ package com.morpho;
 
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.dropwizard.client.*;
 import org.hibernate.validator.constraints.NotEmpty;
-import io.dropwizard.lifecycle.*;
 
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+//import javax.validation.Valid;
+//import javax.validation.constraints.NotNull;
 
 /**
  * Created by Ricardo on 29/4/2017.
@@ -40,14 +37,15 @@ public class MorphoConfiguration extends Configuration{
         this.defaultName = name;
     }
 
-    @Valid
+    /* @Valid
     @NotNull
     @JsonProperty
     private JerseyClientConfiguration httpClient = new JerseyClientConfiguration();
 
     public JerseyClientConfiguration getJerseyClientConfiguration() {
         return httpClient;
-    }
+    }*/
+
     @JsonProperty
     @NotEmpty
     public String mongohost = "localhost";
@@ -57,5 +55,5 @@ public class MorphoConfiguration extends Configuration{
 
     @JsonProperty
     @NotEmpty
-    public String mongodb = "mydb";
+    public String mongodb = "Inge1";
 }

@@ -1,6 +1,6 @@
 package com.morpho.resources;
 
-import com.morpho.ViewCreator;
+import com.morpho.views.ViewCreator;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -19,9 +19,8 @@ public class AppResourcesPages {
     }
 
     @GET
-    @Path("login")
+    @Path("sample")
     public String getLoginPage() {
-        return viewCreator.getLoginPage();
+        return viewCreator.getSamplePage();
     }
-
 }

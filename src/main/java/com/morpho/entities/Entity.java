@@ -9,13 +9,13 @@ import javafx.util.Pair;
  * Created by Ricardo on 29/4/2017.
  */
 public class Entity {
-    String ownerId;
-    List<URL> imageList;
-    String scientificName;
-    Boolean isPublic;
+    private String ownerId;
+    private List<URL> imageList;
+    private String scientificName;
+    private Boolean isPublic;
     Map<String,Pair<String, Object>> properties;
 
-    public Entity(){
+    Entity(){
 
     }
 

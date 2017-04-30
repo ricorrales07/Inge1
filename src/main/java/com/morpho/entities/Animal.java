@@ -5,8 +5,8 @@ package com.morpho.entities;
  */
 public class Animal extends Entity {
 
-    Composition composition;
-    int animalId;
+    private Composition composition;
+    private int animalId;
 
     public Animal(){
 

@@ -5,11 +5,11 @@ package com.morpho.entities;
  */
 public class Composition extends Entity{
 
-    int compID;
-    int a1;
-    int a2;
-    int b1;
-    int b2;
+    private int compID;
+    private int a1;
+    private int a2;
+    private int b1;
+    private int b2;
 
     public Composition(){
 
@@ -32,8 +32,7 @@ public class Composition extends Entity{
     }
 
     public int[] getCompProperties(){
-        int[] vector = {a1, a2, b1, b2};
-        return vector;
+        return new int[]{a1, a2, b1, b2};
     }
 
     public void setCompProperties(int x1, int x2, int y1, int y2){
