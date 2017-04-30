@@ -3,6 +3,7 @@
  */
 package com.morpho;
 
+import com.morpho.config.MorphoConfiguration;
 import com.morpho.resources.AppResourcesPages;
 import com.morpho.server.DBAdministrator;
 import com.morpho.health.MongoHealthCheck;

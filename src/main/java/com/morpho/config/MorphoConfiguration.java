@@ -1,4 +1,4 @@
-package com.morpho;
+package com.morpho.config;
 
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;

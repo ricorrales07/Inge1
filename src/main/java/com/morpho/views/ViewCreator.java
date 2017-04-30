@@ -1,5 +1,6 @@
 package com.morpho.views;
 
+import com.morpho.views.SampleView;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 

@@ -9,7 +9,7 @@ import org.antlr.stringtemplate.StringTemplate;
 public class SampleView extends View {
     private final Login login;
 
-    SampleView() {
+    public SampleView() {
         login = new Login();
         name = "sample";
     }
