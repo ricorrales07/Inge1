@@ -1,0 +1,31 @@
+<!-- Combinando https://www.youtube.com/watch?v=LNaj8I_fsT0 y http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="jquery-3.2.0.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="EaselJS-0.8.2/lib/easeljs-0.8.2.min.js"></script>
+    <script src="script.js" defer></script>
+    <title>Prueba bootstrap</title>
+    <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+</head>
+<body onload="init();">
+    <div class = "container">
+        <div class = "row" >
+
+            <div class = "col-md-12" style = "background-color: #FFFFFF; box-shadow: inset 1px -1px 1px #FFFFFF, inset -1px 1px 1px #FFFFFF;">
+
+                <canvas id="areaDeDibujo" class="img-responsive" width="800" height="350">
+                    Lo sentimos, su navegador no soporta nuestra aplicación. 
+                </canvas>
+
+            </div>
+        </div>
+    </div>
+    
+    <!--button onclick="window.location.reload()">reset</button-->
+</body>
+</html>
