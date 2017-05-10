@@ -8,27 +8,35 @@ import javafx.util.Pair;
 /**
  * Created by Ricardo on 29/4/2017.
  */
-public class Entity {
-    private String ownerId;
+abstract class Entity {
+    private final String ownerId;
     private List<URL> imageList;
     private String scientificName;
     private Boolean isPublic;
     Map<String,Pair<String, Object>> properties;
 
     Entity(){
+        ownerId = null;
+    }
 
+    Entity(Entity otherEntity, String ownerId) {
+        this.ownerId = ownerId;
+        this.imageList = otherEntity.imageList;
+        this.scientificName = otherEntity.scientificName;
+        this.isPublic = otherEntity.isPublic;
+        this.properties = otherEntity.properties;
     }
 
     public Entity(String ownerId, List<URL> imageList, String scientificName, Boolean isPublic, Map<String,Pair<String, Object>> properties){
-
+        this.ownerId = ownerId;
+        this.imageList = imageList;
+        this.scientificName = scientificName;
+        this.isPublic = isPublic;
+        this.properties = properties;
     }
 
     public String getOwnerId() {
         return ownerId;
-    }
-
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
     }
 
     public List<URL> getImageList() {
