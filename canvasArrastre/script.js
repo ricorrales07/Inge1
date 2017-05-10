@@ -69,6 +69,7 @@ function changeView(element, index, array)
 
 function init()
 {
+    console.log("init");
     createjs.Touch.enable(stage, false, true);
     changeViewButton.graphics.beginFill("green").drawCircle(20,20,10);
     changeViewButton.set({name: "changeViewButton"});
