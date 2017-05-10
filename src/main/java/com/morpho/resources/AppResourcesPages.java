@@ -23,4 +23,10 @@ public class AppResourcesPages {
     public String getLoginPage() {
         return viewCreator.getSamplePage();
     }
+
+    @GET
+    @Path("createPiece")
+    public String getCreatePiecePage(){
+        return viewCreator.getCreatePiecePage();
+    }
 }

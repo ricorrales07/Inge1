@@ -14,4 +14,8 @@ public class ViewCreator {
     }
 
     public String getSamplePage(){ return new SampleView().getView(); }
+
+    public String getCreatePiecePage(){
+        return "";
+    }
 }

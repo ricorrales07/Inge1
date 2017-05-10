@@ -7,4 +7,4 @@ server:
   - type: http
     port: 9001
 
-template: C:\Users\Ricardo\Desktop\IngeI\Inge1\src\main\assets\templates
+template: /home/irvin/Documents/Universidad/VII Semester/Ing. Soft. I/Proyecto/Inge1/src/main/resources/assets/templates
