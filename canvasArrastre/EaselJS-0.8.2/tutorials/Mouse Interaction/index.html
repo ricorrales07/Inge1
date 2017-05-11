@@ -3,16 +3,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>EaselJS Tutorial: Mouse Interaction</title>
-	<link href="../../_assets/css/shared.css" rel="stylesheet" type="text/css" />
-	<link href="../_shared/tutorial.css" rel="stylesheet" type="text/css" />
-	<script src="../_shared/tutorial.js"></script>
+	<link href="../../_assets/assets.css/shared.assets.css" rel="stylesheet" type="text/assets.css" />
+	<link href="../_shared/tutorial.assets.css" rel="stylesheet" type="text/assets.css" />
+	<script src="../_shared/tutorial.assets.js"></script>
 	
 	<!-- SyntaxHighlighter-->
-	<script src="../_shared/SyntaxHighlighter/shCore.js"></script>
-	<script src="../_shared/SyntaxHighlighter/shBrushJScript.js"></script>
-	<script src="../_shared/SyntaxHighlighter/shBrushXml.js"></script>
-	<link href="../_shared/SyntaxHighlighter/shCore.css" rel="stylesheet" type="text/css">
-	<link href="../_shared/SyntaxHighlighter/shThemeCreateJS.css" rel="stylesheet" type="text/css">
+	<script src="../_shared/SyntaxHighlighter/shCore.assets.js"></script>
+	<script src="../_shared/SyntaxHighlighter/shBrushJScript.assets.js"></script>
+	<script src="../_shared/SyntaxHighlighter/shBrushXml.assets.js"></script>
+	<link href="../_shared/SyntaxHighlighter/shCore.assets.css" rel="stylesheet" type="text/assets.css">
+	<link href="../_shared/SyntaxHighlighter/shThemeCreateJS.assets.css" rel="stylesheet" type="text/assets.css">
 </head>
 	
 <body onload="initTutorial();">
@@ -39,7 +39,7 @@
 			<p>
 				At its core, the EaselJS mouse interaction model is very simple to use - just assign a listener to a
 				mouse events via the <code>addEventListener</code> method on a display object:
-				<textarea class="brush: js;" readonly>
+				<textarea class="brush: assets.js;" readonly>
 circle.addEventListener("click", function(event) { alert("clicked"); })
 				</textarea>
 			</p>
@@ -64,7 +64,7 @@ circle.addEventListener("click", function(event) { alert("clicked"); })
 			<p>
 				The <code>on</code> method provides a shortcut to <code>addEventListener</code>, and adds additional
 				functionality. See the API docs for more details.
-				<textarea class="brush: js;" readonly>
+				<textarea class="brush: assets.js;" readonly>
 circle.on(type, listener, scope, once, data, useCapture);
 							</textarea>
 			</p>
@@ -79,7 +79,7 @@ circle.on(type, listener, scope, once, data, useCapture);
 				You can use this object to see what <code>type</code> of event it was, what the <code>target</code> was,
 				get access to the <code>nativeEvent</code> object it was based on, and to check the pointer's
 				<code>stageX</code> and <code>stageY</code> coordinates.
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 circle.on("click", function(evt) {
 	alert("type: "+evt.type+" target: "+evt.target+" stageX: "+evt.stageX);
 });
@@ -124,7 +124,7 @@ circle.on("click", function(evt) {
 			<p>
 				You can prevent the children of a <code>Container</code> from dispatching mouse events setting
 				<code>mouseChildren</code> to <code>false</code>.
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 myContainer.mouseChildren = false;
 			</textarea>
 			</p>
@@ -137,7 +137,7 @@ myContainer.mouseChildren = false;
 			<p>
 				Similarly, you can completely disable mouse events on any display object without removing its handlers
 				by setting <code>mouseEnabled</code> to <code>false</code>.
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 circle.on("click", function() { alert("Clicked!"); });
 circle.mouseEnabled = false;
 			</textarea>
@@ -179,7 +179,7 @@ circle.mouseEnabled = false;
 				anywhere within your canvas. <code>stagemousedown</code>, <code>stagemouseup</code>, and
 				<code>stagemousemove</code> are called any time a relevant mouse interaction happens anywhere on the
 				canvas.
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 stage.on("stagemousedown", function(evt) {
 	alert("the canvas was clicked at "+evt.stageX+","+evt.stageY);
 })
@@ -197,7 +197,7 @@ stage.on("stagemousedown", function(evt) {
 				<code>stageY</code> properties of <code>MouseEvent</code> will always return a value normalized to
 				within your stage bounds, but you can use <code>rawX</code> and <code>rawY</code> to get values that
 				haven't been normalized (this can cause errors if you aren't careful).
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 stage.mouseMoveOutside = true;
 stage.on("stagemousemove", function(evt) {
 	console.log("stageX/Y: "+evt.stageX+","+evt.stageY); // always in bounds
@@ -220,7 +220,7 @@ stage.on("stagemousemove", function(evt) {
 				display object, that object will generate <code>pressmove</code> events until the mouse is released, at
 				which point a <code>pressup</code> event will be dispatched.
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 circle.on("pressmove", function(evt) {
 	evt.target.x = evt.stageX;
 	evt.target.y = evt.stageY;

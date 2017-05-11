@@ -7,11 +7,11 @@ import org.antlr.stringtemplate.StringTemplate;
  */
 public class Login {
     private final String loginScript = "<script>(function(d, s, id) {\n" +
-            "          var js, fjs = d.getElementsByTagName(s)[0];\n" +
+            "          var assets.js, fjs = d.getElementsByTagName(s)[0];\n" +
             "          if (d.getElementById(id)) return;\n" +
-            "          js = d.createElement(s); js.id = id;\n" +
-            "          js.src = \"//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.9&appId=212006762635772\";\n" +
-            "          fjs.parentNode.insertBefore(js, fjs);\n" +
+            "          assets.js = d.createElement(s); assets.js.id = id;\n" +
+            "          assets.js.src = \"//connect.facebook.net/es_LA/sdk.assets.js#xfbml=1&version=v2.9&appId=212006762635772\";\n" +
+            "          fjs.parentNode.insertBefore(assets.js, fjs);\n" +
             "        }(document, 'script', 'facebook-jssdk'));</script>";
     private final String loginButton = "<div class=\"fb-login-button\" data-max-rows=\"1\" data-size=\"large\" data-button-type=\"login_with\" data-show-faces=\"false\" data-auto-logout-link=\"true\" data-use-continue-as=\"false\"></div>";
 

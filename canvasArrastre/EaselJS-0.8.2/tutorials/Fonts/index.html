@@ -4,9 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>EaselJS Tutorial: Fonts</title>
-	<link href="../../_assets/css/shared.css" rel="stylesheet" type="text/css">
-    <link href="../_shared/tutorial.css" rel="stylesheet" type="text/css">
-    <script src="../_shared/tutorial.js"></script>
+	<link href="../../_assets/assets.css/shared.assets.css" rel="stylesheet" type="text/assets.css">
+    <link href="../_shared/tutorial.assets.css" rel="stylesheet" type="text/assets.css">
+    <script src="../_shared/tutorial.assets.js"></script>
     <style>
         .container {
             position: relative;
@@ -21,11 +21,11 @@
     </style>
 
     <!-- SyntaxHighlighter-->
-    <script src="../_shared/SyntaxHighlighter/shCore.js"></script>
-    <script src="../_shared/SyntaxHighlighter/shBrushJScript.js"></script>
-    <script src="../_shared/SyntaxHighlighter/shBrushXml.js"></script>
-    <link href="../_shared/SyntaxHighlighter/shCore.css" rel="stylesheet" type="text/css">
-    <link href="../_shared/SyntaxHighlighter/shThemeCreateJS.css" rel="stylesheet" type="text/css">
+    <script src="../_shared/SyntaxHighlighter/shCore.assets.js"></script>
+    <script src="../_shared/SyntaxHighlighter/shBrushJScript.assets.js"></script>
+    <script src="../_shared/SyntaxHighlighter/shBrushXml.assets.js"></script>
+    <link href="../_shared/SyntaxHighlighter/shCore.assets.css" rel="stylesheet" type="text/assets.css">
+    <link href="../_shared/SyntaxHighlighter/shThemeCreateJS.assets.css" rel="stylesheet" type="text/assets.css">
 
 </head>
 <body onload="initTutorial();">
@@ -165,14 +165,14 @@
         <p>
             If you run the following code you will see a basic "Hello World" message:
         </p>
-        <textarea class="brush: js;" readonly>
+        <textarea class="brush: assets.js;" readonly>
 var text = new createjs.Text();
 text.text = "Hello World"
         </textarea>
         <p>
             Alternatively, you can pass string, font-family and color value parameters to the constructor.
         </p>
-        <textarea class="brush: js;" readonly>
+        <textarea class="brush: assets.js;" readonly>
 var text = new createjs.Text("Hello World", "bold 86px Arial", "#ff7700");
         </textarea>
         <iframe src="helloworld.html" class="demo" data-description="Basic Implementation displaying text" width="100%" height="120px"></iframe>
@@ -211,7 +211,7 @@ var text = new createjs.Text("Hello World", "bold 86px Arial", "#ff7700");
                     <li>Now create an instance of the Text class, using the newly acquired font!</li>
                 </ol>
             </p>
-            <textarea class="brush: js;" readonly>
+            <textarea class="brush: assets.js;" readonly>
 var txt = new createjs.Text();
 txt.font = "bold 96px Dorsa";
 txt.color = "#000000";

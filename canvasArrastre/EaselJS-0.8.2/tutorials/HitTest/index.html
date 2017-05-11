@@ -3,16 +3,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>EaselJS Tutorial: Using hitTest</title>
-	<link href="../../_assets/css/shared.css" rel="stylesheet" type="text/css">
-	<link href="../_shared/tutorial.css" rel="stylesheet" type="text/css">
-	<script src="../_shared/tutorial.js"></script>
+	<link href="../../_assets/assets.css/shared.assets.css" rel="stylesheet" type="text/assets.css">
+	<link href="../_shared/tutorial.assets.css" rel="stylesheet" type="text/assets.css">
+	<script src="../_shared/tutorial.assets.js"></script>
 	
 	<!-- SyntaxHighlighter-->
-	<script src="../_shared/SyntaxHighlighter/shCore.js"></script>
-	<script src="../_shared/SyntaxHighlighter/shBrushJScript.js"></script>
-	<script src="../_shared/SyntaxHighlighter/shBrushXml.js"></script>
-	<link href="../_shared/SyntaxHighlighter/shCore.css" rel="stylesheet" type="text/css">
-	<link href="../_shared/SyntaxHighlighter/shThemeCreateJS.css" rel="stylesheet" type="text/css">
+	<script src="../_shared/SyntaxHighlighter/shCore.assets.js"></script>
+	<script src="../_shared/SyntaxHighlighter/shBrushJScript.assets.js"></script>
+	<script src="../_shared/SyntaxHighlighter/shBrushXml.assets.js"></script>
+	<link href="../_shared/SyntaxHighlighter/shCore.assets.css" rel="stylesheet" type="text/assets.css">
+	<link href="../_shared/SyntaxHighlighter/shThemeCreateJS.assets.css" rel="stylesheet" type="text/assets.css">
 </head>
 	
 <body onload="initTutorial();">
@@ -37,7 +37,7 @@
 			<p>
 				The <code>hitTest</code> method checks a specified point in a display object and returns true if that point is not fully transparent (ie. if it will draw to that pixel). This can be used for checking if a specific object is under the mouse and hit detection.
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 myDisplayObject.hitTest(localX, localY);
 			</textarea>
 			<p>
@@ -56,7 +56,7 @@ myDisplayObject.hitTest(localX, localY);
 			<p>
 				To convert a global position into a local one, we can use the <code>globalToLocal</code> method. This method takes a global x & y value, and returns an object with x & y properties that have been transformed using the target object's concatenated transformation (ie. including its parent transformations).
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 var pt = myDisplayObject.globalToLocal(stage.mouseX, stage.mouseY);
 console.log(pt.x, pt.y);
 			</textarea>
@@ -76,7 +76,7 @@ console.log(pt.x, pt.y);
 			<p>
 				You could use <code>localToGlobal</code> and then its counterpart <code>globalToLocal</code> to convert the point from one object's coordinate space to another's, but the <code>localToLocal</code> method does the same thing with a little less code.
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 var pt = objA.localToLocal(posX, posY, objB);
 console.log(pt.x, pt.y); // the position local to objB
 			</textarea>

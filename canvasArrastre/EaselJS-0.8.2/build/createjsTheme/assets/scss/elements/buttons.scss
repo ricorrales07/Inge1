@@ -40,7 +40,7 @@
 		// Elements :: before, after, first-line, first-letter, selection
 		&:first-child {margin-left: 0;}
 		&:last-child {margin-right: 0;}
-		// Classes : http://css-tricks.com/almanac/
+		// Classes : http://assets.css-tricks.com/almanac/
 	//	CHILDREN (Sass 3.3 Syntax Only, otherwise scope child outside this selector)
 		p {
 			//	EXTEND 
@@ -118,7 +118,7 @@
 		// Type
 	//	PSUEDO Elements & Classes
 		// Elements :: before, after, first-line, first-letter, selection
-		// Classes : http://css-tricks.com/almanac/
+		// Classes : http://assets.css-tricks.com/almanac/
 	//	CHILDREN (Sass 3.3 Syntax Only, otherwise scope child outside this selector)
 	p {
 		@include bp($bp_width-600, min-) {

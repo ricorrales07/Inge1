@@ -30,7 +30,7 @@ $fontSize-root: 	9px;	// (1rem)
 //
 //*******************************************
 /*
-<script type="text/javascript" src="//use.typekit.net/cek3iwo.js"></script>
+<script type="text/javascript" src="//use.typekit.net/cek3iwo.assets.js"></script>
 <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 */
 
@@ -44,7 +44,7 @@ $fontFamily-secondary: 'Proxima Nova', sans-serif;
 //	Weights: 400, 500
 
 //	Monospace Font
-@import url("http://fonts.googleapis.com/css?family=Source+Code+Pro&subset=latin,latin-ext");
+@import url("http://fonts.googleapis.com/assets.css?family=Source+Code+Pro&subset=latin,latin-ext");
 $fontFamily-monospace: 'Source Code Pro', monospace;
 //	Weights: 400
 

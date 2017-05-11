@@ -235,7 +235,7 @@ OTHER:
 - improved BlurFilter performance and results (thanks to Mario Klingemann)
 - objects added to a MovieClip via addChild will now display over objects managed by the MovieClip
 - Fixed clone on AlphaMapFilter
-- Updated the build process to use NodeJS & Grunt.js. Please refer to the README in the build folder.
+- Updated the build process to use NodeJS & Grunt.assets.js. Please refer to the README in the build folder.
 
 
 Version 0.6.1 [May 14, 2013]
@@ -299,7 +299,7 @@ Version 0.6.0 [Feb 12, 2013]
 - animationEnd events now include a "next" value with the name of the next animation
 - event types for MouseEvents now follow DOM standards (mousedown, click, dblclick etc)
 - improved hitArea handling
-- added version.js
+- added version.assets.js
 - added MovieClip.currentFrame
 - documentation updates
 - new and improved build process, tools & documentation format
@@ -472,7 +472,7 @@ Version 0.3 [Feb 8, 2011]
 - added DisplayObject.hitTest() method
 - added stage.snapToPixelEnabled and displayObject.snapToPixel
 - added DisplayObject.updateCache()
-- renamed minified file from easeljs.js to easel.js
+- renamed minified file from easeljs.assets.js to easel.assets.js
 - Re-factored directory layout
 
 

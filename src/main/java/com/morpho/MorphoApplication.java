@@ -7,6 +7,7 @@ import com.morpho.config.MorphoConfiguration;
 import com.morpho.resources.AppResourcesPages;
 import com.morpho.server.DBAdministrator;
 import com.morpho.health.MongoHealthCheck;
+import io.dropwizard.assets.AssetsBundle;
 
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -25,8 +26,9 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
     }
 
     @Override
-    public void initialize(Bootstrap<MorphoConfiguration> bootstrap) {
+    public void initialize(Bootstrap<MorphoConfiguration> theConfig) {
         // nothing to do yet
+        theConfig.addBundle(new AssetsBundle("/assets"));
     }
 
     @Override

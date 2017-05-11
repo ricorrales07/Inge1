@@ -43,8 +43,8 @@ To export a release build for this library run:
 
 This command will:
 
-* Update the version.js file(s) with the current date and version number from config
-* Create the {PROJECT_NAME}-{VERSION}.min.js file, and move it to ../lib
+* Update the version.assets.js file(s) with the current date and version number from config
+* Create the {PROJECT_NAME}-{VERSION}.min.assets.js file, and move it to ../lib
 * Generate the documentation in the docs_out_path from config
 * Create a zip file of the documentation and move it to ../docs
 

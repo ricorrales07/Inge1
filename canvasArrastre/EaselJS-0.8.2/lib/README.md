@@ -10,10 +10,10 @@ and shared caching across sites.
 
 
 # libraries
-**easeljs-VERSION.min.js** contains minified versions of all of the EaselJS classes (comments and white space stripped).
-**easeljs-VERSION.combined.js** contains all the EaselJS classes, including whitespace and comments.
-**webgl-VERSION.min.js** contains minified versions of the WebGL classes SpriteStage and SpriteContainer.
-**webgl-VERSION.combined.js** contains the WebGL classes SpriteStage and SpriteContainer.
+**easeljs-VERSION.min.assets.js** contains minified versions of all of the EaselJS classes (comments and white space stripped).
+**easeljs-VERSION.combined.assets.js** contains all the EaselJS classes, including whitespace and comments.
+**webgl-VERSION.min.assets.js** contains minified versions of the WebGL classes SpriteStage and SpriteContainer.
+**webgl-VERSION.combined.assets.js** contains the WebGL classes SpriteStage and SpriteContainer.
 
 
 # license

@@ -3,16 +3,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>EaselJS Tutorial: Getting Started</title>
-	<link href="../../_assets/css/shared.css" rel="stylesheet" type="text/css">
-	<link href="../_shared/tutorial.css" rel="stylesheet" type="text/css">
-	<script src="../_shared/tutorial.js"></script>
+	<link href="../../_assets/assets.css/shared.assets.css" rel="stylesheet" type="text/assets.css">
+	<link href="../_shared/tutorial.assets.css" rel="stylesheet" type="text/assets.css">
+	<script src="../_shared/tutorial.assets.js"></script>
 	
 	<!-- SyntaxHighlighter-->
-	<script src="../_shared/SyntaxHighlighter/shCore.js"></script>
-	<script src="../_shared/SyntaxHighlighter/shBrushJScript.js"></script>
-	<script src="../_shared/SyntaxHighlighter/shBrushXml.js"></script>
-	<link href="../_shared/SyntaxHighlighter/shCore.css" rel="stylesheet" type="text/css">
-	<link href="../_shared/SyntaxHighlighter/shThemeCreateJS.css" rel="stylesheet" type="text/css">
+	<script src="../_shared/SyntaxHighlighter/shCore.assets.js"></script>
+	<script src="../_shared/SyntaxHighlighter/shBrushJScript.assets.js"></script>
+	<script src="../_shared/SyntaxHighlighter/shBrushXml.assets.js"></script>
+	<link href="../_shared/SyntaxHighlighter/shCore.assets.css" rel="stylesheet" type="text/assets.css">
+	<link href="../_shared/SyntaxHighlighter/shThemeCreateJS.assets.css" rel="stylesheet" type="text/assets.css">
 </head>
 	
 <body onload="initTutorial();">
@@ -59,7 +59,7 @@
 				The script tag on line 4 includes the EaselJS library in our document so that we can work with it. We have a few options for how we do this:<ol>
 				<li> link to a local copy of the compiled library.</li>
 				<li> link to the compiled library on the the <a href="http://code.createjs.com">CreateJS CDN</a> (as in this example). This allows the library to be cached for users across all sites that use the library, but only stable versions of the library are available.</li>
-				<li> link to individual, uncompiled source files (in the /src/ directory). This can be very useful for debugging and learning about the library, because you will get more useful errors. However, you must make sure they are loaded in the correct order, which you can find in /build/config.js</li>
+				<li> link to individual, uncompiled source files (in the /src/ directory). This can be very useful for debugging and learning about the library, because you will get more useful errors. However, you must make sure they are loaded in the correct order, which you can find in /build/config.assets.js</li>
 				</ol>
 			</p>
 			<p>
@@ -77,7 +77,7 @@
 			<p>
 				Lets add some code in our empty script tag from above. We'll start by defining a stage that will draw to the canvas.</p>
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 var stage = new createjs.Stage("demoCanvas");
 			</textarea>
 			<p>
@@ -95,7 +95,7 @@ var stage = new createjs.Stage("demoCanvas");
 			<p>
 				Next, we'll create a <code>Shape</code> object, tell it to draw a red circle, position it, and add it to our stage.
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 var circle = new createjs.Shape();
 circle.graphics.beginFill("red").drawCircle(0, 0, 50);
 circle.x = 100;
@@ -111,7 +111,7 @@ stage.addChild(circle);
 			</p><p>
 				EaselJS also supports shortcuts to let you chain together your calls. In fact, if you really wanted to you could write all of the above code in a single line:
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 stage.addChild(new createjs.Shape()).set({x:100,y:100}).graphics.f("red").dc(0,0,50);
 			</textarea>
 		</section>	
@@ -123,7 +123,7 @@ stage.addChild(new createjs.Shape()).set({x:100,y:100}).graphics.f("red").dc(0,0
 			<p>
 				We've set up our display list, but it isn't drawn to the canvas until we tell the stage to <code>update</code>:
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 stage.update();
 			</textarea>
 			<p>

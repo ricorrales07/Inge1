@@ -3,16 +3,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>EaselJS Tutorial: Inheritance</title>
-	<link href="../../_assets/css/shared.css" rel="stylesheet" type="text/css">
-	<link href="../_shared/tutorial.css" rel="stylesheet" type="text/css">
-	<script src="../_shared/tutorial.js"></script>
+	<link href="../../_assets/assets.css/shared.assets.css" rel="stylesheet" type="text/assets.css">
+	<link href="../_shared/tutorial.assets.css" rel="stylesheet" type="text/assets.css">
+	<script src="../_shared/tutorial.assets.js"></script>
 	
 	<!-- SyntaxHighlighter-->
-	<script src="../_shared/SyntaxHighlighter/shCore.js"></script>
-	<script src="../_shared/SyntaxHighlighter/shBrushJScript.js"></script>
-	<script src="../_shared/SyntaxHighlighter/shBrushXml.js"></script>
-	<link href="../_shared/SyntaxHighlighter/shCore.css" rel="stylesheet" type="text/css">
-	<link href="../_shared/SyntaxHighlighter/shThemeCreateJS.css" rel="stylesheet" type="text/css">
+	<script src="../_shared/SyntaxHighlighter/shCore.assets.js"></script>
+	<script src="../_shared/SyntaxHighlighter/shBrushJScript.assets.js"></script>
+	<script src="../_shared/SyntaxHighlighter/shBrushXml.assets.js"></script>
+	<link href="../_shared/SyntaxHighlighter/shCore.assets.css" rel="stylesheet" type="text/assets.css">
+	<link href="../_shared/SyntaxHighlighter/shThemeCreateJS.assets.css" rel="stylesheet" type="text/assets.css">
 </head>
 	
 <body onload="initTutorial();">
@@ -40,7 +40,7 @@
 			<p>
 				We'll create a <code>Button</code> class, that extends <code>Container</code>.
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 (function() {
 
 function Button(label) {
@@ -100,12 +100,12 @@ window.Button = createjs.promote(Button, "Container");
 			<p>
 				Now the class can be instantiated, and added to the display list like any other display object.
 			</p>
-			<textarea class="brush: js;" readonly>
+			<textarea class="brush: assets.js;" readonly>
 var myButton = new Button("label");
 stage.addChild(myButton);
 			</textarea>
 			<p>
-				Check out demo.html and Button.js to see an example of this in action. Click the buttons.
+				Check out demo.html and Button.assets.js to see an example of this in action. Click the buttons.
 			</p>
 			
 			<iframe src="demo.html" class="demo" data-description="a (simple) reusable Button class" width="100%" height="220px"></iframe>
