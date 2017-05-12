@@ -16,3 +16,14 @@ function init() {
 }
 
 var stage = new createjs.Stage("leCanvas");
+
+
+
+createjs.Ticker.addEventListener("tick", handleTick);
+createjs.Ticker.interval = 20; //50 FPS
+ function handleTick(event) {
+     // Actions carried out each tick (aka frame)
+     if (!event.paused) {
+         // Actions carried out when the Ticker is not paused.
+     }
+ }
