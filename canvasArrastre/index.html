@@ -1,15 +1,16 @@
-<!-- Combinando https://www.youtube.com/watch?v=LNaj8I_fsT0 y http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/ -->
+<!--Solo funciona en Firefox!-->
 
 <!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <html>
 <head>
-    <link href="bootstrap-3.3.7-dist/assets.css/bootstrap.min.assets.css" rel="stylesheet">
-    <link rel="stylesheet" href="index.assets.css">
-    <script src="jquery-3.2.0.min.assets.js"></script>
-    <script src="bootstrap-3.3.7-dist/assets.js/bootstrap.min.assets.js"></script>
-    <script src="EaselJS-0.8.2/lib/easeljs-0.8.2.min.assets.js"></script>
-    <script src="script.assets.js" defer></script>
-    <title>Prueba bootstrap</title>
+    <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <script src="jquery-3.2.0.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="EaselJS-0.8.2/lib/easeljs-0.8.2.min.js"></script>
+    <script src="script.js" defer></script>
+    <title>MorphoSpace</title>
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
 </head>
 <body onload="init();">
@@ -18,14 +19,15 @@
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">WebSiteName</a>
+                    <a class="navbar-brand" href="#">MorphoSpace</a>
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Page 1</a></li>
-                    <li><a href="#">Page 2</a></li>
-                    <li><a href="#">Page 3</a></li>
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">Catálogo</a></li>
+                    <li><a href="#">Buscar similares</a></li>
                 </ul>
+                <button id="changeViewButton" class="btn btn-basic navbar-btn" onclick="changeEveryView();">Vista lateral</button>
             </div>
         </nav>
 
@@ -33,14 +35,14 @@
 
             <div class = "col-md-12">
 
-                <canvas id="areaDeDibujo" width="2048" height="1024">
-                    Lo sentimos, su navegador no soporta nuestra aplicación. 
+                <canvas id="areaDeDibujo" width="1024" height="512">
+                    Lo sentimos, su navegador no soporta nuestra aplicación.
                 </canvas>
-
+                *presionar 'i' para añadir imágenes (proxy)
             </div>
         </div>
     </div>
-    
+
     <!--button onclick="window.location.reload()">reset</button-->
 </body>
 </html>
