@@ -1,6 +1,7 @@
 var stage = new createjs.Stage("areaDeDibujo");
 var diffX, diffY;
 var view = "front";
+var lineasDeGuia = new createjs.Bitmap("./cuadricula.png");
 
 function drag(evt)
 {
@@ -29,11 +30,11 @@ function addImg() //proxy
 {
   console.log("creating sprite");
   var img1 = new Image();
-  img1.src = "./odo-head1.png";
+  img1.src = "./odo-head2.png";
   //img1.crossOrigin="Anonymous"; //EaselJS sugiere algo así para saltarse la seguridad de Chrome, no lo entiendo muy bien aún
 
   var img2 = new Image();
-  img2.src = "./odo-zyg-head1.png";
+  img2.src = "./odo-zyg-head2.png";
 
   var imgs = {
       images: [img1, img2],
@@ -87,10 +88,18 @@ function init()
     console.log("init");
     createjs.Touch.enable(stage, false, true);
 
+    lineasDeGuia.visible = false;
+    stage.addChild(lineasDeGuia).set({x:0,y:0});
+
     stage.update();
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", handleTick);
 
     window.onkeypress = manageKey;
+}
+
+function guidelines()
+{
+    lineasDeGuia.visible = !lineasDeGuia.visible;
 }

@@ -5,3 +5,7 @@ canvas {
     height: 100%;
     image-rendering: -moz-crisp-edges;
 }
+
+#changeViewButton {
+    margin-right: 4px
+}
