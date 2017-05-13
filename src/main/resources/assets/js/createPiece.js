@@ -1,23 +1,4 @@
 //CREATED BY IRVIN UMAÑA
-
-$(window).on("load",function(){
-	var heightPer = $(window).height() - $(".top-nav").height();
-	$(".toolset").height(heightPer); //Set up the canvas and it's menu to viewport's heght minus the top nav height. 
-	//$("#leCanvas").height(5000).width(5000); 
-});
-
-
-
-$( "#editor-menu-handle" ).click(function() {
-  $( "#editor-menu-content " ).toggle( "slow", function() {
-    // Animation complete.
-  });
-});
-
-function init() {
-    // code here.
-}
-
 /*
 Global variables for createPiece.
 */
@@ -25,8 +6,47 @@ createPieceG = {
 	origin: {x: 0, y:0},
 	pointer: {x: 0, y: 0}, //Universal pointer, contains position for the mouse, or whatever else pointer used (touch).
 	originCaptured: false, 
-	drawing: false
+	drawing: false,
+	toolSelected: "pencil"
 }
+
+//BEGIN SETTING UP STUF!
+
+$(window).on("load",function(){
+	var heightPer = $(window).height() - $(".top-nav").height();
+	//Let's position the editor in the row:
+	//$("#editor").attr("left",400).attr("width",$(window).height()-400);
+	$("#editor").css("left",$(window).width()/12).css("top",20).width( $(window).width()/12*10 );
+	//Set up the canvas and it's menu to viewport's heght minus the top nav height. 
+	$(".toolset").height(heightPer); 
+	$("#leCanvas").attr("width", $("#editor").width()).attr("height", heightPer); 
+	/*
+    console.log("canvas html wdith (no px): "+$("#leCanvas").width());
+    console.log("canvas html width attribute: "+$("#leCanvas").attr("width") );
+    console.log("calculated height from window: "+$(window).width());
+    console.log("width of the parent editor: "+$("#editor").width());*/
+});
+
+
+//Toggle open, or close the tool's menu. 
+$( "#editor-menu-handle" ).click(function() {
+  $( "#editor-menu-content " ).toggle( "slow", function() {
+  });
+});
+
+//Set up tools selector
+$(".tool").on("click",function(){
+	$(".tool").removeClass("selectedTool");
+	$(this).addClass("selectedTool");
+	createPieceG.toolSelected = this.id+"";
+	console.log(createPieceG.toolSelected);
+});
+
+function init() {
+    // I dont need to wait for this to start, cuz you know, I AM FAAAAAVVZZZZZ!
+}
+
+
 
 var stage = new createjs.Stage("leCanvas");
 
@@ -68,7 +88,7 @@ stage.addEventListener("stagemouseup", function(event) {
  
 
 createjs.Ticker.addEventListener("tick", handleTick);
-createjs.Ticker.interval = 20; //50 FPS
+createjs.Ticker.interval = 60; //50 FPS
 
  function handleTick(event) {
      // Actions carried out each tick (aka frame)

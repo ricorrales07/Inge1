@@ -14,18 +14,43 @@
 			
 		</div>
 	</div>
+
 	<div class="row ">
-		<div class="toolset" id="editor" onload="init();">
-			<canvas id="leCanvas" width="1000" height="1000"></canvas>
-		</div>
-		<div class="editor-menu toolset">
-			<div class="toolset" id="editor-menu-content"></div>
-			<div class="toolset" id="editor-menu-handle">
-				<i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+		<div class="col-md-12 toolset">
+			<div class="toolset" id="editor" onload="init();">
+				<canvas id="leCanvas" ></canvas>
+			</div>
+			<div class="editor-menu toolset">
+				<div class="toolset" id="editor-menu-content" style="display:none">
+					<div class="row">
+						<div class="tool col-md-offset-2 col-md-8 selectedTool" id="pencil">
+							Pencil
+							<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="tool col-md-offset-2 col-md-8" id="eraser">
+							Eraser
+							<i class="fa fa-eraser fa-2x" aria-hidden="true"></i>
+						</div>
+					</div>
+
+					<div class="row">
+						<button class="col-md-offset-2 col-md-8" id="addImage">
+							Add Image
+							<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+						</button>
+					</div>
+
+				</div>
+				<div class="toolset" id="editor-menu-handle">
+					<i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+				</div>
 			</div>
 		</div>
-
 	</div>
+
 	</body>
 	<script src="assets/jquery/jquery-3.2.1.js"></script>
 	<script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
