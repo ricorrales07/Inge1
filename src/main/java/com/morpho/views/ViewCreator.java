@@ -21,4 +21,10 @@ public class ViewCreator {
         templateSample.setAttribute("ESTUDIANTE","lol");
         return templateSample.toString();
     }
+
+    public String getHomepage()
+    {
+        StringTemplate templateHomepage = group.getInstanceOf("homepage" );
+        return templateHomepage.toString();
+    }
 }

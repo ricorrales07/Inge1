@@ -29,4 +29,8 @@ public class AppResourcesPages {
     public String getCreatePiecePage(){
         return viewCreator.getCreatePiecePage();
     }
+
+    @GET
+    @Path("")
+    public String getHomepage() { return viewCreator.getHomepage(); }
 }
