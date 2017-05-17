@@ -4,6 +4,7 @@
 package com.morpho;
 
 import com.morpho.config.MorphoConfiguration;
+import com.morpho.resources.AppResourcesMethods;
 import com.morpho.resources.AppResourcesPages;
 import com.morpho.server.DBAdministrator;
 import com.morpho.health.MongoHealthCheck;
@@ -35,6 +36,8 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
     public void run(MorphoConfiguration configuration,
                     Environment environment) {
         AppResourcesPages resourcesPages = new AppResourcesPages();
+        AppResourcesMethods resourcesMethods = new AppResourcesMethods();
+
         final MongoClient mongoClient = new MongoClient(configuration.mongohost, configuration.mongoport);
         final MongoHealthCheck healthCheck =
                 new MongoHealthCheck(mongoClient);
@@ -44,5 +47,6 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         DBAdministrator dba = new DBAdministrator(mongoClient);
         environment.healthChecks().register("MongoDBHealthCheck", healthCheck);
         environment.jersey().register(resourcesPages);
+        environment.jersey().register(resourcesMethods);
     }
 }
