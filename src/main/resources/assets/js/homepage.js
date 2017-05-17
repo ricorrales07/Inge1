@@ -110,8 +110,8 @@ function getLoginThing()
 
 }
 
-
-/*function nombre(auth){
+/*
+function nombre(auth){
 
     var url = '/methods/pedacitoX'; // the script where you handle the form input.
 
@@ -131,4 +131,5 @@ function getLoginThing()
 
         }
     });
-}*/
+}
+*/

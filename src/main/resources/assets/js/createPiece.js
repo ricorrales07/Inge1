@@ -7,24 +7,27 @@ createPieceG = {
 	pointer: {x: 0, y: 0}, //Universal pointer, contains position for the mouse, or whatever else pointer used (touch).
 	originCaptured: false, 
 	drawing: false,
-	toolSelected: "pencil"
+	toolSelected: "pencil",
+	stage: new createjs.Stage("leCanvas"),
+
+
+
 }
 
 //BEGIN SETTING UP STUF!
 
 $(window).on("load",function(){
 	var heightPer = $(window).height() - $(".top-nav").height();
+
 	//Let's position the editor in the row:
-	//$("#editor").attr("left",400).attr("width",$(window).height()-400);
-	$("#editor").css("left",$(window).width()/12).css("top",20).width( $(window).width()/12*10 );
+	var distanceTopEditor = 20;
+	$("#editor").css("left",$(window).width()/12).css("top",distanceTopEditor).width( $(window).width()/12*10 );
+	
 	//Set up the canvas and it's menu to viewport's heght minus the top nav height. 
 	$(".toolset").height(heightPer); 
-	$("#leCanvas").attr("width", $("#editor").width()).attr("height", heightPer); 
-	/*
-    console.log("canvas html wdith (no px): "+$("#leCanvas").width());
-    console.log("canvas html width attribute: "+$("#leCanvas").attr("width") );
-    console.log("calculated height from window: "+$(window).width());
-    console.log("width of the parent editor: "+$("#editor").width());*/
+	$("#leCanvas").attr("width", $("#editor").width()).attr("height", heightPer - distanceTopEditor); 
+
+    initiate();
 });
 
 
@@ -34,6 +37,8 @@ $( "#editor-menu-handle" ).click(function() {
   });
 });
 
+
+
 //Set up tools selector
 $(".tool").on("click",function(){
 	$(".tool").removeClass("selectedTool");
@@ -42,58 +47,78 @@ $(".tool").on("click",function(){
 	console.log(createPieceG.toolSelected);
 });
 
-function init() {
-    // I dont need to wait for this to start, cuz you know, I AM FAAAAAVVZZZZZ!
-}
-
-
-
 var stage = new createjs.Stage("leCanvas");
+var surface = new createjs.Container();
 
-/*
-stage.addEventListener("stagemousedown", function(event) {
-    console.log("the canvas was stagemousedown at "+event.stageX+","+event.stageY);
-
-})*/
-
-
-
-stage.addEventListener("stagemousedown", function(event) {
-	console.log("the canvas was mousedown at "+event.stageX+","+event.stageY);
-  createPieceG.pointer.x = event.stageX;
-  createPieceG.pointer.y = event.stageY;
-  createPieceG.drawing = true;
-});
-
-
-stage.addEventListener("stagemousemove", function handleMouseMove(event) {
-	//console.log("the canvas was pressmove at "+event.stageX+","+event.stageY);
-	  createPieceG.pointer.x = event.stageX;
-	  createPieceG.pointer.y = event.stageY;
-});
-
-stage.addEventListener("stagemouseup", function(event) {
-	console.log("the canvas was pressup at "+event.stageX+","+event.stageY);
-	//Break the stroke. 
-	createPieceG.originCaptured = false;
-	createPieceG.drawing = false;
-});
 
  var brushStyle = new createjs.Graphics();
  brushStyle.setStrokeStyle(2,"round", 1); ////stroke style
  // brushStyle.setStrokeStyle(2); ////stroke style
- brushStyle.beginStroke("#0000FF");//stroke color
+ brushStyle.beginStroke("#222121");//stroke color
  var brush = new createjs.Shape(brushStyle);
- stage.addChild(brush);
+ surface.addChild(brush);
+
+ function initiate() {
+ 	$( "#pointerRadius #slider" ).slider({
+ 		 min: 1,
+ 		 max: 10,
+ 		 value: 3
+	});
+	//$( "#pointerRadius #slider" ).slider( "values", [ 1, 55] );
+	surface.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	stage.addChild(surface);
+
+	/*
+	stage.addEventListener("stagemousedown", function(event) {
+	    console.log("the canvas was stagemousedown at "+event.stageX+","+event.stageY);
+
+	})*/
+
+	stage.addEventListener("stagemousedown", function(event) {
+		console.log("the canvas was mousedown at "+event.stageX+","+event.stageY);
+		createPieceG.pointer.x = event.stageX;
+		createPieceG.pointer.y = event.stageY;
+		createPieceG.drawing = true;
+		canvasCycle();
+	});
+
+
+	stage.addEventListener("stagemousemove", function handleMouseMove(event) {
+		//console.log("the canvas was pressmove at "+event.stageX+","+event.stageY);
+		  createPieceG.pointer.x = event.stageX;
+		  createPieceG.pointer.y = event.stageY;
+		canvasCycle();
+	  	
+	});
+
+	stage.addEventListener("stagemouseup", function(event) {
+		console.log("the canvas was pressup at "+event.stageX+","+event.stageY);
+		//Break the stroke. 
+		createPieceG.originCaptured = false;
+		createPieceG.drawing = false;
+		canvasCycle();
+	});
+	
+
+}
+
  
 
-createjs.Ticker.addEventListener("tick", handleTick);
-createjs.Ticker.interval = 60; //50 FPS
+//createjs.Ticker.addEventListener("tick", handleTick);
+createjs.Ticker.interval = 10; // FPS
 
  function handleTick(event) {
      // Actions carried out each tick (aka frame)
 
-     if (createPieceG.drawing) {
+ 	//canvasCycle();
+
+     if (!event.paused) {
+         // Actions carried out when the Ticker is not paused.
+     }
+ }
+
+function canvasCycle(){
+    if (createPieceG.drawing) {
      	console.log("TICK AND DRAWING");
 	     if(createPieceG.originCaptured){
 	     	drawStroke(brush);
@@ -104,12 +129,7 @@ createjs.Ticker.interval = 60; //50 FPS
   	 }
 
      stage.update();
-
-     if (!event.paused) {
-         // Actions carried out when the Ticker is not paused.
-     }
- }
-
+}
 
 
 
@@ -122,10 +142,16 @@ createjs.Ticker.interval = 60; //50 FPS
  function drawStroke(brush){
     //clear previous line
     //brush.graphics.clear();
-
+    brush.graphics.clear();
+    brush.graphics.setStrokeStyle($( "#pointerRadius #slider" ).slider( "option", "value" ),"round", "round", 10); ////stroke style
+ // brushStyle.setStrokeStyle(2); ////stroke style
+ 	brush.graphics.beginStroke("#222121");//stroke color
     //draw line from the origin to the most recent pointer position. 
     brush.graphics.moveTo(createPieceG.origin.x, createPieceG.origin.y);
+    //brush.graphics.moveTo(createPieceG.pointer.x, createPieceG.pointer.y);
     brush.graphics.lineTo(createPieceG.pointer.x, createPieceG.pointer.y);
+    surface.updateCache(createPieceG.toolSelected=="eraser"?"destination-out":"source-over");
+    //brush.graphics.clear();
     //console.log("originX: "+createPieceG.origin.x+", originY: "+createPieceG.pointer.x);
 
     //Update origin
