@@ -20,7 +20,7 @@ public class AppResourcesPages {
 
     @GET
     @Path("sample")
-    public String getLoginPage() {
+    public String getSamplePage() {
         return viewCreator.getSamplePage();
     }
 

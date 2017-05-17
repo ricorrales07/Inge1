@@ -5,13 +5,10 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>login</title>
-        <link rel="stylesheet" href="main.assets.css">
     </head>
     <body>
         <div id="fb-root"></div>
-        $LS$
-        <div>Hola soy: $ESTUDIANTE$</div>
-        $LB$
+        <div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false"></div>
     </body>
-    <script></script>
+    <script src="assets/js/login.js"></script>
 </html>

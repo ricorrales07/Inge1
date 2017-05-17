@@ -1,6 +1,5 @@
 package com.morpho.views;
 
-import com.morpho.views.SampleView;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 
@@ -14,7 +13,11 @@ public class ViewCreator {
 
     }
 
-    public String getSamplePage(){ return new SampleView().getView(); }
+    public String getSamplePage(){
+        StringTemplate templateSample = group.getInstanceOf("sample");
+        templateSample.setAttribute("ESTUDIANTE","lol");
+        return templateSample.toString();
+    }
 
     public String getCreatePiecePage(){
         StringTemplate templateSample = group.getInstanceOf("createPiece");
