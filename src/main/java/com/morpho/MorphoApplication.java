@@ -39,13 +39,12 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         AppResourcesMethods resourcesMethods = new AppResourcesMethods();
 
         final MongoClient mongoClient = new MongoClient(configuration.mongohost, configuration.mongoport);
-        final MongoHealthCheck healthCheck =
-                new MongoHealthCheck(mongoClient);
+        final MongoHealthCheck mongoHealthCheck = new MongoHealthCheck(mongoClient);
         /*final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClientConfiguration())
                 .using(environment)
                 .build("SoyYo");*/
         DBAdministrator dba = new DBAdministrator(mongoClient);
-        environment.healthChecks().register("MongoDBHealthCheck", healthCheck);
+        environment.healthChecks().register("MongoDBHealthCheck", mongoHealthCheck);
         environment.jersey().register(resourcesPages);
         environment.jersey().register(resourcesMethods);
     }

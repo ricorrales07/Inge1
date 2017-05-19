@@ -7,7 +7,6 @@ window.fbAsyncInit = function() {
 	});
 	FB.AppEvents.logPageView();
 
-	FB.Event.subscribe('auth.authResponseChange', auth_response_change_callback);
 	FB.Event.subscribe('auth.statusChange', auth_status_change_callback);
 };
 
@@ -19,11 +18,10 @@ window.fbAsyncInit = function() {
 		fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
 
-var auth_response_change_callback = function(response) {
-	console.log("auth_response_change_callback");
-	console.log(response);
-}
-
 var auth_status_change_callback = function(response) {
-	console.log("auth_status_change_callback: " + response.status);
+    if(response.status == "connected")
+	    console.log("auth_status_change_callback: " + response.status);
+	else {
+		console.log("disconnected")
+	}
 }
