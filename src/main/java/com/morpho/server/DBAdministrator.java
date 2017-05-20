@@ -47,7 +47,11 @@ public class DBAdministrator implements Managed {
      * @return document in serialized JSON
      */
     public String find(String collection, String filter) {
-        return db.getCollection(collection).find((Bson) JSON.parse(filter)).first().toJson();
+        try {
+            return db.getCollection(collection).find((Bson) JSON.parse(filter)).first().toJson();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**

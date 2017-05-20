@@ -19,8 +19,25 @@ window.fbAsyncInit = function() {
 	}(document, 'script', 'facebook-jssdk'));
 
 var auth_status_change_callback = function(response) {
-    if(response.status == "connected")
+    if(response.status == "connected") {
 	    console.log("auth_status_change_callback: " + response.status);
+	    $.ajax({
+                    url: "/methods/sendToken",
+                    type: 'POST',
+                    /*data: {
+                        userId: response.authResponse.userID,
+                        accessToken: response.authResponse.accessToken
+                    },
+                    contentType: "application/json",//No pude hacerlo con POJO*/
+                    data: response.authResponse.accessToken,
+                    contentType: "text/plain",
+                    success:function(data, textStatus, jqXHR){
+                        console.log("token sent")},
+                    error:function(jqXHR, textStatus, errorThrown ){
+                        console.log(errorThrown);
+                    }
+                });
+    }
 	else {
 		console.log("disconnected")
 	}

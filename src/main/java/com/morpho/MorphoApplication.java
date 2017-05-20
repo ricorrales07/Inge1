@@ -17,6 +17,10 @@ import io.dropwizard.Application;
 import com.mongodb.MongoClient;
 
 public class MorphoApplication extends Application<MorphoConfiguration>{
+    public static DBAdministrator DBA;
+    public static String accessToken;
+    public static String userID;
+
     public static void main(String[] args) throws Exception {
         new MorphoApplication().run(args);
     }
@@ -43,12 +47,12 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         /*final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClientConfiguration())
                 .using(environment)
                 .build("SoyYo");*/
-        DBAdministrator dba = new DBAdministrator(mongoClient);
+        DBA = new DBAdministrator(mongoClient);
         environment.healthChecks().register("MongoDBHealthCheck", mongoHealthCheck);
         environment.jersey().register(resourcesPages);
         environment.jersey().register(resourcesMethods);
 
-        dbaExample(dba); //ejemplo
+        dbaExample(DBA); //ejemplo
     }
 
     private void dbaExample(DBAdministrator dba) {
