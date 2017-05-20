@@ -1,14 +1,21 @@
 package com.morpho.resources;
 
+import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
 import com.morpho.entities.Authentication;
 import com.morpho.views.ViewCreator;
+import jdk.nashorn.internal.runtime.ParserException;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import javax.swing.text.html.parser.Parser;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.*;
 import javax.ws.rs.core.Response;
+
+import static com.morpho.MorphoApplication.DBA;
 
 /**
  * Created by irvin on 5/17/17.
@@ -58,11 +65,21 @@ public class AppResourcesMethods {
     @POST
     @Path("/sendToken")
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response sendToken(String accessToken) {
-        MorphoApplication.accessToken = accessToken;
+    public Response sendToken(String auth) {
+        System.out.println(auth);
+        ResponseBuilder builder;
+        try {
+            DBA.insert("users", auth);
+            JSONObject authJSON = (JSONObject) new JSONParser().parse(auth);
+            MorphoApplication.userID = (String) authJSON.get("userID");
+            MorphoApplication.accessToken = (String) authJSON.get("accessToken");
 
-        ResponseBuilder builder = Response.ok(" Token sent");
-        builder.status(200);
+            builder = Response.ok(" Token sent");
+            builder.status(200);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            builder = Response.status(400);
+        }
         return builder.build();
     }
 }

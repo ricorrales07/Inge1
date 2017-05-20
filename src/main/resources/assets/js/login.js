@@ -24,12 +24,10 @@ var auth_status_change_callback = function(response) {
 	    $.ajax({
                     url: "/methods/sendToken",
                     type: 'POST',
-                    /*data: {
-                        userId: response.authResponse.userID,
+                    data: JSON.stringify({
+                        userID: response.authResponse.userID,
                         accessToken: response.authResponse.accessToken
-                    },
-                    contentType: "application/json",//No pude hacerlo con POJO*/
-                    data: response.authResponse.accessToken,
+                    }),
                     contentType: "text/plain",
                     success:function(data, textStatus, jqXHR){
                         console.log("token sent")},
