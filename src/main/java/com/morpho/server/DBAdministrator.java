@@ -50,6 +50,15 @@ public class DBAdministrator implements Managed {
         return db.getCollection(collection).find((Bson) JSON.parse(filter)).first().toJson();
     }
 
+    /**
+     * Deletes documents matching filter
+     * @param collection name of collection
+     * @param filter string in serialized JSON
+     */
+    public void delete(String collection, String filter) {
+        db.getCollection(collection).deleteMany((Bson) JSON.parse(filter));
+    }
+
     public void start() throws Exception {
     }
 

@@ -32,6 +32,16 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         theConfig.addBundle(new AssetsBundle("/assets"));
     }
 
+    private void dbaExample(DBAdministrator dba) {
+        dba.insert("pieza", "{_id: 1, ownerID: 21, isPublic: true, size: {w: 100, h: 100}}");
+        System.out.println(dba.find("pieza", "{_id: 1}"));
+        dba.update("pieza", "{_id: 1}", "{$set: {isPublic: false}}"); //hay que usar update operators
+        System.out.println("cambiando...");
+        System.out.println(dba.find("pieza", "{_id: 1}"));
+        dba.delete("pieza", "{_id: 1}");
+        System.out.println("borrando...");
+    }
+
     @Override
     public void run(MorphoConfiguration configuration,
                     Environment environment) {
@@ -47,5 +57,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         environment.healthChecks().register("MongoDBHealthCheck", mongoHealthCheck);
         environment.jersey().register(resourcesPages);
         environment.jersey().register(resourcesMethods);
+
+        dbaExample(dba); //ejemplo
     }
 }
