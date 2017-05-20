@@ -1,7 +1,6 @@
 package com.morpho.server;
 
-import com.mongodb.DBObject;
-import com.mongodb.client.MongoCollection;
+import com.mongodb.MongoWriteException;
 import com.mongodb.util.JSON;
 import org.bson.conversions.Bson;
 import com.mongodb.client.MongoDatabase;
@@ -27,7 +26,15 @@ public class DBAdministrator implements Managed {
      * @param document string in serialized JSON
      */
     public void insert(String collection, String document) {
-        db.getCollection(collection).insertOne(Document.parse(document));
+        try {
+            db.getCollection(collection).insertOne(Document.parse(document));
+        } catch(MongoWriteException e) {
+            System.out.println(e);
+            if(e.getCode() == 11000) { //duplicate key error
+                delete(collection, "{_id: \"" + Document.parse(document).get("_id") + "\"}");
+                db.getCollection(collection).insertOne(Document.parse(document));
+            }
+        }
     }
 
     /**

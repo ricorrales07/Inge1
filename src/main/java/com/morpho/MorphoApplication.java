@@ -18,8 +18,7 @@ import com.mongodb.MongoClient;
 
 public class MorphoApplication extends Application<MorphoConfiguration>{
     public static DBAdministrator DBA;
-    public static String accessToken;
-    public static String userID;
+    public static Authenticator Auth;
 
     public static void main(String[] args) throws Exception {
         new MorphoApplication().run(args);
@@ -48,6 +47,8 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
                 .using(environment)
                 .build("SoyYo");*/
         DBA = new DBAdministrator(mongoClient);
+        Auth = new Authenticator();
+
         environment.healthChecks().register("MongoDBHealthCheck", mongoHealthCheck);
         environment.jersey().register(resourcesPages);
         environment.jersey().register(resourcesMethods);

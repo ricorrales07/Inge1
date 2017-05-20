@@ -30,6 +30,6 @@ public class Authentication {
     }
 
     public String toString() {
-        return "{userID: " + userID + ", accessToken: " + accessToken + "}";
+        return "{_id: \"" + userID + "\", accessToken: \"" + accessToken + "\"}";
     }
 }
