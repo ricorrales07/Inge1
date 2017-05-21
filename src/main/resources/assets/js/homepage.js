@@ -2,9 +2,29 @@ var stage = new createjs.Stage("areaDeDibujo");
 var diffX, diffY;
 var view = "front";
 var lineasDeGuia = new createjs.Bitmap("assets/images/cuadricula.png");
+var partsList = [];
+var selected = null;
+var grapher = new createjs.Shape();
+
+function selectPart(part)
+{
+  grapher.graphics.clear();
+
+  selected = part;
+  var b = part.getBounds();
+
+  grapher.graphics.beginStroke("black").drawRect(b.x + part.x, b.y + part.y, b.width, b.height);
+}
+
+function unselectPart()
+{
+  selected = null;
+  grapher.graphics.clear();
+}
 
 function drag(evt)
 {
+    unselectPart();
     evt.target.x = evt.stageX - diffX;
     evt.target.y = evt.stageY - diffY;
     stage.update();
@@ -12,6 +32,7 @@ function drag(evt)
 
 function calculateDifference(evt)
 {
+    selectPart(evt.target);
     diffX = evt.stageX - evt.target.x;
     diffY = evt.stageY - evt.target.y;
 }
@@ -22,11 +43,11 @@ function manageKey(evt)
     console.log(evt.which, evt.keyCode, evt.CharCode, key);
     if (key == 105) //letra i
     {
-        addImg();
+        addPart();
     }
 }
 
-function addImg() //proxy
+function addPart() //proxy
 {
   console.log("creating sprite");
   var img1 = new Image();
@@ -39,16 +60,16 @@ function addImg() //proxy
   var imgs = {
       images: [img1, img2],
       frames: [
-          [0,0,img1.width,img1.height,0],
-          [0,0,img2.width,img2.height,1]
+          [0,0,img1.width,img1.height,0,img1.width/2,img1.height/2],
+          [0,0,img2.width,img2.height,1,img2.width/2,img2.height/2]
       ],
       animations: {front: 0, side: 1}
   };
   var partSheet = new createjs.SpriteSheet(imgs);
   var partSprite = new createjs.Sprite(partSheet, view);
 
-  partSprite.x = Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - Math.max(img1.width, img2.width)));
-  partSprite.y = Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - Math.max(img1.height, img2.height)));
+  partSprite.x = Math.floor(Math.random() * document.getElementById("areaDeDibujo").width);
+  partSprite.y = Math.floor(Math.random() * document.getElementById("areaDeDibujo").height);
 
   partSprite.name = "" + createjs.UID.get();
 
@@ -58,6 +79,10 @@ function addImg() //proxy
   partSprite.on("pressmove", drag);
 
   stage.addChild(partSprite);
+
+  partsList.push(partSprite);
+
+  selectPart(partSprite);
 }
 
 function handleTick(evt)
@@ -65,22 +90,13 @@ function handleTick(evt)
     stage.update(evt);
 }
 
-function changeEveryView()
+function changeView()
 {
     var btn = document.getElementById("changeViewButton");
     btn.textContent = (btn.textContent == "Vista frontal") ? "Vista lateral" : "Vista frontal";
 
     view = (view == "front") ? "side" : "front";
-    stage.children.forEach(changeView);
-}
-
-function changeView(element)
-{
-    console.log("element: " + element.toString() + "object type :" + Object.prototype.toString.call(element));
-    if (element.toString().substring(1,7) == "Sprite")
-    {
-            element.gotoAndStop(view);
-    }
+    partsList.forEach(function(element){element.gotoAndStop(view)});
 }
 
 function init()
@@ -90,6 +106,8 @@ function init()
 
     lineasDeGuia.visible = false;
     stage.addChild(lineasDeGuia).set({x:0,y:0});
+
+    stage.addChild(grapher);
 
     stage.update();
 

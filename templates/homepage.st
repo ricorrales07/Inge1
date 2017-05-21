@@ -22,8 +22,9 @@
                     <li onclick="getLoginThing();"><a href="#">Login</a></li>
                     <li><a href="#">Catálogo de piezas</a></li>
                     <li><a href="#">Buscar similares</a></li>
+                    <li><a href="createPiece">Editor de piezas</a></li>
                 </ul>
-                <button id="changeViewButton" class="btn btn-basic navbar-btn navbar-right" onclick="changeEveryView();">Vista lateral</button>
+                <button id="changeViewButton" class="btn btn-basic navbar-btn navbar-right" onclick="changeView();">Vista lateral</button>
                 <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="guidelines();">Activar líneas de guía</button>
             </div>
         </nav>
