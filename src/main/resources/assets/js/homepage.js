@@ -2,7 +2,7 @@ var stage = new createjs.Stage("areaDeDibujo");
 var diffX, diffY;
 var view = "front";
 var lineasDeGuia = new createjs.Bitmap("assets/images/cuadricula.png");
-var partsList = [];
+var composicionActual = {partIds: [], partsList: [], matrices: [[],[]]};
 var selected = null;
 var grapher = new createjs.Shape();
 var lastTouchPos = [[-1,-1],[-1,-1]]
@@ -25,7 +25,6 @@ function unselectPart()
 
 function drag(evt)
 {
-    unselectPart();
     evt.target.x = evt.stageX - diffX;
     evt.target.y = evt.stageY - diffY;
     console.log("dragging; x: " + evt.target.x + ", y: " + evt.target.y);
@@ -79,15 +78,23 @@ function addPart() //proxy
 
   partSprite.set({scaleX: 2, scaleY: 2});
 
-  partSprite.on("mousedown", handleMouseDown);
-  partSprite.on("pressmove", handlePressMove);
-  partSprite.on("pressup", handlePressUp);
+  addListeners(partSprite);
 
   stage.addChild(partSprite);
 
-  partsList.push(partSprite);
+  composicionActual.partIds.push(partSprite.name);
+  composicionActual.partsList.push(partSprite);
+  composicionActual.matrices[0].push(partSprite.getMatrix());
+  composicionActual.matrices[1].push(partSprite.getMatrix());
 
   selectPart(partSprite);
+}
+
+function addListeners(item)
+{
+  item.on("mousedown", handleMouseDown);
+  item.on("pressmove", handlePressMove);
+  item.on("pressup", handlePressUp);
 }
 
 function handlePressUp(evt)
@@ -97,6 +104,7 @@ function handlePressUp(evt)
 
 function handlePressMove(evt)
 {
+  unselectPart();
   if(!evt.isTouch || evt.nativeEvent.touches.length == 1)
   {
     console.log("drag");
@@ -204,7 +212,14 @@ function changeView()
     btn.textContent = (btn.textContent == "Vista frontal") ? "Vista lateral" : "Vista frontal";
 
     view = (view == "front") ? "side" : "front";
-    partsList.forEach(function(element){element.gotoAndStop(view)});
+    var viewNum = (view == "front") ? 0 : 1;
+
+    for(var i = 0; i < composicionActual.partsList.length; i++)
+    {
+      composicionActual.matrices[(viewNum == 0) ? 1 : 0][i] = composicionActual.partsList[i].getMatrix();
+      composicionActual.partsList[i].gotoAndStop(view);
+      composicionActual.matrices[viewNum][i].decompose(composicionActual.partsList[i]);
+    }
 }
 
 function init()
@@ -228,12 +243,6 @@ function init()
 function guidelines()
 {
     lineasDeGuia.visible = !lineasDeGuia.visible;
-}
-
-function getLoginThing()
-{
-    var ajaxRequest = new XMLHttpRequest();
-
 }
 
 /*

@@ -26,6 +26,7 @@
                 </ul>
                 <button id="changeViewButton" class="btn btn-basic navbar-btn navbar-right" onclick="changeView();">Vista lateral</button>
                 <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="guidelines();">Activar líneas de guía</button>
+                <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="addPart();">Agregar parte (prueba)</button>
             </div>
         </nav>
 
@@ -59,9 +60,6 @@
 <script src="assets/jquery/jquery-3.2.1.js"></script>
 <script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 <script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
-<script src="assets/js/hammer.min.js"></script>
-<script src="assets/js/underscore-min.js"></script>
-<script src="assets/js/amalgama.js"></script>
 <script src="assets/js/homepage.js" defer></script>
 
 </html>
