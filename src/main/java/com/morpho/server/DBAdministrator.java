@@ -25,7 +25,17 @@ public class DBAdministrator implements Managed {
      * @param collection name of collection
      * @param document string in serialized JSON
      */
-    public void insert(String collection, String document) {
+    public void insert(String collection, String document) throws Exception{
+        db.getCollection(collection).insertOne(Document.parse(document));
+    }
+
+    /**
+     * Inserts document in serialized JSON into collection, overriding existing document
+     * with same id
+     * @param collection name of collection
+     * @param document string in serialized JSON
+     */
+    public void set(String collection, String document) throws Exception{
         try {
             db.getCollection(collection).insertOne(Document.parse(document));
         } catch(MongoWriteException e) {
@@ -43,7 +53,7 @@ public class DBAdministrator implements Managed {
      * @param filter string in serialized JSON
      * @param update string in serialized JSON
      */
-    public void update(String collection, String filter, String update) {
+    public void update(String collection, String filter, String update) throws Exception {
         db.getCollection(collection).updateOne((Bson) JSON.parse(filter), (Bson) JSON.parse(update));
     }
 
@@ -53,7 +63,7 @@ public class DBAdministrator implements Managed {
      * @param filter string in serialized JSON
      * @return document in serialized JSON
      */
-    public String find(String collection, String filter) {
+    public String find(String collection, String filter) throws Exception {
         try {
             return db.getCollection(collection).find((Bson) JSON.parse(filter)).first().toJson();
         } catch (Exception e) {
@@ -66,7 +76,7 @@ public class DBAdministrator implements Managed {
      * @param collection name of collection
      * @param filter string in serialized JSON
      */
-    public void delete(String collection, String filter) {
+    public void delete(String collection, String filter) throws Exception{
         db.getCollection(collection).deleteMany((Bson) JSON.parse(filter));
     }
 

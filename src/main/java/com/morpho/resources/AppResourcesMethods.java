@@ -26,9 +26,9 @@ public class AppResourcesMethods {
     }
 
     @POST
-    @Path("savePiece")
+    @Path("example")
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response savePiece(@FormParam("Piece") String piece ) {
+    public Response example(@FormParam("Piece") String piece) {
         //Cómo usar esta versin de JSON en Java, vea aquí: https://www.tutorialspoint.com/json/json_java_example.htm
         //return viewCreator.getSamplePage();
 
@@ -40,9 +40,42 @@ public class AppResourcesMethods {
     }
 
     @POST
+    @Path("/createPiece")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response createPiece(String receivedContent) {
+        ResponseBuilder builder;
+        try {
+            JSONObject authJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            String receivedAuth = authJSON.get("auth").toString();
+            String piece = authJSON.get("piece").toString();
+            builder = authorize(receivedAuth);
+            if(builder.build().getStatus() == 200) { //successful authorization
+                try {
+                    MorphoApplication.DBA.insert("piece", piece);
+                    builder = Response.ok("Piece created");
+                    builder.status(200);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                    builder = Response.ok("Error inserting into DB");
+                    builder.status(404);
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            builder = Response.ok("Could not process auth");
+            builder.status(422);
+        }
+        return builder.build();
+    }
+
+    @POST
     @Path("/sendToken")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendToken(String receivedAuth) {
+        return authorize(receivedAuth).build();
+    }
+
+    private ResponseBuilder authorize(String receivedAuth) {
         ResponseBuilder builder;
         try {
             JSONObject authJSON = (JSONObject) new JSONParser().parse(receivedAuth);
@@ -50,9 +83,14 @@ public class AppResourcesMethods {
             String accessToken = (String) authJSON.get("accessToken");
             System.out.println("user ID: " + userID);
             if(MorphoApplication.Auth.verifyUser(userID, accessToken)) {
-                MorphoApplication.DBA.insert("users", new Authentication(userID, accessToken).toString());
-                builder = Response.ok("Valid token sent");
-                builder.status(200);
+                try {
+                    MorphoApplication.DBA.set("users", new Authentication(userID, accessToken).toString());
+                    builder = Response.ok("Valid token sent");
+                    builder.status(200);
+                } catch(Exception e) {
+                    builder = Response.ok("Error inserting into DB");
+                    builder.status(404);
+                }
             } else {
                 builder = Response.ok("Unauthorized: invalid token");
                 builder.status(401);
@@ -63,6 +101,6 @@ public class AppResourcesMethods {
             builder = Response.ok("Could not process auth");
             builder.status(422);
         }
-        return builder.build();
+        return builder;
     }
 }
