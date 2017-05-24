@@ -204,7 +204,7 @@ body{
 	border-radius: 5px;
 	border: 1px solid #44423e;
 	border-bottom: 2px solid #3c3b37;
-	border-top: 1px solid #3b3b3b;
+	border-top: 1px solid #3b3b3b;  /*Shinny part. */
 	color: #93928f;
 	height: 38px;
 }
@@ -216,3 +216,86 @@ body{
 #attribute-card-list{
 	overflow-y: scroll;
 }
+
+.nav-button{
+
+	
+	color: #93928f;
+	border-radius: 5px;
+	border: 1px solid #222222;
+	border-bottom: 2px solid #222222;
+	border-top: 1px solid #3b3b3b;  /*Shinny part. */
+	
+
+	text-align: center;
+	padding: 5px;
+
+	/*Disable selections of children*/
+	 user-select: none;
+     -moz-user-select: none;
+     -khtml-user-select: none;
+     -webkit-user-select: none;
+     -o-user-select: none;
+}
+
+.main-nav-button{
+	width: 60px;
+	margin: 15px;
+}
+
+.nav-button p{
+	margin: 0px;
+}
+
+#cancelButton{
+	float: right;
+}
+
+.nav-button:active{
+	background-color: #1a1a1a;
+	color: #3b3b3b;
+	border: 1px solid #222222;
+
+	/*Cross browser shadows :) */
+    -moz-box-shadow: 0px 0px 5px 0px #0f0f0f inset;
+	-webkit-box-shadow: 0px 0px 5px 0px #0f0f0f inset;
+	box-shadow: 0px 0px 5px 0px #0f0f0f inset;
+}
+
+#changeView .viewInfo{
+	width: 150px;
+	margin: 0px;
+	background-color: #93928f;
+	border-radius: 5px;
+	color: #333;
+	text-align: center;
+	padding: 5px;
+
+	/*Disable selections of children*/
+	 user-select: none;
+     -moz-user-select: none;
+     -khtml-user-select: none;
+     -webkit-user-select: none;
+     -o-user-select: none;
+
+}
+
+#changeView .viewInfo:focus{
+	outline: none;
+}
+
+#changeView {
+	height: 58px;
+	padding: 15px;
+	padding-top: 30px;
+	text-align: center;
+	color: #93928f;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#changeView div{
+	display: inline-block;
+}
+
+

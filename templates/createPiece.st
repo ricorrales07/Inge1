@@ -11,9 +11,31 @@
 	</head>
 	<body >
 		<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 top-nav">
-				
+		<div class="row top-nav">
+			<div class="col-md-2">
+				<div class="main-nav-button nav-button" id="saveButton">
+					<i class="fa fa-floppy-o fa-2x"></i>
+					</br>
+					<p>Save</p>
+				</div>
+			</div>
+			<div class="col-md-8 ">
+				<div id="changeView">
+						<label>View: </label>
+						<select class="viewInfo" > <!--Supplement an id here instead of using 'name'-->
+						  <option value="1" selected>Front</option> 
+						  <option value="2" >Right Side</option>
+						  <option value="3">Back</option>
+						  <option value="3">Left Side</option>
+						</select>	
+				</div>
+			</div>
+			<div class="col-md-2 ">
+				<div class="main-nav-button nav-button" id="cancelButton">
+					<i class="fa fa-times  fa-2x"></i>
+					</br>
+					<p>Cancel</p>
+				</div>
 			</div>
 		</div>
 
