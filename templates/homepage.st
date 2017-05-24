@@ -10,6 +10,7 @@
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
 </head>
 <body onload="init();">
+    <div id="fb-root"></div>
     <div class = "container">
 
         <nav class="navbar navbar-inverse">
@@ -19,7 +20,9 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li onclick="getLoginThing();"><a href="#">Login</a></li>
+                    <li>
+                    <div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false"></div>
+                    </li>
                     <li><a href="#">Catálogo de piezas</a></li>
                     <li><a href="#">Buscar similares</a></li>
                     <li><a href="createPiece">Editor de piezas</a></li>
@@ -61,5 +64,7 @@
 <script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 <script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
 <script src="assets/js/homepage.js" defer></script>
+<script src="assets/js/login.js" ></script>
+<script src="assets/js/js.cookie.js" ></script>
 
 </html>
