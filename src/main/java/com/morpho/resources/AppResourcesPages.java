@@ -5,6 +5,7 @@ import com.morpho.views.ViewCreator;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -29,6 +30,15 @@ public class AppResourcesPages {
     public String getCreatePiecePage(){
         return viewCreator.getCreatePiecePage();
     }
+
+    @GET
+    @Path("editPiece")
+    public String getCreatePiecePage(@QueryParam("pieceId") String pieceId ){
+
+        return viewCreator.getEditPiecePage(pieceId);
+    }
+
+
 
     @GET
     @Path("")
