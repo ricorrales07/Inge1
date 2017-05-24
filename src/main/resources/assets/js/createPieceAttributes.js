@@ -2,6 +2,10 @@ var createPieceAtt = {
 
 }
 
+$(window).on("load",function(){
+	updateView($("#changeView select"));
+});
+
 
 
 function checkCard(card){
@@ -23,4 +27,10 @@ function addProperty(){
 	var newCard = $(".cardTemplate").clone().attr("display","inline-block").removeClass("cardTemplate");
 	$("#attribute-card-list").append(newCard);
 	
+}
+
+function updateView(select){
+
+	$(".selectedCanvas").removeClass(".selectedCanvas");
+	$("#"+$(select).val() ).addClass(".selectedCanvas");
 }

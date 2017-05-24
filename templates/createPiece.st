@@ -22,11 +22,11 @@
 			<div class="col-md-8 ">
 				<div id="changeView">
 						<label>View: </label>
-						<select class="viewInfo" > <!--Supplement an id here instead of using 'name'-->
-						  <option value="1" selected>Front</option> 
-						  <option value="2" >Right Side</option>
-						  <option value="3">Back</option>
-						  <option value="3">Left Side</option>
+						<select class="viewInfo" onchange="updateView(this)"> <!--Supplement an id here instead of using 'name'-->
+						  <option value="canvasFront" selected>Front</option> 
+						  <option value="canvasRightSide" >Right Side</option>
+						  <option value="canvasBack">Back</option>
+						  <option value="canvasLeftSide">Left Side</option>
 						</select>	
 				</div>
 			</div>
@@ -76,9 +76,13 @@
 						<i class="fa fa-bars fa-2x" aria-hidden="true"></i>
 					</div>
 				</span>
-				<div class="" id="editor" >
-					<canvas id="leCanvas" onload="init();"></canvas>
+
+				<!-- FOUR DIFFERENT VIEWS -->
+				<div class="" id="editor" onload="init();"">
+					<canvas id="leCanvas" ></canvas>
 				</div>
+				<!-- END FOUR DIFFERENT VIEWS -->
+
 				<span id="attributes-menu">
 					<div class="toolset" id="attributes-menu-handle" >
 						<i class="fa fa-list-alt fa-2x" aria-hidden="true"></i>

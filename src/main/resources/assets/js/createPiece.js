@@ -20,6 +20,7 @@ createPieceG = {
 
 $(window).on("load",function(){
 	var heightPer = $(window).height() - $(".top-nav").height();
+	heightPer = 600;
 
 	//Set up the canvas and it's menu to viewport's heght minus the top nav height. 
 	$(".toolset").height(heightPer); 
@@ -59,7 +60,10 @@ $(".tool").on("click",function(){
 });
 
 var stage = new createjs.Stage("leCanvas");
-var surface = new createjs.Container();
+var surfaceF = new createjs.Container();
+var surfaceRS = new createjs.Container();
+var surfaceB = new createjs.Container();
+var surfaceLS = new createjs.Container();
 
 
  var brushStyle = new createjs.Graphics();
@@ -67,17 +71,30 @@ var surface = new createjs.Container();
  // brushStyle.setStrokeStyle(2); ////stroke style
  brushStyle.beginStroke("#222121");//stroke color
  var brush = new createjs.Shape(brushStyle);
- surface.addChild(brush);
+ surfaceF.addChild(brush);
+ surfaceRS.addChild(brush);
+ surfaceB.addChild(brush);
+ surfaceLS.addChild(brush);
+ 
 
  function initiate() {
+ 	updateView($("#changeView select"));
+
  	$( "#pointerRadius #slider" ).slider({
  		 min: 1,
  		 max: 10,
  		 value: 3
 	});
 	//$( "#pointerRadius #slider" ).slider( "values", [ 1, 55] );
-	surface.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	stage.addChild(surface);
+	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	/*
+	stage.addChild(surfaceF);
+	stage.addChild(surfaceRS);
+	stage.addChild(surfaceB);
+	stage.addChild(surfaceLS);*/
 
 	/*
 	stage.addEventListener("stagemousedown", function(event) {
@@ -160,7 +177,7 @@ function canvasCycle(){
     //draw line from the origin to the most recent pointer position. 
     brush.graphics.moveTo(createPieceG.origin.x, createPieceG.origin.y);
     brush.graphics.lineTo(createPieceG.pointer.x, createPieceG.pointer.y);
-    surface.updateCache(createPieceG.toolSelected=="eraser"?"destination-out":"source-over");
+    createPieceG.selectedView.updateCache(createPieceG.toolSelected=="eraser"?"destination-out":"source-over");
     //brush.graphics.clear();
     //console.log("originX: "+createPieceG.origin.x+", originY: "+createPieceG.pointer.x);
 
@@ -168,6 +185,32 @@ function canvasCycle(){
     createPieceG.origin.x = createPieceG.pointer.x;
     createPieceG.origin.y = createPieceG.pointer.y;
 
+}
+
+function updateView(select){
+	stage.removeAllChildren();
+	switch( $(select).val()  ){
+		case "canvasFront":
+			createPieceG.selectedView = surfaceF;
+			stage.addChild(surfaceF);
+			break;
+		case "canvasRightSide":
+			 createPieceG.selectedView = surfaceRS;
+			 stage.addChild(surfaceRS);
+			break;
+		case "canvasBack":
+		 	createPieceG.selectedView = surfaceB;
+		 	stage.addChild(surfaceB);
+			break;
+		case "canvasLeftSide":
+		 	 createPieceG.selectedView = surfaceLS;
+		 	 stage.addChild(surfaceLS);
+			break;
+		default:
+			createPieceG.selectedView = surfaceF;
+			stage.addChild(surfaceF);
+			break;
+	}
 }
 
 
