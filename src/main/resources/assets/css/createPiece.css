@@ -3,22 +3,36 @@ body{
 	
 }
 
-.editor-menu{
-	background-color: #404040;
+
+
+#editor-menu{
+	background-color: #4C4A45;
 	height: 100%;
 	z-index: 2;
 	position: absolute;
 	top: 0px;
+	left: 0px;
 	overflow-x: hidden;
 	overflow-y: hidden;
+}
+
+#attributes-menu{
+	background-color: #4C4A45;
+	z-index: 2;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	float: right;
 }
 
 #editor{
 	background-color: white;
 	position: relative; /*Original position is behind the menu, right at the begining of the row*/
 	border: 10px solid #333;
-	height: 100%;
 	top: 0px;
+	overflow: scroll;
 }
 
 .top-nav{
@@ -45,6 +59,34 @@ body{
 	padding: 15px;
 	height: 100%;
 	display: inline-block;
+}
+
+#attributes-menu-content{
+	width: 310px;
+	float: right;
+	padding: 15px;
+	height: 100%;
+	display: inline-block;
+	
+}
+
+#attributes-menu-handle{
+	width: 40px;
+	float: left;
+	padding: 6px;
+	height: 100%;
+	display: inline-block;
+    overflow-x: hidden;
+    background-color: #262626;
+    border: 2px solid #222;
+}
+
+#attribute-card-editor{
+	margin-bottom: 15px;
+}
+
+#attributes-menu-handle .fa, #editor-menu-handle .fa{
+	color: #4C4A45;
 }
 
 .tool i{
@@ -78,4 +120,99 @@ body{
 
 #addImage i{
 	float: right;
+}
+
+#pointerRadius{
+	font-weight: bold;
+	line-height: 2em;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	color: white;
+}
+
+
+.attribute-card{
+	border: 1px solid #44423e;
+	border-bottom: 2px solid #3c3b37;
+	border-top: 1px solid #5d5c57;
+	border-radius: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-bottom: 5px;
+}
+
+.att-input{
+	
+	border: none;
+	background-color: #4C4A45;  /*color base*/
+	color: white;
+	font-size: 14px;
+	font-style: oblique;
+    margin-bottom: 5px;
+}
+
+.attribute-card label{
+	font-size: 14px;
+	color: #93928f;
+	height: 39px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.card-input:focus, .att-input:focus{
+	outline: none;
+	background-color: #5d5c57;
+}
+
+
+
+.card-input{
+	position: relative;
+}
+
+.attribute-card i{
+	color: #93928f;
+}
+
+.card-input .fa {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-icon .fa  { left:  0px;}
+.right-icon .fa { right: 0px;}
+
+/* add padding  */
+.left-icon input  { padding-left:  34px; }
+.right-icon input { padding-right: 34px; }
+
+.nopadding {
+   padding-left: 0 !important;
+   padding-right: 0 !important;
+
+}
+
+.attribute-card-header{
+	border-bottom: 1px solid #3c3b37;
+	margin-bottom: 10px;
+}
+
+#addProp{
+	background-color: #262626;
+	border-radius: 5px;
+	border: 1px solid #44423e;
+	border-bottom: 2px solid #3c3b37;
+	border-top: 1px solid #3b3b3b;
+	color: #93928f;
+	height: 38px;
+}
+
+.cardTemplate{
+	display: none;
+}
+
+#attribute-card-list{
+	overflow-y: scroll;
 }

@@ -9,6 +9,8 @@ createPieceG = {
 	drawing: false,
 	toolSelected: "pencil",
 	stage: new createjs.Stage("leCanvas"),
+	canvasStandardWidth: 1000,
+	canvasStandardHeight: 1000
 
 
 
@@ -19,13 +21,17 @@ createPieceG = {
 $(window).on("load",function(){
 	var heightPer = $(window).height() - $(".top-nav").height();
 
-	//Let's position the editor in the row:
-	var distanceTopEditor = 20;
-	$("#editor").css("left",$(window).width()/12).css("top",distanceTopEditor).width( $(window).width()/12*10 );
-	
 	//Set up the canvas and it's menu to viewport's heght minus the top nav height. 
 	$(".toolset").height(heightPer); 
-	$("#leCanvas").attr("width", $("#editor").width()).attr("height", heightPer - distanceTopEditor); 
+
+	//Let's position the editor in the row:
+	var distanceTopEditor = 20;
+
+	$("#editor").css("left",$(window).width()/12).css("top",distanceTopEditor).width( $(window).width()/12*10 ).css("height", (heightPer-distanceTopEditor));
+	
+
+	//$("#leCanvas").attr("width", $("#editor").width()).attr("height", heightPer - distanceTopEditor); 
+	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight); 
 
     initiate();
 });
@@ -37,6 +43,11 @@ $( "#editor-menu-handle" ).click(function() {
   });
 });
 
+
+$( "#attributes-menu-handle" ).click(function() {
+  $( "#attributes-menu-content" ).toggle( "slow", function() {
+  });
+});
 
 
 //Set up tools selector
@@ -148,7 +159,6 @@ function canvasCycle(){
  	brush.graphics.beginStroke("#222121");//stroke color
     //draw line from the origin to the most recent pointer position. 
     brush.graphics.moveTo(createPieceG.origin.x, createPieceG.origin.y);
-    //brush.graphics.moveTo(createPieceG.pointer.x, createPieceG.pointer.y);
     brush.graphics.lineTo(createPieceG.pointer.x, createPieceG.pointer.y);
     surface.updateCache(createPieceG.toolSelected=="eraser"?"destination-out":"source-over");
     //brush.graphics.clear();

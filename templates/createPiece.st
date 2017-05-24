@@ -9,51 +9,98 @@
 	    <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
 	</head>
-	<body>
-	<div class="row">
-		<div class="col-md-12 top-nav">
-			
-		</div>
-	</div>
-
-	<div class="row ">
-		<div class="col-md-12 toolset">
-			<div class="toolset" id="editor" >
-				<canvas id="leCanvas" onload="init();"></canvas>
+	<body >
+		<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 top-nav">
+				
 			</div>
-			<div class="editor-menu toolset">
-				<div class="toolset" id="editor-menu-content" style="display:none">
-					<div class="row">
-						<div class=" col-md-offset-2 col-md-8" id="pointerRadius">
-							<div id="slider"></div>
+		</div>
+
+		<div class="row ">
+			<div class="col-md-12 toolset">
+				<span class="toolset"  id="editor-menu">
+					<div class="toolset" id="editor-menu-content" style="display:none">
+						<div class="row">
+							<div class=" col-md-offset-2 col-md-8" id="pointerRadius">
+								Thickness
+								<div id="slider"></div>
+							</div>
 						</div>
-					</div>
 
-					<div class="row">
-						<div class="tool col-md-offset-2 col-md-8 selectedTool" id="pencil">
-							Pencil
-							<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+						<div class="row">
+							<div class="tool col-md-offset-2 col-md-8 selectedTool" id="pencil">
+								Pencil
+								<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+							</div>
 						</div>
-					</div>
 
-					<div class="row">
-						<div class="tool col-md-offset-2 col-md-8" id="eraser">
-							Eraser
-							<i class="fa fa-eraser fa-2x" aria-hidden="true"></i>
+						<div class="row">
+							<div class="tool col-md-offset-2 col-md-8" id="eraser">
+								Eraser
+								<i class="fa fa-eraser fa-2x" aria-hidden="true"></i>
+							</div>
 						</div>
-					</div>
 
-					<div class="row">
-						<button class="col-md-offset-2 col-md-8" id="addImage">
-							Add Image
-							<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-						</button>
-					</div>
+						<div class="row">
+							<button class="col-md-offset-2 col-md-8" id="addImage">
+								Add Image
+								<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+							</button>
+						</div>
 
+					</div>
+					<div class="toolset" id="editor-menu-handle">
+						<i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+					</div>
+				</span>
+				<div class="" id="editor" >
+					<canvas id="leCanvas" onload="init();"></canvas>
 				</div>
-				<div class="toolset" id="editor-menu-handle">
-					<i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-				</div>
+				<span id="attributes-menu">
+					<div class="toolset" id="attributes-menu-handle" >
+						<i class="fa fa-list-alt fa-2x" aria-hidden="true"></i>
+					</div>
+
+					<div class="toolset" id="attributes-menu-content" style="display:none" >
+						<div id="attribute-card-editor" class="row">
+							<button class="col-md-offset-3 col-md-6 nopadding" id="addProp" onclick="addProperty()">
+								Add Property
+								<i class="fa fa-plus-circle"></i>
+							</button>
+
+						</div>
+						<div id="attribute-card-list" class="toolset row">
+							<div class="attribute-card col-md-offset-1 col-md-10 cardTemplate" onclick="checkCard(this)">
+								<div class="row attribute-card-header">
+									<div class="col-md-1 " style="float: right" onclick="deleteCard()">
+										<i class="fa fa-times"></i>
+									</div>
+								</div>
+								<div class="row">
+									<div class=" col-md-3">
+										<label >Name: </label>
+									</div>
+									<div class="card-input right-icon col-md-8 nopadding">
+										<i class="fa fa-pencil"></i>
+										<input type="search" class="att-input form-control attribute-name" 
+											placeholder="Property name"/>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class=" col-md-3 ">
+										<label >Value: </label>
+									</div>
+									<div class="card-input right-icon col-md-8 nopadding">
+										<i class="fa fa-pencil"></i>
+										<input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</span>
 			</div>
 		</div>
 	</div>
@@ -64,5 +111,6 @@
 	<script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 	<script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
 	<script src="assets/js/createPiece.js"></script>
+	<script src="assets/js/createPieceAttributes.js"></script>
 
 </html>
