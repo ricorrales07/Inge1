@@ -43,9 +43,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
 
         final MongoClient mongoClient = new MongoClient(configuration.mongohost, configuration.mongoport);
         final MongoHealthCheck mongoHealthCheck = new MongoHealthCheck(mongoClient);
-        /*final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClientConfiguration())
-                .using(environment)
-                .build("SoyYo");*/
+
         DBA = new DBAdministrator(mongoClient);
         Auth = new Authenticator();
 
@@ -53,16 +51,13 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         environment.jersey().register(resourcesPages);
         environment.jersey().register(resourcesMethods);
 
-        dbaExample(DBA); //ejemplo
+        //dbaExample(DBA); //ejemplo
     }
 
+    /*Ejemplo de consultas
     private void dbaExample(DBAdministrator dba) {
         dba.insert("pieza", "{_id: 1, ownerID: 21, isPublic: true, size: {w: 100, h: 100}, site: \"foo.com/pic.png\"}");
-        System.out.println(dba.find("pieza", "{_id: 1}"));
         dba.update("pieza", "{_id: 1}", "{$set: {isPublic: false}, $rename: {site: \"url\"}}"); //hay que usar update operators
-        System.out.println("cambiando...");
-        System.out.println(dba.find("pieza", "{_id: 1}"));
         dba.delete("pieza", "{_id: 1}");
-        System.out.println("borrando...");
-    }
+    }*/
 }

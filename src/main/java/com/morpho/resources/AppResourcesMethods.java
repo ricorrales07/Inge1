@@ -26,9 +26,9 @@ public class AppResourcesMethods {
     }
 
     @POST
-    @Path("savePiece")
+    @Path("example")
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response savePiece(@FormParam("Piece") String piece ) {
+    public Response example(@FormParam("Piece") String piece) {
         //Cómo usar esta versin de JSON en Java, vea aquí: https://www.tutorialspoint.com/json/json_java_example.htm
         //return viewCreator.getSamplePage();
 
@@ -40,9 +40,66 @@ public class AppResourcesMethods {
     }
 
     @POST
+    @Path("/createPiece")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response createPiece(String receivedContent) {
+        return queryDB("insert", "piece", receivedContent).build();
+    }
+
+    @POST
+    @Path("/createComposition")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response createComposition(String receivedContent) {
+        return queryDB("insert", "composition", receivedContent).build();
+    }
+
+    @POST
     @Path("/sendToken")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendToken(String receivedAuth) {
+        return authorize(receivedAuth).build();
+    }
+
+    private ResponseBuilder queryDB(String queryType, String collection, String receivedContent) {
+        return queryDB(queryType, collection, receivedContent, null);
+    }
+
+    private ResponseBuilder queryDB(String queryType, String collection, String receivedContent, String filter) {
+        ResponseBuilder builder;
+        try {
+            JSONObject authJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            String receivedAuth = authJSON.get("auth").toString();
+            String content = authJSON.get(collection).toString();
+            builder = authorize(receivedAuth);
+            if(builder.build().getStatus() == 200) { //successful authorization
+                try {
+                    builder = Response.ok(collection + " created");
+                    builder.status(200);
+                    if(queryType == "insert")
+                        MorphoApplication.DBA.insert(collection, content);
+                    else if(queryType == "update")
+                        MorphoApplication.DBA.update(collection, filter, content);
+                    else if(queryType == "delete")
+                        MorphoApplication.DBA.delete(collection, content);
+                    else {
+                        builder = Response.ok("Invalid query type");
+                        builder.status(500);
+                    }
+                } catch(Exception e) {
+                    e.printStackTrace();
+                    builder = Response.ok("Error inserting into DB");
+                    builder.status(404);
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            builder = Response.ok("Could not process auth");
+            builder.status(422);
+        }
+        return builder;
+    }
+
+    private ResponseBuilder authorize(String receivedAuth) {
         ResponseBuilder builder;
         try {
             JSONObject authJSON = (JSONObject) new JSONParser().parse(receivedAuth);
@@ -50,9 +107,14 @@ public class AppResourcesMethods {
             String accessToken = (String) authJSON.get("accessToken");
             System.out.println("user ID: " + userID);
             if(MorphoApplication.Auth.verifyUser(userID, accessToken)) {
-                MorphoApplication.DBA.insert("users", new Authentication(userID, accessToken).toString());
-                builder = Response.ok("Valid token sent");
-                builder.status(200);
+                try {
+                    MorphoApplication.DBA.set("users", new Authentication(userID, accessToken).toString());
+                    builder = Response.ok("Valid token sent");
+                    builder.status(200);
+                } catch(Exception e) {
+                    builder = Response.ok("Error inserting into DB");
+                    builder.status(404);
+                }
             } else {
                 builder = Response.ok("Unauthorized: invalid token");
                 builder.status(401);
@@ -63,6 +125,6 @@ public class AppResourcesMethods {
             builder = Response.ok("Could not process auth");
             builder.status(422);
         }
-        return builder.build();
+        return builder;
     }
 }
