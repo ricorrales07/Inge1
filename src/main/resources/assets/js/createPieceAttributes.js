@@ -2,9 +2,6 @@ var createPieceAtt = {
 
 }
 
-$(window).on("load",function(){
-	updateView($("#changeView select"));
-});
 
 
 
@@ -29,8 +26,3 @@ function addProperty(){
 	
 }
 
-function updateView(select){
-
-	$(".selectedCanvas").removeClass(".selectedCanvas");
-	$("#"+$(select).val() ).addClass(".selectedCanvas");
-}

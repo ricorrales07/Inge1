@@ -299,9 +299,7 @@ body{
 }
 
 
-#editor canvas{
-	display: none;
-}
+
 
 .selectedCanvas{
 	display: inline-block;

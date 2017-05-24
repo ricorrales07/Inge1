@@ -12,8 +12,6 @@ createPieceG = {
 	canvasStandardWidth: 1000,
 	canvasStandardHeight: 1000
 
-
-
 }
 
 //BEGIN SETTING UP STUF!
@@ -66,18 +64,29 @@ var surfaceB = new createjs.Container();
 var surfaceLS = new createjs.Container();
 
 
+
+
  var brushStyle = new createjs.Graphics();
  brushStyle.setStrokeStyle(2,"round", 1); ////stroke style
- // brushStyle.setStrokeStyle(2); ////stroke style
  brushStyle.beginStroke("#222121");//stroke color
- var brush = new createjs.Shape(brushStyle);
- surfaceF.addChild(brush);
- surfaceRS.addChild(brush);
- surfaceB.addChild(brush);
- surfaceLS.addChild(brush);
+
+
+ var brushF = new createjs.Shape(brushStyle);
+ var brushRS = new createjs.Shape(brushStyle);
+ var brushB = new createjs.Shape(brushStyle);
+ var brushLS = new createjs.Shape(brushStyle);
+ surfaceF.addChild(brushF);
+ surfaceRS.addChild(brushRS);
+ surfaceB.addChild(brushB);
+ surfaceLS.addChild(brushLS);
  
 
  function initiate() {
+	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+
  	updateView($("#changeView select"));
 
  	$( "#pointerRadius #slider" ).slider({
@@ -85,29 +94,21 @@ var surfaceLS = new createjs.Container();
  		 max: 10,
  		 value: 3
 	});
-	//$( "#pointerRadius #slider" ).slider( "values", [ 1, 55] );
-	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	/*
-	stage.addChild(surfaceF);
-	stage.addChild(surfaceRS);
-	stage.addChild(surfaceB);
-	stage.addChild(surfaceLS);*/
 
-	/*
-	stage.addEventListener("stagemousedown", function(event) {
-	    console.log("the canvas was stagemousedown at "+event.stageX+","+event.stageY);
+	updateStageListers();
 
-	})*/
+	
+
+}
+
+function updateStageListers(){
 
 	stage.addEventListener("stagemousedown", function(event) {
 		console.log("the canvas was mousedown at "+event.stageX+","+event.stageY);
 		createPieceG.pointer.x = event.stageX;
 		createPieceG.pointer.y = event.stageY;
 		createPieceG.drawing = true;
-		canvasCycle();
+		//canvasCycle();
 	});
 
 
@@ -115,7 +116,7 @@ var surfaceLS = new createjs.Container();
 		//console.log("the canvas was pressmove at "+event.stageX+","+event.stageY);
 		  createPieceG.pointer.x = event.stageX;
 		  createPieceG.pointer.y = event.stageY;
-		canvasCycle();
+		//canvasCycle();
 	  	
 	});
 
@@ -124,21 +125,19 @@ var surfaceLS = new createjs.Container();
 		//Break the stroke. 
 		createPieceG.originCaptured = false;
 		createPieceG.drawing = false;
-		canvasCycle();
+		//canvasCycle();
 	});
-	
-
 }
 
  
 
-//createjs.Ticker.addEventListener("tick", handleTick);
+createjs.Ticker.addEventListener("tick", handleTick);
 createjs.Ticker.interval = 10; // FPS
 
  function handleTick(event) {
      // Actions carried out each tick (aka frame)
 
- 	//canvasCycle();
+ 	canvasCycle();
 
      if (!event.paused) {
          // Actions carried out when the Ticker is not paused.
@@ -146,10 +145,11 @@ createjs.Ticker.interval = 10; // FPS
  }
 
 function canvasCycle(){
+	
     if (createPieceG.drawing) {
      	console.log("TICK AND DRAWING");
 	     if(createPieceG.originCaptured){
-	     	drawStroke(brush);
+	     	drawStroke(createPieceG.selectedBrush);
 	     }else{
 	     	
 	     	captureOrigin();
@@ -192,22 +192,27 @@ function updateView(select){
 	switch( $(select).val()  ){
 		case "canvasFront":
 			createPieceG.selectedView = surfaceF;
+			createPieceG.selectedBrush = brushF;
 			stage.addChild(surfaceF);
 			break;
 		case "canvasRightSide":
 			 createPieceG.selectedView = surfaceRS;
+			 createPieceG.selectedBrush = brushRS;
 			 stage.addChild(surfaceRS);
 			break;
 		case "canvasBack":
 		 	createPieceG.selectedView = surfaceB;
+		 	createPieceG.selectedBrush = brushB;
 		 	stage.addChild(surfaceB);
 			break;
 		case "canvasLeftSide":
 		 	 createPieceG.selectedView = surfaceLS;
+		 	 createPieceG.selectedBrush = brushLS;
 		 	 stage.addChild(surfaceLS);
 			break;
 		default:
 			createPieceG.selectedView = surfaceF;
+			createPieceG.selectedBrush = brushF;
 			stage.addChild(surfaceF);
 			break;
 	}
