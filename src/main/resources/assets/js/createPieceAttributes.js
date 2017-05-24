@@ -9,9 +9,10 @@ function checkCard(card){
 	$(card).addClass("selectedCard");
 }
 
-function deleteCard() {
+function deleteCard(card_button) {
 	//TODO Verify with the user. 
-	$(".selectedCard").fadeOut( "slow", function() {
+	$(card_button).addClass("selectedCard");
+	$(".attribute-card").has(".selectedCard").fadeOut( "slow", function() {
     	this.remove();
   });
 }

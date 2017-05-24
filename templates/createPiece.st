@@ -71,9 +71,11 @@
 
 						</div>
 						<div id="attribute-card-list" class="toolset row">
-							<div class="attribute-card col-md-offset-1 col-md-10 cardTemplate" onclick="checkCard(this)">
+
+							<!-- Template  Card -->
+							<div class="attribute-card col-md-offset-1 col-md-10 cardTemplate">
 								<div class="row attribute-card-header">
-									<div class="col-md-1 " style="float: right" onclick="deleteCard()">
+									<div class="col-md-1 " style="float: right" onclick="deleteCard(this)">
 										<i class="fa fa-times"></i>
 									</div>
 								</div>
@@ -98,6 +100,7 @@
 									</div>
 								</div>
 							</div>
+							<!-- End of Template  Card -->
 						</div>
 					</div>
 				</span>
