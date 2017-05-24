@@ -43,17 +43,48 @@ public class AppResourcesMethods {
     @Path("/createPiece")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response createPiece(String receivedContent) {
+        return queryDB("insert", "piece", receivedContent).build();
+    }
+
+    @POST
+    @Path("/createComposition")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response createComposition(String receivedContent) {
+        return queryDB("insert", "composition", receivedContent).build();
+    }
+
+    @POST
+    @Path("/sendToken")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response sendToken(String receivedAuth) {
+        return authorize(receivedAuth).build();
+    }
+
+    private ResponseBuilder queryDB(String queryType, String collection, String receivedContent) {
+        return queryDB(queryType, collection, receivedContent, null);
+    }
+
+    private ResponseBuilder queryDB(String queryType, String collection, String receivedContent, String filter) {
         ResponseBuilder builder;
         try {
             JSONObject authJSON = (JSONObject) new JSONParser().parse(receivedContent);
             String receivedAuth = authJSON.get("auth").toString();
-            String piece = authJSON.get("piece").toString();
+            String content = authJSON.get(collection).toString();
             builder = authorize(receivedAuth);
             if(builder.build().getStatus() == 200) { //successful authorization
                 try {
-                    MorphoApplication.DBA.insert("piece", piece);
-                    builder = Response.ok("Piece created");
+                    builder = Response.ok(collection + " created");
                     builder.status(200);
+                    if(queryType == "insert")
+                        MorphoApplication.DBA.insert(collection, content);
+                    else if(queryType == "update")
+                        MorphoApplication.DBA.update(collection, filter, content);
+                    else if(queryType == "delete")
+                        MorphoApplication.DBA.delete(collection, content);
+                    else {
+                        builder = Response.ok("Invalid query type");
+                        builder.status(500);
+                    }
                 } catch(Exception e) {
                     e.printStackTrace();
                     builder = Response.ok("Error inserting into DB");
@@ -65,14 +96,7 @@ public class AppResourcesMethods {
             builder = Response.ok("Could not process auth");
             builder.status(422);
         }
-        return builder.build();
-    }
-
-    @POST
-    @Path("/sendToken")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response sendToken(String receivedAuth) {
-        return authorize(receivedAuth).build();
+        return builder;
     }
 
     private ResponseBuilder authorize(String receivedAuth) {
