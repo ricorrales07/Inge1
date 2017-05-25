@@ -321,10 +321,13 @@ function saveCompositionData(){
     var pieces = "{\n";
     for(i = 0; i < composicionActual.partsList.length; i++){
         pieces += "\"piece" + i + "\": {\n ";
-        pieces += "\"x\": \"" + composicionActual.partsList[i].x + "\", ";
-        pieces += "\"y\": \"" + composicionActual.partsList[i].y + "\"\n}";
-        pieces += "\"sx\": \"" + composicionActual.partsList[i].scaleX + "\", ";
-        pieces += "\"sy\": \"" + composicionActual.partsList[i].scaleY + "\"\n}";
+        pieces += "\"PositionX\": \"" + composicionActual.partsList[i].x + "\", ";
+        pieces += "\"PositionY\": \"" + composicionActual.partsList[i].y + "\", ";
+        pieces += "\"ScaleX\": \"" + composicionActual.partsList[i].scaleX + "\", ";
+        pieces += "\"ScaleY\": \"" + composicionActual.partsList[i].scaleY + "\", ";
+        pieces += "\"Rotation\": \"" + composicionActual.partsList[i].rotation + "\", ";
+        pieces += "\"Source1\": \"" + (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21) + "\", ";
+        pieces += "\"Source2\": \"" + (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21) + "\"\n}";
         if(i < composicionActual.partsList.length - 1){
             pieces += ",\n"
         }

@@ -211,14 +211,11 @@ public class AppResourcesMethods {
                     if((i % 2) == 0) {
                         writer.print("\"" + values[i] + "\": ");
                     }else{
-                        if(i < (values.length - 1))
-                            writer.print("\"" + values[i] + "\",\n");
-                        else{
-                            writer.print("\"" + values[i] + "\"\n}");
-                        }
+                        writer.print("\"" + values[i] + "\",\n");
                     }
                 }
             }
+            writer.print("\"Source\": \"assets/images/Piece" + pieceCounter + ".png\"\n}");
             writer.close();
         }catch(Exception e){
 
