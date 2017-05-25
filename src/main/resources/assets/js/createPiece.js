@@ -246,7 +246,7 @@ function saveCreation(){
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
-        data: JSON.stringify({ image: canvas.toDataURL() }),
+        data: JSON.stringify({ image: canvas.toDataURL(), type: "Piece" }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},

@@ -7,6 +7,7 @@ var selected = null;
 var grapher = new createjs.Shape();
 var lastTouchPos = [[-1,-1],[-1,-1]]
 
+
 function selectPart(part)
 {
   grapher.graphics.clear();
@@ -240,6 +241,8 @@ function init()
     window.onkeypress = manageKey;
 }
 
+
+
 function guidelines()
 {
     lineasDeGuia.visible = !lineasDeGuia.visible;
@@ -268,3 +271,45 @@ function nombre(auth){
     });
 }
 */
+
+function saveCompositionImage(){
+    console.log("Test");
+    var comp = document.getElementById("areaDeDibujo");
+    $.ajax({
+        url: "/methods/saveCreatedImageFile",
+        type: 'POST',
+        data: JSON.stringify({ image: comp.toDataURL(), type: "Composition" }),
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR){
+            console.log("image saved in server directory")},
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });
+}
+
+function saveCompositionData(){
+    console.log("Test");
+    var data = [];
+    var pieces = "{\n";
+    for(i = 0; i < composicionActual.partsList.length; i++){
+        pieces += "\"piece" + i + "\": {\n ";
+        pieces += "\"x\": \"" + composicionActual.partsList[i].x + "\", ";
+        pieces += "\"y\": \"" + composicionActual.partsList[i].y + "\"\n}";
+        if(i < composicionActual.partsList.length - 1){
+            pieces += ",\n"
+        }
+    }
+    pieces += "\n}"
+    $.ajax({
+        url: "/methods/saveCompositionData",
+        type: 'POST',
+        data: pieces,
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR){
+            console.log("image saved in server directory")},
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });
+}

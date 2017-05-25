@@ -42,6 +42,7 @@
                 <button id="changeViewButton" class="btn btn-basic navbar-btn navbar-right" onclick="changeView();">Vista lateral</button>
                 <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="guidelines();">Activar líneas de guía</button>
                 <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="addPart();">Agregar parte (prueba)</button>
+                <button id="saveCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="saveCompositionImage();saveCompositionData();">Guardar composición (prueba)</button>
             </div>
         </nav>
 

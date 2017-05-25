@@ -32,7 +32,8 @@ import java.net.URLDecoder;
 @Produces({MediaType.TEXT_HTML})
 public class AppResourcesMethods {
     ViewCreator viewCreator;
-    int counter = 0;
+    int pieceCounter = 0;
+    int compositionCounter = 0;
     boolean saved = false;
 
     public AppResourcesMethods(){
@@ -148,20 +149,29 @@ public class AppResourcesMethods {
     public Response saveCreatedImageFile(String receivedContent){
         ResponseBuilder builder;
         try {
-            //System.out.println("Received: " + URLDecoder.decode(receivedContent, "UTF8"));
+            System.out.println(receivedContent);
             URLDecoder.decode(receivedContent, "UTF8");
             String imageData = receivedContent.split(",")[1];
             byte[] real = DatatypeConverter.parseBase64Binary(imageData);
             //File newImage = new File("imageTestNow!.png");
             InputStream bit = new ByteArrayInputStream(real);
             try {
-                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\imageTest" + counter + ".png"));
+                String type = receivedContent.split(",")[2].split(":")[1].replaceAll("\"", "");
+                if(type.replaceAll("}","").equals("Piece")) {
+                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Piece" + pieceCounter + ".png"));
+                }else{
+                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
+                }
                 builder = Response.ok("Image saved");
                 builder.status(200);
 
                 if(this.saved){
                     this.saved = false;
-                    this.counter++;
+                    if(type.replaceAll("}","").equals("Piece")){
+                        this.pieceCounter++;
+                    }else{
+                        this.compositionCounter++;
+                    }
                 }else{
                     this.saved = true;
                 }
@@ -194,10 +204,19 @@ public class AppResourcesMethods {
         System.out.println(data);
         String[] values = data.split(",");
         try {
-            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\images\\imageTest" + counter + ".txt");
+            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\images\\Piece" + pieceCounter + ".json");
+            writer.println("{");
             for (int i = 0; i < values.length; i++){
                 if(!(values[i].equals(""))) {
-                    writer.println(values[i] + "\n");
+                    if((i % 2) == 0) {
+                        writer.print("\"" + values[i] + "\": ");
+                    }else{
+                        if(i < (values.length - 1))
+                            writer.print("\"" + values[i] + "\",\n");
+                        else{
+                            writer.print("\"" + values[i] + "\"\n}");
+                        }
+                    }
                 }
             }
             writer.close();
@@ -206,7 +225,7 @@ public class AppResourcesMethods {
         }
         if(this.saved){
             this.saved = false;
-            this.counter++;
+            this.pieceCounter++;
         }else{
             this.saved = true;
         }
@@ -215,10 +234,25 @@ public class AppResourcesMethods {
     }
 
     @POST
-    @Path("/increaseFileNameCounter")
-    public Response increaseFileNameCounter(){
-        ResponseBuilder builder = Response.ok("Counter succesfully incremented");
-        this.counter++;
+    @Path("/saveCompositionData")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response saveCompositionData(String receivedContent) {
+        ResponseBuilder builder;
+        System.out.println(receivedContent);
+        try {
+            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".json");
+            writer.print(receivedContent);
+            writer.close();
+        }catch(Exception e){
+
+        }
+        if(this.saved){
+            this.saved = false;
+            this.compositionCounter++;
+        }else{
+            this.saved = true;
+        }
+        builder = Response.ok("Attribute saved");
         return builder.build();
     }
 }
