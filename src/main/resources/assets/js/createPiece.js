@@ -219,3 +219,53 @@ function updateView(select){
 			break;
 	}
 }
+
+function saveCreation(){
+    /*console.log("btn clicked");
+    $.ajax({
+        url: "/methods/createPiece",
+        type: 'POST',
+        data: JSON.stringify({
+            auth: {
+                userID: Cookies.get("userID"),
+                accessToken: Cookies.get("accessToken")
+            },
+            piece: {
+                owner_id: Cookies.get("userID"),
+                name: "Ricardo"
+            }
+        }),
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR){
+            console.log("piece created")},
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });*/
+
+    var canvas = document.getElementById("leCanvas");
+    var imageRelated = canvas.toDataURL();
+    $.ajax({
+        url: "/methods/saveCreatedImageFile",
+        type: 'POST',
+        data: JSON.stringify({ image: canvas.toDataURL() }),
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR){
+            console.log("image saved in server directory")},
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });
+}
+
+function increaseFileNameCounter(){
+    $.ajax({
+        url: "/methods/increaseFileNameCounter",
+        type: 'POST',
+        success:function(data, textStatus, jqXHR){
+            console.log("Counter increased")},
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });
+}
