@@ -7,20 +7,27 @@ var selected = null;
 var grapher = new createjs.Shape();
 var lastTouchPos = [[-1,-1],[-1,-1]]
 
-function selectPart(part)
+function selectPart(index)
 {
   grapher.graphics.clear();
 
-  selected = part;
+  selected = index;
+  var part = composicionActual.partsList[index];
+
   var b = part.getTransformedBounds();
 
   grapher.graphics.beginStroke("black").drawRect(b.x, b.y, b.width, b.height);
+
+  var link = document.getElementById("pieceEditorLink");
+  link.setAttribute("href", "/editPiece?pieceId=" + composicionActual.partIds[selected]);
 }
 
 function unselectPart()
 {
   selected = null;
   grapher.graphics.clear();
+  var link = document.getElementById("pieceEditorLink");
+  link.setAttribute("href", "/editPiece");
 }
 
 function drag(evt)
@@ -33,7 +40,9 @@ function drag(evt)
 
 function calculateDifference(evt)
 {
-    selectPart(evt.target);
+    var index;
+    for (index = 0; composicionActual.partsList[index] != evt.target; index++);
+    selectPart(index);
     diffX = evt.stageX - evt.target.x;
     diffY = evt.stageY - evt.target.y;
 }
@@ -87,7 +96,7 @@ function addPart() //proxy
   composicionActual.matrices[0].push(partSprite.getMatrix());
   composicionActual.matrices[1].push(partSprite.getMatrix());
 
-  selectPart(partSprite);
+  selectPart(composicionActual.partsList.length-1);
 }
 
 function addListeners(item)
@@ -208,6 +217,8 @@ function handleTick(evt)
 
 function changeView()
 {
+    var s = selected;
+    unselectPart();
     var btn = document.getElementById("changeViewButton");
     btn.textContent = (btn.textContent == "Vista frontal") ? "Vista lateral" : "Vista frontal";
 
@@ -220,6 +231,8 @@ function changeView()
       composicionActual.partsList[i].gotoAndStop(view);
       composicionActual.matrices[viewNum][i].decompose(composicionActual.partsList[i]);
     }
+    if (s != null)
+      selectPart(s);
 }
 
 function init()
@@ -243,6 +256,21 @@ function init()
 function guidelines()
 {
     lineasDeGuia.visible = !lineasDeGuia.visible;
+}
+
+function callEditPiecePage(){
+    var url = "/editPiece";
+
+    if (selected != null)
+    {
+        console.log("adding pieceId for call to editPiece");
+        url += "?pieceId=" + partIds[selected];
+    }
+
+    var link = document.getElementById("pieceEditorLink");
+    link.setAttribute("href", url);
+
+    return false;
 }
 
 /*
