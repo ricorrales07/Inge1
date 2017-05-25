@@ -37,12 +37,16 @@
                      </li>
                     <li><a href="#">Catálogo de piezas</a></li>
                     <li><a href="#">Buscar similares</a></li>
-                    <li><a href="createPiece">Editor de piezas</a></li>
+                    <li><a href="/editPiece" id="pieceEditorLink">Editor de piezas</a></li>
                 </ul>
                 <button id="changeViewButton" class="btn btn-basic navbar-btn navbar-right" onclick="changeView();">Vista lateral</button>
                 <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="guidelines();">Activar líneas de guía</button>
+<<<<<<< HEAD
                 <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="addPart();">Agregar parte (prueba)</button>
                 <button id="saveCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="saveCompositionImage();saveCompositionData();">Guardar composición (prueba)</button>
+=======
+                <button id="proxyButton" class="btn btn-basic navbar-btn navbar-right" onclick="addPart();">Agregar parte (prueba)</button>
+>>>>>>> c855cc88eea0fa80e141e248bdd98e2ac9c86af7
             </div>
         </nav>
 
@@ -53,7 +57,7 @@
                 <canvas id="areaDeDibujo" width="1024" height="512">
                     Lo sentimos, su navegador no soporta nuestra aplicación.
                 </canvas>
-                *presionar 'i' para añadir imágenes (proxy)
+                <!--*presionar 'i' para añadir imágenes (proxy)-->
             </div>
 
             <!--div class = "col-md-1">
@@ -71,40 +75,6 @@
     </div>
 
     <!--button onclick="window.location.reload()">reset</button-->
-
-<!-- Modal -->
-<div class = "modal" id = "modalLogin" tabindex = "-1" role = "dialog"
-   aria-labelledby = "myModalLabel" aria-hidden = "true">
-
-   <div class = "modal-dialog modal-sm">
-      <div class = "modal-content">
-
-         <div class = "modal-header">
-            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
-                  &times;
-            </button>
-
-            <h4 class = "modal-title" id = "myModalLabel">
-               Login
-            </h4>
-         </div>
-
-         <div class = "modal-body">
-           <div class="fb-login-button" data-max-rows="1" data-size="medium"
-              data-button-type="login_with" data-show-faces="false"
-                data-auto-logout-link="true" data-use-continue-as="false"></div>
-         </div>
-
-         <div class = "modal-footer">
-            <button type = "button" class = "btn btn-default" data-dismiss = "modal">
-               Cerrar
-            </button>
-         </div>
-
-      </div><!-- /.modal-content -->
-   </div><!-- /.modal-dialog -->
-
-</div><!-- /.modal -->
 
 </body>
 

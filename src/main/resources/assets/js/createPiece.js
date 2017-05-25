@@ -5,7 +5,7 @@ Global variables for createPiece.
 createPieceG = {
 	origin: {x: 0, y:0},
 	pointer: {x: 0, y: 0}, //Universal pointer, contains position for the mouse, or whatever else pointer used (touch).
-	originCaptured: false, 
+	originCaptured: false,
 	drawing: false,
 	toolSelected: "pencil",
 	stage: new createjs.Stage("leCanvas"),
@@ -20,23 +20,25 @@ $(window).on("load",function(){
 	var heightPer = $(window).height() - $(".top-nav").height();
 	heightPer = 600;
 
-	//Set up the canvas and it's menu to viewport's heght minus the top nav height. 
-	$(".toolset").height(heightPer); 
+	//Set up the canvas and it's menu to viewport's heght minus the top nav height.
+	$(".toolset").height(heightPer);
 
 	//Let's position the editor in the row:
 	var distanceTopEditor = 20;
 
 	$("#editor").css("left",$(window).width()/12).css("top",distanceTopEditor).width( $(window).width()/12*10 ).css("height", (heightPer-distanceTopEditor));
-	
 
-	//$("#leCanvas").attr("width", $("#editor").width()).attr("height", heightPer - distanceTopEditor); 
-	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight); 
+
+	//$("#leCanvas").attr("width", $("#editor").width()).attr("height", heightPer - distanceTopEditor);
+	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
+
+	createjs.Touch.enable(stage, false, allowDefault=true);
 
     initiate();
 });
 
 
-//Toggle open, or close the tool's menu. 
+//Toggle open, or close the tool's menu.
 $( "#editor-menu-handle" ).click(function() {
   $( "#editor-menu-content " ).toggle( "slow", function() {
   });
@@ -79,7 +81,7 @@ var surfaceLS = new createjs.Container();
  surfaceRS.addChild(brushRS);
  surfaceB.addChild(brushB);
  surfaceLS.addChild(brushLS);
- 
+
 
  function initiate() {
 	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
@@ -97,7 +99,7 @@ var surfaceLS = new createjs.Container();
 
 	updateStageListers();
 
-	
+
 
 }
 
@@ -117,19 +119,19 @@ function updateStageListers(){
 		  createPieceG.pointer.x = event.stageX;
 		  createPieceG.pointer.y = event.stageY;
 		//canvasCycle();
-	  	
+
 	});
 
 	stage.addEventListener("stagemouseup", function(event) {
 		console.log("the canvas was pressup at "+event.stageX+","+event.stageY);
-		//Break the stroke. 
+		//Break the stroke.
 		createPieceG.originCaptured = false;
 		createPieceG.drawing = false;
 		//canvasCycle();
 	});
 }
 
- 
+
 
 createjs.Ticker.addEventListener("tick", handleTick);
 createjs.Ticker.interval = 10; // FPS
@@ -145,13 +147,13 @@ createjs.Ticker.interval = 10; // FPS
  }
 
 function canvasCycle(){
-	
+
     if (createPieceG.drawing) {
      	console.log("TICK AND DRAWING");
 	     if(createPieceG.originCaptured){
 	     	drawStroke(createPieceG.selectedBrush);
 	     }else{
-	     	
+
 	     	captureOrigin();
 	     }
   	 }
@@ -174,7 +176,7 @@ function canvasCycle(){
     brush.graphics.setStrokeStyle($( "#pointerRadius #slider" ).slider( "option", "value" ),"round", "round", 10); ////stroke style
  // brushStyle.setStrokeStyle(2); ////stroke style
  	brush.graphics.beginStroke("#222121");//stroke color
-    //draw line from the origin to the most recent pointer position. 
+    //draw line from the origin to the most recent pointer position.
     brush.graphics.moveTo(createPieceG.origin.x, createPieceG.origin.y);
     brush.graphics.lineTo(createPieceG.pointer.x, createPieceG.pointer.y);
     createPieceG.selectedView.updateCache(createPieceG.toolSelected=="eraser"?"destination-out":"source-over");
