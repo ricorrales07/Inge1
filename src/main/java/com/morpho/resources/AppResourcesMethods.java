@@ -7,10 +7,22 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.imageio.ImageIO;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.*;
 import javax.ws.rs.core.Response;
+
+import javax.xml.bind.DatatypeConverter;
+import javax.xml.crypto.Data;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+
+import java.io.PrintWriter;
+import java.net.URLDecoder;
 
 /**
  * Created by irvin on 5/17/17.
@@ -20,6 +32,8 @@ import javax.ws.rs.core.Response;
 @Produces({MediaType.TEXT_HTML})
 public class AppResourcesMethods {
     ViewCreator viewCreator;
+    int counter = 0;
+    boolean saved = false;
 
     public AppResourcesMethods(){
         viewCreator = new ViewCreator();
@@ -126,5 +140,85 @@ public class AppResourcesMethods {
             builder.status(422);
         }
         return builder;
+    }
+
+    @POST
+    @Path("/saveCreatedImageFile")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response saveCreatedImageFile(String receivedContent){
+        ResponseBuilder builder;
+        try {
+            //System.out.println("Received: " + URLDecoder.decode(receivedContent, "UTF8"));
+            URLDecoder.decode(receivedContent, "UTF8");
+            String imageData = receivedContent.split(",")[1];
+            byte[] real = DatatypeConverter.parseBase64Binary(imageData);
+            //File newImage = new File("imageTestNow!.png");
+            InputStream bit = new ByteArrayInputStream(real);
+            try {
+                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\imageTest" + counter + ".png"));
+                builder = Response.ok("Image saved");
+                builder.status(200);
+
+                if(this.saved){
+                    this.saved = false;
+                    this.counter++;
+                }else{
+                    this.saved = true;
+                }
+
+                return builder.build();
+            } catch (Exception e) {
+                System.err.println("Failed to save image in server");
+                builder = Response.ok("Failed to save image in server");
+                builder.status(404);
+                return builder.build();
+            }
+        }catch (Exception e){
+            System.err.println("Failed to save image in server");
+            builder = Response.ok("Failed to save image in server");
+            builder.status(404);
+            return builder.build();
+        }
+    }
+
+    @POST
+    @Path("/saveAttributes")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response saveAttributes(String receivedContent){
+        ResponseBuilder builder;
+        String data = receivedContent.substring(11);
+        data = data.replaceAll("\"", "");
+        data = data.replaceAll("\\[" , "");
+        data = data.replaceAll("]", "");
+        data = data.replaceAll("}", "");
+        System.out.println(data);
+        String[] values = data.split(",");
+        try {
+            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\images\\imageTest" + counter + ".txt");
+            for (int i = 0; i < values.length; i++){
+                if(!(values[i].equals(""))) {
+                    writer.println(values[i] + "\n");
+                }
+            }
+            writer.close();
+        }catch(Exception e){
+
+        }
+        if(this.saved){
+            this.saved = false;
+            this.counter++;
+        }else{
+            this.saved = true;
+        }
+        builder = Response.ok("Attribute saved");
+        return builder.build();
+    }
+
+    @POST
+    @Path("/increaseFileNameCounter")
+    public Response increaseFileNameCounter(){
+        ResponseBuilder builder = Response.ok("Counter succesfully incremented");
+        this.counter++;
+        return builder.build();
     }
 }

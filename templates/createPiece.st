@@ -13,7 +13,7 @@
 		<div class="container-fluid">
 		<div class="row top-nav">
 			<div class="col-md-2">
-				<div class="main-nav-button nav-button" id="saveButton">
+				<div class="main-nav-button nav-button" id="saveButton" onclick="saveCreation();saveAttributes();">
 					<i class="fa fa-floppy-o fa-2x"></i>
 					</br>
 					<p>Save</p>
