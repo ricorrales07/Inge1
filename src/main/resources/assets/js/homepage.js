@@ -7,12 +7,7 @@ var selected = null;
 var grapher = new createjs.Shape();
 var lastTouchPos = [[-1,-1],[-1,-1]]
 
-<<<<<<< HEAD
-
-function selectPart(part)
-=======
 function selectPart(index)
->>>>>>> c855cc88eea0fa80e141e248bdd98e2ac9c86af7
 {
   grapher.graphics.clear();
 
@@ -328,6 +323,8 @@ function saveCompositionData(){
         pieces += "\"piece" + i + "\": {\n ";
         pieces += "\"x\": \"" + composicionActual.partsList[i].x + "\", ";
         pieces += "\"y\": \"" + composicionActual.partsList[i].y + "\"\n}";
+        pieces += "\"sx\": \"" + composicionActual.partsList[i].scaleX + "\", ";
+        pieces += "\"sy\": \"" + composicionActual.partsList[i].scaleY + "\"\n}";
         if(i < composicionActual.partsList.length - 1){
             pieces += ",\n"
         }
