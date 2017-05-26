@@ -83,15 +83,15 @@ var surfaceS = new createjs.Container();
 
  var brushS = new createjs.Shape(brushStyle);
 
-//Don't know what this is. 
-/*
+
+//Imágenes proxy para el canvas. 
 var direction = "" + document.URL;
 if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.length-1) <= '9'){
 	var bitmapFront = new createjs.Bitmap("\\assets\\images\\odo-head2.png");
 	var bitmapSide = new createjs.Bitmap("\\assets\\images\\odo-zyg-head2.png");
 	surfaceF.addChild(bitmapFront).set({x:150,y:250,scaleX:7,scaleY:7});
-	surfaceB.addChild(bitmapSide).set({x:150,y:250,scaleX:7,scaleY:7});
-}*/
+	surfaceS.addChild(bitmapSide).set({x:150,y:250,scaleX:7,scaleY:7});
+}
 
 
  surfaceF.addChild(brushF);
@@ -298,13 +298,13 @@ function increaseFileNameCounter(){
     });
 }
 
-var enCanvas = function(img) {
-    var canvas = document.getElementById("leCanvas");
-    var context = canvas.getContext("2d");
+function enCanvas(img) {
     var bitmap = new createjs.Bitmap(img.src);
-    stage.addChild(bitmap).set({x:50,y:50});
+    createPieceG.selectedView.addChild(bitmap);
 }
 
+
+//Llamado local. 
 var openFile = function(event) {
     var input = event.target;
     var reader = new FileReader();
@@ -315,11 +315,7 @@ var openFile = function(event) {
         img.src = event.target.result;
         img.onload = function()
         {
-
-            var canvas = document.getElementById("leCanvas");
-            var context = canvas.getContext("2d");
-            var bitmap = new createjs.Bitmap(img.src);
-            createPieceG.selectedView.addChild(bitmap);
+            enCanvas(img);
         };
     };
 };
