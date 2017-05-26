@@ -467,7 +467,13 @@ function saveCompositionData(){
     $.ajax({
         url: "/methods/saveCompositionData",
         type: 'POST',
-        data: pieces,
+        data: JSON.stringify({
+            auth: {
+                userID: Cookies.get("userID"),
+                accessToken: Cookies.get("accessToken")
+            },
+            composition: pieces
+        }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},

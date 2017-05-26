@@ -140,7 +140,7 @@ public class AppResourcesMethods {
                     builder = Response.ok(collection + " created");
                     builder.status(200);
                     if(queryType == "insert")
-                        MorphoApplication.DBA.insert(collection, content);
+                        MorphoApplication.DBA.set(collection, content);
                     else if(queryType == "update")
                         MorphoApplication.DBA.update(collection, filter, content);
                     else if(queryType == "delete")
@@ -169,7 +169,6 @@ public class AppResourcesMethods {
             JSONObject authJSON = (JSONObject) new JSONParser().parse(receivedAuth);
             String userID = (String) authJSON.get("userID");
             String accessToken = (String) authJSON.get("accessToken");
-            System.out.println("user ID: " + userID);
             if(MorphoApplication.Auth.verifyUser(userID, accessToken)) {
                 try {
                     MorphoApplication.DBA.set("users", new Authentication(userID, accessToken).toString());
@@ -198,7 +197,6 @@ public class AppResourcesMethods {
     public Response saveCreatedImageFile(String receivedContent){
         ResponseBuilder builder;
         try {
-            System.out.println(receivedContent);
             URLDecoder.decode(receivedContent, "UTF8");
             String type = receivedContent.split(",")[0].split(":")[1].replaceAll("\"", "");
 
@@ -268,8 +266,20 @@ public class AppResourcesMethods {
     public Response saveAttributes(String receivedContent){
         ResponseBuilder builder;
         try {
+            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            String pieceContent = receivedJSON.get("piece").toString();
+            pieceContent += "\"SourceFront\": \"assets/images/PieceA" + pieceCounter + ".png\",\n\"SourceFront\": \"assets/images/PieceB" + pieceCounter + ".png\"\n}";
+            receivedJSON.put("piece", pieceContent);
+            receivedContent = receivedJSON.toJSONString();
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
+
+        //ResponseBuilder builder = queryDB("insert", "composition", receivedContent);
+
+        try {
             PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Piece" + pieceCounter + ".json");
-            writer.print(receivedContent + "\"SourceFront\": \"assets/images/PieceA" + pieceCounter + ".png\",\n\"SourceFront\": \"assets/images/PieceB" + pieceCounter + ".png\"\n}");
+            writer.print(receivedContent);
             writer.close();
         }catch(Exception e){
 
@@ -287,7 +297,7 @@ public class AppResourcesMethods {
         }else{
             this.saved = true;
         }
-        builder = Response.ok("Attribute saved");
+        builder = Response.ok("piece added");
         return builder.build();
     }
 
@@ -295,7 +305,7 @@ public class AppResourcesMethods {
     @Path("/saveCompositionData")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveCompositionData(String receivedContent) {
-        ResponseBuilder builder;
+        ResponseBuilder builder = queryDB("insert", "piece", receivedContent);
         System.out.println(receivedContent);
         try {
             PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Composition" + compositionCounter + ".json");
@@ -317,7 +327,6 @@ public class AppResourcesMethods {
         }else{
             this.saved = true;
         }
-        builder = Response.ok("Attribute saved");
         return builder.build();
     }
 }

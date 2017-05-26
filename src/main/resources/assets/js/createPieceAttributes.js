@@ -37,6 +37,7 @@ function addProperty(){
 function saveAttributes(){
     var text = [];
     var attributes = "{\n";
+
     $("input").each(function() {
         text.push($(this).val());
     });
@@ -46,7 +47,13 @@ function saveAttributes(){
         $.ajax({
             url: "/methods/saveAttributes",
             type: 'POST',
-            data: attributes,
+            data: JSON.stringify({
+            			auth: {
+            				userID: Cookies.get("userID"),
+            				accessToken: Cookies.get("accessToken")
+            			},
+            			piece: attributes
+            		}),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
                 console.log("attributes saved in server directory")},
