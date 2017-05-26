@@ -1,12 +1,31 @@
+//canvas where the user drags animal pieces
 var stage = new createjs.Stage("areaDeDibujo");
+//these two variables are used to make up for the user not pressing images in the exact center
 var diffX, diffY;
+//these variable indicates the current view of the insect
 var view = "front";
+//this are the guidelines (it's an image)
 var lineasDeGuia = new createjs.Bitmap("assets/images/cuadricula.png");
+//this variable represents the current composition
 var composicionActual = {partIds: [], partsList: [], matrices: [[],[]]};
+//this variable represents the currently selected piece
 var selected = null;
+//this object is used to draw a rectangle around the currently selected piece
 var grapher = new createjs.Shape();
+//this structure helps us keep track of transformations performed by the user on the pieces
 var lastTouchPos = [[-1,-1],[-1,-1]];
 
+/*
+selectPart: this function in called when a part is tapped or
+            clicked on. It draws a rectangle around the
+            selected sprite, updates the "selected" variable
+            and it sets the pieceEditorLink in a ready state
+            to open the selected image in the piece editor.
+
+index: an integer that identifies the piece inside the current composition.
+
+returns: void
+*/
 function selectPart(index)
 {
   grapher.graphics.clear();
@@ -22,6 +41,15 @@ function selectPart(index)
   link.setAttribute("href", "/editPiece?pieceId=" + composicionActual.partIds[selected]);
 }
 
+/*
+unselectPart: this function is called when a piece is moved or scaled.
+              It updates the value of "selected" to null, deletes the
+              rectangle around the previously selected image, and sets
+              the pieceEditorLink to open up a blank canvas, in case it
+              is pressed afterwards.
+
+returns: void
+*/
 function unselectPart()
 {
   selected = null;
@@ -30,6 +58,13 @@ function unselectPart()
   link.setAttribute("href", "/createPiece");
 }
 
+/*
+drag: called by "pressmove" event. Has the effect of dragging a
+      piece around the screen as the user wishes. It works both
+      with mouse and touch events.
+
+returns: void
+*/
 function drag(evt)
 {
     evt.target.x = evt.stageX - diffX;
@@ -38,6 +73,14 @@ function drag(evt)
     stage.update();
 }
 
+/*
+calculateDifference: sets variables diffX and diffY before a dragging phase
+                     starts.
+
+evt: the "mousepress" event that eventually generated this code to run
+
+returns: void
+*/
 function calculateDifference(evt)
 {
     var index;
@@ -47,23 +90,36 @@ function calculateDifference(evt)
     diffY = evt.stageY - evt.target.y;
 }
 
+/*
+manageKey: just a dummy that manages what happens when letter i is pressed.
+           It calls addPart(), which in turn adds a piece to the canvas.
+
+evt: keypressed event that generated the call
+
+returns: void
+*/
 function manageKey(evt)
 {
     var key = evt.which || evt.keyCode || evt.charCode; //alguna de todas va a servir
     console.log(evt.which, evt.keyCode, evt.CharCode, key);
-    if (key == 105) //letra i
+    if (key == 105) //letter i
     {
         addPart();
     }
 }
 
+/*
+addPart: for now, a stub that just adds the same fixed pair of images.
+         supposedly, one of them is a front view of a piece, and the
+         other one is a side view.
+
+returns: void
+*/
 function addPart() //proxy
 {
   console.log("creating sprite");
   var img1 = new Image();
   img1.src = "assets/images/odo-head2.png";
-  //img1.crossOrigin="Anonymous"; //EaselJS sugiere algo así para saltarse la seguridad de Chrome, no lo entiendo muy bien aún
-
   var img2 = new Image();
   img2.src = "assets/images/odo-zyg-head2.png";
 
@@ -99,6 +155,13 @@ function addPart() //proxy
   selectPart(composicionActual.partsList.length-1);
 }
 
+/*
+addListeners: adds listeners to a piece.
+
+item: a piece.
+
+returns: void
+*/
 function addListeners(item)
 {
   item.on("mousedown", handleMouseDown);
