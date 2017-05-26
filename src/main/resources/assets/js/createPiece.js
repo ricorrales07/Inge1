@@ -35,6 +35,9 @@ $(window).on("load",function(){
     initiate();
 });
 
+function cancelSprite(){
+	window.location.href = "/";
+}
 
 //Toggle open, or close the tool's menu.
 $( "#editor-menu-handle" ).click(function() {
@@ -320,3 +323,5 @@ var openFile = function(event) {
         };
     };
 };
+
+

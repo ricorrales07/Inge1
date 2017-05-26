@@ -66,7 +66,7 @@
 				</div>
 			</div>
 			<div class="col-md-2 ">
-				<div class="main-nav-button nav-button" id="cancelButton">
+				<div class="main-nav-button nav-button" id="cancelButton" onclick="cancelSprite()">
 					<i class="fa fa-times  fa-2x"></i>
 					</br>
 					<p>Cancel</p>
