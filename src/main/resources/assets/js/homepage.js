@@ -478,7 +478,7 @@ function saveCompositionData(){
 }
 
 function loadComposition(){
-    $.getJSON("assets/images/Composition0.json", function(pieces){
+    $.getJSON("assets/imagesData/Composition0.json", function(pieces){
         $.each(pieces, function(attribute, value){
             var partData = [value.Source1, value.Source2, value.PositionX,
                             value.PositionY, value.ScaleX, value.ScaleY, value.rotation];

@@ -32,8 +32,8 @@ function saveAttributes(){
     $("input").each(function() {
         text.push($(this).val());
     });
-    for(i = 2; i < text.length; i++){
-        attributes += "\"" + text[i++] + "\": \"" + text[i] + "\",\n";
+    for(i = 3; i < text.length; i = i+2){
+        attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\",\n";
     }
         $.ajax({
             url: "/methods/saveAttributes",

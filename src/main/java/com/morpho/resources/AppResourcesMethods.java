@@ -17,11 +17,8 @@ import javax.xml.bind.DatatypeConverter;
 import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 
-import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -38,8 +35,19 @@ public class AppResourcesMethods {
     int compositionCounter = 0;
     boolean saved = false;
 
+
     public AppResourcesMethods(){
         viewCreator = new ViewCreator();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt"));
+            this.pieceCounter = Integer.parseInt(reader.readLine());
+            reader.close();
+            reader = new BufferedReader(new FileReader(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt"));
+            this.compositionCounter = Integer.parseInt(reader.readLine());
+            reader.close();
+        }catch(Exception e){
+
+        }
     }
 
     @GET
@@ -198,8 +206,22 @@ public class AppResourcesMethods {
                     this.saved = false;
                     if(type.replaceAll("}","").equals("Piece")){
                         this.pieceCounter++;
+                        try {
+                            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
+                            writer.print(""+pieceCounter);
+                            writer.close();
+                        }catch(Exception e){
+
+                        }
                     }else{
                         this.compositionCounter++;
+                        try {
+                            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
+                            writer.print(""+compositionCounter);
+                            writer.close();
+                        }catch(Exception e){
+
+                        }
                     }
                 }else{
                     this.saved = true;
@@ -226,8 +248,8 @@ public class AppResourcesMethods {
     public Response saveAttributes(String receivedContent){
         ResponseBuilder builder;
         try {
-            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\images\\Piece" + pieceCounter + ".json");
-            writer.print(receivedContent + "\"SourceFront\": \"assets/images/PieceA" + pieceCounter + ".png\",\n \"SourceFront\": \"assets/images/PieceB" + pieceCounter + ".png\"\n}");
+            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Piece" + pieceCounter + ".json");
+            writer.print(receivedContent + "\"SourceFront\": \"assets/images/PieceA" + pieceCounter + ".png\",\n\"SourceFront\": \"assets/images/PieceB" + pieceCounter + ".png\"\n}");
             writer.close();
         }catch(Exception e){
 
@@ -235,6 +257,13 @@ public class AppResourcesMethods {
         if(this.saved){
             this.saved = false;
             this.pieceCounter++;
+            try {
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
+                writer.print(""+pieceCounter);
+                writer.close();
+            }catch(Exception e){
+
+            }
         }else{
             this.saved = true;
         }
@@ -249,7 +278,7 @@ public class AppResourcesMethods {
         ResponseBuilder builder;
         System.out.println(receivedContent);
         try {
-            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".json");
+            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Composition" + compositionCounter + ".json");
             writer.print(receivedContent);
             writer.close();
         }catch(Exception e){
@@ -258,6 +287,13 @@ public class AppResourcesMethods {
         if(this.saved){
             this.saved = false;
             this.compositionCounter++;
+            try {
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
+                writer.print(""+compositionCounter);
+                writer.close();
+            }catch(Exception e){
+
+            }
         }else{
             this.saved = true;
         }
