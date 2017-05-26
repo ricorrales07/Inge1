@@ -177,6 +177,7 @@
 	<script src="assets/js/createPiece.js"></script>
 	<script src="assets/js/createPieceAttributes.js"></script>
 	<script src="assets/js/getSampleString.js"></script>
+	<script src="assets/js/js.cookie.js"></script>
 	<script src="assets/js/login.js"></script>
 
 </html>

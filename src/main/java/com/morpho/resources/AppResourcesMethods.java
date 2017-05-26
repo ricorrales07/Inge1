@@ -44,16 +44,15 @@ public class AppResourcesMethods {
     @Path("getImages")
     public Response getImages() {
         ResponseBuilder builder;
-        File directory = new File("assets/images");
+        File directory = new File(".\\src\\main\\resources\\assets\\images");
         String html="";
         for (File file : directory.listFiles())
         {
             if(file.getName().endsWith(".png")) //Por ahora solo extensiones .png
             {
-                html = html + "<a href=\"#close\"> <img src=\"" + file.getPath() + "\" onclick=\"enCanvas(this)\" /> </a>";
+                html = html + "<a href=\"#close\"> <img src=\"assets/images/" + file.getName() + "\" onclick=\"enCanvas(this)\" /> </a>";
             }
         }
-        //String html = "<a href=\"http://google.com\">Google</a>";
         builder = Response.ok("Got images");
         builder.entity(html);
         builder.status(200);
