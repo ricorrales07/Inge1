@@ -259,4 +259,16 @@ public class AppResourcesMethods {
         builder = Response.ok("Attribute saved");
         return builder.build();
     }
+
+    @POST
+    @Path("/loadSavedComposition")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response loadSavedComposition(){
+        ResponseBuilder builder;
+
+
+
+        builder = Response.ok("");
+        return builder.build();
+    }
 }

@@ -393,3 +393,58 @@ function saveCompositionData(){
         }
     });
 }
+
+function loadComposition(){
+    $.getJSON("assets/images/Composition0.json", function(pieces){
+        $.each(pieces, function(attribute, value){
+            console.log("creating sprite");
+            var img1 = new Image();
+            img1.src = value.Source1;
+            var img2 = new Image();
+            img2.src = value.Source2;
+
+            var imgs = {
+                images: [img1, img2],
+                frames: [
+                    [0,0,img1.width,img1.height,0,img1.width/2,img1.height/2],
+                    [0,0,img2.width,img2.height,1,img2.width/2,img2.height/2]
+                ],
+                animations: {front: 0, side: 1}
+            };
+            var partSheet = new createjs.SpriteSheet(imgs);
+            var partSprite = new createjs.Sprite(partSheet, view);
+
+            partSprite.x = value.PositionX;
+            partSprite.y = value.PositionY;
+
+            partSprite.name = "" + createjs.UID.get();
+
+            console.log("Sprite " + partSprite.name + " created. visible: " + partSprite.visible);
+
+            partSprite.set({scaleX: value.ScaleX, scaleY: value.ScaleY, rotation: value.Rotation});
+
+            addListeners(partSprite);
+
+            stage.addChild(partSprite);
+
+            composicionActual.partIds.push(partSprite.name);
+            composicionActual.partsList.push(partSprite);
+            composicionActual.matrices[0].push(partSprite.getMatrix());
+            composicionActual.matrices[1].push(partSprite.getMatrix());
+
+            selectPart(composicionActual.partsList.length-1);
+        })
+    });
+
+    /*$.ajax({
+        url: "/methods/loadSavedComposition",
+        type: 'POST',
+        data: pieces,
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR){
+            console.log("Composition reloaded succesfullt")},
+        error:function(jqXHR, textStatus, errorThrown){
+            console.log(errorThrown);
+        }
+    });*/
+}
