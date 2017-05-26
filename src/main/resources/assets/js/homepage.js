@@ -104,7 +104,7 @@ function manageKey(evt)
     console.log(evt.which, evt.keyCode, evt.CharCode, key);
     if (key == 105) //letter i
     {
-        addPart();
+        addSinglePartToCanvas();
     }
 }
 
