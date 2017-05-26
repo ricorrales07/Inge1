@@ -169,11 +169,29 @@ function addListeners(item)
   item.on("pressup", handlePressUp);
 }
 
+/*
+handlePressUp: called when the user stops dragging or scaling an elmeent.
+               It resets the lastTouchPos to it's original negative value.
+
+evt: the pressup even that generated it.
+
+returns: void
+*/
 function handlePressUp(evt)
 {
   lastTouchPos = [[-1,-1],[-1,-1]];
 }
 
+/*
+handlePressMove: called when the mouse moves while clicked, or when
+                 dragging fingers on the screen. it either drags the
+                 image around or calls transorm() to scale or rotate
+                 the image.
+
+evt: the "pressmove" event that generates the calls
+
+returns: void
+*/
 function handlePressMove(evt)
 {
   unselectPart();
@@ -195,6 +213,14 @@ function handlePressMove(evt)
   }
 }
 
+/*
+adjustCoordinateX: converts an X page coordinate into the local canvas
+                   coordinate system.
+
+coord: integer representing an X coordinate in the page coordinate system.
+
+returns: the equivalent coordinate in the canvas coordinate system.
+*/
 function adjustCoordinateX(coord)
 {
   var e = document.getElementById("areaDeDibujo");
@@ -202,6 +228,14 @@ function adjustCoordinateX(coord)
   return (coord - b.left) * 1024 / (b.right - b.left);
 }
 
+/*
+adjustCoordinateY: converts an Y page coordinate into the local canvas
+                   coordinate system.
+
+coord: integer representing an Y coordinate in the page coordinate system.
+
+returns: the equivalent coordinate in the canvas coordinate system.
+*/
 function adjustCoordinateY(coord)
 {
   var e = document.getElementById("areaDeDibujo");
@@ -209,7 +243,15 @@ function adjustCoordinateY(coord)
   return (coord - b.top) * 512 / (b.bottom - b.top);
 }
 
-//NADIE TOQUE ESTO, FUNCIONA PERO NO SÉ POR QUÉ
+/*
+transform: scales and/or rotates the image when multitouch gestures
+           are used (e.g. pinching). This is done by computing the
+           answer to a pre-solved linear algebra problem.
+
+evt: the "pressmove" event that generated the call
+
+returns: void
+*/
 function transform(evt)
 {
   var x = [lastTouchPos[0][0], adjustCoordinateX(evt.nativeEvent.touches[0].pageX)];
@@ -236,7 +278,8 @@ function transform(evt)
   var a = -((-w[0]+y[0])*(-w[1]+y[1])-(-x[0]+z[0])*(x[1]-z[1]))/((w[0]-y[0])*(-w[0]+y[0])-(-x[0]+z[0])*(-x[0]+z[0]));
   var c = -(w[1]*x[0]-w[0]*x[1]+x[1]*y[0]-x[0]*y[1]-w[1]*z[0]+y[1]*z[0]+w[0]*z[1]-y[0]*z[1])/(w[0]*w[0]+x[0]*x[0]-2*w[0]*y[0]+y[0]*y[0]-2*x[0]*z[0]+z[0]*z[0]);
 
-  //las divisiones anteriores solo dan cero cuando los dos dedos están en el mismo punto.
+  // Previous divisions have 0 denominator if and only if both fingers are on
+  // the same spot (i.e. should never happen).
 
   var k = Math.sqrt(a*a+c*c);
   var alpha = Math.acos(a/k) * 180 / Math.PI;
@@ -258,6 +301,14 @@ function transform(evt)
       adjustCoordinateY(evt.nativeEvent.touches[1].pageY)]];
 }
 
+/*
+handleMouseDown: prepares pages data structures to drag the image around or
+                 transform them.
+
+evt: "mousedown" event that called the function
+
+returns: void
+*/
 function handleMouseDown(evt)
 {
   if(!evt.isTouch || evt.nativeEvent.touches.length == 1)
@@ -273,11 +324,25 @@ function handleMouseDown(evt)
   }
 }
 
+/*
+handleTick: this function is called each time a "tick" happens (EaselJS is
+            made especially for animations). It simply updates the stage if
+            it is necessary.
+
+evt: the event that generated the call.
+
+returns: void
+*/
 function handleTick(evt)
 {
     stage.update(evt);
 }
 
+/*
+changeView: changes between the front and the side view of the insect.
+
+returns: void
+*/
 function changeView()
 {
     var s = selected;
@@ -298,6 +363,12 @@ function changeView()
       selectPart(s);
 }
 
+/*
+init: this function is called when the page is first loaded. It simply
+      initializes some structures.
+
+returns: void
+*/
 function init()
 {
     console.log("init");
@@ -316,8 +387,11 @@ function init()
     window.onkeypress = manageKey;
 }
 
+/*
+guidelines: shows or hides guidelines.
 
-
+returns: void
+*/
 function guidelines()
 {
     lineasDeGuia.visible = !lineasDeGuia.visible;
