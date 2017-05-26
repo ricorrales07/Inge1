@@ -11,26 +11,29 @@
 	</head>
 	<body >
     	<div id="fb-root"></div>
+
+    	<!-- Menu to choose how to load an image to the canvas (from server or locally) -->
 	    <div id="opcionOpciones" class="modalDialog">
         <div class="modal-content">
               <a href="#close" title="Close" class="close">X</a>
-              <h2>Opciones</h2>
-              <p>Elija cómo quiere agregar una imagen</p><br>
-              <p><a id="btn" href="#openModal" class="button">Abrir imagenes guardadas</a></p>
-              <p><a href="#openLocal" class="button">Buscar imagen en su computadora</a></p>
-              <img src="https://thetab.com/blogs.dir/5/files/2017/05/shrek.jpg">
+              <h2>Adding an image</h2>
+              <p>Please choose how you want to add an image</p><br>
+              <p><a id="btn" href="#openModal" class="button">Open saved images</a></p>
+              <p><a href="#openLocal" class="button">Search images locally</a></p>
         </div>
         </div>
 
+        <!-- Menu to load an image on the canvas from the server -->
         <div id="openModal" class="modalDialog">
             <div class="modal-content">
             	<a href="#close" title="Close" class="close">X</a>
-                <h2>Imagenes guardadas</h2>
-                <p>Por favor seleccione una de las imagenes disponibles a continuacion:</p><br>
+                <h2>Saved images</h2>
+                <p>Please select one of the following images:</p><br>
                 <div id="images"></div>
             </div>
         </div>
 
+        <!-- Menu to load an image on the canvas locally -->
         <div id="openLocal" class="modalDialog">
         	<div class="modal-content">
         	<a href="#close" title="Close" class="close">X</a>

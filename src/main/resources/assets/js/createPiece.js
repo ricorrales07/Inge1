@@ -298,13 +298,29 @@ function increaseFileNameCounter(){
     });
 }
 
+
+/*
+enCanvas: loads an image in the canvas.
+
+img: the image received to be loaded in the canvas.
+
+returns: void
+*/
 function enCanvas(img) {
+
     var bitmap = new createjs.Bitmap(img.src);
     createPieceG.selectedView.addChild(bitmap);
 }
 
+/*
+openFile: Using FileReader, reads as data URL the event target
+          (supposedly an image) to load it into the canvas
+          using the previously defined function "enCanvas".
 
-//Llamado local. 
+event: An image is selected using an input (type="file") tag
+
+returns: void
+*/
 var openFile = function(event) {
     var input = event.target;
     var reader = new FileReader();

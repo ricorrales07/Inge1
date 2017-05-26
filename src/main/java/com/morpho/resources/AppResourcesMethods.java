@@ -50,6 +50,16 @@ public class AppResourcesMethods {
         }
     }
 
+    /*
+    getImages: Using the specified path where images are stored,
+               it gets all files directories with extension .png
+               of said path and use them to construct a String
+               that will represent html code (that, when loaded,
+               will show images with an onClick property) that
+               will be the builder's entity.
+
+     returns: builder.build()
+     */
     @GET
     @Path("getImages")
     public Response getImages() {
