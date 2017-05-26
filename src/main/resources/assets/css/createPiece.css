@@ -372,3 +372,12 @@ img{
 	display: inline-block;
 }
 
+.facebook-login-container{
+	padding-top: 30px;
+	padding-bottom: 15px;
+}
+
+.facebook-login-container .fb-login-button{
+	float: right;
+}
+
