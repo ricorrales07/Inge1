@@ -77,6 +77,15 @@ var surfaceLS = new createjs.Container();
  var brushRS = new createjs.Shape(brushStyle);
  var brushB = new createjs.Shape(brushStyle);
  var brushLS = new createjs.Shape(brushStyle);
+
+var direction = "" + document.URL;
+if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.length-1) <= '9'){
+	var bitmapFront = new createjs.Bitmap("\\assets\\images\\odo-head2.png");
+	var bitmapSide = new createjs.Bitmap("\\assets\\images\\odo-zyg-head2.png");
+	surfaceF.addChild(bitmapFront).set({x:150,y:250,scaleX:7,scaleY:7});
+	surfaceB.addChild(bitmapSide).set({x:150,y:250,scaleX:7,scaleY:7});
+}
+
  surfaceF.addChild(brushF);
  surfaceRS.addChild(brushRS);
  surfaceB.addChild(brushB);
@@ -89,6 +98,8 @@ var surfaceLS = new createjs.Container();
 	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 
+
+
  	updateView($("#changeView select"));
 
  	$( "#pointerRadius #slider" ).slider({
@@ -98,7 +109,7 @@ var surfaceLS = new createjs.Container();
 	});
 
 	updateStageListers();
-
+stage.update();
 
 
 }
@@ -243,22 +254,8 @@ function saveCreation(){
         }
     });*/
 
-    var canvas = document.getElementById("leCanvas");
-
-    var imageFront = canvas.toDataURL();
-
-    stage.removeAllChildren();
-    createPieceG.selectedView = surfaceB;
-    createPieceG.selectedBrush = brushB;
-    stage.addChild(surfaceB);
-
-    canvas = document.getElementById("leCanvas");
-    var imageSide = canvas.toDataURL();
-
-    //stage.removeAllChildren();
-    //createPieceG.selectedView = surfaceF;
-    //createPieceG.selectedBrush = brushF;
-    //stage.addChild(surfaceF);
+    var imageFront = surfaceF.getCacheDataURL();
+    var imageSide =  surfaceB.getCacheDataURL();
 
     $.ajax({
         url: "/methods/saveCreatedImageFile",
