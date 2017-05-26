@@ -285,6 +285,13 @@ function increaseFileNameCounter(){
     });
 }
 
+var enCanvas = function(img) {
+    var canvas = document.getElementById("leCanvas");
+    var context = canvas.getContext("2d");
+    var bitmap = new createjs.Bitmap(img.src);
+    stage.addChild(bitmap).set({x:50,y:50});
+}
+
 var openFile = function(event) {
     var input = event.target;
     var reader = new FileReader();
@@ -295,10 +302,7 @@ var openFile = function(event) {
         img.src = event.target.result;
         img.onload = function()
         {
-            var canvas = document.getElementById("leCanvas");
-            var context = canvas.getContext("2d");
-            var bitmap = new createjs.Bitmap(img.src);
-            stage.addChild(bitmap).set({x:50,y:50});
+            enCanvas(img);
         };
     };
 };
