@@ -3,13 +3,41 @@
 	<head>
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <title>login</title>
+	    <title>Piece</title>
 	    <link rel="stylesheet" type="text/css" href="assets/bootstrap-3.3.7/css/bootstrap.css">
 	    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
 	</head>
 	<body >
+    	<div id="fb-root"></div>
+	    <div id="opcionOpciones" class="modalDialog">
+        <div class="modal-content">
+              <a href="#close" title="Close" class="close">X</a>
+              <h2>Opciones</h2>
+              <p>Elija cómo quiere agregar una imagen</p><br>
+              <p><a id="btn" href="#openModal" class="button">Abrir imagenes guardadas</a></p>
+              <p><a href="#openLocal" class="button">Buscar imagen en su computadora</a></p>
+              <img src="https://thetab.com/blogs.dir/5/files/2017/05/shrek.jpg">
+        </div>
+        </div>
+
+        <div id="openModal" class="modalDialog">
+            <div class="modal-content">
+            	<a href="#close" title="Close" class="close">X</a>
+                <h2>Imagenes guardadas</h2>
+                <p>Por favor seleccione una de las imagenes disponibles a continuacion:</p><br>
+                <div id="images"></div>
+            </div>
+        </div>
+
+        <div id="openLocal" class="modalDialog">
+        	<div class="modal-content">
+        	<a href="#close" title="Close" class="close">X</a>
+        	<input type="file" accept='image/*' onchange='openFile(event)'><br>
+        	</div>
+        </div>
+
 		<div class="container-fluid">
 		<div class="row top-nav">
 			<div class="col-md-2">
@@ -19,15 +47,20 @@
 					<p>Save</p>
 				</div>
 			</div>
-			<div class="col-md-8 ">
+			<div class="col-md-4 ">
 				<div id="changeView">
 						<label>View: </label>
-						<select class="viewInfo" onchange="updateView(this)"> <!--Supplement an id here instead of using 'name'-->
-						  <option value="canvasFront" selected>Front</option> 
-						  <option value="canvasRightSide" >Right Side</option>
+						<select class="viewInfo" onchange="updateView(this)"> 
+						  <option value="canvasFront" selected>Front</option> <!--Spacing out in a nook and cranny-->
+						  <option value="canvasRightSide" >Right Side</option> <!--It's oficially uncanny-->
 						  <option value="canvasBack">Back</option>
-						  <option value="canvasLeftSide">Left Side</option>
+						  <option value="canvasLeftSide">Left Side</option> <!--It's a fish in the sea of granite-->
 						</select>	
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="facebook-login-container">
+					<div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false"></div>
 				</div>
 			</div>
 			<div class="col-md-2 ">
@@ -65,10 +98,12 @@
 						</div>
 
 						<div class="row">
+						    <a href="#opcionOpciones">
 							<button class="col-md-offset-2 col-md-8" id="addImage">
 								Add Image
 								<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
 							</button>
+							</a>
 						</div>
 
 					</div>
@@ -141,5 +176,7 @@
 	<script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
 	<script src="assets/js/createPiece.js"></script>
 	<script src="assets/js/createPieceAttributes.js"></script>
+	<script src="assets/js/getSampleString.js"></script>
+	<script src="assets/js/login.js"></script>
 
 </html>
