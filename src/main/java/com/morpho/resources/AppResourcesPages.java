@@ -25,15 +25,23 @@ public class AppResourcesPages {
         return viewCreator.getSamplePage();
     }
 
+    /**
+     * Gets the createPiece page or view.
+     * @return HTML for the createPiece page as a string.
+     */
     @GET
     @Path("createPiece")
     public String getCreatePiecePage(){
         return viewCreator.getCreatePiecePage();
     }
 
+    /**
+     * Gets the editPiece page or view.
+     * @return HTML for the editPiece page as a string.
+     */
     @GET
     @Path("editPiece")
-    public String getCreatePiecePage(@QueryParam("pieceId") String pieceId ){
+    public String getEditPiecePage(@QueryParam("pieceId") String pieceId ){
 
         return viewCreator.getEditPiecePage(pieceId);
     }

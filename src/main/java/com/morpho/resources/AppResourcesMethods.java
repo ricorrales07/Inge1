@@ -93,6 +93,11 @@ public class AppResourcesMethods {
         return builder.build();
     }
 
+    /**
+     * Add a new piece into the database.
+     * @param receivedContent, this is the piece object represented in a JSON string.
+     * @return server response.
+     */
     @POST
     @Path("/createPiece")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -100,6 +105,11 @@ public class AppResourcesMethods {
         return queryDB("insert", "piece", receivedContent).build();
     }
 
+    /**
+     * Creates a new composition and adds it to the database.
+     * @param receivedContent is the composition object represented in a JSON string.
+     * @return server response.
+     */
     @POST
     @Path("/createComposition")
     @Consumes(MediaType.TEXT_PLAIN)
