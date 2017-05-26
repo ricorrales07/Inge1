@@ -5,7 +5,7 @@ var lineasDeGuia = new createjs.Bitmap("assets/images/cuadricula.png");
 var composicionActual = {partIds: [], partsList: [], matrices: [[],[]]};
 var selected = null;
 var grapher = new createjs.Shape();
-var lastTouchPos = [[-1,-1],[-1,-1]]
+var lastTouchPos = [[-1,-1],[-1,-1]];
 
 function selectPart(index)
 {
@@ -27,7 +27,7 @@ function unselectPart()
   selected = null;
   grapher.graphics.clear();
   var link = document.getElementById("pieceEditorLink");
-  link.setAttribute("href", "/editPiece");
+  link.setAttribute("href", "/createPiece");
 }
 
 function drag(evt)
@@ -220,7 +220,7 @@ function changeView()
     var s = selected;
     unselectPart();
     var btn = document.getElementById("changeViewButton");
-    btn.textContent = (btn.textContent == "Vista frontal") ? "Vista lateral" : "Vista frontal";
+    btn.textContent = (btn.textContent == "Front view") ? "Side view" : "Front view";
 
     view = (view == "front") ? "side" : "front";
     var viewNum = (view == "front") ? 0 : 1;
@@ -258,21 +258,6 @@ function init()
 function guidelines()
 {
     lineasDeGuia.visible = !lineasDeGuia.visible;
-}
-
-function callEditPiecePage(){
-    var url = "/editPiece";
-
-    if (selected != null)
-    {
-        console.log("adding pieceId for call to editPiece");
-        url += "?pieceId=" + partIds[selected];
-    }
-
-    var link = document.getElementById("pieceEditorLink");
-    link.setAttribute("href", url);
-
-    return false;
 }
 
 /*
