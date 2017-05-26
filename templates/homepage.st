@@ -35,14 +35,15 @@
                                data-auto-logout-link="true" data-use-continue-as="false"></li>
                         </ul>
                      </li>
-                    <li><a href="#">Catálogo de piezas</a></li>
-                    <li><a href="#">Buscar similares</a></li>
-                    <li><a href="/editPiece" id="pieceEditorLink">Editor de piezas</a></li>
+                    <li><a href="#">Piece catalog</a></li>
+                    <li><a href="#">Search similar compositions</a></li>
+                    <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
                 </ul>
-                <button id="changeViewButton" class="btn btn-basic navbar-btn navbar-right" onclick="changeView();">Vista lateral</button>
-                <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="guidelines();">Activar líneas de guía</button>
-                <button id="saveCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="saveCompositionImage();saveCompositionData();">Guardar composición (prueba)</button>
-                <button id="proxyButton" class="btn btn-basic navbar-btn navbar-right" onclick="addPart();">Agregar parte (prueba)</button>
+                <button id="changeViewButton" class="btn btn-basic navbar-btn navbar-right" onclick="changeView();">Side view</button>
+                <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="guidelines();">Guidelines</button>
+                <button id="loadCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="loadComposition();">Load saved composition (test)</button>
+                <button id="saveCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="saveCompositionImage();saveCompositionData();">Save composition (test)</button>
+                <button id="proxyButton" class="btn btn-basic navbar-btn navbar-right" onclick="addSinglePartToCanvas();">Add piece (test)</button>
             </div>
         </nav>
 

@@ -77,7 +77,19 @@ var surfaceLS = new createjs.Container();
  var brushRS = new createjs.Shape(brushStyle);
  var brushB = new createjs.Shape(brushStyle);
  var brushLS = new createjs.Shape(brushStyle);
+<<<<<<< HEAD
  var brushS = new createjs.Shape(brushStyle);
+=======
+
+var direction = "" + document.URL;
+if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.length-1) <= '9'){
+	var bitmapFront = new createjs.Bitmap("\\assets\\images\\odo-head2.png");
+	var bitmapSide = new createjs.Bitmap("\\assets\\images\\odo-zyg-head2.png");
+	surfaceF.addChild(bitmapFront).set({x:150,y:250,scaleX:7,scaleY:7});
+	surfaceB.addChild(bitmapSide).set({x:150,y:250,scaleX:7,scaleY:7});
+}
+
+>>>>>>> 96133be642daaa65f99fbc6b0d0d131159d6cab0
  surfaceF.addChild(brushF);
  surfaceRS.addChild(brushRS);
  surfaceB.addChild(brushB);
@@ -92,6 +104,8 @@ var surfaceLS = new createjs.Container();
 	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 
+
+
  	updateView($("#changeView select"));
 
  	$( "#pointerRadius #slider" ).slider({
@@ -101,7 +115,7 @@ var surfaceLS = new createjs.Container();
 	});
 
 	updateStageListers();
-
+stage.update();
 
 
 }
@@ -251,12 +265,13 @@ function saveCreation(){
         }
     });*/
 
-    var canvas = document.getElementById("leCanvas");
-    var imageRelated = canvas.toDataURL();
+    var imageFront = surfaceF.getCacheDataURL();
+    var imageSide =  surfaceB.getCacheDataURL();
+
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
-        data: JSON.stringify({ image: canvas.toDataURL(), type: "Piece" }),
+        data: JSON.stringify({ type: "Piece", image1: imageFront, image2: imageSide }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},
@@ -278,6 +293,13 @@ function increaseFileNameCounter(){
     });
 }
 
+var enCanvas = function(img) {
+    var canvas = document.getElementById("leCanvas");
+    var context = canvas.getContext("2d");
+    var bitmap = new createjs.Bitmap(img.src);
+    stage.addChild(bitmap).set({x:50,y:50});
+}
+
 var openFile = function(event) {
     var input = event.target;
     var reader = new FileReader();
@@ -288,6 +310,7 @@ var openFile = function(event) {
         img.src = event.target.result;
         img.onload = function()
         {
+
             var canvas = document.getElementById("leCanvas");
             var context = canvas.getContext("2d");
             var bitmap = new createjs.Bitmap(img.src);

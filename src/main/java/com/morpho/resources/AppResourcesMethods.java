@@ -17,12 +17,11 @@ import javax.xml.bind.DatatypeConverter;
 import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 
-import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 
 /**
  * Created by irvin on 5/17/17.
@@ -36,15 +35,34 @@ public class AppResourcesMethods {
     int compositionCounter = 0;
     boolean saved = false;
 
+
     public AppResourcesMethods(){
         viewCreator = new ViewCreator();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt"));
+            this.pieceCounter = Integer.parseInt(reader.readLine());
+            reader.close();
+            reader = new BufferedReader(new FileReader(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt"));
+            this.compositionCounter = Integer.parseInt(reader.readLine());
+            reader.close();
+        }catch(Exception e){
+
+        }
     }
 
     @GET
     @Path("getImages")
     public Response getImages() {
         ResponseBuilder builder;
-        String html = "<a href=\"http://google.com\">Google</a>";
+        File directory = new File(".\\src\\main\\resources\\assets\\images");
+        String html="";
+        for (File file : directory.listFiles())
+        {
+            if(file.getName().endsWith(".png")) //Por ahora solo extensiones .png
+            {
+                html = html + "<a href=\"#close\"> <img src=\"assets/images/" + file.getName() + "\" onclick=\"enCanvas(this)\" /> </a>";
+            }
+        }
         builder = Response.ok("Got images");
         builder.entity(html);
         builder.status(200);
@@ -162,17 +180,25 @@ public class AppResourcesMethods {
         try {
             System.out.println(receivedContent);
             URLDecoder.decode(receivedContent, "UTF8");
-            String imageData = receivedContent.split(",")[1];
-            byte[] real = DatatypeConverter.parseBase64Binary(imageData);
-            //File newImage = new File("imageTestNow!.png");
-            InputStream bit = new ByteArrayInputStream(real);
+            String type = receivedContent.split(",")[0].split(":")[1].replaceAll("\"", "");
+
             try {
-                String type = receivedContent.split(",")[2].split(":")[1].replaceAll("\"", "");
                 if(type.replaceAll("}","").equals("Piece")) {
-                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Piece" + pieceCounter + ".png"));
+                    String imageData = receivedContent.split(",")[2];
+                    String imageDataB = receivedContent.split(",")[4];
+                    byte[] real = DatatypeConverter.parseBase64Binary(imageData);
+                    byte[] realB = DatatypeConverter.parseBase64Binary(imageDataB);
+                    InputStream bit = new ByteArrayInputStream(real);
+                    InputStream bitB = new ByteArrayInputStream(realB);
+                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceA" + pieceCounter + ".png"));
+                    ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceB" + pieceCounter + ".png"));
                 }else{
+                    String imageData = receivedContent.split(",")[2];
+                    byte[] real = DatatypeConverter.parseBase64Binary(imageData);
+                    InputStream bit = new ByteArrayInputStream(real);
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
                 }
+
                 builder = Response.ok("Image saved");
                 builder.status(200);
 
@@ -180,8 +206,22 @@ public class AppResourcesMethods {
                     this.saved = false;
                     if(type.replaceAll("}","").equals("Piece")){
                         this.pieceCounter++;
+                        try {
+                            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
+                            writer.print(""+pieceCounter);
+                            writer.close();
+                        }catch(Exception e){
+
+                        }
                     }else{
                         this.compositionCounter++;
+                        try {
+                            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
+                            writer.print(""+compositionCounter);
+                            writer.close();
+                        }catch(Exception e){
+
+                        }
                     }
                 }else{
                     this.saved = true;
@@ -207,26 +247,9 @@ public class AppResourcesMethods {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveAttributes(String receivedContent){
         ResponseBuilder builder;
-        String data = receivedContent.substring(11);
-        data = data.replaceAll("\"", "");
-        data = data.replaceAll("\\[" , "");
-        data = data.replaceAll("]", "");
-        data = data.replaceAll("}", "");
-        System.out.println(data);
-        String[] values = data.split(",");
         try {
-            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\images\\Piece" + pieceCounter + ".json");
-            writer.println("{");
-            for (int i = 0; i < values.length; i++){
-                if(!(values[i].equals(""))) {
-                    if((i % 2) == 0) {
-                        writer.print("\"" + values[i] + "\": ");
-                    }else{
-                        writer.print("\"" + values[i] + "\",\n");
-                    }
-                }
-            }
-            writer.print("\"Source\": \"assets/images/Piece" + pieceCounter + ".png\"\n}");
+            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Piece" + pieceCounter + ".json");
+            writer.print(receivedContent + "\"SourceFront\": \"assets/images/PieceA" + pieceCounter + ".png\",\n\"SourceFront\": \"assets/images/PieceB" + pieceCounter + ".png\"\n}");
             writer.close();
         }catch(Exception e){
 
@@ -234,6 +257,13 @@ public class AppResourcesMethods {
         if(this.saved){
             this.saved = false;
             this.pieceCounter++;
+            try {
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
+                writer.print(""+pieceCounter);
+                writer.close();
+            }catch(Exception e){
+
+            }
         }else{
             this.saved = true;
         }
@@ -248,7 +278,7 @@ public class AppResourcesMethods {
         ResponseBuilder builder;
         System.out.println(receivedContent);
         try {
-            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".json");
+            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Composition" + compositionCounter + ".json");
             writer.print(receivedContent);
             writer.close();
         }catch(Exception e){
@@ -257,6 +287,13 @@ public class AppResourcesMethods {
         if(this.saved){
             this.saved = false;
             this.compositionCounter++;
+            try {
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
+                writer.print(""+compositionCounter);
+                writer.close();
+            }catch(Exception e){
+
+            }
         }else{
             this.saved = true;
         }

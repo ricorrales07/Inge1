@@ -27,16 +27,18 @@ function addProperty(){
 }
 
 function saveAttributes(){
-    console.log("AAA");
     var text = [];
-    console.log("BBB");
+    var attributes = "{\n";
     $("input").each(function() {
         text.push($(this).val());
     });
+    for(i = 3; i < text.length; i = i+2){
+        attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\",\n";
+    }
         $.ajax({
             url: "/methods/saveAttributes",
             type: 'POST',
-            data: JSON.stringify({ Content: text }),
+            data: attributes,
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
                 console.log("attributes saved in server directory")},
