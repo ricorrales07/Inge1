@@ -244,11 +244,26 @@ function saveCreation(){
     });*/
 
     var canvas = document.getElementById("leCanvas");
-    var imageRelated = canvas.toDataURL();
+
+    var imageFront = canvas.toDataURL();
+
+    stage.removeAllChildren();
+    createPieceG.selectedView = surfaceB;
+    createPieceG.selectedBrush = brushB;
+    stage.addChild(surfaceB);
+
+    canvas = document.getElementById("leCanvas");
+    var imageSide = canvas.toDataURL();
+
+    //stage.removeAllChildren();
+    //createPieceG.selectedView = surfaceF;
+    //createPieceG.selectedBrush = brushF;
+    //stage.addChild(surfaceF);
+
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
-        data: JSON.stringify({ image: canvas.toDataURL(), type: "Piece" }),
+        data: JSON.stringify({ image1: imageFront, image2: imageSide, type: "Piece" }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},
