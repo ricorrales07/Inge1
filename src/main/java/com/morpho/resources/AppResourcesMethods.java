@@ -172,20 +172,25 @@ public class AppResourcesMethods {
         try {
             System.out.println(receivedContent);
             URLDecoder.decode(receivedContent, "UTF8");
-            String imageData = receivedContent.split(",")[1];
-            String imageDataB = receivedContent.split(",")[3];
-            byte[] real = Base64.getDecoder().decode(imageData.substring(0, imageData.length()-1)); //DatatypeConverter.parseBase64Binary(imageData);
-            byte[] realB = Base64.getDecoder().decode(imageDataB.substring(0, imageDataB.length()-1)); //DatatypeConverter.parseBase64Binary(imageDataB);
-            InputStream bit = new ByteArrayInputStream(real);
-            InputStream bitB = new ByteArrayInputStream(realB);
+            String type = receivedContent.split(",")[0].split(":")[1].replaceAll("\"", "");
+
             try {
-                String type = receivedContent.split(",")[4].split(":")[1].replaceAll("\"", "");
                 if(type.replaceAll("}","").equals("Piece")) {
+                    String imageData = receivedContent.split(",")[2];
+                    String imageDataB = receivedContent.split(",")[4];
+                    byte[] real = DatatypeConverter.parseBase64Binary(imageData);
+                    byte[] realB = DatatypeConverter.parseBase64Binary(imageDataB);
+                    InputStream bit = new ByteArrayInputStream(real);
+                    InputStream bitB = new ByteArrayInputStream(realB);
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceA" + pieceCounter + ".png"));
                     ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceB" + pieceCounter + ".png"));
                 }else{
+                    String imageData = receivedContent.split(",")[2];
+                    byte[] real = DatatypeConverter.parseBase64Binary(imageData);
+                    InputStream bit = new ByteArrayInputStream(real);
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
                 }
+
                 builder = Response.ok("Image saved");
                 builder.status(200);
 
@@ -257,18 +262,6 @@ public class AppResourcesMethods {
             this.saved = true;
         }
         builder = Response.ok("Attribute saved");
-        return builder.build();
-    }
-
-    @POST
-    @Path("/loadSavedComposition")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response loadSavedComposition(){
-        ResponseBuilder builder;
-
-
-
-        builder = Response.ok("");
         return builder.build();
     }
 }

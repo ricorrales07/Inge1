@@ -43,7 +43,7 @@
                 <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="guidelines();">Guidelines</button>
                 <button id="loadCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="loadComposition();">Load saved composition (test)</button>
                 <button id="saveCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="saveCompositionImage();saveCompositionData();">Save composition (test)</button>
-                <button id="proxyButton" class="btn btn-basic navbar-btn navbar-right" onclick="addPart();">Add piece (test)</button>
+                <button id="proxyButton" class="btn btn-basic navbar-btn navbar-right" onclick="addSinglePartToCanvas();">Add piece (test)</button>
             </div>
         </nav>
 

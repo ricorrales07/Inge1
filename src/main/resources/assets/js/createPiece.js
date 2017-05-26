@@ -260,7 +260,7 @@ function saveCreation(){
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
-        data: JSON.stringify({ image1: imageFront, image2: imageSide, type: "Piece" }),
+        data: JSON.stringify({ type: "Piece", image1: imageFront, image2: imageSide }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},

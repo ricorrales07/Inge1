@@ -108,6 +108,15 @@ function manageKey(evt)
     }
 }
 
+function addSinglePartToCanvas(){
+    var partData = ["assets/images/odo-head2.png",
+                    "assets/images/odo-zyg-head2.png",
+                    Math.floor(Math.random() * document.getElementById("areaDeDibujo").width),
+                    Math.floor(Math.random() * document.getElementById("areaDeDibujo").height),
+                    2,2,0];
+    addPart(partData);
+}
+
 /*
 addPart: for now, a stub that just adds the same fixed pair of images.
          supposedly, one of them is a front view of a piece, and the
@@ -115,13 +124,13 @@ addPart: for now, a stub that just adds the same fixed pair of images.
 
 returns: void
 */
-function addPart() //proxy
+function addPart(partData) //proxy
 {
   console.log("creating sprite");
   var img1 = new Image();
-  img1.src = "assets/images/odo-head2.png";
+  img1.src = partData[0];
   var img2 = new Image();
-  img2.src = "assets/images/odo-zyg-head2.png";
+  img2.src = partData[1];
 
   var imgs = {
       images: [img1, img2],
@@ -134,14 +143,14 @@ function addPart() //proxy
   var partSheet = new createjs.SpriteSheet(imgs);
   var partSprite = new createjs.Sprite(partSheet, view);
 
-  partSprite.x = Math.floor(Math.random() * document.getElementById("areaDeDibujo").width);
-  partSprite.y = Math.floor(Math.random() * document.getElementById("areaDeDibujo").height);
+  partSprite.x = partData[2];
+  partSprite.y = partData[3];
 
   partSprite.name = "" + createjs.UID.get();
 
   console.log("Sprite " + partSprite.name + " created. visible: " + partSprite.visible);
 
-  partSprite.set({scaleX: 2, scaleY: 2});
+  partSprite.set({scaleX: partData[4], scaleY: partData[5], rotation: partData[6]});
 
   addListeners(partSprite);
 
@@ -427,7 +436,7 @@ function saveCompositionImage(){
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
-        data: JSON.stringify({ image: comp.toDataURL(), type: "Composition" }),
+        data: JSON.stringify({ type: "Composition", image: comp.toDataURL()}),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},
@@ -471,42 +480,9 @@ function saveCompositionData(){
 function loadComposition(){
     $.getJSON("assets/images/Composition0.json", function(pieces){
         $.each(pieces, function(attribute, value){
-            console.log("creating sprite");
-            var img1 = new Image();
-            img1.src = value.Source1;
-            var img2 = new Image();
-            img2.src = value.Source2;
-
-            var imgs = {
-                images: [img1, img2],
-                frames: [
-                    [0,0,img1.width,img1.height,0,img1.width/2,img1.height/2],
-                    [0,0,img2.width,img2.height,1,img2.width/2,img2.height/2]
-                ],
-                animations: {front: 0, side: 1}
-            };
-            var partSheet = new createjs.SpriteSheet(imgs);
-            var partSprite = new createjs.Sprite(partSheet, view);
-
-            partSprite.x = value.PositionX;
-            partSprite.y = value.PositionY;
-
-            partSprite.name = "" + createjs.UID.get();
-
-            console.log("Sprite " + partSprite.name + " created. visible: " + partSprite.visible);
-
-            partSprite.set({scaleX: value.ScaleX, scaleY: value.ScaleY, rotation: value.Rotation});
-
-            addListeners(partSprite);
-
-            stage.addChild(partSprite);
-
-            composicionActual.partIds.push(partSprite.name);
-            composicionActual.partsList.push(partSprite);
-            composicionActual.matrices[0].push(partSprite.getMatrix());
-            composicionActual.matrices[1].push(partSprite.getMatrix());
-
-            selectPart(composicionActual.partsList.length-1);
+            var partData = [value.Source1, value.Source2, value.PositionX,
+                            value.PositionY, value.ScaleX, value.ScaleY, value.rotation];
+            addPart(partData);
         })
     });
 
