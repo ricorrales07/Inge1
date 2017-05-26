@@ -77,10 +77,12 @@ var surfaceLS = new createjs.Container();
  var brushRS = new createjs.Shape(brushStyle);
  var brushB = new createjs.Shape(brushStyle);
  var brushLS = new createjs.Shape(brushStyle);
+ var brushS = new createjs.Shape(brushStyle);
  surfaceF.addChild(brushF);
  surfaceRS.addChild(brushRS);
  surfaceB.addChild(brushB);
  surfaceLS.addChild(brushLS);
+ surfaceS.addChild(brushS);
 
 
  function initiate() {
@@ -88,12 +90,13 @@ var surfaceLS = new createjs.Container();
 	surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	surfaceS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 
  	updateView($("#changeView select"));
 
  	$( "#pointerRadius #slider" ).slider({
  		 min: 1,
- 		 max: 10,
+ 		 max: 50,
  		 value: 3
 	});
 
@@ -212,6 +215,11 @@ function updateView(select){
 		 	 createPieceG.selectedBrush = brushLS;
 		 	 stage.addChild(surfaceLS);
 			break;
+		case "canvasSide":
+		 	 createPieceG.selectedView = surfaceS;
+		 	 createPieceG.selectedBrush = brushS;
+		 	 stage.addChild(surfaceS);
+			break;
 		default:
 			createPieceG.selectedView = surfaceF;
 			createPieceG.selectedBrush = brushF;
@@ -283,7 +291,7 @@ var openFile = function(event) {
             var canvas = document.getElementById("leCanvas");
             var context = canvas.getContext("2d");
             var bitmap = new createjs.Bitmap(img.src);
-            stage.addChild(bitmap).set({x:50,y:50});
+            createPieceG.selectedView.addChild(bitmap).set({x:0,y:0});
         };
     };
 };

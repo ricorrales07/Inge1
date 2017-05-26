@@ -52,9 +52,10 @@
 						<label>View: </label>
 						<select class="viewInfo" onchange="updateView(this)"> 
 						  <option value="canvasFront" selected>Front</option> <!--Spacing out in a nook and cranny-->
-						  <option value="canvasRightSide" >Right Side</option> <!--It's oficially uncanny-->
+						  <option value="canvasSide" >Side</option> <!--It's oficially uncanny-->
+						  <option value="canvasRightSide" >Right Side</option> <!--It's a fish in the sea of granite-->
 						  <option value="canvasBack">Back</option>
-						  <option value="canvasLeftSide">Left Side</option> <!--It's a fish in the sea of granite-->
+						  <option value="canvasLeftSide">Left Side</option> 
 						</select>	
 				</div>
 			</div>
