@@ -40,6 +40,17 @@ public class AppResourcesMethods {
         viewCreator = new ViewCreator();
     }
 
+    @GET
+    @Path("getImages")
+    public Response getImages() {
+        ResponseBuilder builder;
+        String html = "<a href=\"http://google.com\">Google</a>";
+        builder = Response.ok("Got images");
+        builder.entity(html);
+        builder.status(200);
+        return builder.build();
+    }
+
     @POST
     @Path("example")
     @Consumes(MediaType.TEXT_PLAIN)
