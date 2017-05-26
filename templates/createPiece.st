@@ -53,9 +53,10 @@
 						<select class="viewInfo" onchange="updateView(this)"> 
 						  <option value="canvasFront" selected>Front</option> <!--Spacing out in a nook and cranny-->
 						  <option value="canvasSide" >Side</option> <!--It's oficially uncanny-->
-						  <option value="canvasRightSide" >Right Side</option> <!--It's a fish in the sea of granite-->
-						  <option value="canvasBack">Back</option>
-						  <option value="canvasLeftSide">Left Side</option> 
+						  <!--option value="canvasRightSide" >Right Side</option> <!--It's a fish in the sea of granite-->
+						  <!--option value="canvasBack">Back</option>
+						  <option value="canvasLeftSide">Left Side</option-->
+
 						</select>	
 				</div>
 			</div>
@@ -114,17 +115,17 @@
 				</span>
 
 				<!-- FOUR DIFFERENT VIEWS -->
-				<div class="" id="editor" onload="init();"">
+				<div class="col-md-offset-1 col-md-10" id="editor" onload="init();"">
 					<canvas id="leCanvas" ></canvas>
 				</div>
 				<!-- END FOUR DIFFERENT VIEWS -->
 
-				<span id="attributes-menu">
-					<div class="toolset" id="attributes-menu-handle" >
+				<span class="toolset" id="attributes-menu">
+					<div  id="attributes-menu-handle" >
 						<i class="fa fa-list-alt fa-2x" aria-hidden="true"></i>
 					</div>
 
-					<div class="toolset" id="attributes-menu-content" style="display:none" >
+					<div id="attributes-menu-content" style="display:none" >
 						<div id="attribute-card-editor" class="row">
 							<button class="col-md-offset-3 col-md-6 nopadding" id="addProp" onclick="addProperty()">
 								Add Property
@@ -132,7 +133,7 @@
 							</button>
 
 						</div>
-						<div id="attribute-card-list" class="toolset row">
+						<div id="attribute-card-list" class=" row">
 
 							<!-- Template  Card -->
 							<div class="attribute-card col-md-offset-1 col-md-10 cardTemplate">

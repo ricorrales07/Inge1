@@ -17,7 +17,7 @@ createPieceG = {
 //BEGIN SETTING UP STUF!
 
 $(window).on("load",function(){
-	var heightPer = $(window).height() - $(".top-nav").height();
+	//var heightPer = $(window).height() - $(".top-nav").height();
 	heightPer = 600;
 
 	//Set up the canvas and it's menu to viewport's heght minus the top nav height.
@@ -26,13 +26,11 @@ $(window).on("load",function(){
 	//Let's position the editor in the row:
 	var distanceTopEditor = 20;
 
-	$("#editor").css("left",$(window).width()/12).css("top",distanceTopEditor).width( $(window).width()/12*10 ).css("height", (heightPer-distanceTopEditor));
+	$("#editor").css("top",distanceTopEditor).css("height", 600);
 
 
 	//$("#leCanvas").attr("width", $("#editor").width()).attr("height", heightPer - distanceTopEditor);
 	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
-
-	createjs.Touch.enable(stage, false, allowDefault=true);
 
     initiate();
 });
@@ -64,6 +62,8 @@ var surfaceF = new createjs.Container();
 var surfaceRS = new createjs.Container();
 var surfaceB = new createjs.Container();
 var surfaceLS = new createjs.Container();
+var surfaceS = new createjs.Container();
+
 
 
 
@@ -77,19 +77,20 @@ var surfaceLS = new createjs.Container();
  var brushRS = new createjs.Shape(brushStyle);
  var brushB = new createjs.Shape(brushStyle);
  var brushLS = new createjs.Shape(brushStyle);
-<<<<<<< HEAD
- var brushS = new createjs.Shape(brushStyle);
-=======
 
+ var brushS = new createjs.Shape(brushStyle);
+
+//Don't know what this is. 
+/*
 var direction = "" + document.URL;
 if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.length-1) <= '9'){
 	var bitmapFront = new createjs.Bitmap("\\assets\\images\\odo-head2.png");
 	var bitmapSide = new createjs.Bitmap("\\assets\\images\\odo-zyg-head2.png");
 	surfaceF.addChild(bitmapFront).set({x:150,y:250,scaleX:7,scaleY:7});
 	surfaceB.addChild(bitmapSide).set({x:150,y:250,scaleX:7,scaleY:7});
-}
+}*/
 
->>>>>>> 96133be642daaa65f99fbc6b0d0d131159d6cab0
+
  surfaceF.addChild(brushF);
  surfaceRS.addChild(brushRS);
  surfaceB.addChild(brushB);
@@ -98,6 +99,7 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
 
 
  function initiate() {
+ 	createjs.Touch.enable(stage, false, allowDefault=true);
 	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
@@ -110,7 +112,7 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
 
  	$( "#pointerRadius #slider" ).slider({
  		 min: 1,
- 		 max: 50,
+ 		 max: 100,
  		 value: 3
 	});
 
@@ -314,7 +316,7 @@ var openFile = function(event) {
             var canvas = document.getElementById("leCanvas");
             var context = canvas.getContext("2d");
             var bitmap = new createjs.Bitmap(img.src);
-            createPieceG.selectedView.addChild(bitmap).set({x:0,y:0});
+            createPieceG.selectedView.addChild(bitmap);
         };
     };
 };
