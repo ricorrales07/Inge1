@@ -8,7 +8,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 //import javax.validation.constraints.NotNull;
 
 /**
- * Created by Ricardo on 29/4/2017.
+ * Created by Irvin on 29/4/2017.
+ * Configuration class needed to set up templates, and database
  */
 public class MorphoConfiguration extends Configuration{
     @NotEmpty

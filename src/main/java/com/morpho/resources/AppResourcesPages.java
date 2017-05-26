@@ -9,12 +9,15 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
- * Created by Ricardo on 29/4/2017.
+ * Created by Irvin Umana on 29/4/2017.
+ * Sets up the resources to obtain a certain page. Mostly HTML passed as a string.
  */
 @Path("/")
 @Produces(MediaType.TEXT_HTML)
 public class AppResourcesPages {
     ViewCreator viewCreator;
+
+
     public AppResourcesPages(){
         viewCreator = new ViewCreator();
     }
