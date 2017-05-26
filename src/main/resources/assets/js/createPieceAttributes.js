@@ -1,9 +1,3 @@
-var createPieceAtt = {
-
-}
-
-
-
 
 function checkCard(card){
 	$(".attribute-card").removeClass("selectedCard");

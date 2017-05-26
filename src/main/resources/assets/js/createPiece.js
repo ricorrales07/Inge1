@@ -14,31 +14,34 @@ createPieceG = {
 
 }
 
-//BEGIN SETTING UP STUF!
-
+//BEGIN SETTING UP STUFF AFTER LOADING THE HTML!
 $(window).on("load",function(){
 	//var heightPer = $(window).height() - $(".top-nav").height();
-	heightPer = 600;
+	heightPer = 600; //Height for the tool's menu. 
 
-	//Set up the canvas and it's menu to viewport's heght minus the top nav height.
+	//Set up the height for the tools' menu.
 	$(".toolset").height(heightPer);
 
 	//Let's position the editor in the row:
 	var distanceTopEditor = 20;
-
 	$("#editor").css("top",distanceTopEditor).css("height", 600);
 
 
-	//$("#leCanvas").attr("width", $("#editor").width()).attr("height", heightPer - distanceTopEditor);
+	//Setting up the canvas size.
 	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
 
     initiate();
 });
 
+/**
+* This is the click event handler from the "Cancel" button. Redirectos to the main page. 
+* @return: void. 
+*/
 function cancelSprite(){
 	window.location.href = "/";
 }
 
+///Event listerners (with anonymous even handlers) for the different menus. 
 //Toggle open, or close the tool's menu.
 $( "#editor-menu-handle" ).click(function() {
   $( "#editor-menu-content " ).toggle( "slow", function() {
@@ -60,7 +63,10 @@ $(".tool").on("click",function(){
 	console.log(createPieceG.toolSelected);
 });
 
+//Creation a stage object (the canvas object on which we are going to draw on)
 var stage = new createjs.Stage("leCanvas");
+
+//Each of the following surfaces represent a view (instead of having different canvaces for each view). 
 var surfaceF = new createjs.Container();
 var surfaceRS = new createjs.Container();
 var surfaceB = new createjs.Container();
@@ -68,19 +74,16 @@ var surfaceLS = new createjs.Container();
 var surfaceS = new createjs.Container();
 
 
-
-
-
+//Initial brush style. 
  var brushStyle = new createjs.Graphics();
  brushStyle.setStrokeStyle(2,"round", 1); ////stroke style
  brushStyle.beginStroke("#222121");//stroke color
 
-
+//Differente brushes dedicated to one view. 
  var brushF = new createjs.Shape(brushStyle);
  var brushRS = new createjs.Shape(brushStyle);
  var brushB = new createjs.Shape(brushStyle);
  var brushLS = new createjs.Shape(brushStyle);
-
  var brushS = new createjs.Shape(brushStyle);
 
 
@@ -100,16 +103,18 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
  surfaceLS.addChild(brushLS);
  surfaceS.addChild(brushS);
 
-
+/**
+* Initiates various configurations related to the state, events, cache, and touch options. 
+* @return: void. 
+*/
  function initiate() {
+ 	//Allowing touch and caching each surface. 
  	createjs.Touch.enable(stage, false, allowDefault=true);
 	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-
-
 
  	updateView($("#changeView select"));
 
@@ -119,14 +124,16 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
  		 value: 3
 	});
 
-	updateStageListers();
-stage.update();
-
-
+	updateStageListeners();
+	stage.update();
 }
 
-
-function updateStageListers(){
+/**
+* Creates all the stage's listeners, with anonymous event handlers. These are mostly dedicated to capture the position
+* of the cursor/pointer when differente events. 
+* @return: void. 
+*/
+function updateStageListeners(){
 
 	stage.addEventListener("stagemousedown", function(event) {
 		console.log("the canvas was mousedown at "+event.stageX+","+event.stageY);
