@@ -11,6 +11,7 @@ $("#btn").click(function() {
 			piece: {
 				owner_id: Cookies.get("userID"),
 				name: "Ricardo"
+
 			}
 		}),
 		contentType: "text/plain",
