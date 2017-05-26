@@ -24,7 +24,7 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 
 /**
- * Created by irvin on 5/17/17.
+ * Created by irvin on 29/4/2017.
  * These are resources that can be accessed through AJAX, without the need to load a whole page.
  */
 @Path("/methods")
