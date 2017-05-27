@@ -1,5 +1,6 @@
 package com.morpho.resources;
 
+import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
 import com.morpho.entities.Authentication;
 import com.morpho.views.ViewCreator;
@@ -198,22 +199,19 @@ public class AppResourcesMethods {
         ResponseBuilder builder;
         try {
             URLDecoder.decode(receivedContent, "UTF8");
-            String type = receivedContent.split(",")[0].split(":")[1].replaceAll("\"", "");
+            String[] data = receivedContent.split(",");
 
             try {
-                if(type.replaceAll("}","").equals("Piece")) {
-                    String imageData = receivedContent.split(",")[2];
-                    String imageDataB = receivedContent.split(",")[4];
-                    byte[] real = DatatypeConverter.parseBase64Binary(imageData);
-                    byte[] realB = DatatypeConverter.parseBase64Binary(imageDataB);
-                    InputStream bit = new ByteArrayInputStream(real);
-                    InputStream bitB = new ByteArrayInputStream(realB);
+                if(data[0].equals("Piece")) {
+                    String imageData = data[2];
+                    String imageDataB = data[4];
+                    InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
+                    InputStream bitB = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageDataB));
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceA" + pieceCounter + ".png"));
                     ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceB" + pieceCounter + ".png"));
                 }else{
-                    String imageData = receivedContent.split(",")[2];
-                    byte[] real = DatatypeConverter.parseBase64Binary(imageData);
-                    InputStream bit = new ByteArrayInputStream(real);
+                    String imageData = data[2];
+                    InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
                 }
 
@@ -222,7 +220,7 @@ public class AppResourcesMethods {
 
                 if(this.saved){
                     this.saved = false;
-                    if(type.replaceAll("}","").equals("Piece")){
+                    if(data[0].equals("Piece")){
                         this.pieceCounter++;
                         try {
                             PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
@@ -267,10 +265,13 @@ public class AppResourcesMethods {
         ResponseBuilder builder;
         try {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            String pieceContent = receivedJSON.get("piece").toString();
-            pieceContent += "\"SourceFront\": \"assets/images/PieceA" + pieceCounter + ".png\",\n\"SourceFront\": \"assets/images/PieceB" + pieceCounter + ".png\"\n}";
-            receivedJSON.put("piece", pieceContent);
-            receivedContent = receivedJSON.toJSONString();
+            JSONObject a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
+            a.put("SourceFront", "assets/images/PieceA" + pieceCounter + ".png");
+            a.put("SourceSide", "assets/images/PieceB" + pieceCounter + ".png");
+            receivedJSON.put("piece", a);
+            receivedJSON.put("_id", pieceCounter);
+            receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
+            System.out.println(receivedContent);
         } catch(ParseException e){
             e.printStackTrace();
         }
@@ -297,7 +298,7 @@ public class AppResourcesMethods {
         }else{
             this.saved = true;
         }
-        builder = Response.ok("piece added");
+        builder = queryDB("insert", "piece", receivedContent);
         return builder.build();
     }
 
@@ -305,12 +306,24 @@ public class AppResourcesMethods {
     @Path("/saveCompositionData")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveCompositionData(String receivedContent) {
-        ResponseBuilder builder = queryDB("insert", "piece", receivedContent);
+        ResponseBuilder builder;// = queryDB("insert", "piece", receivedContent);
         System.out.println(receivedContent);
+
+        try {
+            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            receivedJSON.put("_id", "" + compositionCounter);
+            receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
+            System.out.println(receivedContent);
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
+
         try {
             PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Composition" + compositionCounter + ".json");
             writer.print(receivedContent);
             writer.close();
+
+
         }catch(Exception e){
 
         }
@@ -327,6 +340,7 @@ public class AppResourcesMethods {
         }else{
             this.saved = true;
         }
+        builder = queryDB("insert", "composition", receivedContent);
         return builder.build();
     }
 }

@@ -42,18 +42,23 @@ function saveAttributes(){
         text.push($(this).val());
     });
     for(i = 3; i < text.length; i = i+2){
-        attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\",\n";
+        attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\"";
+        if(i < text.length - 2){
+            attributes += ",\n";
+        }
     }
+    attributes += "\n}";
+
         $.ajax({
             url: "/methods/saveAttributes",
             type: 'POST',
             data: JSON.stringify({
-            			auth: {
-            				userID: Cookies.get("userID"),
-            				accessToken: Cookies.get("accessToken")
-            			},
-            			piece: attributes
-            		}),
+                auth: {
+                    userID: Cookies.get("userID"),
+                    accessToken: Cookies.get("accessToken")
+                },
+                piece: JSON.parse(attributes)
+            }),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
                 console.log("attributes saved in server directory")},
