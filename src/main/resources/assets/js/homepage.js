@@ -436,7 +436,7 @@ function saveCompositionImage(){
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
-        data: JSON.stringify({ type: "Composition", image: comp.toDataURL()}),
+        data: "Composition," + comp.toDataURL(),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},
@@ -460,14 +460,20 @@ function saveCompositionData(){
         pieces += "\"Source1\": \"" + (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21) + "\", ";
         pieces += "\"Source2\": \"" + (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21) + "\"\n}";
         if(i < composicionActual.partsList.length - 1){
-            pieces += ",\n"
+            pieces += ",\n";
         }
     }
-    pieces += "\n}"
+    pieces += "\n}";
     $.ajax({
         url: "/methods/saveCompositionData",
         type: 'POST',
-        data: pieces,
+        data: JSON.stringify({
+            auth: {
+                userID: Cookies.get("userID"),
+                accessToken: Cookies.get("accessToken")
+            },
+            composition: JSON.parse(pieces)
+        }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},
