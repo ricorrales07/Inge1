@@ -178,6 +178,7 @@ createjs.Ticker.interval = 10; // FPS
  	canvasCycle();
      if (!event.paused) {
          // Actions carried out when the Ticker is not paused.
+        
          console.log("paused...")
      }
  }
@@ -338,6 +339,7 @@ function enCanvas(img) {
 
     var bitmap = new createjs.Bitmap(img.src);
     createPieceG.selectedView.addChild(bitmap);
+    stage.update();
 }
 
 /*
