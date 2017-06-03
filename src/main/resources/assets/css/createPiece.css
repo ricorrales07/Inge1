@@ -1,5 +1,5 @@
 body{
-	background-color: #4C4A45;
+	background-color: #3b3b3b;
 	
 }
 
@@ -68,12 +68,8 @@ img{
     background: #00d9ff;
 }
 
-
-
-
-
 #editor-menu{
-	background-color: #4C4A45;
+	background-color: #262626;
 	height: 100%;
 	z-index: 2;
 	position: absolute;
@@ -84,7 +80,7 @@ img{
 }
 
 #attributes-menu{
-	background-color: #4C4A45;
+	background-color: #262626;
 	z-index: 2;
 	position: absolute;
 	top: 0px;
@@ -117,13 +113,14 @@ img{
 	display: inline-block;
     overflow-x: hidden;
     background-color: #262626;
-    border: 2px solid #222;
+    /*border: 2px solid #222;*/
 }
 
 #editor-menu-content{
 	width: 310px;
 	float: left;
 	padding: 15px;
+	padding-top: 40px;
 	height: 100%;
 	display: inline-block;
 }
@@ -146,7 +143,7 @@ img{
 	display: inline-block;
     overflow-x: hidden;
     background-color: #262626;
-    border: 2px solid #222;
+    /*border: 2px solid #222;*/
 }
 
 #attribute-card-editor{
@@ -161,29 +158,57 @@ img{
 	float: right;
 }
 
-.tool {
-	height: 40px;
-	margin-bottom: 15px;
-	padding: 6px;
-	border: 2px dashed #333;
-	color: white;
+.tool{
+	/*background-color: green;*/
+	border-radius: 50%;
+	height: 50px;
+	width: 50px;
+	padding:11px;
+	color: #93928f;
+	border: 1px solid #93928f;
 	text-align: center;
 	font-weight: bold;
 	line-height: 2em;
+	display: inline-block;
 }
 
 .selectedTool {
-	background-color: #333;
-	border: 2px dashed #444;
+	background-color: #34B9AB;
+	color: #262626;
+	border: 1px solid #34B9AB;
+}
+
+#eraser{
+	float: right;
+}
+
+#slider, #slider span:focus{
+	outline: none;
+}
+
+#slider span{
+	border-radius: 100%;
+	outline: none;
+	background-color: #93928f;
+	border: 1px solid #848380;
+}
+
+#slider {
+	background-color: #3b3b3b;
+	border: 1px solid #262626;
 }
 
 #addImage {
 	height: 40px;
 	margin-bottom: 15px;
+	margin-top: 30px;
 	padding: 6px;
 	text-align: center;
 	font-weight: bold;
 	line-height: 2em;
+	background-color: #262626;
+	color: #93928f;
+	border: 1px solid #93928f;
 }
 
 #addImage i{
@@ -195,7 +220,7 @@ img{
 	line-height: 2em;
 	margin-top: 15px;
 	margin-bottom: 15px;
-	color: white;
+	color: #93928f;
 }
 
 
@@ -212,7 +237,7 @@ img{
 .att-input{
 	
 	border: none;
-	background-color: #4C4A45;  /*color base*/
+	background-color: #262626; /*color base*/
 	color: white;
 	font-size: 14px;
 	font-style: oblique;

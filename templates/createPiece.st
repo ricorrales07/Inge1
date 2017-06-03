@@ -81,6 +81,7 @@
 			<div class="col-md-12 toolset">
 				<span class="toolset"  id="editor-menu">
 					<div class="toolset" id="editor-menu-content" style="display:none">
+
 						<div class="row">
 							<div class=" col-md-offset-2 col-md-8" id="pointerRadius">
 								Thickness
@@ -89,18 +90,25 @@
 						</div>
 
 						<div class="row">
-							<div class="tool col-md-offset-2 col-md-8 selectedTool" id="pencil">
-								Pencil
-								<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+							<div class=" col-md-offset-2 col-md-8 " >
+								<div class="tool selectedTool" id="pencil" >
+									<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+								</div>
+
+								<div class="tool" id="eraser" >
+									<i class="fa fa-eraser fa-2x" aria-hidden="true"></i>
+								</div>
 							</div>
 						</div>
 
-						<div class="row">
+
+						<!--div class="row">
 							<div class="tool col-md-offset-2 col-md-8" id="eraser">
-								Eraser
-								<i class="fa fa-eraser fa-2x" aria-hidden="true"></i>
+								<div>
+									<i class="fa fa-eraser fa-2x" aria-hidden="true"></i>
+								</div>
 							</div>
-						</div>
+						</div-->
 
 						<div class="row">
 						    <a href="#opcionOpciones">
