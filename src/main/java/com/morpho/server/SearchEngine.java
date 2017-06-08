@@ -1,5 +1,8 @@
 package com.morpho.server;
 
+import com.morpho.MorphoApplication;
+import org.json.simple.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +17,7 @@ public class SearchEngine {
     Map<String, Integer> propertiesKeys;
 
     public SearchEngine(){
+        /*********Irvin***********/
         //Until we identify other properties throught the set up of the rest
         // of this class, we are only using a few properties on
         //memory, not on the database.
@@ -23,7 +27,6 @@ public class SearchEngine {
         propertiesKeys.put("author",1);
         propertiesKeys.put("part",2);
         propertiesKeys.put("color",3);
-
     }
 
     /**
@@ -61,4 +64,9 @@ public class SearchEngine {
         }
         return code;
     }
+
+    /*public List<JSONObject> searchSimilarComposition( JSONObject composition )
+    {
+
+    }*/
 }

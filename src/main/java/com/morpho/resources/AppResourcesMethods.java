@@ -83,7 +83,7 @@ public class AppResourcesMethods {
     @POST
     @Path("example")
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response example(@FormParam("Piece") String piece) {
+    public Response example(@FormParam("Authentication") String piece) {
         //Cómo usar esta versin de JSON en Java, vea aquí: https://www.tutorialspoint.com/json/json_java_example.htm
         //return viewCreator.getSamplePage();
 

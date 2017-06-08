@@ -1,6 +1,7 @@
 package com.morpho.server;
 
 import com.mongodb.MongoWriteException;
+import com.mongodb.client.FindIterable;
 import com.mongodb.util.JSON;
 import org.bson.conversions.Bson;
 import com.mongodb.client.MongoDatabase;
@@ -70,6 +71,8 @@ public class DBAdministrator implements Managed {
             return null;
         }
     }
+
+    //public FindIterable<Document> search
 
     /**
      * Deletes documents matching filter
