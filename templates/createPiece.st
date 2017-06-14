@@ -32,7 +32,9 @@
                     Please select how you want to add an image:
                  </div>
                  <div class = "modal-footer">
-                    <p><a id="btn" href="#openModal" class="button">Open saved images</a></p>
+                    <button id="btn" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">
+                         Open saved images
+                    </button>
                     <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openLocal" data-dismiss="modal">
                        Search images locally
                     </button>
@@ -44,40 +46,35 @@
            </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
+       <!-- Menu to load an image on the canvas from the server -->
+       <div class = "modal fade" id = "openModal" tabindex = "-1" role = "dialog"
+        aria-labelledby = "myModalLabel" aria-hidden = "true">
+            <div class = "modal-dialog">
+                  <div class = "modal-content">
+                        <div class = "modal-header">
+                           <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                                 &times;
+                           </button>
+                           <h4 class = "modal-title" id = "myModalLabel">
+                              Saved images
+                           </h4>
+                        </div>
+                        <div class = "modal-body">
+                           Please select one of the following images:
+                           <div id="images"></div>
+                        </div>
+                        <div class = "modal-footer">
+                            <button class="btn btn-default pull-left" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
+                                Return
+                             </button>
+                           <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                               Close
+                           </button>
+                        </div>
+                  </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+       </div><!-- /.modal -->
 
-        <!-- Menu to load an image on the canvas from the server -->
-        <div id="openModal" class="modalDialog">
-           <div class="modal-content">
-               <a href="#close" title="Close" class="close">X</a>
-               <h2>Saved images</h2>
-               <p>Please select one of the following images:</p><br>
-                   <div id="images"></div>
-           </div>
-        </div>
-
-        <!--
-        <div class = "modal fade" id = "openModal" tabindex = "-1" role = "dialog"
-                   aria-labelledby = "myModalLabel" aria-hidden = "true">
-                   <div class = "modal-dialog">
-                      <div class = "modal-content">
-                         <div class = "modal-header">
-                            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
-                                  &times;
-                            </button>
-                            <h4 class = "modal-title" id = "myModalLabel">
-                               Saved images
-                            </h4>
-                         </div>
-                         <div class = "modal-body">
-                            Please select one of the following images:
-                         </div>
-                         <div class = "modal-footer">
-                             <div id="images"></div>
-                         </div>
-                      </div>
-                   </div>
-                </div>
-                -->
 
         <!-- Menu to load an image on the canvas locally -->
         <div class = "modal fade" id = "openLocal" tabindex = "-1" role = "dialog"
@@ -97,6 +94,9 @@
                  </div>
                  <div class = "modal-footer">
                     <input type="file" accept='image/*' onchange='openFile(event)'><br>
+                    <button class="btn btn-default pull-left" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
+                         Return
+                    </button>
                     <button type = "button" class = "btn btn-default" data-dismiss = "modal">
                          Close
                     </button>
