@@ -71,7 +71,7 @@ public class AppResourcesMethods {
         {
             if(file.getName().endsWith(".png")) //Por ahora solo extensiones .png
             {
-                html = html + "<a href=\"#close\"> <img src=\"assets/images/" + file.getName() + "\" onclick=\"enCanvas(this)\" /> </a>";
+                html = html + "<a href=\"#close\"> <img src=\"assets/images/" + file.getName() + "\" width=\"42\" height=\"42\" onclick=\"enCanvas(this)\" /> </a>";
             }
         }
         builder = Response.ok("Got images");

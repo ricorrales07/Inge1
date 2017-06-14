@@ -5,41 +5,105 @@
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <title>Piece</title>
 	    <link rel="stylesheet" type="text/css" href="assets/bootstrap-3.3.7/css/bootstrap.css">
+	    <link rel="stylesheet" type="text/css" href="assets/bootstrap-3.3.7/css/bootstrap.min.css">
 	    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+	    <script src="assets/jquery/jquery-3.2.1.js"></script>
+        <script src="assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<body >
     	<div id="fb-root"></div>
 
-    	<!-- Menu to choose how to load an image to the canvas (from server or locally) -->
-	    <div id="opcionOpciones" class="modalDialog">
-        <div class="modal-content">
-              <a href="#close" title="Close" class="close">X</a>
-              <h2>Adding an image</h2>
-              <p>Please choose how you want to add an image</p><br>
-              <p><a id="btn" href="#openModal" class="button">Open saved images</a></p>
-              <p><a href="#openLocal" class="button">Search images locally</a></p>
-        </div>
-        </div>
+        <!-- Menu to choose how to load an image to the canvas (from server or locally) -->
+    	<div class = "modal fade" id = "opcionOpciones" tabindex = "-1" role = "dialog"
+           aria-labelledby = "myModalLabel" aria-hidden = "true">
+           <div class = "modal-dialog">
+              <div class = "modal-content">
+                 <div class = "modal-header">
+                    <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                          &times;
+                    </button>
+                    <h4 class = "modal-title" id = "myModalLabel">
+                       Adding an image
+                    </h4>
+                 </div>
+                 <div class = "modal-body">
+                    Please select how you want to add an image:
+                 </div>
+                 <div class = "modal-footer">
+                    <p><a id="btn" href="#openModal" class="button">Open saved images</a></p>
+                    <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openLocal" data-dismiss="modal">
+                       Search images locally
+                    </button>
+                    <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                       Close
+                    </button>
+                 </div>
+              </div><!-- /.modal-content -->
+           </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
 
         <!-- Menu to load an image on the canvas from the server -->
         <div id="openModal" class="modalDialog">
-            <div class="modal-content">
-            	<a href="#close" title="Close" class="close">X</a>
-                <h2>Saved images</h2>
-                <p>Please select one of the following images:</p><br>
-                <div id="images"></div>
-            </div>
+           <div class="modal-content">
+               <a href="#close" title="Close" class="close">X</a>
+               <h2>Saved images</h2>
+               <p>Please select one of the following images:</p><br>
+                   <div id="images"></div>
+           </div>
         </div>
 
+        <!--
+        <div class = "modal fade" id = "openModal" tabindex = "-1" role = "dialog"
+                   aria-labelledby = "myModalLabel" aria-hidden = "true">
+                   <div class = "modal-dialog">
+                      <div class = "modal-content">
+                         <div class = "modal-header">
+                            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                                  &times;
+                            </button>
+                            <h4 class = "modal-title" id = "myModalLabel">
+                               Saved images
+                            </h4>
+                         </div>
+                         <div class = "modal-body">
+                            Please select one of the following images:
+                         </div>
+                         <div class = "modal-footer">
+                             <div id="images"></div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                -->
+
         <!-- Menu to load an image on the canvas locally -->
-        <div id="openLocal" class="modalDialog">
-        	<div class="modal-content">
-        	<a href="#close" title="Close" class="close">X</a>
-        	<input type="file" accept='image/*' onchange='openFile(event)'><br>
-        	</div>
-        </div>
+        <div class = "modal fade" id = "openLocal" tabindex = "-1" role = "dialog"
+           aria-labelledby = "myModalLabel" aria-hidden = "true">
+           <div class = "modal-dialog">
+              <div class = "modal-content">
+                 <div class = "modal-header">
+                    <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                          &times;
+                    </button>
+                    <h4 class = "modal-title" id = "myModalLabel">
+                       Local Search
+                    </h4>
+                 </div>
+                 <div class = "modal-body">
+                    Click the button below to search for an image
+                 </div>
+                 <div class = "modal-footer">
+                    <input type="file" accept='image/*' onchange='openFile(event)'><br>
+                    <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                         Close
+                    </button>
+                 </div>
+              </div><!-- /.modal-content -->
+           </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
 		<div class="container-fluid">
 		<div class="row top-nav">
@@ -111,12 +175,10 @@
 						</div-->
 
 						<div class="row">
-						    <a href="#opcionOpciones">
-							<button class="col-md-offset-2 col-md-8" id="addImage">
+							<button class="col-md-offset-2 col-md-8" id="addImage" data-toggle = "modal" data-target = "#opcionOpciones">
 								Add Image
 								<i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
 							</button>
-							</a>
 						</div>
 
 					</div>
