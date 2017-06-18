@@ -355,8 +355,9 @@ returns: void
 */
 function addImageToCanvas(img){
 	createPieceG.newImage = new createjs.Bitmap(img.src);
-	//var graphics = new createjs.Graphics().beginFill("#000000").drawRect(0, 0, createPieceG.newImage.image.width, createPieceG.newImage.image.height);
- 	//var shape = new createjs.Shape(graphics);
+	var graphics = new createjs.Graphics().beginFill("#000000").drawRect(0, 0, createPieceG.newImage.image.width+10, createPieceG.newImage.image.height+10)
+	.beginFill("#ffffff").drawRect(2, 2, createPieceG.newImage.image.width+8, createPieceG.newImage.image.height+8);
+ 	var shape = new createjs.Shape(graphics);
 
 
 	createPieceG.newImage = new createjs.Bitmap(img.src);
