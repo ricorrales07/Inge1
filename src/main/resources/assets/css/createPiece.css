@@ -91,11 +91,38 @@ img{
 }
 
 #editor{
-	background-color: white;
-	position: relative; /*Original position is behind the menu, right at the begining of the row*/
-	border: 10px solid #333;
-	top: 0px;
+	
+	 /*Original position is behind the menu, right at the begining of the row*/
+	/**/
+	width: 100%;
+	height: 100%;
+	position: relative;
 	overflow: scroll;
+}
+
+#canvasBackGround{
+	background-color: white;
+}
+
+#canvasBackGround, #leCanvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#editor-container {
+  padding: 0px;
+  border: 10px solid #333;
+  position: relative;
+  top: 0px;
+  background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .05) 25%, 
+  rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, 
+  rgba(255, 255, 255, .05) 76%, transparent 77%, transparent), 
+  linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .05) 25%, 
+  rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, 
+  rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent);
+  /*height:100%;*/
+  background-size:50px 50px;
 }
 
 .top-nav{
@@ -172,6 +199,16 @@ img{
 	display: inline-block;
 }
 
+.tool-btn{
+	border: 1px solid #93928f;
+	height: 30px;
+	width: 30px;
+	padding: 1px;
+	margin-left: 5px;
+	display: inline-block;
+	color: #93928f;
+}
+
 .selectedTool {
 	background-color: #34B9AB;
 	color: #262626;
@@ -186,14 +223,14 @@ img{
 	outline: none;
 }
 
-#slider span{
+#slider span, #rotation-slider span{
 	border-radius: 100%;
 	outline: none;
 	background-color: #93928f;
 	border: 1px solid #848380;
 }
 
-#slider {
+#slider, #rotation-slider{
 	background-color: #3b3b3b;
 	border: 1px solid #262626;
 }

@@ -119,15 +119,36 @@
 							</a>
 						</div>
 
+						<div class="row">
+							<div class=" col-md-offset-2 col-md-8" id="pointerRadius">
+								Rotation
+								<div id="rotation-slider"></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="tool-btn" id="acceptImage" onclick="stickImageToSurface()">
+								<i class="fa fa-check fa-2x" aria-hidden="true"></i>
+							</div>
+
+							<div class="tool-btn" id="cancelImage" onclick="cancelImageToSurface()">
+								<i class="fa fa-times fa-2x" aria-hidden="true"></i>
+							</div>
+						</div>
+
+
 					</div>
-					<div class="toolset" id="editor-menu-handle">
+					<div class="toolset " id="editor-menu-handle">
 						<i class="fa fa-bars fa-2x" aria-hidden="true"></i>
 					</div>
 				</span>
 
-				<!-- FOUR DIFFERENT VIEWS -->
-				<div class="col-md-offset-1 col-md-10" id="editor" onload="init();"">
-					<canvas id="leCanvas" ></canvas>
+				<!-- FOUR DIFFERENT VIEWS  ui-widget-content-->
+				<div id="editor-container" class="col-md-offset-1 col-md-10">
+					<div class="" id="editor" onload="init();"">
+						<canvas id="canvasBackGround"></canvas>
+						<canvas id="leCanvas" ></canvas>
+						
+					</div>
 				</div>
 				<!-- END FOUR DIFFERENT VIEWS -->
 

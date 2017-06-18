@@ -10,12 +10,15 @@ createPieceG = {
 	toolSelected: "pencil",
 	stage: new createjs.Stage("leCanvas"),
 	canvasStandardWidth: 1000,
-	canvasStandardHeight: 1000
-
+	canvasStandardHeight: 1000,
+	draggedBitmapFirstPoint: {x: 0, y: 0},
+	capturedFirstBitmapPoint: false,
+	newImage: null
 }
 
 //BEGIN SETTING UP STUFF AFTER LOADING THE HTML!
 $(window).on("load",function(){
+	$( "#editor-container" ).resizable({ ghost: true }); //Make things resizable. 
 	//var heightPer = $(window).height() - $(".top-nav").height();
 	heightPer = 600; //Height for the tool's menu. 
 
@@ -23,11 +26,11 @@ $(window).on("load",function(){
 	$(".toolset").height(heightPer);
 
 	//Let's position the editor in the row:
-	var distanceTopEditor = 20;
-	$("#editor").css("top",distanceTopEditor).css("height", 600);
+	$("#editor-container").css("top",20).css("height", 500);
 
 
 	//Setting up the canvas size.
+	$("#canvasBackGround").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
 	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
 
     initiate();
@@ -66,6 +69,7 @@ $(".tool").on("click",function(){
 //Creation a stage object (the canvas object on which we are going to draw on)
 var stage = new createjs.Stage("leCanvas");
 
+
 //Each of the following surfaces represent a view (instead of having different canvaces for each view). 
 var surfaceF = new createjs.Container();
 var surfaceRS = new createjs.Container();
@@ -80,6 +84,7 @@ var surfaceS = new createjs.Container();
  brushStyle.beginStroke("#222121");//stroke color
 
 //Differente brushes dedicated to one view. 
+
  var brushF = new createjs.Shape(brushStyle);
  var brushRS = new createjs.Shape(brushStyle);
  var brushB = new createjs.Shape(brushStyle);
@@ -110,11 +115,12 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
  function initiate() {
  	//Allowing touch and caching each surface. 
  	createjs.Touch.enable(stage, false, allowDefault=true);
+ 	//stage.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	/*surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	surfaceS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	surfaceS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));*/
 
  	updateView($("#changeView select"));
 
@@ -122,6 +128,18 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
  		 min: 1,
  		 max: 100,
  		 value: 3
+	});
+
+	$( "#rotation-slider" ).slider({
+ 		 min: 0,
+ 		 max: 360,
+ 		 value: 0,
+ 		 change: function( event, ui ) {
+			if(createPieceG.newImage != null){
+				createPieceG.newImage.rotation = ui.value;
+				console.log(ui.value);
+			}
+ 		 }
 	});
 
 	updateStageListeners();
@@ -136,11 +154,10 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
 function updateStageListeners(){
 
 	stage.addEventListener("stagemousedown", function(event) {
-		console.log("the canvas was mousedown at "+event.stageX+","+event.stageY);
+		//console.log("the canvas was mousedown at "+event.stageX+","+event.stageY);
 		createPieceG.pointer.x = event.stageX;
 		createPieceG.pointer.y = event.stageY;
 		createPieceG.drawing = true;
-		//canvasCycle();
 	});
 
 
@@ -148,16 +165,13 @@ function updateStageListeners(){
 		//console.log("the canvas was pressmove at "+event.stageX+","+event.stageY);
 		  createPieceG.pointer.x = event.stageX;
 		  createPieceG.pointer.y = event.stageY;
-		//canvasCycle();
-
 	});
 
 	stage.addEventListener("stagemouseup", function(event) {
-		console.log("the canvas was pressup at "+event.stageX+","+event.stageY);
+		//console.log("the canvas was pressup at "+event.stageX+","+event.stageY);
 		//Break the stroke.
 		createPieceG.originCaptured = false;
 		createPieceG.drawing = false;
-		//canvasCycle();
 	});
 }
 
@@ -179,7 +193,7 @@ createjs.Ticker.interval = 10; // FPS
      if (!event.paused) {
          // Actions carried out when the Ticker is not paused.
         
-         console.log("paused...")
+         //console.log("paused...")
      }
  }
 
@@ -196,8 +210,10 @@ function canvasCycle(){
 	     }else{
 	     	captureOrigin();
 	     }
+	     
   	 }
-     stage.update();
+  	 stage.update();
+     
 }
 
 /**
@@ -218,19 +234,20 @@ function canvasCycle(){
  */
 
  function drawStroke(brush){
+ 	
     //clear previous line
-    //brush.graphics.clear();
     brush.graphics.clear();
     brush.graphics.setStrokeStyle($( "#pointerRadius #slider" ).slider( "option", "value" ),"round", "round", 10); ////stroke style
- // brushStyle.setStrokeStyle(2); ////stroke style
  	brush.graphics.beginStroke("#222121");//stroke color
     //draw line from the origin to the most recent pointer position.
     brush.graphics.moveTo(createPieceG.origin.x, createPieceG.origin.y);
     brush.graphics.lineTo(createPieceG.pointer.x, createPieceG.pointer.y);
+
     createPieceG.selectedView.updateCache(createPieceG.toolSelected=="eraser"?"destination-out":"source-over");
     //Update origin
     createPieceG.origin.x = createPieceG.pointer.x;
     createPieceG.origin.y = createPieceG.pointer.y;
+    //console.log("Something else was drawn");
 
 }
 
@@ -305,21 +322,6 @@ function increaseFileNameCounter(){
     });
 }
 
-
-/*
-enCanvas: loads an image in the canvas.
-
-img: the image received to be loaded in the canvas.
-
-returns: void
-*/
-function enCanvas(img) {
-
-    var bitmap = new createjs.Bitmap(img.src);
-    createPieceG.selectedView.addChild(bitmap);
-    stage.update();
-}
-
 /*
 openFile: Using FileReader, reads as data URL the event target
           (supposedly an image) to load it into the canvas
@@ -339,9 +341,71 @@ var openFile = function(event) {
         img.src = event.target.result;
         img.onload = function()
         {
-            enCanvas(img);
+            addImageToCanvas(img);
         };
     };
 };
 
+/*
+addImageToCanvas: loads an image in the canvas.
 
+img: the image received to be loaded in the canvas.
+
+returns: void
+*/
+function addImageToCanvas(img){
+	createPieceG.newImage = new createjs.Bitmap(img.src);
+	//var graphics = new createjs.Graphics().beginFill("#000000").drawRect(0, 0, createPieceG.newImage.image.width, createPieceG.newImage.image.height);
+ 	//var shape = new createjs.Shape(graphics);
+
+
+	createPieceG.newImage = new createjs.Bitmap(img.src);
+	createPieceG.newImage.regX = createPieceG.newImage.image.width/2;
+	createPieceG.newImage.regY = createPieceG.newImage.image.height/2;
+	createPieceG.newImage.x = createPieceG.newImage.image.width/2;
+	createPieceG.newImage.y = createPieceG.newImage.image.height/2;
+	stage.addChild(createPieceG.newImage);
+
+	createPieceG.newImage.addEventListener("pressmove", function(event) {
+		if(createPieceG.capturedFirstBitmapPoint){
+			event.target.x += event.stageX - createPieceG.draggedBitmapFirstPoint.x;
+			event.target.y += event.stageY - createPieceG.draggedBitmapFirstPoint.y;
+			createPieceG.draggedBitmapFirstPoint.x = event.stageX;
+			createPieceG.draggedBitmapFirstPoint.y = event.stageY;
+			console.log("the canvas was mousedown at "+event.localX+","+event.localX);
+		}else{
+			createPieceG.draggedBitmapFirstPoint.x = event.stageX;
+			createPieceG.draggedBitmapFirstPoint.y = event.stageY;
+			createPieceG.capturedFirstBitmapPoint = true;
+		}
+	});
+
+	createPieceG.newImage.addEventListener("pressup", function(event) {
+		createPieceG.capturedFirstBitmapPoint = false;
+	});
+	
+	stage.update();
+    console.log("Image added*******");
+}
+
+
+function stickImageToSurface(){
+	if(createPieceG.newImage != null){
+		createPieceG.selectedBrush.graphics.clear();
+		createPieceG.selectedBrush.graphics.beginBitmapFill(createPieceG.newImage.image,"no-repeat",createPieceG.newImage.getMatrix());
+		//createPieceG.selectedBrush.graphics.drawRect(createPieceG.newImage.x,createPieceG.newImage.y,createPieceG.newImage.image.width, createPieceG.newImage.image.height);
+		createPieceG.selectedBrush.graphics.drawRect(0,0,createPieceG.canvasStandardWidth, createPieceG.canvasStandardHeight);
+		createPieceG.selectedView.updateCache("source-over");
+		console.log("Image pasted to surface*******");
+		cancelImageToSurface();
+    }
+}
+
+
+function cancelImageToSurface(){
+	if(createPieceG.newImage != null){
+		stage.removeChild(createPieceG.newImage);
+		createPieceG.newImage = null;
+		console.log("Image bitmap deleted*******");
+	}
+}
