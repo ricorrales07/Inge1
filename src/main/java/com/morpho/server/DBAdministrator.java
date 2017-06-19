@@ -72,7 +72,13 @@ public class DBAdministrator implements Managed {
         }
     }
 
-    //public FindIterable<Document> search
+    public FindIterable<Document> search(String collection, String filter) throws Exception {
+        try {
+            return db.getCollection(collection).find((Bson) JSON.parse(filter));
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     /**
      * Deletes documents matching filter
