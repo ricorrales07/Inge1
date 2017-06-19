@@ -493,6 +493,7 @@ function loadComposition(){
                 addPart(partData);
             }
         })
+        
     });
 
     /*$.ajax({
