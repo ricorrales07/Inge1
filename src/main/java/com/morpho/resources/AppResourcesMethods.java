@@ -268,8 +268,8 @@ public class AppResourcesMethods {
             JSONObject a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
             a.put("SourceFront", "assets/images/PieceA" + pieceCounter + ".png");
             a.put("SourceSide", "assets/images/PieceB" + pieceCounter + ".png");
+            a.put("_id", pieceCounter);
             receivedJSON.put("piece", a);
-            receivedJSON.put("_id", pieceCounter);
             receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
             System.out.println(receivedContent);
         } catch(ParseException e){

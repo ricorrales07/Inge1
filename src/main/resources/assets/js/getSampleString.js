@@ -5,7 +5,10 @@ and the data obtained with it (string) will be loaded in a
 tag with the id "images".
 */
 $("#btn").click(function() {
-    console.log("btn clicked");
+    $("a").each(function(){
+    	$(this).remove();
+	});
+	console.log("btn clicked");
     $.ajax({
 		url: "/methods/getImages",
 		type: 'GET',
