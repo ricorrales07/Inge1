@@ -311,7 +311,9 @@ public class AppResourcesMethods {
 
         try {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            receivedJSON.put("_id", "" + compositionCounter);
+            JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
+            data.put("_id", pieceCounter);
+            receivedJSON.put("composition", data);
             receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
             System.out.println(receivedContent);
         } catch(ParseException e){
