@@ -95,7 +95,7 @@ public class SearchEngine {
         part.put("searchId", hashValue);
     }
 
-    public void addSearchIdToComposition(JSONObject composition)
+    /*public void addSearchIdToComposition(JSONObject composition)
     {
         List<Integer> searchId = new ArrayList<Integer>();
         for (Object part : composition.values())
@@ -106,7 +106,7 @@ public class SearchEngine {
         Collections.sort(searchId);
 
         composition.put("searchId", searchId);
-    }
+    }*/
 
     /*public List<JSONObject> searchSimilarCompositions(JSONObject composition, int pageNum)
     {
