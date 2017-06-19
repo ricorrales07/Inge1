@@ -250,25 +250,28 @@ public class AppResourcesMethods {
                 builder.status(404);
                 return builder.build();
             }
+
         }catch (Exception e){
             System.err.println("Failed to save image in server");
             builder = Response.ok("Failed to save image in server");
             builder.status(404);
             return builder.build();
         }
+
     }
 
     @POST
     @Path("/saveAttributes")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveAttributes(String receivedContent){
-        ResponseBuilder builder;
+        ResponseBuilder builder = Response.ok("Failed to save image in server");;
         try {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
             JSONObject a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
+            JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
             a.put("SourceFront", "assets/images/PieceA" + pieceCounter + ".png");
             a.put("SourceSide", "assets/images/PieceB" + pieceCounter + ".png");
-            a.put("_id", pieceCounter);
+            a.put("_id", id.get("userID").toString() + "C" + pieceCounter);
             receivedJSON.put("piece", a);
             receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
             System.out.println(receivedContent);
@@ -282,6 +285,7 @@ public class AppResourcesMethods {
             PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Piece" + pieceCounter + ".json");
             writer.print(receivedContent);
             writer.close();
+            builder = queryDB("insert", "piece", receivedContent);
         }catch(Exception e){
 
         }
@@ -292,13 +296,14 @@ public class AppResourcesMethods {
                 PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
                 writer.print(""+pieceCounter);
                 writer.close();
+
             }catch(Exception e){
 
             }
         }else{
             this.saved = true;
+
         }
-        builder = queryDB("insert", "piece", receivedContent);
         return builder.build();
     }
 
@@ -312,7 +317,8 @@ public class AppResourcesMethods {
         try {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
             JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
-            data.put("_id", pieceCounter);
+            JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
+            data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
             receivedJSON.put("composition", data);
             receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
             System.out.println(receivedContent);
