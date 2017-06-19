@@ -119,8 +119,8 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
 	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	/*surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	surfaceS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));*/
+	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));*/
+	surfaceS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 
  	updateView($("#changeView select"));
 
@@ -295,7 +295,7 @@ function updateView(select){
 
 function saveCreation(){
     var imageFront = surfaceF.getCacheDataURL();
-    var imageSide =  surfaceB.getCacheDataURL();
+    var imageSide =  surfaceS.getCacheDataURL();
 
     $.ajax({
         url: "/methods/saveCreatedImageFile",
