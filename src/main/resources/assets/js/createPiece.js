@@ -117,9 +117,9 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
  	createjs.Touch.enable(stage, false, allowDefault=true);
  	//stage.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	/*surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
-	surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));*/
+	//surfaceRS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	//surfaceB.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
+	//surfaceLS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));*/
 	surfaceS.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 
  	updateView($("#changeView select"));
