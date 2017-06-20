@@ -14,6 +14,32 @@
 </head>
 <body onload="init();">
     <div id="fb-root"></div>
+
+    <!-- Menu to load an image on the canvas from the server -->
+    <div class = "modal fade" id = "openModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
+        <div class = "modal-dialog">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                        &times;
+                    </button>
+                    <h4 class = "modal-title" id = "myModalLabel">
+                        Saved images
+                    </h4>
+                </div>
+                <div class = "modal-body">
+                    Please select one of the following images:
+                    <div id="images"></div>
+                </div>
+                <div class = "modal-footer">
+                    <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                        Close
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+   </div><!-- /.modal -->
+
     <div class = "container">
 
         <nav class="navbar navbar-inverse">
@@ -43,7 +69,7 @@
                 <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="guidelines();">Guidelines</button>
                 <button id="loadCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="loadComposition();">Load saved composition (test)</button>
                 <button id="saveCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="saveCompositionImage();saveCompositionData();">Save composition (test)</button>
-                <button id="proxyButton" class="btn btn-basic navbar-btn navbar-right" onclick="addSinglePartToCanvas();">Add piece (test)</button>
+                <button id="btn" class="btn btn-basic navbar-btn navbar-right" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
             </div>
         </nav>
 
@@ -79,6 +105,7 @@
 <script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 <script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
 <script src="assets/js/homepage.js" defer></script>
+<script src="assets/js/getSampleString.js" defer></script>
 <script src="assets/js/login.js" ></script>
 <script src="assets/js/js.cookie.js" ></script>
 

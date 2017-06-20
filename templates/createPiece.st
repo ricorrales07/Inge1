@@ -75,7 +75,6 @@
             </div><!-- /.modal-dialog -->
        </div><!-- /.modal -->
 
-
         <!-- Menu to load an image on the canvas locally -->
         <div class = "modal fade" id = "openLocal" tabindex = "-1" role = "dialog"
            aria-labelledby = "myModalLabel" aria-hidden = "true">

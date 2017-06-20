@@ -5,7 +5,7 @@ and the data obtained with it (string) will be loaded in a
 tag with the id "images".
 */
 $("#btn").click(function() {
-    $("a").each(function(){
+    $("modalImage").each(function(){
     	$(this).remove();
 	});
 	console.log("btn clicked");

@@ -98,7 +98,7 @@ evt: keypressed event that generated the call
 
 returns: void
 */
-function manageKey(evt)
+/*function manageKey(evt)
 {
     var key = evt.which || evt.keyCode || evt.charCode; //alguna de todas va a servir
     console.log(evt.which, evt.keyCode, evt.CharCode, key);
@@ -106,10 +106,10 @@ function manageKey(evt)
     {
         addSinglePartToCanvas();
     }
-}
+}*/
 
-function addSinglePartToCanvas(){
-    var partData = ["assets/images/odo-head2.png",
+function addImageToCanvas(img){
+    var partData = [img.src,
                     "assets/images/odo-zyg-head2.png",
                     Math.floor(Math.random() * document.getElementById("areaDeDibujo").width),
                     Math.floor(Math.random() * document.getElementById("areaDeDibujo").height),
@@ -393,7 +393,7 @@ function init()
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", handleTick);
 
-    window.onkeypress = manageKey;
+    //window.onkeypress = manageKey;
 }
 
 /*
