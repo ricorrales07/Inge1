@@ -2,8 +2,10 @@ package com.morpho.server;
 
 import com.mongodb.DBCursor;
 import com.mongodb.client.FindIterable;
+import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.bson.Document;
 
 //import be.tarsos.lsh.Index;
@@ -87,47 +89,71 @@ public class SearchEngine {
         return code;
     }
 
-    public void addSearchIdToPart(JSONObject part)
+    public String addSearchIdToPart(String pieceJson)
     {
-        digester.update(part.toJSONString().getBytes());
+        digester.update(pieceJson.getBytes());
         byte[] hashValue = digester.digest();
 
-        part.put("searchId", hashValue);
+        Document piece = Document.parse(pieceJson);
+        piece.put("searchId", hashValue);
+        return piece.toJson();
     }
 
-    /*public void addSearchIdToComposition(JSONObject composition)
+    public String addSearchIdToComposition(String compositionJson)
     {
+        Document composition = Document.parse(compositionJson);
+
         List<Integer> searchId = new ArrayList<Integer>();
         for (Object part : composition.values())
         {
-            searchId.add(((JSONObject)part).getInt("searchId"));
+            searchId.add(((Document)part).getInteger("searchId")); //no estoy seguro de esto
         }
 
         Collections.sort(searchId);
 
         composition.put("searchId", searchId);
-    }*/
 
-    /*public List<JSONObject> searchSimilarCompositions(JSONObject composition, int pageNum)
+        return composition.toJson();
+    }
+
+    public List<Document> searchSimilarCompositions(Document composition, int pageNum)
     {
-        List<JSONObject> results = new List<JSONObject>();
+        List<Document> results = new ArrayList<Document>();
 
-        addSearchIdToComposition(composition);
+        composition = Document.parse(addSearchIdToComposition(composition.toJson()));
 
-        DBCursor partialResults;
-        JSONArray searchCriteria = composition.getJsonArray("searchId");
+        FindIterable<Document> partialResults;
+
+        ArrayList<Integer> searchCriteria = (ArrayList<Integer>) composition.get("searchId");
+
         int closeness = searchCriteria.size();
+
+        int skip = pageNum * 10;
+
         do {
-            partialResults = MorphoApplication.DBA.search("composition",
-                    "{{searchId : {$slice : " + closeness + "}} : " + searchCriteria.toJsonString() + "}");
-            int i = 0;
-            while (i < 10 && partialResults.hasNext())
-            {
-                results.add(partialResults.next());
-                i++;
+            try {
+                partialResults = MorphoApplication.DBA.search("composition",
+                        "{{searchId : {$slice : " + closeness + "}} : "
+                                + searchCriteria.toString() + "}");
+
+                for (Document result : partialResults)
+                {
+                    if (--skip <= 0) {
+                        results.add(result);
+                        if (results.size() >= 10)
+                            break;
+                    }
+                }
             }
+            catch (Exception e)
+            {
+                //log
+            }
+
             closeness--;
-            searchCriteria = searchCriteria.subList(0, closeness);
-        } while (results.size() < 10 && closeness >= 0)
-    }*/
+            searchCriteria = (ArrayList<Integer>) searchCriteria.subList(0, closeness);
+        } while (results.size() < 10 && closeness >= 0);
+
+        return results;
+    }
 }
