@@ -89,7 +89,7 @@ public class SearchEngine {
         return code;
     }
 
-    public String addSearchIdToPart(String pieceJson)
+    public String addSearchIdToPiece(String pieceJson)
     {
         digester.update(pieceJson.getBytes());
         byte[] hashValue = digester.digest();
