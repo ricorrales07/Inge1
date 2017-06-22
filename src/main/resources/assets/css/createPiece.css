@@ -3,7 +3,14 @@ body{
 	
 }
 
-img{
+.swipe{
+    overflow:auto;
+    white-space:nowrap;
+}
+
+
+
+/*img{
     position: relative;
     float: left;
     width: 27%;
@@ -12,7 +19,7 @@ img{
     margin: 10px;
     background-position: 70% 30%;
     background-size:     cover;
-}
+}*/
 
 
 .modal{

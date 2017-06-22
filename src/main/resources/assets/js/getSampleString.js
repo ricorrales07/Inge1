@@ -5,7 +5,8 @@ and the data obtained with it (string) will be loaded in a
 tag with the id "images".
 */
 $("#btn").click(function() {
-    $("modalImage").each(function(){
+
+    $("a").each(function(){
     	$(this).remove();
 	});
 	console.log("btn clicked");
@@ -19,4 +20,31 @@ $("#btn").click(function() {
 			console.log(errorThrown);
 		}
 	});
+
 });
+
+/*$(document).ready(function(){
+    $('.funSlick').slick({
+        dots: false,
+        infinite: true,
+        speed: 700,
+        autoplay: false,
+        arrows: true,
+        slidesToShow: 2,
+        slidesToScroll: 1
+     });
+ });*/
+
+
+/*
+$('.funSlick').slick({
+      dots: false,
+    	prevArrow: $('.prev'),
+    	nextArrow: $('.next'),
+      infinite: true,
+      speed: 300,
+      slidesToShow: 4,
+      slidesToScroll: 4
+      });
+      */
+

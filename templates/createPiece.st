@@ -9,10 +9,11 @@
 	    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
-	    <script src="assets/jquery/jquery-3.2.1.js"></script>
-        <script src="assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+	    <link rel="stylesheet" type="text/css" href="assets/slick/slick.css"/>
 	</head>
 	<body >
+	    <script type="text/javascript" src="assets/jquery/jquery-3.2.1.min.js"></script>
+	    <script type="text/javascript" src="assets/jquery/jquery-migrate-1.2.1.min.js"></script>
     	<div id="fb-root"></div>
 
         <!-- Menu to choose how to load an image to the canvas (from server or locally) -->
@@ -32,7 +33,7 @@
                     Please select how you want to add an image:
                  </div>
                  <div class = "modal-footer">
-                    <button id="btn" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">
+                    <button id="btn" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs()" data-target = "#openModal" data-dismiss="modal">
                          Open saved images
                     </button>
                     <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openLocal" data-dismiss="modal">
@@ -58,22 +59,33 @@
                            <h4 class = "modal-title" id = "myModalLabel">
                               Saved images
                            </h4>
-                        </div>
-                        <div class = "modal-body">
                            Please select one of the following images:
+                        </div>
+                        <div class = "modal-body funSlick" align="center">
                            <div id="images"></div>
                         </div>
                         <div class = "modal-footer">
-                            <button class="btn btn-default pull-left" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
+                        <!--
+                        <div class="prev">
+                             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </div>
+                        <div class="next">
+                             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </div>
+                        -->
+                        <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
+                        <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
+                            <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
                                 Return
                              </button>
-                           <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                           <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
                                Close
                            </button>
                         </div>
                   </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
        </div><!-- /.modal -->
+
 
         <!-- Menu to load an image on the canvas locally -->
         <div class = "modal fade" id = "openLocal" tabindex = "-1" role = "dialog"
@@ -116,14 +128,14 @@
 			<div class="col-md-4 ">
 				<div id="changeView">
 						<label>View: </label>
-						<select class="viewInfo" onchange="updateView(this)"> 
+						<select class="viewInfo" onchange="updateView(this)">
 						  <option value="canvasFront" selected>Front</option> <!--Spacing out in a nook and cranny-->
 						  <option value="canvasSide" >Side</option> <!--It's oficially uncanny-->
 						  <!--option value="canvasRightSide" >Right Side</option> <!--It's a fish in the sea of granite-->
 						  <!--option value="canvasBack">Back</option>
 						  <option value="canvasLeftSide">Left Side</option-->
 
-						</select>	
+						</select>
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -208,7 +220,7 @@
 					<div class="" id="editor" onload="init();"">
 						<canvas id="canvasBackGround"></canvas>
 						<canvas id="leCanvas" ></canvas>
-						
+
 					</div>
 				</div>
 				<!-- END FOUR DIFFERENT VIEWS -->
@@ -241,11 +253,11 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="search" class="att-input form-control attribute-name" 
+										<input type="search" class="att-input form-control attribute-name"
 											placeholder="Property name"/>
 									</div>
 								</div>
-								
+
 								<div class="row">
 									<div class=" col-md-3 ">
 										<label >Value: </label>
@@ -264,8 +276,38 @@
 		</div>
 	</div>
 
+    <script type="text/javascript" src="assets/slick/slick.min.js"></script>
+    <script>
+        var slideIndex = 1;
+
+        function waitImgs() {
+          setTimeout("plusDivs(0)", 200);
+        }
+
+        function plusDivs(n) {
+          showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+          var i;
+          var x = document.getElementsByClassName("img-thumbnail");
+          if (n > x.length) {slideIndex = 1}
+          if (n < 1) {slideIndex = x.length}
+          for (i = 0; i < x.length; i++) {
+             x[i].style.display = "none";
+          }
+          x[slideIndex-1].style.display = "inline";
+          x[slideIndex].style.display = "inline";
+          x[slideIndex+1].style.display = "inline";
+          x[slideIndex+2].style.display = "inline";
+          x[slideIndex+3].style.display = "inline";
+          x[slideIndex+4].style.display = "inline";
+        }
+        </script>
+
 	</body>
-	<script src="assets/jquery/jquery-3.2.1.js"></script>
+
+	<!-- <script src="assets/jquery/jquery-3.2.1.js"></script> -->
 	<script src="assets/jquery/jquery-ui.js"></script>
 	<script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 	<script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
