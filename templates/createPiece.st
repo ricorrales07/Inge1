@@ -63,7 +63,9 @@
                         </div>
                         <div class = "modal-body funSlick" align="center">
                            <div id="images"></div>
-                        </div>
+                           <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
+                           <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
+                        </div><br>
                         <div class = "modal-footer">
                         <!--
                         <div class="prev">
@@ -73,8 +75,6 @@
                              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                         </div>
                         -->
-                        <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
-                        <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
                             <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
                                 Return
                              </button>
