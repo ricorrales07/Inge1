@@ -53,6 +53,11 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
+
+                    <!--li><a href="#">Piece catalog</a></li-->
+                    <!--li><a href="#">Search similar compositions</a></li-->
+                    <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
+
                     <li class = "dropdown">
                         <a href = "#" class = "dropdown-toggle" data-toggle = "dropdown">
                            Login
@@ -65,9 +70,6 @@
                                data-auto-logout-link="true" data-use-continue-as="false"></li>
                         </ul>
                      </li>
-                    <li><a href="#">Piece catalog</a></li>
-                    <li><a href="#">Search similar compositions</a></li>
-                    <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
                 </ul>
                 </div>
         </nav>
@@ -75,6 +77,21 @@
         </div>
 
         <div class = "row">
+
+          <div class = "col-lg-2 col-md-2 col-sm-2 h-100" id = "sideBar">
+            <div class = "h-100 btn-toolbar" role="toolbar">
+              <div class = "btn-group-vertical">
+                <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
+                <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Guidelines</button>
+                <button id="addPieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
+              </div>
+              <div class = "btn-group-vertical align-bottom">
+                <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
+                <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveCompositionImage();saveCompositionData();">Save composition</button>
+                <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="trySearch();">Search</button>
+              </div>
+            </div>
+          </div>
 
             <div class = "col-lg-10 col-md-10 col-sm-10">
 
@@ -84,20 +101,7 @@
             </div>
 
 
-            <div class = "col-lg-2 col-md-2 col-sm-2 h-100" id = "sideBar">
-              <div class = "h-100 btn-toolbar" role="toolbar">
-                <div class = "btn-group-vertical">
-                  <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
-                  <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Guidelines</button>
-                  <button id="addPieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
-                </div>
-                <div class = "btn-group-vertical align-bottom">
-                  <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
-                  <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveCompositionImage();saveCompositionData();">Save composition</button>
-                  <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="trySearch();">Search</button>
-                </div>
-              </div>
-            </div>
+
 
             <!--div class = "col-md-1">
 
