@@ -15,6 +15,8 @@ var grapher = new createjs.Shape();
 //this structure helps us keep track of transformations performed by the user on the pieces
 var lastTouchPos = [[-1,-1],[-1,-1]];
 
+var savedImg = ""; //NOT FINAL
+
 /*
 selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
@@ -449,7 +451,9 @@ function saveCompositionImage(){
         data: "Composition," + comp.toDataURL(),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
-            console.log("image saved in server directory")},
+            console.log("image saved in server directory: " + data);
+            savedImg = data;
+          },
         error:function(jqXHR, textStatus, errorThrown ){
             console.log(errorThrown);
         }
@@ -484,7 +488,7 @@ function saveCompositionData(){
                 userID: Cookies.get("userID"),
                 accessToken: Cookies.get("accessToken")
             },
-            composition: {pieces}
+            composition: {pieces, imgSource: savedImg}
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
@@ -554,7 +558,15 @@ function trySearch(){
             }),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
-                console.log("Search results: " + data)},
+                console.log("Search results: " + data);
+                results = JSON.parse(data);
+                var html = "";
+                for (var x in results)
+                {
+                  html += "<a data-dismiss=\"modal\"> <img src=\"" + x.imgSource + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" /> </a>";
+                }
+                $('#resultImages').append(html);
+              },
             error:function(jqXHR, textStatus, errorThrown ){
                 console.log(errorThrown);
             }
@@ -567,7 +579,7 @@ $("#addPieceButton").click(function() {
 	});
 	console.log("addPieceButton clicked");
     $.ajax({
-		url: "/methods/getImages",
+		url: "/methods/getPiecesInDB",
 		type: 'GET',
 		success:function(data, textStatus, jqXHR){
 		    console.log(data);
@@ -578,4 +590,12 @@ $("#addPieceButton").click(function() {
 			console.log(errorThrown);
 		}
 	});
+});
+
+$("#searchButton").click(function() {
+    $("modalImage").each(function(){
+    	$(this).remove();
+	});
+	console.log("searchButton clicked");
+  trySearch();
 });

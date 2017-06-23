@@ -41,6 +41,30 @@
         </div><!-- /.modal-dialog -->
    </div><!-- /.modal -->
 
+   <div class = "modal fade" id = "resultsModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
+       <div class = "modal-dialog">
+           <div class = "modal-content">
+               <div class = "modal-header">
+                   <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                       &times;
+                   </button>
+                   <h4 class = "modal-title" id = "myModalLabel">
+                       Search results
+                   </h4>
+               </div>
+               <div class = "modal-body">
+                   Here are your search results:
+                   <div id="resultImages"></div>
+               </div>
+               <div class = "modal-footer">
+                   <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                       Close
+                   </button>
+               </div>
+           </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
    <div class = "modal fade" id = "loginModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
        <div class = "modal-dialog">
            <div class = "modal-content">
@@ -99,7 +123,7 @@
               <div class = "btn-group-vertical align-bottom">
                 <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
                 <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveCompositionImage();saveCompositionData();">Save composition</button>
-                <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="trySearch();">Search</button>
+                <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#resultsModal" data-dismiss="modal">Search</button>
               </div>
             </div>
           </div>

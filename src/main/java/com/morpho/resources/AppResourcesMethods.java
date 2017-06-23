@@ -209,6 +209,7 @@ public class AppResourcesMethods {
         try {
             URLDecoder.decode(receivedContent, "UTF8");
             String[] data = receivedContent.split(",");
+            String imgSource = "";
 
             try {
                 if(data[0].equals("Piece")) {
@@ -218,13 +219,17 @@ public class AppResourcesMethods {
                     InputStream bitB = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageDataB));
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceA" + pieceCounter + ".png"));
                     ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceB" + pieceCounter + ".png"));
+                    builder = Response.ok("Image saved");
                 }else{
                     String imageData = data[2];
                     InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
+                    imgSource = ".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png";
+                    builder = Response.ok("Image saved");
+                    builder.entity(imgSource);
                 }
 
-                builder = Response.ok("Image saved");
+                //builder = Response.ok("Image saved");
                 builder.status(200);
 
                 if(this.saved){
@@ -251,6 +256,7 @@ public class AppResourcesMethods {
                 }else{
                     this.saved = true;
                 }
+
 
                 return builder.build();
             } catch (Exception e) {
