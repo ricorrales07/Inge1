@@ -1,23 +1,27 @@
 package com.morpho.server;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.DBCursor;
 import com.mongodb.client.FindIterable;
 import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
+import org.bson.BsonArray;
+import org.bson.BsonString;
+import org.bson.BsonValue;
+import org.bson.conversions.Bson;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.bson.Document;
+import sun.security.ssl.Debug;
 
 //import be.tarsos.lsh.Index;
 //import be.tarsos.lsh;
 
-import java.util.Collections;
+import javax.print.Doc;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by irvin on 29/4/2017.
@@ -29,6 +33,7 @@ public class SearchEngine {
     Map<String, Integer> propertiesKeys;
 
     MessageDigest digester;
+    Debug debugger;
 
     public SearchEngine(){
         /*********Irvin***********/
@@ -89,57 +94,109 @@ public class SearchEngine {
         return code;
     }
 
-    public String addSearchIdToPiece(String pieceJson)
+    public String addSearchIdToPiece(String data)
     {
-        digester.update(pieceJson.getBytes());
+        Document dataD = Document.parse(data);
+        Document piece = (Document)dataD.get("piece");
+
+        digester.update(piece.toJson().getBytes());
         byte[] hashValue = digester.digest();
 
-        Document piece = Document.parse(pieceJson);
-        piece.put("searchId", hashValue);
-        return piece.toJson();
+        //Document piece = Document.parse(pieceJson);
+        piece.put("searchId", new String(hashValue));
+        dataD.put("piece", piece);
+
+        return dataD.toJson();
     }
 
-    public String addSearchIdToComposition(String compositionJson)
+    public String addSearchIdToComposition(String data)
     {
-        Document composition = Document.parse(compositionJson);
+        Document dataD = Document.parse(data);
+        Document composition = (Document) dataD.get("composition");
+        ArrayList<Document> pieces = (ArrayList<Document>) composition.get("pieces");
 
-        List<Integer> searchId = new ArrayList<Integer>();
-        for (Object part : composition.values())
+        BsonArray searchId = new BsonArray();
+        ArrayList<BsonString> preSearchId = new ArrayList<BsonString>();
+        for (Document part : pieces)
         {
-            searchId.add(((Document)part).getInteger("searchId")); //no estoy seguro de esto
+            String id = part.getString("_id");
+            try {
+                Document p = Document.parse(MorphoApplication.DBA.find("piece", "{_id: \"" + id + "\"}"));
+                System.out.println("piece searchId: " + p.getString("searchId"));
+                preSearchId.add(new BsonString(p.getString("searchId")));
+            }
+            catch(Exception e)
+            {
+                //TODO: log
+            }
         }
 
-        Collections.sort(searchId);
+        Collections.sort(preSearchId);
+
+        for (int i = 0; i < preSearchId.size(); i++)
+        {
+            BsonArray sublist = new BsonArray();
+            sublist.addAll(preSearchId.subList(0, i+1));
+            searchId.add(sublist);
+        }
+
+        System.out.println("composition searchId: " + searchId.toString());
 
         composition.put("searchId", searchId);
+        dataD.put("composition", composition);
 
-        return composition.toJson();
+        return dataD.toJson();
     }
 
-    public List<Document> searchSimilarCompositions(Document composition, int pageNum)
+    public ArrayList<String> searchSimilarCompositions(String data, int pageNum)
     {
-        List<Document> results = new ArrayList<Document>();
+        ArrayList<String> results = new ArrayList<String>();
 
-        composition = Document.parse(addSearchIdToComposition(composition.toJson()));
+        //Document composition = (Document) Document.parse(addSearchIdToComposition(data)).get("composition");
+        Document composition = (Document) Document.parse(data).get("composition");
+
+        System.out.println("composition: " + composition.toJson());
 
         FindIterable<Document> partialResults;
 
-        ArrayList<Integer> searchCriteria = (ArrayList<Integer>) composition.get("searchId");
+        ArrayList<ArrayList<String>> searchCriteria =
+                (ArrayList<ArrayList<String>>) composition.get("searchId"); //THIS API'S DOCS SUCK!!
 
-        int closeness = searchCriteria.size();
+        /*System.out.println("" + preSearchCriteria);
 
-        int skip = pageNum * 10;
+        ArrayList<String> searchCriteria = preSearchCriteria.get(preSearchCriteria.size()-1);
+
+        for (Object id : searchCriteria)
+            System.out.println("Criterium: " + id);*/
+
+        int closeness = searchCriteria.size()-1;
+
+        int skip = (pageNum-1) * 10;
 
         do {
+            System.out.println("Searching...");
             try {
+                System.out.println("closeness: " + closeness);
+
+
+                ArrayList<String> filter = searchCriteria.get(closeness);
+                String temp = "[";
+                for (String x : filter)
+                    temp += "\"" + x + "\", ";
+                if (temp.length() > 1)
+                    temp = temp.substring(0, temp.length()-2);
+                temp += "]";
+
+                System.out.println("Search filter: {\"searchId." + closeness + "\" : "
+                        + temp + "}");
+
                 partialResults = MorphoApplication.DBA.search("composition",
-                        "{{searchId : {$slice : " + closeness + "}} : "
-                                + searchCriteria.toString() + "}");
+                        "{searchId" + closeness + " : " + temp + "}");
 
                 for (Document result : partialResults)
                 {
                     if (--skip <= 0) {
-                        results.add(result);
+                        results.add(result.toJson());
                         if (results.size() >= 10)
                             break;
                     }
@@ -148,10 +205,12 @@ public class SearchEngine {
             catch (Exception e)
             {
                 //log
+                System.out.println(e.getMessage());
             }
 
             closeness--;
-            searchCriteria = (ArrayList<Integer>) searchCriteria.subList(0, closeness);
+            if (closeness >= 0)
+                searchCriteria.remove(closeness);
         } while (results.size() < 10 && closeness >= 0);
 
         return results;

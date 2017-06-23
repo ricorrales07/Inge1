@@ -2,7 +2,7 @@
 var stage = new createjs.Stage("areaDeDibujo");
 //these two variables are used to make up for the user not pressing images in the exact center
 var diffX, diffY;
-//these variable indicates the current view of the insect
+//this variable indicates the current view of the insect
 var view = "front";
 //this are the guidelines (it's an image)
 var lineasDeGuia = new createjs.Bitmap("assets/images/cuadricula.png");
@@ -16,7 +16,7 @@ var grapher = new createjs.Shape();
 var lastTouchPos = [[-1,-1],[-1,-1]];
 
 /*
-selectPart: this function in called when a part is tapped or
+selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
             selected sprite, updates the "selected" variable
             and it sets the pieceEditorLink in a ready state
@@ -108,12 +108,13 @@ returns: void
     }
 }*/
 
-function addImageToCanvas(img){
+function addImageToCanvas(img, id){
     var partData = [img.src,
                     "assets/images/odo-zyg-head2.png",
-                    Math.floor(Math.random() * document.getElementById("areaDeDibujo").width),
-                    Math.floor(Math.random() * document.getElementById("areaDeDibujo").height),
-                    2,2,0];
+                    //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
+                    Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)),0),
+                    Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)),0),
+                    2,2,0,id];
     addPart(partData);
 }
 
@@ -156,7 +157,8 @@ function addPart(partData) //proxy
 
   stage.addChild(partSprite);
 
-  composicionActual.partIds.push(partSprite.name);
+  composicionActual.partIds.push(partData[7]);
+  console.log("Added image with ID: " + partData[7]);
   composicionActual.partsList.push(partSprite);
   composicionActual.matrices[0].push(partSprite.getMatrix());
   composicionActual.matrices[1].push(partSprite.getMatrix());
@@ -179,7 +181,7 @@ function addListeners(item)
 }
 
 /*
-handlePressUp: called when the user stops dragging or scaling an elmeent.
+handlePressUp: called when the user stops dragging or scaling an element.
                It resets the lastTouchPos to it's original negative value.
 
 evt: the pressup even that generated it.
@@ -238,10 +240,10 @@ function adjustCoordinateX(coord)
 }
 
 /*
-adjustCoordinateY: converts an Y page coordinate into the local canvas
+adjustCoordinateY: converts a Y page coordinate into the local canvas
                    coordinate system.
 
-coord: integer representing an Y coordinate in the page coordinate system.
+coord: integer representing a Y coordinate in the page coordinate system.
 
 returns: the equivalent coordinate in the canvas coordinate system.
 */
@@ -449,21 +451,23 @@ function saveCompositionImage(){
 function saveCompositionData(){
     console.log("Test");
     var data = [];
-    var pieces = "{\n";
-    for(i = 0; i < composicionActual.partsList.length; i++){
-        pieces += "\"piece" + i + "\": {\n ";
-        pieces += "\"PositionX\": \"" + composicionActual.partsList[i].x + "\", ";
-        pieces += "\"PositionY\": \"" + composicionActual.partsList[i].y + "\", ";
-        pieces += "\"ScaleX\": \"" + composicionActual.partsList[i].scaleX + "\", ";
-        pieces += "\"ScaleY\": \"" + composicionActual.partsList[i].scaleY + "\", ";
-        pieces += "\"Rotation\": \"" + composicionActual.partsList[i].rotation + "\", ";
-        pieces += "\"Source1\": \"" + (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21) + "\", ";
-        pieces += "\"Source2\": \"" + (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21) + "\"\n}";
-        if(i < composicionActual.partsList.length - 1){
-            pieces += ",\n";
-        }
+    pieces = [];
+    for (var i = 0; i < composicionActual.partsList.length; i++){
+        pieces.push(
+            {_id: composicionActual.partIds[i],
+            positionX: composicionActual.partsList[i].x,
+            positionY: composicionActual.partsList[i].y,
+            ScaleX: composicionActual.partsList[i].scaleX,
+            ScaleY: composicionActual.partsList[i].scaleY,
+            Rotation: composicionActual.partsList[i].rotation,
+            Source1: (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21),
+            Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21)
+            }
+        );
     }
-    pieces += "\n}";
+
+    console.log(pieces);
+
     $.ajax({
         url: "/methods/saveCompositionData",
         type: 'POST',
@@ -472,7 +476,7 @@ function saveCompositionData(){
                 userID: Cookies.get("userID"),
                 accessToken: Cookies.get("accessToken")
             },
-            composition: JSON.parse(pieces)
+            composition: {pieces}
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
@@ -508,3 +512,62 @@ function loadComposition(){
         }
     });*/
 }
+
+//dummy to try out search function
+function trySearch(){
+    console.log("trying search");
+    var data = [];
+    pieces = [];
+        for (var i = 0; i < composicionActual.partsList.length; i++){
+            pieces.push(
+                {_id: composicionActual.partIds[i],
+                positionX: composicionActual.partsList[i].x,
+                positionY: composicionActual.partsList[i].y,
+                ScaleX: composicionActual.partsList[i].scaleX,
+                ScaleY: composicionActual.partsList[i].scaleY,
+                Rotation: composicionActual.partsList[i].rotation,
+                Source1: (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21),
+                Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21)
+                }
+            );
+        }
+
+    console.log(pieces);
+
+    $.ajax({
+            url: "/methods/trySearch",
+            type: 'POST',
+            data: JSON.stringify({
+                auth: {
+                    userID: Cookies.get("userID"),
+                    accessToken: Cookies.get("accessToken")
+                },
+                composition: {pieces}
+            }),
+            contentType: "text/plain",
+            success:function(data, textStatus, jqXHR){
+                console.log("Search results: " + data)},
+            error:function(jqXHR, textStatus, errorThrown ){
+                console.log(errorThrown);
+            }
+        });
+}
+
+$("#addPieceButton").click(function() {
+    $("modalImage").each(function(){
+    	$(this).remove();
+	});
+	console.log("addPieceButton clicked");
+    $.ajax({
+		url: "/methods/getPiecesInDB",
+		type: 'GET',
+		success:function(data, textStatus, jqXHR){
+		    console.log(data);
+		    console.log("getPiecesInDB was successful");
+			$('#images').append(data);
+		},
+		error:function(jqXHR, textStatus, errorThrown ){
+			console.log(errorThrown);
+		}
+	});
+});

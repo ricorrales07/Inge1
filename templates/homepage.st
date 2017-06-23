@@ -69,7 +69,8 @@
                 <button id="guidelinesButton" class="btn btn-basic navbar-btn navbar-right" onclick="guidelines();">Guidelines</button>
                 <button id="loadCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="loadComposition();">Load saved composition (test)</button>
                 <button id="saveCompositionButton" class="btn btn-basic navbar-btn navbar-right" onclick="saveCompositionImage();saveCompositionData();">Save composition (test)</button>
-                <button id="btn" class="btn btn-basic navbar-btn navbar-right" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
+                <button id="addPieceButton" class="btn btn-basic navbar-btn navbar-right" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
+                <button id="searchButton" class="btn btn-basic navbar-btn navbar-right" onclick="trySearch();">Search</button>
             </div>
         </nav>
 
@@ -105,7 +106,6 @@
 <script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 <script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
 <script src="assets/js/homepage.js" defer></script>
-<script src="assets/js/getSampleString.js" defer></script>
 <script src="assets/js/login.js" ></script>
 <script src="assets/js/js.cookie.js" ></script>
 

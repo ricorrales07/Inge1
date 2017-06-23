@@ -1,14 +1,17 @@
 package com.morpho.resources;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
 import com.morpho.entities.Authentication;
 import com.morpho.views.ViewCreator;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.imageio.ImageIO;
+import javax.swing.text.Document;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.*;
@@ -23,6 +26,8 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by irvin on 29/4/2017.
@@ -74,6 +79,41 @@ public class AppResourcesMethods {
                 html = html + "<modalImage data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
             }
         }
+        builder = Response.ok("Got images");
+        builder.entity(html);
+        builder.status(200);
+        return builder.build();
+    }
+
+    //TODO: cambiar este método para que tire pocos resultados (de 10 en 10 o así)
+    @GET
+    @Path("getPiecesInDB")
+    public Response getPiecesInDB() {
+        ResponseBuilder builder;
+        File directory = new File(".\\src\\main\\resources\\assets\\images");
+        String html= "";
+        FindIterable<org.bson.Document> imgJsons;
+        try
+        {
+            imgJsons = MorphoApplication.DBA.search("piece", "{}");
+
+            //TODO: sacar esto de acá, solo debería ir la línea anterior
+            for (org.bson.Document json : imgJsons)
+            {
+                html += "<modalImage data-dismiss=\"modal\"> <img src=\""
+                    + json.getString("SourceFront")
+                    + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("_id") + "')\" /> </a>";
+            }
+        }
+        catch (Exception e) //DANGER
+        {
+            //TODO: log
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            //builder.status(200);
+            return builder.build();
+        }
+
         builder = Response.ok("Got images");
         builder.entity(html);
         builder.status(200);
@@ -281,6 +321,8 @@ public class AppResourcesMethods {
 
         //ResponseBuilder builder = queryDB("insert", "composition", receivedContent);
 
+        receivedContent = MorphoApplication.searcher.addSearchIdToPiece(receivedContent);
+
         try {
             PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Piece" + pieceCounter + ".json");
             writer.print(receivedContent);
@@ -348,7 +390,52 @@ public class AppResourcesMethods {
         }else{
             this.saved = true;
         }
+        receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
         builder = queryDB("insert", "composition", receivedContent);
+        return builder.build();
+    }
+
+    @POST
+    @Path("trySearch")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response trySearch(String receivedContent) {
+        System.out.println(receivedContent);
+        try {
+            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
+            JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
+            data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
+            receivedJSON.put("composition", data);
+            //receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
+            System.out.println(receivedContent);
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
+        receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
+
+
+        ArrayList<String> results =
+                MorphoApplication.searcher.searchSimilarCompositions(receivedContent, 1);
+
+        ResponseBuilder builder = Response.ok();
+
+        String jsons = "[";
+
+        for (String j : results) {
+            System.out.println("Result: " + j);
+            jsons += j + ", ";
+        }
+
+        System.out.println("Found " + results.size() + " results.");
+
+        if (jsons.length() > 1)
+            jsons = jsons.substring(0, jsons.length() - 1);
+        jsons += "]";
+
+        System.out.println("Search results: " + jsons);
+
+        builder.entity(jsons);
+        builder.status(200);
         return builder.build();
     }
 }

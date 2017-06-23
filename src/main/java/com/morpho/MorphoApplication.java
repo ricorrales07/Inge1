@@ -5,6 +5,7 @@ import com.morpho.resources.AppResourcesMethods;
 import com.morpho.resources.AppResourcesPages;
 import com.morpho.server.DBAdministrator;
 import com.morpho.health.MongoHealthCheck;
+import com.morpho.server.SearchEngine;
 import io.dropwizard.assets.AssetsBundle;
 
 import io.dropwizard.setup.Bootstrap;
@@ -20,6 +21,7 @@ import com.mongodb.MongoClient;
 public class MorphoApplication extends Application<MorphoConfiguration>{
     public static DBAdministrator DBA;
     public static Authenticator Auth;
+    public static SearchEngine searcher;
 
     public static void main(String[] args) throws Exception {
         new MorphoApplication().run(args);
@@ -58,6 +60,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
 
         DBA = new DBAdministrator(mongoClient);
         Auth = new Authenticator();
+        searcher = new SearchEngine();
 
         environment.healthChecks().register("MongoDBHealthCheck", mongoHealthCheck);
         environment.jersey().register(resourcesPages);

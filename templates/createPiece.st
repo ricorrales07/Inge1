@@ -271,7 +271,7 @@
 	<script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
 	<script src="assets/js/createPiece.js"></script>
 	<script src="assets/js/createPieceAttributes.js"></script>
-	<script src="assets/js/getSampleString.js"></script>
+	<script src="assets/js/getSampleString.js"></script> <!-- WTF!! -->
 	<script src="assets/js/js.cookie.js"></script>
 	<script src="assets/js/login.js"></script>
 
