@@ -7,12 +7,13 @@ and the data obtained with it (string) will be loaded in a
 tag with the id "images".
 */
 $("#btn").click(function() { //NOMBRES SIGNIFICATIVOS?!?!
-    $("modalImage").each(function(){
+
+    $("a").each(function(){
     	$(this).remove();
 	});
 	console.log("btn clicked");
     $.ajax({
-		url: "/methods/getImages", //getImages hay que desmenuzarlo. Â¿CuÃ¡les imÃ¡genes?
+		url: "/methods/getImages", //getImages hay que desmenuzarlo. ¿Cuáles imágenes?
 		type: 'GET',
 		success:function(data, textStatus, jqXHR){
 			$('#images').append(data)
@@ -21,4 +22,31 @@ $("#btn").click(function() { //NOMBRES SIGNIFICATIVOS?!?!
 			console.log(errorThrown);
 		}
 	});
+
 });
+
+/*$(document).ready(function(){
+    $('.funSlick').slick({
+        dots: false,
+        infinite: true,
+        speed: 700,
+        autoplay: false,
+        arrows: true,
+        slidesToShow: 2,
+        slidesToScroll: 1
+     });
+ });*/
+
+
+/*
+$('.funSlick').slick({
+      dots: false,
+    	prevArrow: $('.prev'),
+    	nextArrow: $('.next'),
+      infinite: true,
+      speed: 300,
+      slidesToShow: 4,
+      slidesToScroll: 4
+      });
+      */
+

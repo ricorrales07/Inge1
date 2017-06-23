@@ -28,7 +28,6 @@ $(window).on("load",function(){
 	//Let's position the editor in the row:
 	$("#editor-container").css("top",20).css("height", 500);
 
-
 	//Setting up the canvas size.
 	$("#canvasBackGround").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
 	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
@@ -124,6 +123,7 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
 
  	updateView($("#changeView select"));
 
+
  	$( "#pointerRadius #slider" ).slider({
  		 min: 1,
  		 max: 100,
@@ -142,6 +142,7 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
  		 }
 	});
 
+	
 	updateStageListeners();
 	stage.update();
 }
@@ -155,14 +156,16 @@ function updateStageListeners(){
 
 	stage.addEventListener("stagemousedown", function(event) {
 		//console.log("the canvas was mousedown at "+event.stageX+","+event.stageY);
+		console.log("stagemousedown on stage");
 		createPieceG.pointer.x = event.stageX;
 		createPieceG.pointer.y = event.stageY;
-		createPieceG.drawing = true;
+		createPieceG.drawing = createPieceG.newImage == null? true: false;
 	});
 
 
 	stage.addEventListener("stagemousemove", function handleMouseMove(event) {
 		//console.log("the canvas was pressmove at "+event.stageX+","+event.stageY);
+		console.log("stagemousemove on stage");
 		  createPieceG.pointer.x = event.stageX;
 		  createPieceG.pointer.y = event.stageY;
 	});
@@ -170,6 +173,7 @@ function updateStageListeners(){
 	stage.addEventListener("stagemouseup", function(event) {
 		//console.log("the canvas was pressup at "+event.stageX+","+event.stageY);
 		//Break the stroke.
+		console.log("stagemouseup on stage");
 		createPieceG.originCaptured = false;
 		createPieceG.drawing = false;
 	});
@@ -258,6 +262,7 @@ function canvasCycle(){
 * @return: void. 
 */
 function updateView(select){
+
 	stage.removeAllChildren();
 	switch( $(select).val()  ){
 		case "canvasFront":
@@ -368,6 +373,7 @@ function addImageToCanvas(img){
 	stage.addChild(createPieceG.newImage);
 
 	createPieceG.newImage.addEventListener("pressmove", function(event) {
+		console.log("Pressmove on image");
 		if(createPieceG.capturedFirstBitmapPoint){
 			event.target.x += event.stageX - createPieceG.draggedBitmapFirstPoint.x;
 			event.target.y += event.stageY - createPieceG.draggedBitmapFirstPoint.y;
@@ -383,6 +389,7 @@ function addImageToCanvas(img){
 
 	createPieceG.newImage.addEventListener("pressup", function(event) {
 		createPieceG.capturedFirstBitmapPoint = false;
+		console.log("Pressup on image");
 	});
 	
 	stage.update();

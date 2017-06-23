@@ -71,14 +71,16 @@ public class AppResourcesMethods {
     public Response getImages() {
         ResponseBuilder builder;
         File directory = new File(".\\src\\main\\resources\\assets\\images");
-        String html= "";
+        String html="";
+        //String html= "<div class=\"funSlick\">";
         for (File file : directory.listFiles())
         {
             if(file.getName().endsWith(".png")) //Por ahora solo extensiones .png
             {
-                html = html + "<modalImage data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
+                html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
             }
         }
+        //html = html + "</div>";
         builder = Response.ok("Got images");
         builder.entity(html);
         builder.status(200);
