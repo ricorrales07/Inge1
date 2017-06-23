@@ -41,6 +41,31 @@
         </div><!-- /.modal-dialog -->
    </div><!-- /.modal -->
 
+   <div class = "modal fade" id = "loginModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
+       <div class = "modal-dialog">
+           <div class = "modal-content">
+               <div class = "modal-header">
+                   <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                       &times;
+                   </button>
+                   <h4 class = "modal-title" id = "myModalLabel">
+                       Log in
+                   </h4>
+               </div>
+               <div class = "modal-body justify-content-center">
+                 <li class="fb-login-button" data-max-rows="1" data-size="large"
+                    data-button-type="continue_with" data-show-faces="true"
+                      data-auto-logout-link="true" data-use-continue-as="true"></li>
+               </div>
+               <div class = "modal-footer">
+                   <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                       Close
+                   </button>
+               </div>
+           </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
     <div class = "container">
 
       <div class="row">
@@ -53,23 +78,8 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-
-                    <!--li><a href="#">Piece catalog</a></li-->
-                    <!--li><a href="#">Search similar compositions</a></li-->
                     <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
-
-                    <li class = "dropdown">
-                        <a href = "#" class = "dropdown-toggle" data-toggle = "dropdown">
-                           Login
-                           <b class = "caret"></b>
-                        </a>
-
-                        <ul class = "dropdown-menu">
-                          <li class="fb-login-button" data-max-rows="1" data-size="medium"
-                             data-button-type="login_with" data-show-faces="false"
-                               data-auto-logout-link="true" data-use-continue-as="false"></li>
-                        </ul>
-                     </li>
+                    <li><a href="#" data-toggle = "modal" data-target = "#loginModal" data-dismiss="modal">Log in</a></li>
                 </ul>
                 </div>
         </nav>
@@ -84,6 +94,7 @@
                 <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
                 <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Guidelines</button>
                 <button id="addPieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
+                <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
               </div>
               <div class = "btn-group-vertical align-bottom">
                 <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>

@@ -75,7 +75,7 @@ public class AppResourcesMethods {
         //String html= "<div class=\"funSlick\">";
         for (File file : directory.listFiles())
         {
-            if(file.getName().endsWith(".png")) //Por ahora solo extensiones .png
+            if(file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) //Por ahora solo extensiones .png
             {
                 html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
             }

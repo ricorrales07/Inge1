@@ -114,8 +114,16 @@ function addImageToCanvas(img, id){
                     //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
                     Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)),0),
                     Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)),0),
-                    2,2,0,id];
+                    1,1,0,id];
     addPart(partData);
+}
+
+function mirrorImage()
+{
+  if (selected != null)
+  {
+    composicionActual.partsList[selected].scaleX *= -1;
+  }
 }
 
 /*
@@ -497,7 +505,7 @@ function loadComposition(){
                 addPart(partData);
             }
         })
-        
+
     });
 
     /*$.ajax({
@@ -559,7 +567,7 @@ $("#addPieceButton").click(function() {
 	});
 	console.log("addPieceButton clicked");
     $.ajax({
-		url: "/methods/getPiecesInDB",
+		url: "/methods/getImages",
 		type: 'GET',
 		success:function(data, textStatus, jqXHR){
 		    console.log(data);
