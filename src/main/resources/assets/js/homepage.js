@@ -448,16 +448,25 @@ function saveCompositionImage(){
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
+        //aync: false,
         data: "Composition," + comp.toDataURL(),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory: " + data);
             savedImg = data;
+            console.log("savedImg: " + savedImg);
+            saveCompositionData();
           },
         error:function(jqXHR, textStatus, errorThrown ){
             console.log(errorThrown);
         }
     });
+}
+
+function saveComp()
+{
+  saveCompositionImage();
+  //saveCompositionData();
 }
 
 function saveCompositionData(){
@@ -480,6 +489,9 @@ function saveCompositionData(){
 
     console.log(pieces);
 
+    while(savedImg == "")
+      console.log("savedImg (saving attributes): " + savedImg);
+
     $.ajax({
         url: "/methods/saveCompositionData",
         type: 'POST',
@@ -497,6 +509,8 @@ function saveCompositionData(){
             console.log(errorThrown);
         }
     });
+
+    savedImg = "";
 }
 
 function loadComposition(){
@@ -563,8 +577,10 @@ function trySearch(){
                 var html = "";
                 for (var x in results)
                 {
-                  html += "<a data-dismiss=\"modal\"> <img src=\"" + x.imgSource + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" /> </a>";
+                  console.log(results[x]);
+                  html += "<a data-dismiss=\"modal\"> <img src=\"" + results[x].imgSource.substr(20, results[x].imgSource.length) + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" /> </a>";
                 }
+                console.log(html);
                 $('#resultImages').append(html);
               },
             error:function(jqXHR, textStatus, errorThrown ){

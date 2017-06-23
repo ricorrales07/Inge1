@@ -122,7 +122,7 @@
               </div>
               <div class = "btn-group-vertical align-bottom">
                 <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
-                <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveCompositionImage();saveCompositionData();">Save composition</button>
+                <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveComp();">Save composition</button>
                 <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#resultsModal" data-dismiss="modal">Search</button>
               </div>
             </div>

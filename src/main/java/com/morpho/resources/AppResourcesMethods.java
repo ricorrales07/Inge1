@@ -224,7 +224,7 @@ public class AppResourcesMethods {
                     String imageData = data[2];
                     InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
-                    imgSource = ".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png";
+                    imgSource = "./src/main/resources/assets/images/Composition" + compositionCounter + ".png";
                     builder = Response.ok("Image saved");
                     builder.entity(imgSource);
                 }
@@ -369,6 +369,7 @@ public class AppResourcesMethods {
             this.saved = true;
         }
         receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
+        System.out.println(receivedContent);
         builder = queryDB("insert", "composition", receivedContent);
         return builder.build();
     }
@@ -407,7 +408,7 @@ public class AppResourcesMethods {
         System.out.println("Found " + results.size() + " results.");
 
         if (jsons.length() > 1)
-            jsons = jsons.substring(0, jsons.length() - 1);
+            jsons = jsons.substring(0, jsons.length() - 2);
         jsons += "]";
 
         System.out.println("Search results: " + jsons);
