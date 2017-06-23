@@ -1,5 +1,7 @@
 package com.morpho.server;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.util.JSON;
@@ -74,7 +76,10 @@ public class DBAdministrator implements Managed {
 
     public FindIterable<Document> search(String collection, String filter) throws Exception {
         try {
-            return db.getCollection(collection).find((Bson) JSON.parse(filter));
+            BasicDBObject f = BasicDBObject.parse(filter);
+            FindIterable<Document> result =
+                db.getCollection(collection).find(f);
+            return result;
         } catch (Exception e) {
             return null;
         }

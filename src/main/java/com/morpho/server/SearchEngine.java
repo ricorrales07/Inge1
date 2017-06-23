@@ -191,7 +191,7 @@ public class SearchEngine {
                         + temp + "}");
 
                 partialResults = MorphoApplication.DBA.search("composition",
-                        "{searchId" + closeness + " : " + temp + "}");
+                        "{\"searchId." + closeness + "\" : " + temp + "}");
 
                 for (Document result : partialResults)
                 {
@@ -209,8 +209,8 @@ public class SearchEngine {
             }
 
             closeness--;
-            if (closeness >= 0)
-                searchCriteria.remove(closeness);
+            //if (closeness >= 0)
+            //   searchCriteria.remove(closeness);
         } while (results.size() < 10 && closeness >= 0);
 
         return results;

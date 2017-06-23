@@ -33,7 +33,7 @@
                     Please select how you want to add an image:
                  </div>
                  <div class = "modal-footer">
-                    <button id="btn" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs()" data-target = "#openModal" data-dismiss="modal">
+                    <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs()" data-target = "#openModal" data-dismiss="modal">
                          Open saved images
                     </button>
                     <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openLocal" data-dismiss="modal">

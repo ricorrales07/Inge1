@@ -75,7 +75,7 @@ public class AppResourcesMethods {
         //String html= "<div class=\"funSlick\">";
         for (File file : directory.listFiles())
         {
-            if(file.getName().endsWith(".png")) //Por ahora solo extensiones .png
+            if(file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) //Por ahora solo extensiones .png
             {
                 html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
             }
@@ -120,44 +120,6 @@ public class AppResourcesMethods {
         builder.entity(html);
         builder.status(200);
         return builder.build();
-    }
-
-    @POST
-    @Path("example")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response example(@FormParam("Authentication") String piece) {
-        //Cómo usar esta versin de JSON en Java, vea aquí: https://www.tutorialspoint.com/json/json_java_example.htm
-        //return viewCreator.getSamplePage();
-
-        ResponseBuilder builder = Response.ok(" Mensaje de respuesta :D");
-        //builder.entity(obj); si necesita retornar un objeto json en string, lo mete donde esta obj.
-        builder.status(200); //200 es exitoso
-        builder.type(MediaType.TEXT_HTML_TYPE);
-        return builder.build();
-    }
-
-    /**
-     * Add a new piece into the database.
-     * @param receivedContent, this is the piece object represented in a JSON string.
-     * @return server response.
-     */
-    @POST
-    @Path("/createPiece")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response createPiece(String receivedContent) {
-        return queryDB("insert", "piece", receivedContent).build();
-    }
-
-    /**
-     * Creates a new composition and adds it to the database.
-     * @param receivedContent is the composition object represented in a JSON string.
-     * @return server response.
-     */
-    @POST
-    @Path("/createComposition")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response createComposition(String receivedContent) {
-        return queryDB("insert", "composition", receivedContent).build();
     }
 
     @POST
@@ -234,6 +196,11 @@ public class AppResourcesMethods {
         return builder;
     }
 
+    /**
+     * Add a new piece into the database.
+     * @param receivedContent, this is the piece object represented in a JSON string.
+     * @return server response.
+     */
     @POST
     @Path("/saveCreatedImageFile")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -242,6 +209,7 @@ public class AppResourcesMethods {
         try {
             URLDecoder.decode(receivedContent, "UTF8");
             String[] data = receivedContent.split(",");
+            String imgSource = "";
 
             try {
                 if(data[0].equals("Piece")) {
@@ -251,13 +219,17 @@ public class AppResourcesMethods {
                     InputStream bitB = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageDataB));
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceA" + pieceCounter + ".png"));
                     ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceB" + pieceCounter + ".png"));
+                    builder = Response.ok("Image saved");
                 }else{
                     String imageData = data[2];
                     InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
                     ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
+                    imgSource = "./src/main/resources/assets/images/Composition" + compositionCounter + ".png";
+                    builder = Response.ok("Image saved");
+                    builder.entity(imgSource);
                 }
 
-                builder = Response.ok("Image saved");
+                //builder = Response.ok("Image saved");
                 builder.status(200);
 
                 if(this.saved){
@@ -285,6 +257,7 @@ public class AppResourcesMethods {
                     this.saved = true;
                 }
 
+
                 return builder.build();
             } catch (Exception e) {
                 System.err.println("Failed to save image in server");
@@ -302,6 +275,11 @@ public class AppResourcesMethods {
 
     }
 
+    /**
+     * Creates a new composition and adds it to the database.
+     * @param receivedContent is the composition object represented in a JSON string.
+     * @return server response.
+     */
     @POST
     @Path("/saveAttributes")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -320,9 +298,7 @@ public class AppResourcesMethods {
         } catch(ParseException e){
             e.printStackTrace();
         }
-
-        //ResponseBuilder builder = queryDB("insert", "composition", receivedContent);
-
+        
         receivedContent = MorphoApplication.searcher.addSearchIdToPiece(receivedContent);
 
         try {
@@ -355,7 +331,7 @@ public class AppResourcesMethods {
     @Path("/saveCompositionData")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveCompositionData(String receivedContent) {
-        ResponseBuilder builder;// = queryDB("insert", "piece", receivedContent);
+        ResponseBuilder builder;
         System.out.println(receivedContent);
 
         try {
@@ -393,6 +369,7 @@ public class AppResourcesMethods {
             this.saved = true;
         }
         receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
+        System.out.println(receivedContent);
         builder = queryDB("insert", "composition", receivedContent);
         return builder.build();
     }
@@ -431,7 +408,7 @@ public class AppResourcesMethods {
         System.out.println("Found " + results.size() + " results.");
 
         if (jsons.length() > 1)
-            jsons = jsons.substring(0, jsons.length() - 1);
+            jsons = jsons.substring(0, jsons.length() - 2);
         jsons += "]";
 
         System.out.println("Search results: " + jsons);

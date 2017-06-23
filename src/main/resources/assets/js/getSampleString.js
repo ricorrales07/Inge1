@@ -6,14 +6,14 @@ clicked, it calls the method "getImages" from "AppResourcesMethods",
 and the data obtained with it (string) will be loaded in a
 tag with the id "images".
 */
-$("#btn").click(function() { //NOMBRES SIGNIFICATIVOS?!?!
+$("#btnSavedImages").click(function() { 
 
     $("a").each(function(){
     	$(this).remove();
 	});
 	console.log("btn clicked");
     $.ajax({
-		url: "/methods/getImages", //getImages hay que desmenuzarlo. ¿Cuáles imágenes?
+		url: "/methods/getImages", //getImages hay que desmenuzarlo. ï¿½Cuï¿½les imï¿½genes?
 		type: 'GET',
 		success:function(data, textStatus, jqXHR){
 			$('#images').append(data)

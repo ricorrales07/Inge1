@@ -15,6 +15,8 @@ var grapher = new createjs.Shape();
 //this structure helps us keep track of transformations performed by the user on the pieces
 var lastTouchPos = [[-1,-1],[-1,-1]];
 
+var savedImg = ""; //NOT FINAL
+
 /*
 selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
@@ -114,8 +116,16 @@ function addImageToCanvas(img, id){
                     //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
                     Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)),0),
                     Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)),0),
-                    2,2,0,id];
+                    1,1,0,id];
     addPart(partData);
+}
+
+function mirrorImage()
+{
+  if (selected != null)
+  {
+    composicionActual.partsList[selected].scaleX *= -1;
+  }
 }
 
 /*
@@ -438,14 +448,25 @@ function saveCompositionImage(){
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
+        //aync: false,
         data: "Composition," + comp.toDataURL(),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
-            console.log("image saved in server directory")},
+            console.log("image saved in server directory: " + data);
+            savedImg = data;
+            console.log("savedImg: " + savedImg);
+            saveCompositionData();
+          },
         error:function(jqXHR, textStatus, errorThrown ){
             console.log(errorThrown);
         }
     });
+}
+
+function saveComp()
+{
+  saveCompositionImage();
+  //saveCompositionData();
 }
 
 function saveCompositionData(){
@@ -468,6 +489,9 @@ function saveCompositionData(){
 
     console.log(pieces);
 
+    while(savedImg == "")
+      console.log("savedImg (saving attributes): " + savedImg);
+
     $.ajax({
         url: "/methods/saveCompositionData",
         type: 'POST',
@@ -476,7 +500,7 @@ function saveCompositionData(){
                 userID: Cookies.get("userID"),
                 accessToken: Cookies.get("accessToken")
             },
-            composition: {pieces}
+            composition: {pieces, imgSource: savedImg}
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
@@ -485,6 +509,8 @@ function saveCompositionData(){
             console.log(errorThrown);
         }
     });
+
+    savedImg = "";
 }
 
 function loadComposition(){
@@ -497,7 +523,7 @@ function loadComposition(){
                 addPart(partData);
             }
         })
-        
+
     });
 
     /*$.ajax({
@@ -546,7 +572,17 @@ function trySearch(){
             }),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
-                console.log("Search results: " + data)},
+                console.log("Search results: " + data);
+                results = JSON.parse(data);
+                var html = "";
+                for (var x in results)
+                {
+                  console.log(results[x]);
+                  html += "<a data-dismiss=\"modal\"> <img src=\"" + results[x].imgSource.substr(20, results[x].imgSource.length) + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" /> </a>";
+                }
+                console.log(html);
+                $('#resultImages').append(html);
+              },
             error:function(jqXHR, textStatus, errorThrown ){
                 console.log(errorThrown);
             }
@@ -570,4 +606,12 @@ $("#addPieceButton").click(function() {
 			console.log(errorThrown);
 		}
 	});
+});
+
+$("#searchButton").click(function() {
+    $("modalImage").each(function(){
+    	$(this).remove();
+	});
+	console.log("searchButton clicked");
+  trySearch();
 });
