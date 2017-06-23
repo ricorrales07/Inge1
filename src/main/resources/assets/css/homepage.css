@@ -61,3 +61,12 @@ canvas {
 .dropdown-menu {
   background-color: black;
 }
+
+.btn-responsive {
+    white-space: normal !important;
+    word-wrap: break-word;
+}
+
+#sideBar { //por que no sirve??
+  height: 100%;
+}
