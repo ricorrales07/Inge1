@@ -123,44 +123,6 @@ public class AppResourcesMethods {
     }
 
     @POST
-    @Path("example")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response example(@FormParam("Authentication") String piece) {
-        //Cómo usar esta versin de JSON en Java, vea aquí: https://www.tutorialspoint.com/json/json_java_example.htm
-        //return viewCreator.getSamplePage();
-
-        ResponseBuilder builder = Response.ok(" Mensaje de respuesta :D");
-        //builder.entity(obj); si necesita retornar un objeto json en string, lo mete donde esta obj.
-        builder.status(200); //200 es exitoso
-        builder.type(MediaType.TEXT_HTML_TYPE);
-        return builder.build();
-    }
-
-    /**
-     * Add a new piece into the database.
-     * @param receivedContent, this is the piece object represented in a JSON string.
-     * @return server response.
-     */
-    @POST
-    @Path("/createPiece")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response createPiece(String receivedContent) {
-        return queryDB("insert", "piece", receivedContent).build();
-    }
-
-    /**
-     * Creates a new composition and adds it to the database.
-     * @param receivedContent is the composition object represented in a JSON string.
-     * @return server response.
-     */
-    @POST
-    @Path("/createComposition")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response createComposition(String receivedContent) {
-        return queryDB("insert", "composition", receivedContent).build();
-    }
-
-    @POST
     @Path("/sendToken")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendToken(String receivedAuth) {
@@ -234,6 +196,11 @@ public class AppResourcesMethods {
         return builder;
     }
 
+    /**
+     * Add a new piece into the database.
+     * @param receivedContent, this is the piece object represented in a JSON string.
+     * @return server response.
+     */
     @POST
     @Path("/saveCreatedImageFile")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -302,6 +269,11 @@ public class AppResourcesMethods {
 
     }
 
+    /**
+     * Creates a new composition and adds it to the database.
+     * @param receivedContent is the composition object represented in a JSON string.
+     * @return server response.
+     */
     @POST
     @Path("/saveAttributes")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -320,9 +292,7 @@ public class AppResourcesMethods {
         } catch(ParseException e){
             e.printStackTrace();
         }
-
-        //ResponseBuilder builder = queryDB("insert", "composition", receivedContent);
-
+        
         receivedContent = MorphoApplication.searcher.addSearchIdToPiece(receivedContent);
 
         try {
@@ -355,7 +325,7 @@ public class AppResourcesMethods {
     @Path("/saveCompositionData")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveCompositionData(String receivedContent) {
-        ResponseBuilder builder;// = queryDB("insert", "piece", receivedContent);
+        ResponseBuilder builder;
         System.out.println(receivedContent);
 
         try {
