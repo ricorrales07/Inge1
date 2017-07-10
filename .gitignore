@@ -2,3 +2,10 @@
 target/classes/assets/templates/login.st
 target/
 Proyecto.iml
+
+*.json
+*.png
+*.orig
+
+src/main/resources/assets/imagesData/CompositionCounter.txt
+src/main/resources/assets/imagesData/PieceCounter.txt
