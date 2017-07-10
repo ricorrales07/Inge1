@@ -14,6 +14,8 @@ import io.dropwizard.Application;
 
 import com.mongodb.MongoClient;
 
+import java.util.logging.*;
+
 /**
  * Created by Irvin Umaña on 29/4/2017.
  * General configuration class for the entire application running dropwizard.
@@ -23,7 +25,19 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
     public static Authenticator Auth;
     public static SearchEngine searcher;
 
+    public static Logger logger;
+    private static FileHandler fHandler;
+    private static SimpleFormatter sFormatter;
+
     public static void main(String[] args) throws Exception {
+        fHandler = new FileHandler("MorphoSpace.log");
+        sFormatter = new SimpleFormatter();
+        logger = Logger.getLogger("MorphoApplication");
+
+        fHandler.setFormatter(sFormatter);
+        logger.addHandler(fHandler);
+        logger.setLevel(Level.INFO);
+
         new MorphoApplication().run(args);
     }
 

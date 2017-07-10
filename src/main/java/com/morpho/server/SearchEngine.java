@@ -54,7 +54,7 @@ public class SearchEngine {
         }
         catch (NoSuchAlgorithmException e)
         {
-            //log
+            MorphoApplication.logger.warning(e.toString());
         }
     }
 
@@ -122,12 +122,12 @@ public class SearchEngine {
             String id = part.getString("_id");
             try {
                 Document p = Document.parse(MorphoApplication.DBA.find("piece", "{_id: \"" + id + "\"}"));
-                System.out.println("piece searchId: " + p.getString("searchId"));
+                MorphoApplication.logger.info("piece searchId: " + p.getString("searchId"));
                 preSearchId.add(new BsonString(p.getString("searchId")));
             }
             catch(Exception e)
             {
-                //TODO: log
+                MorphoApplication.logger.warning(e.toString());
             }
         }
 
@@ -140,7 +140,7 @@ public class SearchEngine {
             searchId.add(sublist);
         }
 
-        System.out.println("composition searchId: " + searchId.toString());
+        MorphoApplication.logger.info("composition searchId: " + searchId.toString());
 
         composition.put("searchId", searchId);
         dataD.put("composition", composition);
@@ -150,12 +150,12 @@ public class SearchEngine {
 
     public ArrayList<String> searchSimilarCompositions(String data, int pageNum)
     {
-        ArrayList<String> results = new ArrayList<String>();
+        ArrayList<String> results = new ArrayList<>();
 
         //Document composition = (Document) Document.parse(addSearchIdToComposition(data)).get("composition");
         Document composition = (Document) Document.parse(data).get("composition");
 
-        System.out.println("composition: " + composition.toJson());
+        MorphoApplication.logger.info("composition: " + composition.toJson());
 
         FindIterable<Document> partialResults;
 
@@ -174,9 +174,9 @@ public class SearchEngine {
         int skip = (pageNum-1) * 10;
 
         do {
-            System.out.println("Searching...");
+            MorphoApplication.logger.finer("Searching...");
             try {
-                System.out.println("closeness: " + closeness);
+                MorphoApplication.logger.fine("closeness: " + closeness);
 
 
                 ArrayList<String> filter = searchCriteria.get(closeness);
@@ -187,7 +187,7 @@ public class SearchEngine {
                     temp = temp.substring(0, temp.length()-2);
                 temp += "]";
 
-                System.out.println("Search filter: {\"searchId." + closeness + "\" : "
+                MorphoApplication.logger.fine("Search filter: {\"searchId." + closeness + "\" : "
                         + temp + "}");
 
                 partialResults = MorphoApplication.DBA.search("composition",
@@ -204,8 +204,7 @@ public class SearchEngine {
             }
             catch (Exception e)
             {
-                //log
-                System.out.println(e.getMessage());
+                MorphoApplication.logger.warning(e.toString());
             }
 
             closeness--;

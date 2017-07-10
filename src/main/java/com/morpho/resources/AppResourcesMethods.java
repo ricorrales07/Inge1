@@ -52,7 +52,7 @@ public class AppResourcesMethods {
             this.compositionCounter = Integer.parseInt(reader.readLine());
             reader.close();
         }catch(Exception e){
-
+            MorphoApplication.logger.warning(e.toString());
         }
     }
 
@@ -109,7 +109,7 @@ public class AppResourcesMethods {
         }
         catch (Exception e) //DANGER
         {
-            //TODO: log
+            MorphoApplication.logger.warning(e.toString());
             builder = Response.status(404);
             builder.entity(e.toString());
             //builder.status(200);
@@ -155,12 +155,14 @@ public class AppResourcesMethods {
                         builder.status(500);
                     }
                 } catch(Exception e) {
+                    MorphoApplication.logger.warning(e.toString());
                     e.printStackTrace();
                     builder = Response.ok("Error inserting into DB");
                     builder.status(404);
                 }
             }
         } catch (ParseException e) {
+            MorphoApplication.logger.warning(e.toString());
             e.printStackTrace();
             builder = Response.ok("Could not process auth");
             builder.status(422);
@@ -189,6 +191,7 @@ public class AppResourcesMethods {
             }
 
         } catch (ParseException e) {
+            MorphoApplication.logger.warning(e.toString());
             e.printStackTrace();
             builder = Response.ok("Could not process auth");
             builder.status(422);
@@ -260,14 +263,16 @@ public class AppResourcesMethods {
 
                 return builder.build();
             } catch (Exception e) {
-                System.err.println("Failed to save image in server");
+                MorphoApplication.logger.warning("Failed to save image in server");
+                MorphoApplication.logger.warning(e.toString());
                 builder = Response.ok("Failed to save image in server");
                 builder.status(404);
                 return builder.build();
             }
 
         }catch (Exception e){
-            System.err.println("Failed to save image in server");
+            MorphoApplication.logger.warning("Failed to save image in server");
+            MorphoApplication.logger.warning(e.toString());
             builder = Response.ok("Failed to save image in server");
             builder.status(404);
             return builder.build();
@@ -294,8 +299,9 @@ public class AppResourcesMethods {
             a.put("_id", id.get("userID").toString() + "C" + pieceCounter);
             receivedJSON.put("piece", a);
             receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
-            System.out.println(receivedContent);
+            MorphoApplication.logger.info(receivedContent);
         } catch(ParseException e){
+            MorphoApplication.logger.warning(e.toString());
             e.printStackTrace();
         }
         
@@ -307,7 +313,7 @@ public class AppResourcesMethods {
             writer.close();
             builder = queryDB("insert", "piece", receivedContent);
         }catch(Exception e){
-
+            MorphoApplication.logger.warning(e.toString());
         }
         if(this.saved){
             this.saved = false;
@@ -318,7 +324,7 @@ public class AppResourcesMethods {
                 writer.close();
 
             }catch(Exception e){
-
+                MorphoApplication.logger.warning(e.toString());
             }
         }else{
             this.saved = true;
@@ -332,7 +338,7 @@ public class AppResourcesMethods {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveCompositionData(String receivedContent) {
         ResponseBuilder builder;
-        System.out.println(receivedContent);
+        MorphoApplication.logger.info(receivedContent);
 
         try {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
@@ -341,8 +347,9 @@ public class AppResourcesMethods {
             data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
             receivedJSON.put("composition", data);
             receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
-            System.out.println(receivedContent);
+            MorphoApplication.logger.info(receivedContent);
         } catch(ParseException e){
+            MorphoApplication.logger.warning(e.toString());
             e.printStackTrace();
         }
 
@@ -353,7 +360,7 @@ public class AppResourcesMethods {
 
 
         }catch(Exception e){
-
+            MorphoApplication.logger.warning(e.toString());
         }
         if(this.saved){
             this.saved = false;
@@ -363,13 +370,13 @@ public class AppResourcesMethods {
                 writer.print(""+compositionCounter);
                 writer.close();
             }catch(Exception e){
-
+                MorphoApplication.logger.warning(e.toString());
             }
         }else{
             this.saved = true;
         }
         receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
-        System.out.println(receivedContent);
+        MorphoApplication.logger.info(receivedContent);
         builder = queryDB("insert", "composition", receivedContent);
         return builder.build();
     }
@@ -378,7 +385,7 @@ public class AppResourcesMethods {
     @Path("trySearch")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response trySearch(String receivedContent) {
-        System.out.println(receivedContent);
+        MorphoApplication.logger.info(receivedContent);
         try {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
             JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
@@ -386,8 +393,9 @@ public class AppResourcesMethods {
             data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
             receivedJSON.put("composition", data);
             //receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
-            System.out.println(receivedContent);
+            MorphoApplication.logger.info("Received content: " + receivedContent);
         } catch(ParseException e){
+            MorphoApplication.logger.warning(e.toString());
             e.printStackTrace();
         }
         receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
@@ -401,17 +409,17 @@ public class AppResourcesMethods {
         String jsons = "[";
 
         for (String j : results) {
-            System.out.println("Result: " + j);
+            MorphoApplication.logger.info("Result: " + j);
             jsons += j + ", ";
         }
 
-        System.out.println("Found " + results.size() + " results.");
+        MorphoApplication.logger.info("Found " + results.size() + " results.");
 
         if (jsons.length() > 1)
             jsons = jsons.substring(0, jsons.length() - 2);
         jsons += "]";
 
-        System.out.println("Search results: " + jsons);
+        MorphoApplication.logger.info("Search results: " + jsons);
 
         builder.entity(jsons);
         builder.status(200);

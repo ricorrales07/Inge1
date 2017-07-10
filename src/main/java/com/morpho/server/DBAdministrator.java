@@ -5,6 +5,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.util.JSON;
+import com.morpho.MorphoApplication;
 import org.bson.conversions.Bson;
 import com.mongodb.client.MongoDatabase;
 import io.dropwizard.lifecycle.Managed;
@@ -42,7 +43,7 @@ public class DBAdministrator implements Managed {
         try {
             db.getCollection(collection).insertOne(Document.parse(document));
         } catch(MongoWriteException e) {
-            System.out.println(e);
+            MorphoApplication.logger.info(e.toString());
             if(e.getCode() == 11000) { //duplicate key error
                 delete(collection, "{_id: \"" + Document.parse(document).get("_id") + "\"}");
                 db.getCollection(collection).insertOne(Document.parse(document));
@@ -70,6 +71,7 @@ public class DBAdministrator implements Managed {
         try {
             return db.getCollection(collection).find((Bson) JSON.parse(filter)).first().toJson();
         } catch (Exception e) {
+            MorphoApplication.logger.info(e.toString());
             return null;
         }
     }
@@ -81,6 +83,7 @@ public class DBAdministrator implements Managed {
                 db.getCollection(collection).find(f);
             return result;
         } catch (Exception e) {
+            MorphoApplication.logger.info(e.toString());
             return null;
         }
     }

@@ -42,7 +42,7 @@ public class Authenticator {
             c.setReadTimeout(TIMEOUT);
             c.connect();
             int status = c.getResponseCode();
-            System.out.println(url + "\nstatus: " + status);
+            MorphoApplication.logger.info(url + "\nstatus: " + status);
 
             switch (status) {
                 case 200:
@@ -57,15 +57,15 @@ public class Authenticator {
                     return sb.toString();
             }
         } catch (MalformedURLException e) {
-            System.out.println(e);
+            MorphoApplication.logger.warning(e.toString());
         } catch (IOException e) {
-            System.out.println(e);
+            MorphoApplication.logger.warning(e.toString());
         } finally {
             if (c != null) {
                 try {
                     c.disconnect();
                 } catch (Exception e) {
-                    System.out.println(e);
+                    MorphoApplication.logger.warning(e.toString());
                 }
             }
         }
@@ -79,7 +79,7 @@ public class Authenticator {
             JSONObject appTokenJSON = (JSONObject) new JSONParser().parse(receivedAppToken);
             return (String) appTokenJSON.get("access_token");
         } catch(ParseException e) {
-            System.out.println(e);
+            MorphoApplication.logger.warning(e.toString());
         }
         return null;
     }
@@ -90,7 +90,7 @@ public class Authenticator {
             JSONObject dataJSON = (JSONObject) new JSONParser().parse(tokenData);
             return (String) ((JSONObject) dataJSON.get("data")).get("user_id");
         } catch(ParseException e) {
-            System.out.println(e);
+            MorphoApplication.logger.warning(e.toString());
         }
         return null;
     }

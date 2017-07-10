@@ -2,6 +2,7 @@ package com.morpho.health;
 
 import com.mongodb.MongoClient;
 import com.codahale.metrics.health.HealthCheck;
+import com.morpho.MorphoApplication;
 
 /**
  * Created by Gabriel on 4/29/2017.
@@ -22,6 +23,7 @@ public class MongoHealthCheck extends HealthCheck {
                 dbNames.append(doc).append(", ");
             }
         } catch(Exception mongoError) {
+            MorphoApplication.logger.info(mongoError.toString());
             return Result.unhealthy(mongoError);
         }
         return Result.healthy(dbNames.toString());
