@@ -5,6 +5,9 @@ Proyecto.iml
 
 *.json
 *.png
+*.jpg
+*.jpeg
+*.gif
 *.orig
 
 src/main/resources/assets/imagesData/CompositionCounter.txt

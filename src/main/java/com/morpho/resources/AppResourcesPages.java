@@ -54,4 +54,8 @@ public class AppResourcesPages {
     @GET
     @Path("")
     public String getHomepage() { return viewCreator.getHomepage(); }
+
+    @GET
+    @Path("searchResults")
+    public String getSearchResults() { return viewCreator.getResults(); }
 }
