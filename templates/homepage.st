@@ -117,7 +117,7 @@
               <div class = "btn-group-vertical">
                 <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
                 <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Guidelines</button>
-                <button id="addPieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
+                <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="btnSavedImages();" data-dismiss="modal">Add piece</button>
                 <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
               </div>
               <div class = "btn-group-vertical align-bottom">
@@ -153,6 +153,23 @@
     </div>
 
     <!--button onclick="window.location.reload()">reset</button-->
+<script language="javascript">
+
+    function statusChangeCallback(response) {
+        console.log('statusChangeCallback');
+        console.log(response);
+        if (response.status === 'connected') {
+          document.getElementById("btnSavedImages").disabled = false;
+          document.getElementById("loadCompositionButton").disabled = false;
+          document.getElementById("saveCompositionButton").disabled = false;
+        } else {
+          document.getElementById("btnSavedImages").disabled = true;
+          document.getElementById("loadCompositionButton").disabled = true;
+          document.getElementById("saveCompositionButton").disabled = true;
+        }
+      }
+
+</script>
 
 </body>
 
@@ -162,5 +179,6 @@
 <script src="assets/js/homepage.js" defer></script>
 <script src="assets/js/login.js" ></script>
 <script src="assets/js/js.cookie.js" ></script>
+<script src="assets/js/getSampleString.js"></script>
 
 </html>

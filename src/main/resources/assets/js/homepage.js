@@ -532,7 +532,7 @@ function loadComposition(){
         data: pieces,
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
-            console.log("Composition reloaded succesfullt")},
+            console.log("Composition reloaded succesfully")},
         error:function(jqXHR, textStatus, errorThrown){
             console.log(errorThrown);
         }
@@ -615,3 +615,4 @@ $("#searchButton").click(function() {
 	console.log("searchButton clicked");
   trySearch();
 });
+

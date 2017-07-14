@@ -10,13 +10,14 @@
 	    <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
 	    <link rel="stylesheet" type="text/css" href="assets/slick/slick.css"/>
+	    <link rel="stylesheet" type="text/css" href="assets/slick/slick-theme.css"/>
 	</head>
 	<body >
 	    <script type="text/javascript" src="assets/jquery/jquery-3.2.1.min.js"></script>
 	    <script type="text/javascript" src="assets/jquery/jquery-migrate-1.2.1.min.js"></script>
     	<div id="fb-root"></div>
 
-        <!-- Menu to choose how to load an image to the canvas (from server or locally) -->
+        <!-- Menu to choose how to load an image to the canvas (from server publicly, from server privately or locally) -->
     	<div class = "modal fade" id = "opcionOpciones" tabindex = "-1" role = "dialog"
            aria-labelledby = "myModalLabel" aria-hidden = "true">
            <div class = "modal-dialog">
@@ -33,8 +34,13 @@
                     Please select how you want to add an image:
                  </div>
                  <div class = "modal-footer">
-                    <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs()" data-target = "#openModal" data-dismiss="modal">
-                         Open saved images
+                     <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs(); btnSavedImages();" data-target = "#openModal" data-dismiss="modal">
+                    <!-- <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal"> -->
+                         Open saved public images
+                    </button>
+                    <button id="btnSavedPrivateImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs(); savePriv();" data-target = "#openPrivate" data-dismiss="modal">
+                    <!-- <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal"> -->
+                         Open saved private images
                     </button>
                     <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openLocal" data-dismiss="modal">
                        Search images locally
@@ -47,7 +53,7 @@
            </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
-       <!-- Menu to load an image on the canvas from the server -->
+       <!-- Menu to load an image on the canvas from the server (public images) -->
        <div class = "modal fade" id = "openModal" tabindex = "-1" role = "dialog"
         aria-labelledby = "myModalLabel" aria-hidden = "true">
             <div class = "modal-dialog">
@@ -61,10 +67,12 @@
                            </h4>
                            Please select one of the following images:
                         </div>
-                        <div class = "modal-body funSlick" align="center">
+                        <div class = "modal-body" align="center">
                            <div id="images"></div>
+
                            <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                            <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
+
                         </div><br>
                         <div class = "modal-footer">
                         <!--
@@ -75,6 +83,40 @@
                              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                         </div>
                         -->
+                            <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
+                                Return
+                             </button>
+                           <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
+                               Close
+                           </button>
+                        </div>
+                  </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+       </div><!-- /.modal -->
+
+
+<!-- Menu to load an image on the canvas from the server (private images from each user)-->
+       <div class = "modal fade" id = "openPrivate" tabindex = "-1" role = "dialog"
+        aria-labelledby = "myModalLabel" aria-hidden = "true">
+            <div class = "modal-dialog">
+                  <div class = "modal-content">
+                        <div class = "modal-header">
+                           <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                                 &times;
+                           </button>
+                           <h4 class = "modal-title" id = "myModalLabel">
+                              Private images
+                           </h4>
+                           Please select one of the following images:
+                        </div>
+                        <div class = "modal-body" align="center">
+                           <div id="privateImages"></div>
+
+                           <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
+                           <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
+
+                        </div><br>
+                        <div class = "modal-footer">
                             <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
                                 Return
                              </button>
@@ -119,7 +161,7 @@
 		<div class="container-fluid">
 		<div class="row top-nav">
 			<div class="col-md-2">
-				<div class="main-nav-button nav-button" id="saveButton" onclick="saveCreation();saveAttributes();">
+				<div class="main-nav-button nav-button" id="saveButton" onclick="saveCrtnAndAtt()">
 					<i class="fa fa-floppy-o fa-2x"></i>
 					</br>
 					<p>Save</p>
@@ -277,6 +319,7 @@
 	</div>
 
     <script type="text/javascript" src="assets/slick/slick.min.js"></script>
+
     <script>
         var slideIndex = 1;
 
@@ -303,17 +346,58 @@
           x[slideIndex+3].style.display = "inline";
           x[slideIndex+4].style.display = "inline";
         }
+
+        function growImg(x) {
+            x.style.height = "64px";
+            x.style.width = "64px";
+        }
+
+        function normImg(x) {
+            x.style.height = "32px";
+            x.style.width = "32px";
+        }
+
+        </script>
+
+        <script language="javascript">
+
+            var uid = null;
+
+            function statusChangeCallback(response) {
+                console.log('statusChangeCallback');
+                console.log(response);
+                if (response.status === 'connected') {
+                  document.getElementById("addImage").disabled = false;
+                  document.getElementById("saveButton").disabled = false;
+                  uid = response.authResponse.userID;
+                } else {
+                  document.getElementById("addImage").disabled = true;
+                  document.getElementById("saveButton").disabled = true;
+                  uid = null;
+                }
+              }
+
+              function saveCrtnAndAtt()
+              {
+                saveCreation(uid);
+                saveAttributes();
+              }
+
+              function savePriv()
+              {
+                btnSavedPrivateImages(uid);
+              }
+
         </script>
 
 	</body>
 
-	<!-- <script src="assets/jquery/jquery-3.2.1.js"></script> -->
 	<script src="assets/jquery/jquery-ui.js"></script>
 	<script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 	<script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
 	<script src="assets/js/createPiece.js"></script>
 	<script src="assets/js/createPieceAttributes.js"></script>
-	<script src="assets/js/getSampleString.js"></script> <!-- WTF!! -->
+	<script src="assets/js/getSampleString.js"></script>
 	<script src="assets/js/js.cookie.js"></script>
 	<script src="assets/js/login.js"></script>
 

@@ -347,14 +347,18 @@ function updateView(select){
 	}
 }
 
-function saveCreation(){
+function saveCreation(usrId){
     var imageFront = surfaceF.getCacheDataURL();
     var imageSide =  surfaceS.getCacheDataURL();
 
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
-        data: "Piece," + imageFront + "," + imageSide,
+        //data: "Piece," + imageFront + "," + imageSide,
+        data: JSON.stringify({
+        	imgOrn: "Piece," + imageFront + "," + imageSide,
+        	userID: usrId,
+        }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},
