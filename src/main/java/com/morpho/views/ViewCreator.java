@@ -58,7 +58,7 @@ public class ViewCreator {
 
     public String getResults()
     {
-        StringTemplate templateHomepage = group.getInstanceOf("results2" );
+        StringTemplate templateHomepage = group.getInstanceOf("results3" );
         return templateHomepage.toString();
     }
 }
