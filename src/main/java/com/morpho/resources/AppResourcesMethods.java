@@ -77,7 +77,7 @@ public class AppResourcesMethods {
             if(file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) //Por ahora solo extensiones .png
             {
                 //html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
-                html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" onmouseover=\"this.width='auto'; this.height='auto';\" onmouseout=\"this.width='150'; this.height='150';\" style=\"width:150px; height:150px; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
+                html = html + "<modalImages data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" onmouseover=\"this.width='auto'; this.height='auto';\" onmouseout=\"this.width='150'; this.height='150';\" style=\"width:150px; height:150px; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </modalImages>";
 
             }
         }
@@ -87,23 +87,23 @@ public class AppResourcesMethods {
         return builder.build();
     }
 
-    @GET
-    @Path("getPrivateImages")
+    @POST
+    @Path("getOwnedImages")
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response getPrivateImages(String receivedContent) {
+    public Response getOwnedImages(String receivedContent) {
         ResponseBuilder builder;
         try {
-            JSONObject infoJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            String imgOrn = (String) infoJSON.get("imgOrn");
-            File directory = new File(".\\src\\main\\resources\\assets\\images\\" + imgOrn);
-            directory.mkdir();
-            MorphoApplication.logger.info(receivedContent);
+            //JSONObject infoJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            //String imgOrn = (String) infoJSON.get("imgOrn");
+            File directory = new File(".\\src\\main\\resources\\assets\\images\\" + receivedContent);
+            //directory.mkdir();
+            //MorphoApplication.logger.info(receivedContent);
             String html="";
             for (File file : directory.listFiles())
             {
                 if(file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) //Por ahora solo extensiones .png
                 {
-                    html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
+                    html = html + "<modalImages data-dismiss=\"modal\"> <img src=\"assets/images/" + receivedContent + "/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </modalImages>";
                     //html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" onmouseover=\"this.width='auto'; this.height='auto';\" onmouseout=\"this.width='150'; this.height='150';\" style=\"width:150px; height:150px; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
 
                 }

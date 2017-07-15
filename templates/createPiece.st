@@ -38,9 +38,9 @@
                     <!-- <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal"> -->
                          Open saved public images
                     </button>
-                    <button id="btnSavedPrivateImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs(); savePriv();" data-target = "#openPrivate" data-dismiss="modal">
+                    <button id="btnSavedOwnedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs(); savedOwnedImages();" data-target = "#openOwned" data-dismiss="modal">
                     <!-- <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal"> -->
-                         Open saved private images
+                         Open my images only
                     </button>
                     <button type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openLocal" data-dismiss="modal">
                        Search images locally
@@ -95,8 +95,8 @@
        </div><!-- /.modal -->
 
 
-<!-- Menu to load an image on the canvas from the server (private images from each user)-->
-       <div class = "modal fade" id = "openPrivate" tabindex = "-1" role = "dialog"
+<!-- Menu to load an image on the canvas from the server (owned images from each user)-->
+       <div class = "modal fade" id = "openOwned" tabindex = "-1" role = "dialog"
         aria-labelledby = "myModalLabel" aria-hidden = "true">
             <div class = "modal-dialog">
                   <div class = "modal-content">
@@ -105,12 +105,12 @@
                                  &times;
                            </button>
                            <h4 class = "modal-title" id = "myModalLabel">
-                              Private images
+                              My images
                            </h4>
                            Please select one of the following images:
                         </div>
                         <div class = "modal-body" align="center">
-                           <div id="privateImages"></div>
+                           <div id="ownedImages"></div>
 
                            <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                            <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
@@ -161,7 +161,7 @@
 		<div class="container-fluid">
 		<div class="row top-nav">
 			<div class="col-md-2">
-				<div class="main-nav-button nav-button" id="saveButton" onclick="saveCrtnAndAtt()">
+				<div class="main-nav-button nav-button" id="saveButton" onclick="saveCreation(uid);saveAttributes();">
 					<i class="fa fa-floppy-o fa-2x"></i>
 					</br>
 					<p>Save</p>
@@ -361,32 +361,10 @@
 
         <script language="javascript">
 
-            var uid = null;
-
-            function statusChangeCallback(response) {
+        function statusChangeCallback(response) {
                 console.log('statusChangeCallback');
                 console.log(response);
-                if (response.status === 'connected') {
-                  document.getElementById("addImage").disabled = false;
-                  document.getElementById("saveButton").disabled = false;
-                  uid = response.authResponse.userID;
-                } else {
-                  document.getElementById("addImage").disabled = true;
-                  document.getElementById("saveButton").disabled = true;
-                  uid = null;
-                }
-              }
-
-              function saveCrtnAndAtt()
-              {
-                saveCreation(uid);
-                saveAttributes();
-              }
-
-              function savePriv()
-              {
-                btnSavedPrivateImages(uid);
-              }
+        }
 
         </script>
 

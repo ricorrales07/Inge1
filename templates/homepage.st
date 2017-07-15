@@ -102,8 +102,8 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
                     <li><a href="#" data-toggle = "modal" data-target = "#loginModal" data-dismiss="modal">Log in</a></li>
+                    <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
                 </ul>
                 </div>
         </nav>
@@ -159,12 +159,10 @@
         console.log('statusChangeCallback');
         console.log(response);
         if (response.status === 'connected') {
-          document.getElementById("btnSavedImages").disabled = false;
-          document.getElementById("loadCompositionButton").disabled = false;
+          document.getElementById("pieceEditorLink").style.visibility = "visible";
           document.getElementById("saveCompositionButton").disabled = false;
         } else {
-          document.getElementById("btnSavedImages").disabled = true;
-          document.getElementById("loadCompositionButton").disabled = true;
+          document.getElementById("pieceEditorLink").style.visibility = "hidden";
           document.getElementById("saveCompositionButton").disabled = true;
         }
       }

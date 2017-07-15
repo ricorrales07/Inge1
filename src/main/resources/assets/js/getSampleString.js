@@ -8,7 +8,7 @@ tag with the id "images".
 
 //$("#btnSavedImages").click(function() {
 function btnSavedImages(){
-    $("a").each(function(){
+    $("modalImages").each(function(){
     	$(this).remove();
 	});
 	console.log("btn clicked");
@@ -25,18 +25,18 @@ function btnSavedImages(){
 }
 
 //$("#btnSavedPrivateImages").click(function() {
-function btnSavedPrivateImages(usrId){
-    $("a").each(function(){
+function savedOwnedImages(){
+    $("modalImages").each(function(){
     	$(this).remove();
 	});
 	console.log("btn clicked");
     $.ajax({
-		url: "/methods/getPrivateImages",
-		type: 'GET',
-		data: usrId,
+		url: "/methods/getOwnedImages",
+		type: 'POST',
+		data: Cookies.get("userID"),
 		contentType: "text/plain",
 		success:function(data, textStatus, jqXHR){
-			$('#privateImages').append(data)
+			$('#ownedImages').append(data)
 		},
 		error:function(jqXHR, textStatus, errorThrown ){
 			console.log(errorThrown);
