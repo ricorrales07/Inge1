@@ -126,7 +126,9 @@ public class AppResourcesMethods {
     @Path("/sendToken")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendToken(String receivedAuth) {
-        return authorize(receivedAuth).build();
+        ResponseBuilder b = Response.ok();
+        b.status(200);
+        return b.build();//authorize(receivedAuth).build();
     }
 
     private ResponseBuilder queryDB(String queryType, String collection, String receivedContent) {
@@ -139,7 +141,8 @@ public class AppResourcesMethods {
             JSONObject authJSON = (JSONObject) new JSONParser().parse(receivedContent);
             String receivedAuth = authJSON.get("auth").toString();
             String content = authJSON.get(collection).toString();
-            builder = authorize(receivedAuth);
+            builder = Response.ok();
+            builder.status(200);//authorize(receivedAuth);
             if(builder.build().getStatus() == 200) { //successful authorization
                 try {
                     builder = Response.ok(collection + " created");
@@ -155,14 +158,14 @@ public class AppResourcesMethods {
                         builder.status(500);
                     }
                 } catch(Exception e) {
-                    MorphoApplication.logger.warning(e.toString());
+                    MorphoApplication.logger.warning("Error when querying DB: " + e.toString());
                     e.printStackTrace();
                     builder = Response.ok("Error inserting into DB");
                     builder.status(404);
                 }
             }
         } catch (ParseException e) {
-            MorphoApplication.logger.warning(e.toString());
+            MorphoApplication.logger.warning("Could not process auth: " + e.toString());
             e.printStackTrace();
             builder = Response.ok("Could not process auth");
             builder.status(422);
@@ -295,8 +298,16 @@ public class AppResourcesMethods {
             JSONObject a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
             JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
             a.put("SourceFront", "assets/images/PieceA" + pieceCounter + ".png");
+            MorphoApplication.logger.info("Saving piece: " + "assets/images/PieceA" + pieceCounter + ".png");
             a.put("SourceSide", "assets/images/PieceB" + pieceCounter + ".png");
-            a.put("_id", id.get("userID").toString() + "C" + pieceCounter);
+            try {
+                MorphoApplication.logger.info("Saving piece: user ID: " + id.get("userID").toString());
+                a.put("_id", id.get("userID").toString() + "C" + pieceCounter);
+            }
+            catch (NullPointerException e)
+            {
+                a.put("_id", 0 + "C" + pieceCounter);
+            }
             receivedJSON.put("piece", a);
             receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
             MorphoApplication.logger.info(receivedContent);
@@ -306,6 +317,7 @@ public class AppResourcesMethods {
         }
         
         receivedContent = MorphoApplication.searcher.addSearchIdToPiece(receivedContent);
+        MorphoApplication.logger.info("Piece with searchId: " + receivedContent);
 
         try {
             PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Piece" + pieceCounter + ".json");
@@ -313,7 +325,7 @@ public class AppResourcesMethods {
             writer.close();
             builder = queryDB("insert", "piece", receivedContent);
         }catch(Exception e){
-            MorphoApplication.logger.warning(e.toString());
+            MorphoApplication.logger.warning("Error while inserting piece in DB: " + e.toString());
         }
         if(this.saved){
             this.saved = false;
@@ -344,7 +356,13 @@ public class AppResourcesMethods {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
             JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
             JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
-            data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
+            try {
+                data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
+            }
+            catch (NullPointerException e)
+            {
+                data.put("_id", "0C" + compositionCounter);
+            }
             receivedJSON.put("composition", data);
             receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
             MorphoApplication.logger.info(receivedContent);
@@ -390,7 +408,13 @@ public class AppResourcesMethods {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
             JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
             JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
-            data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
+            try {
+                data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
+            }
+            catch (NullPointerException e)
+            {
+                data.put("_id", "0C" + compositionCounter);
+            }
             receivedJSON.put("composition", data);
             //receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
             MorphoApplication.logger.info("Received content: " + receivedContent);

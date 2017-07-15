@@ -5,13 +5,10 @@ import com.mongodb.DBCursor;
 import com.mongodb.client.FindIterable;
 import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
-import org.bson.BsonArray;
-import org.bson.BsonString;
-import org.bson.BsonValue;
+import org.bson.*;
 import org.bson.conversions.Bson;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
-import org.bson.Document;
 import sun.security.ssl.Debug;
 
 //import be.tarsos.lsh.Index;
@@ -19,6 +16,8 @@ import sun.security.ssl.Debug;
 
 import javax.print.Doc;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.util.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -100,10 +99,11 @@ public class SearchEngine {
         Document piece = (Document)dataD.get("piece");
 
         digester.update(piece.toJson().getBytes());
-        byte[] hashValue = digester.digest();
+        ByteBuffer buffer = ByteBuffer.wrap(digester.digest());
+        int hashValue = buffer.getInt();
 
         //Document piece = Document.parse(pieceJson);
-        piece.put("searchId", new String(hashValue));
+        piece.put("searchId", hashValue);
         dataD.put("piece", piece);
 
         return dataD.toJson();
@@ -116,14 +116,14 @@ public class SearchEngine {
         ArrayList<Document> pieces = (ArrayList<Document>) composition.get("pieces");
 
         BsonArray searchId = new BsonArray();
-        ArrayList<BsonString> preSearchId = new ArrayList<BsonString>();
+        ArrayList<BsonInt32> preSearchId = new ArrayList<BsonInt32>();
         for (Document part : pieces)
         {
             String id = part.getString("_id");
             try {
                 Document p = Document.parse(MorphoApplication.DBA.find("piece", "{_id: \"" + id + "\"}"));
-                MorphoApplication.logger.info("piece searchId: " + p.getString("searchId"));
-                preSearchId.add(new BsonString(p.getString("searchId")));
+                MorphoApplication.logger.info("piece searchId: " + p.getInteger("searchId").toString());
+                preSearchId.add(new BsonInt32(p.getInteger("searchId")));
             }
             catch(Exception e)
             {
@@ -159,8 +159,8 @@ public class SearchEngine {
 
         FindIterable<Document> partialResults;
 
-        ArrayList<ArrayList<String>> searchCriteria =
-                (ArrayList<ArrayList<String>>) composition.get("searchId"); //THIS API'S DOCS SUCK!!
+        ArrayList<ArrayList<Integer>> searchCriteria =
+                (ArrayList<ArrayList<Integer>>) composition.get("searchId"); //THIS API'S DOCS SUCK!!
 
         /*System.out.println("" + preSearchCriteria);
 
@@ -179,10 +179,10 @@ public class SearchEngine {
                 MorphoApplication.logger.fine("closeness: " + closeness);
 
 
-                ArrayList<String> filter = searchCriteria.get(closeness);
+                ArrayList<Integer> filter = searchCriteria.get(closeness);
                 String temp = "[";
-                for (String x : filter)
-                    temp += "\"" + x + "\", ";
+                for (Integer x : filter)
+                    temp += x + ", ";
                 if (temp.length() > 1)
                     temp = temp.substring(0, temp.length()-2);
                 temp += "]";
@@ -195,7 +195,7 @@ public class SearchEngine {
 
                 for (Document result : partialResults)
                 {
-                    if (--skip <= 0) {
+                    if (--skip <= 0 && !results.contains(result.toJson())) {
                         results.add(result.toJson());
                         if (results.size() >= 10)
                             break;
