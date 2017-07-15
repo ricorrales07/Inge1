@@ -161,7 +161,7 @@
 		<div class="container-fluid">
 		<div class="row top-nav">
 			<div class="col-md-2">
-				<div class="main-nav-button nav-button" id="saveButton" onclick="saveCreation();saveAttributes();">
+				<div class="main-nav-button nav-button" id="saveButton" onclick="savePiece();">
 					<i class="fa fa-floppy-o fa-2x"></i>
 					</br>
 					<p>Save</p>
@@ -357,15 +357,23 @@
             x.style.width = "32px";
         }
 
-        </script>
+    </script>
 
-        <script language="javascript">
+        <script type="text/javascript">
 
         function statusChangeCallback(response) {
                 console.log('statusChangeCallback');
                 console.log(response);
         }
 
+        function savePiece() {
+            var saved = false;
+            saved = saveAttributes();
+
+            if(saved){
+                saveCreation();
+            }
+        }
         </script>
 
 	</body>

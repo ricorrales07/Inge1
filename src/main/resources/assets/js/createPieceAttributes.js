@@ -49,6 +49,8 @@ function saveAttributes(){
     }
     attributes += "\n}";
 
+    var result = false;
+
         $.ajax({
             url: "/methods/saveAttributes",
             type: 'POST',
@@ -61,10 +63,23 @@ function saveAttributes(){
             }),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
-                console.log("attributes saved in server directory")},
+                if(data == "Repeated"){
+                    alert("There are another piece with the sames attributes.\n" +
+                    "Please change, add or delete one in your current" +
+                    "piece to be able to save it.")
+                    result =  false
+                } else {
+                    alert("Piece successfully saved in the server.")
+                    console.log("attributes saved in server directory")
+                    result =  true
+                }
+            },
             error:function(jqXHR, textStatus, errorThrown ){
                 console.log(errorThrown);
-            }
+                result = false
+            },
+            async:false
         });
 
+    return result;
 }

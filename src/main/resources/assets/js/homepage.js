@@ -510,7 +510,7 @@ function saveCompositionData(){
         }
     });
 
-    savedImg = "";
+    //savedImg = "";
 }
 
 function loadComposition(){

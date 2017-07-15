@@ -331,88 +331,99 @@ public class AppResourcesMethods {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveAttributes(String receivedContent){
         ResponseBuilder builder = Response.ok("Failed to save image in server");;
+        Boolean localEquals = false;
+        JSONObject receivedJSON = null;
+        Boolean equals = false;
         try {
-            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
 
             FindIterable<org.bson.Document> imgJsons;
             imgJsons = MorphoApplication.DBA.search("piece", "{}");
 
-            Boolean equals = true;
-            Boolean localEquals = false;
+            int equalAttributes;
+
+            JSONObject parts = (JSONObject) receivedJSON.get("piece");
 
             for (org.bson.Document json : imgJsons)
             {
-                Set<Map.Entry<String, Object>> currentDocument = json.entrySet();
-                for(Map.Entry<String, Object> key : currentDocument){
-                    Set<Map.Entry<String, Object>> currentPiece = receivedJSON.keySet();
-                    for(Map.Entry<String, Object> newKey : currentPiece){
-                        if(key.equals(newKey)){
-                            localEquals = true;
-                            break;
+                equalAttributes = 0;
+                Set<Map.Entry<String, Object>> currentPiece = parts.entrySet();
+                for(Map.Entry<String, Object> newKey : currentPiece){
+                    Set<Map.Entry<String, Object>> currentDocument = json.entrySet();
+                    for(Map.Entry<String, Object> key : currentDocument){
+                        if(!key.getKey().equalsIgnoreCase("_id") &&
+                           !key.getKey().equalsIgnoreCase("SourceFront") &&
+                           !key.getKey().equalsIgnoreCase("SourceSide")) {
+                            if (key.equals(newKey)) {
+                                equalAttributes++;
+                                break;
+                            }
                         }
                     }
-                    if(!localEquals){
-                        equals = false;
-                        break;
-                    }
                 }
-                if(equals){
+                if(equalAttributes == parts.size()){
+                    equals = true;
                     break;
                 }
             }
+        }catch (ParseException e){
 
-            if(equals){
-
-            }
-
-            JSONObject a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
-            JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
-            a.put("SourceFront", "assets/images/PieceA" + pieceCounter + ".png");
-            MorphoApplication.logger.info("Saving piece: " + "assets/images/PieceA" + pieceCounter + ".png");
-            a.put("SourceSide", "assets/images/PieceB" + pieceCounter + ".png");
-            try {
-                MorphoApplication.logger.info("Saving piece: user ID: " + id.get("userID").toString());
-                a.put("_id", id.get("userID").toString() + "C" + pieceCounter);
-            }
-            catch (NullPointerException e)
-            {
-                a.put("_id", 0 + "C" + pieceCounter);
-            }
-            receivedJSON.put("piece", a);
-            receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
-            MorphoApplication.logger.info(receivedContent);
-        } catch(ParseException e){
-            MorphoApplication.logger.warning(e.toString());
-            e.printStackTrace();
-        } catch(Exception e){
+        }catch (Exception e){
 
         }
-        
-        receivedContent = MorphoApplication.searcher.addSearchIdToPiece(receivedContent);
-        MorphoApplication.logger.info("Piece with searchId: " + receivedContent);
 
-        try {
-            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Piece" + pieceCounter + ".json");
-            writer.print(receivedContent);
-            writer.close();
-            builder = queryDB("insert", "piece", receivedContent);
-        }catch(Exception e){
-            MorphoApplication.logger.warning("Error while inserting piece in DB: " + e.toString());
-        }
-        if(this.saved){
-            this.saved = false;
-            this.pieceCounter++;
+        if(equals){
+            System.err.println("Repeated piece");
+            builder = Response.ok("Repeated");
+        }else {
             try {
-                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
-                writer.print(""+pieceCounter);
-                writer.close();
-
-            }catch(Exception e){
+                JSONObject a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
+                JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
+                a.put("SourceFront", "assets/images/PieceA" + pieceCounter + ".png");
+                MorphoApplication.logger.info("Saving piece: " + "assets/images/PieceA" + pieceCounter + ".png");
+                a.put("SourceSide", "assets/images/PieceB" + pieceCounter + ".png");
+                try {
+                    MorphoApplication.logger.info("Saving piece: user ID: " + id.get("userID").toString());
+                    a.put("_id", id.get("userID").toString() + "C" + pieceCounter);
+                } catch (NullPointerException e) {
+                    a.put("_id", 0 + "C" + pieceCounter);
+                }
+                receivedJSON.put("piece", a);
+                receivedContent = receivedJSON.toJSONString().replaceAll("\\\\", "");
+                MorphoApplication.logger.info(receivedContent);
+            } catch (ParseException e) {
                 MorphoApplication.logger.warning(e.toString());
-            }
-        }else{
-            this.saved = true;
+                e.printStackTrace();
+            } catch (Exception e) {
 
+            }
+
+            receivedContent = MorphoApplication.searcher.addSearchIdToPiece(receivedContent);
+            MorphoApplication.logger.info("Piece with searchId: " + receivedContent);
+
+            try {
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Piece" + pieceCounter + ".json");
+                writer.print(receivedContent);
+                writer.close();
+                builder = queryDB("insert", "piece", receivedContent);
+            } catch (Exception e) {
+                MorphoApplication.logger.warning("Error while inserting piece in DB: " + e.toString());
+            }
+            if (this.saved) {
+                this.saved = false;
+                this.pieceCounter++;
+                try {
+                    PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
+                    writer.print("" + pieceCounter);
+                    writer.close();
+
+                } catch (Exception e) {
+                    MorphoApplication.logger.warning(e.toString());
+                }
+            } else {
+                this.saved = true;
+
+            }
         }
         return builder.build();
     }
