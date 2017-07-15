@@ -449,7 +449,7 @@ function saveCompositionImage(){
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
         //aync: false,
-        data: "Composition," + comp.toDataURL(),
+        data: "Composition," + comp.toDataURL() + "," + Cookies.get("userID"),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory: " + data);
@@ -489,8 +489,8 @@ function saveCompositionData(){
 
     console.log(pieces);
 
-    while(savedImg == "")
-      console.log("savedImg (saving attributes): " + savedImg);
+   // while(savedImg == "")
+   //   console.log("savedImg (saving attributes): " + savedImg);
 
     $.ajax({
         url: "/methods/saveCompositionData",
@@ -500,7 +500,7 @@ function saveCompositionData(){
                 userID: Cookies.get("userID"),
                 accessToken: Cookies.get("accessToken")
             },
-            composition: {pieces, imgSource: savedImg}
+            composition: {pieces}
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){

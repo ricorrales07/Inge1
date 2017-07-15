@@ -347,7 +347,7 @@ function updateView(select){
 	}
 }
 
-function saveCreation(usrId){
+function saveCreation(){
     var imageFront = surfaceF.getCacheDataURL();
     var imageSide =  surfaceS.getCacheDataURL();
 
@@ -355,10 +355,7 @@ function saveCreation(usrId){
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
         //data: "Piece," + imageFront + "," + imageSide,
-        data: JSON.stringify({
-        	imgOrn: "Piece," + imageFront + "," + imageSide,
-        	userID: usrId,
-        }),
+        data: "Piece," + imageFront + "," + imageSide + "," + Cookies.get("userID"),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             console.log("image saved in server directory")},

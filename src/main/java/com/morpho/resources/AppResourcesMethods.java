@@ -24,10 +24,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 import java.net.URLDecoder;
-import java.util.Base64;
+import java.util.*;
 import java.util.Base64.Decoder;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by irvin on 29/4/2017.
@@ -245,29 +243,29 @@ public class AppResourcesMethods {
     public Response saveCreatedImageFile(String receivedContent){
         ResponseBuilder builder;
         try {
-            JSONObject infoJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            String imgOrn = (String) infoJSON.get("imgOrn");
-            String userID = (String) infoJSON.get("userID");
-            URLDecoder.decode(imgOrn, "UTF8");
-            String[] data = imgOrn.split(",");
+            //JSONObject infoJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            //String imgOrn = (String) infoJSON.get("imgOrn");
+            //String userID = (String) infoJSON.get("userID");
+            URLDecoder.decode(receivedContent, "UTF8");
+            String[] data = receivedContent.split(",");
             String imgSource = "";
             File f = null;
             try {
                 if(data[0].equals("Piece")) {
-                    f = new File(".\\src\\main\\resources\\assets\\images\\" + userID);
+                    f = new File(".\\src\\main\\resources\\assets\\images\\" + data[5]);
                     f.mkdir();
                     String imageData = data[2];
                     String imageDataB = data[4];
                     InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
                     InputStream bitB = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageDataB));
-                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + userID + "\\PieceA" + pieceCounter + ".png"));
-                    ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\" + userID + "\\PieceB" + pieceCounter + ".png"));
+                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[5] + "\\PieceA" + pieceCounter + ".png"));
+                    ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[5] + "\\PieceB" + pieceCounter + ".png"));
                     builder = Response.ok("Image saved");
                 }else{
                     String imageData = data[2];
                     InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
-                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
-                    imgSource = "./src/main/resources/assets/images/Composition" + compositionCounter + ".png";
+                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[3] + "\\Composition" + compositionCounter + ".png"));
+                    imgSource = "./src/main/resources/assets/images/Composition/" + data[3] + "/" + compositionCounter + ".png";
                     builder = Response.ok("Image saved");
                     builder.entity(imgSource);
                 }
@@ -332,6 +330,38 @@ public class AppResourcesMethods {
         ResponseBuilder builder = Response.ok("Failed to save image in server");;
         try {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+
+            FindIterable<org.bson.Document> imgJsons;
+            imgJsons = MorphoApplication.DBA.search("piece", "{}");
+
+            Boolean equals = true;
+            Boolean localEquals = false;
+
+            for (org.bson.Document json : imgJsons)
+            {
+                Set<Map.Entry<String, Object>> currentDocument = json.entrySet();
+                for(Map.Entry<String, Object> key : currentDocument){
+                    Set<Map.Entry<String, Object>> currentPiece = receivedJSON.keySet();
+                    for(Map.Entry<String, Object> newKey : currentPiece){
+                        if(key.equals(newKey)){
+                            localEquals = true;
+                            break;
+                        }
+                    }
+                    if(!localEquals){
+                        equals = false;
+                        break;
+                    }
+                }
+                if(equals){
+                    break;
+                }
+            }
+
+            if(equals){
+
+            }
+
             JSONObject a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
             JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
             a.put("SourceFront", "assets/images/PieceA" + pieceCounter + ".png");
@@ -343,6 +373,8 @@ public class AppResourcesMethods {
         } catch(ParseException e){
             MorphoApplication.logger.warning(e.toString());
             e.printStackTrace();
+        } catch(Exception e){
+
         }
         
         receivedContent = MorphoApplication.searcher.addSearchIdToPiece(receivedContent);
