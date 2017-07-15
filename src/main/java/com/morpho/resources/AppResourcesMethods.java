@@ -72,19 +72,54 @@ public class AppResourcesMethods {
         ResponseBuilder builder;
         File directory = new File(".\\src\\main\\resources\\assets\\images");
         String html="";
-        //String html= "<div class=\"funSlick\">";
         for (File file : directory.listFiles())
         {
             if(file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) //Por ahora solo extensiones .png
             {
-                html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
+                //html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
+                html = html + "<modalImages data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" onmouseover=\"this.width='auto'; this.height='auto';\" onmouseout=\"this.width='150'; this.height='150';\" style=\"width:150px; height:150px; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </modalImages>";
+
             }
         }
-        //html = html + "</div>";
         builder = Response.ok("Got images");
         builder.entity(html);
         builder.status(200);
         return builder.build();
+    }
+
+    @POST
+    @Path("getOwnedImages")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response getOwnedImages(String receivedContent) {
+        ResponseBuilder builder;
+        try {
+            //JSONObject infoJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            //String imgOrn = (String) infoJSON.get("imgOrn");
+            File directory = new File(".\\src\\main\\resources\\assets\\images\\" + receivedContent);
+            //directory.mkdir();
+            //MorphoApplication.logger.info(receivedContent);
+            String html="";
+            for (File file : directory.listFiles())
+            {
+                if(file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) //Por ahora solo extensiones .png
+                {
+                    html = html + "<modalImages data-dismiss=\"modal\"> <img src=\"assets/images/" + receivedContent + "/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </modalImages>";
+                    //html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" onmouseover=\"this.width='auto'; this.height='auto';\" onmouseout=\"this.width='150'; this.height='150';\" style=\"width:150px; height:150px; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
+
+                }
+            }
+            builder = Response.ok("Got images");
+            builder.entity(html);
+            builder.status(200);
+            return builder.build();
+        } catch(Exception e){
+            MorphoApplication.logger.warning("Failed to save image in server");
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.ok("Failed to save image in server");
+            builder.status(404);
+            return builder.build();
+        }
+
     }
 
     //TODO: cambiar este método para que tire pocos resultados (de 10 en 10 o así)
@@ -213,18 +248,23 @@ public class AppResourcesMethods {
     public Response saveCreatedImageFile(String receivedContent){
         ResponseBuilder builder;
         try {
-            URLDecoder.decode(receivedContent, "UTF8");
-            String[] data = receivedContent.split(",");
+            JSONObject infoJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            String imgOrn = (String) infoJSON.get("imgOrn");
+            String userID = (String) infoJSON.get("userID");
+            URLDecoder.decode(imgOrn, "UTF8");
+            String[] data = imgOrn.split(",");
             String imgSource = "";
-
+            File f = null;
             try {
                 if(data[0].equals("Piece")) {
+                    f = new File(".\\src\\main\\resources\\assets\\images\\" + userID);
+                    f.mkdir();
                     String imageData = data[2];
                     String imageDataB = data[4];
                     InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
                     InputStream bitB = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageDataB));
-                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceA" + pieceCounter + ".png"));
-                    ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\PieceB" + pieceCounter + ".png"));
+                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + userID + "\\PieceA" + pieceCounter + ".png"));
+                    ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\" + userID + "\\PieceB" + pieceCounter + ".png"));
                     builder = Response.ok("Image saved");
                 }else{
                     String imageData = data[2];
@@ -449,4 +489,6 @@ public class AppResourcesMethods {
         builder.status(200);
         return builder.build();
     }
+
+
 }

@@ -6,8 +6,12 @@ window.fbAsyncInit = function() {
 		version		: 'v2.9'
 	});
 	FB.AppEvents.logPageView();
+	FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+     });
 
 	FB.Event.subscribe('auth.statusChange', auth_status_change_callback);
+	FB.Event.subscribe('auth.logout', logout_event);
 };
 
 (function(d, s, id) {
@@ -19,6 +23,9 @@ window.fbAsyncInit = function() {
 	}(document, 'script', 'facebook-jssdk'));
 
 var auth_status_change_callback = function(response) {
+    FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+    });
 	if(response.status == "connected") {
 		console.log("auth_status_change_callback: " + response.status);
 		$.ajax({
@@ -41,4 +48,15 @@ var auth_status_change_callback = function(response) {
 	else {
 		console.log("disconnected")
 	}
+
 }
+
+var logout_event = function(response)
+{
+    FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+    });
+    console.log("logout_event");
+    console.log(response.status);
+}
+
