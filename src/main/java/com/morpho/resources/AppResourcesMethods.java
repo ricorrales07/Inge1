@@ -345,24 +345,27 @@ public class AppResourcesMethods {
 
             for (org.bson.Document json : imgJsons)
             {
-                equalAttributes = 0;
-                Set<Map.Entry<String, Object>> currentPiece = parts.entrySet();
-                for(Map.Entry<String, Object> newKey : currentPiece){
-                    Set<Map.Entry<String, Object>> currentDocument = json.entrySet();
-                    for(Map.Entry<String, Object> key : currentDocument){
-                        if(!key.getKey().equalsIgnoreCase("_id") &&
-                           !key.getKey().equalsIgnoreCase("SourceFront") &&
-                           !key.getKey().equalsIgnoreCase("SourceSide")) {
-                            if (key.equals(newKey)) {
-                                equalAttributes++;
-                                break;
+                if((json.size() - 4) == parts.size()) {
+                    equalAttributes = 0;
+                    Set<Map.Entry<String, Object>> currentPiece = parts.entrySet();
+                    for (Map.Entry<String, Object> newKey : currentPiece) {
+                        Set<Map.Entry<String, Object>> currentDocument = json.entrySet();
+                        for (Map.Entry<String, Object> key : currentDocument) {
+                            if (!key.getKey().equalsIgnoreCase("_id") &&
+                                    !key.getKey().equalsIgnoreCase("SourceFront") &&
+                                    !key.getKey().equalsIgnoreCase("SourceSide") &&
+                                    !key.getKey().equalsIgnoreCase("searchId")) {
+                                if (key.equals(newKey)) {
+                                    equalAttributes++;
+                                    break;
+                                }
                             }
                         }
                     }
-                }
-                if(equalAttributes == parts.size()){
-                    equals = true;
-                    break;
+                    if (equalAttributes == parts.size()) {
+                        equals = true;
+                        break;
+                    }
                 }
             }
         }catch (ParseException e){
@@ -453,27 +456,28 @@ public class AppResourcesMethods {
                 JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
                 equalAttributes = 0;
 
-
                 JSONArray documentArray = (JSONArray) docData.get("pieces");
 
-                for(int i = 0; i < partsArray.size(); i++){
-                    JSONObject o1 = (JSONObject) new JSONParser().parse(partsArray.get(i).toString());
-                    for(int j = 0; j < documentArray.size(); j++){
-                        JSONObject o2 = (JSONObject) new JSONParser().parse(documentArray.get(j).toString());
-                        if(o1.get("Source1").equals(o2.get("Source1"))){
-                            if(o1.get("Source2").equals(o2.get("Source2"))){
-                                equalAttributes++;
-                                break;
+                if(documentArray.size() == partsArray.size()) {
+
+                    for (int i = 0; i < partsArray.size(); i++) {
+                        JSONObject o1 = (JSONObject) new JSONParser().parse(partsArray.get(i).toString());
+                        for (int j = 0; j < documentArray.size(); j++) {
+                            JSONObject o2 = (JSONObject) new JSONParser().parse(documentArray.get(j).toString());
+                            if (o1.get("Source1").equals(o2.get("Source1"))) {
+                                if (o1.get("Source2").equals(o2.get("Source2"))) {
+                                    equalAttributes++;
+                                    break;
+                                }
                             }
                         }
                     }
-                }
-                if(equalAttributes == partsArray.size()){
-                    equals = true;
-                    break;
+                    if (equalAttributes == partsArray.size()) {
+                        equals = true;
+                        break;
+                    }
                 }
             }
-
         }catch(ParseException e){
 
         }catch(Exception e){
@@ -484,7 +488,6 @@ public class AppResourcesMethods {
             System.err.println("Repeated piece");
             builder = Response.ok("Repeated");
         }else {
-
             try {
                 JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
                 try {
@@ -504,8 +507,6 @@ public class AppResourcesMethods {
                 PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Composition" + compositionCounter + ".json");
                 writer.print(receivedContent);
                 writer.close();
-
-
             } catch (Exception e) {
                 MorphoApplication.logger.warning(e.toString());
             }
