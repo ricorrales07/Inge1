@@ -90,6 +90,36 @@ public class AppResourcesMethods {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response getOwnedImages(String receivedContent) {
         ResponseBuilder builder;
+        File directory = new File(".\\src\\main\\resources\\assets\\images\\" + receivedContent);
+        String html= "";
+        FindIterable<org.bson.Document> imgJsons;
+        try
+        {
+            imgJsons = MorphoApplication.DBA.search("piece", "{_id: /^"+ receivedContent + "C/" + "}");
+
+            //TODO: sacar esto de acá, solo debería ir la línea anterior
+            for (org.bson.Document json : imgJsons)
+            {
+                html += "<modalImages data-dismiss=\"modal\"> <img src=\""
+                        + json.getString("SourceFront")
+                        + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("_id") + "')\" /> </modalImages>";
+            }
+        }
+        catch (Exception e) //DANGER
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            //builder.status(200);
+            return builder.build();
+        }
+
+        builder = Response.ok("Got images");
+        builder.entity(html);
+        builder.status(200);
+        return builder.build();
+
+        /*ResponseBuilder builder;
         try {
             //JSONObject infoJSON = (JSONObject) new JSONParser().parse(receivedContent);
             //String imgOrn = (String) infoJSON.get("imgOrn");
@@ -116,7 +146,7 @@ public class AppResourcesMethods {
             builder = Response.ok("Failed to save image in server");
             builder.status(404);
             return builder.build();
-        }
+        }*/
 
     }
 
@@ -378,12 +408,13 @@ public class AppResourcesMethods {
             System.err.println("Repeated piece");
             builder = Response.ok("Repeated");
         }else {
+            JSONObject a = null;
             try {
-                JSONObject a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
+                a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
                 JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
-                a.put("SourceFront", "assets/images/PieceA" + pieceCounter + ".png");
+                a.put("SourceFront", "assets/images/" + id.get("userID") + "/PieceA" + pieceCounter + ".png");
                 MorphoApplication.logger.info("Saving piece: " + "assets/images/PieceA" + pieceCounter + ".png");
-                a.put("SourceSide", "assets/images/PieceB" + pieceCounter + ".png");
+                a.put("SourceSide", "assets/images/" + id.get("userID") + "/PieceB" + pieceCounter + ".png");
                 try {
                     MorphoApplication.logger.info("Saving piece: user ID: " + id.get("userID").toString());
                     a.put("_id", id.get("userID").toString() + "C" + pieceCounter);
@@ -404,7 +435,7 @@ public class AppResourcesMethods {
             MorphoApplication.logger.info("Piece with searchId: " + receivedContent);
 
             try {
-                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Piece" + pieceCounter + ".json");
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\P" + a.get("_id") + ".json");
                 writer.print(receivedContent);
                 writer.close();
                 builder = queryDB("insert", "piece", receivedContent);
@@ -492,6 +523,7 @@ public class AppResourcesMethods {
                 JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
                 try {
                     data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
+                    data.put("imgSource", "./src/main/resources/assets/images/" + id.get("userID").toString() + "/Composition" + compositionCounter + ".png");
                 } catch (NullPointerException e) {
                     data.put("_id", "0C" + compositionCounter);
                 }
@@ -504,7 +536,7 @@ public class AppResourcesMethods {
             }
 
             try {
-                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Composition" + compositionCounter + ".json");
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\C" + data.get("_id") + ".json");
                 writer.print(receivedContent);
                 writer.close();
             } catch (Exception e) {

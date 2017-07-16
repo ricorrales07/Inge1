@@ -590,7 +590,7 @@ function trySearch(){
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
                 console.log("Search results: " + data);
-                results = JSON.parse(data);
+                var results = JSON.parse(data);
                 var html = "";
                 for (var x in results)
                 {
