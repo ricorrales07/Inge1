@@ -75,8 +75,6 @@ public class AppResourcesMethods {
             if(file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) //Por ahora solo extensiones .png
             {
                 html = html + "<modalImages data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </modalImages>";
-                //html = html + "<modalImages data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" onmouseover=\"this.width='auto'; this.height='auto';\" onmouseout=\"this.width='150'; this.height='150';\" style=\"width:150px; height:150px; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </modalImages>";
-
             }
         }
         FindIterable<org.bson.Document> imgJsons;
@@ -104,77 +102,11 @@ public class AppResourcesMethods {
         return builder.build();
     }
 
-    @POST
-    @Path("getOwnedImages")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response getOwnedImages(String receivedContent) {
-        ResponseBuilder builder;
-        File directory = new File(".\\src\\main\\resources\\assets\\images\\" + receivedContent);
-        String html= "";
-        FindIterable<org.bson.Document> imgJsons;
-        try
-        {
-            imgJsons = MorphoApplication.DBA.search("piece", "{_id: /^"+ receivedContent + "C/" + "}");
-
-            //TODO: sacar esto de acá, solo debería ir la línea anterior
-            for (org.bson.Document json : imgJsons)
-            {
-                html += "<modalImages data-dismiss=\"modal\"> <img src=\""
-                        + json.getString("SourceFront")
-                        + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("_id") + "')\" /> </modalImages>";
-            }
-        }
-        catch (Exception e) //DANGER
-        {
-            MorphoApplication.logger.warning(e.toString());
-            builder = Response.status(404);
-            builder.entity(e.toString());
-            //builder.status(200);
-            return builder.build();
-        }
-
-        builder = Response.ok("Got images");
-        builder.entity(html);
-        builder.status(200);
-        return builder.build();
-
-        /*ResponseBuilder builder;
-        try {
-            //JSONObject infoJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            //String imgOrn = (String) infoJSON.get("imgOrn");
-            File directory = new File(".\\src\\main\\resources\\assets\\images\\" + receivedContent);
-            //directory.mkdir();
-            //MorphoApplication.logger.info(receivedContent);
-            String html="";
-            for (File file : directory.listFiles())
-            {
-                if(file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) //Por ahora solo extensiones .png
-                {
-                    html = html + "<modalImages data-dismiss=\"modal\"> <img src=\"assets/images/" + receivedContent + "/" + file.getName() + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </modalImages>";
-                    //html = html + "<a data-dismiss=\"modal\"> <img src=\"assets/images/" + file.getName() + "\" onmouseover=\"this.width='auto'; this.height='auto';\" onmouseout=\"this.width='150'; this.height='150';\" style=\"width:150px; height:150px; padding:10px; margin:10px;\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this)\" /> </a>";
-
-                }
-            }
-            builder = Response.ok("Got images");
-            builder.entity(html);
-            builder.status(200);
-            return builder.build();
-        } catch(Exception e){
-            MorphoApplication.logger.warning("Failed to save image in server");
-            MorphoApplication.logger.warning(e.toString());
-            builder = Response.ok("Failed to save image in server");
-            builder.status(404);
-            return builder.build();
-        }*/
-
-    }
-
     //TODO: cambiar este método para que tire pocos resultados (de 10 en 10 o así)
     @POST
     @Path("getPiecesInDB")
     public Response getPiecesInDB(String filter) {
         ResponseBuilder builder;
-        //File directory = new File(".\\src\\main\\resources\\assets\\images");
         String html= "";
         FindIterable<org.bson.Document> imgJsons;
         try
@@ -295,70 +227,57 @@ public class AppResourcesMethods {
     public Response saveCreatedImageFile(String receivedContent){
         ResponseBuilder builder;
         try {
-            //JSONObject infoJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            //String imgOrn = (String) infoJSON.get("imgOrn");
-            //String userID = (String) infoJSON.get("userID");
             URLDecoder.decode(receivedContent, "UTF8");
             String[] data = receivedContent.split(",");
             String imgSource = "";
             File f = null;
-            try {
-                if(data[0].equals("Piece")) {
-                    f = new File(".\\src\\main\\resources\\assets\\images\\" + data[5]);
-                    f.mkdir();
-                    String imageData = data[2];
-                    String imageDataB = data[4];
-                    InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
-                    InputStream bitB = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageDataB));
-                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[5] + "\\PieceA" + pieceCounter + ".png"));
-                    ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[5] + "\\PieceB" + pieceCounter + ".png"));
-                    builder = Response.ok("Image saved");
-                }else{
-                    String imageData = data[2];
-                    InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
-                    ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[3] + "\\Composition" + compositionCounter + ".png"));
-                    imgSource = "./src/main/resources/assets/images/Composition/" + data[3] + "/" + compositionCounter + ".png";
-                    builder = Response.ok("Image saved");
-                    builder.entity(imgSource);
-                }
+            if(data[0].equals("Piece")) {
+                f = new File(".\\src\\main\\resources\\assets\\images\\" + data[5]);
+                f.mkdir();
+                String imageData = data[2];
+                String imageDataB = data[4];
+                InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
+                InputStream bitB = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageDataB));
+                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[5] + "\\PieceA" + pieceCounter + ".png"));
+                ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[5] + "\\PieceB" + pieceCounter + ".png"));
+                builder = Response.ok("Image saved");
+            }else{
+                String imageData = data[2];
+                InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
+                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[3] + "\\Composition" + compositionCounter + ".png"));
+                imgSource = "./src/main/resources/assets/images/Composition/" + data[3] + "/" + compositionCounter + ".png";
+                builder = Response.ok("Image saved");
+                builder.entity(imgSource);
+            }
+            builder.status(200);
 
-                //builder = Response.ok("Image saved");
-                builder.status(200);
-
-                if(this.saved){
-                    this.saved = false;
-                    if(data[0].equals("Piece")){
-                        this.pieceCounter++;
-                        try {
-                            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
-                            writer.print(""+pieceCounter);
-                            writer.close();
-                        }catch(Exception e){
-
-                        }
-                    }else{
-                        this.compositionCounter++;
-                        try {
-                            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
-                            writer.print(""+compositionCounter);
-                            writer.close();
-                        }catch(Exception e){
-
-                        }
+            if(this.saved){
+                this.saved = false;
+                if(data[0].equals("Piece")){
+                    this.pieceCounter++;
+                    try {
+                        PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
+                        writer.print(""+pieceCounter);
+                        writer.close();
+                    }catch(Exception e){
+                        MorphoApplication.logger.warning(e.toString());
+                        e.printStackTrace();
                     }
                 }else{
-                    this.saved = true;
+                    this.compositionCounter++;
+                    try {
+                        PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
+                        writer.print(""+compositionCounter);
+                        writer.close();
+                    }catch(Exception e){
+                        MorphoApplication.logger.warning(e.toString());
+                        e.printStackTrace();
+                    }
                 }
-
-
-                return builder.build();
-            } catch (Exception e) {
-                MorphoApplication.logger.warning("Failed to save image in server");
-                MorphoApplication.logger.warning(e.toString());
-                builder = Response.ok("Failed to save image in server");
-                builder.status(404);
-                return builder.build();
+            }else{
+                this.saved = true;
             }
+            return builder.build();
 
         }catch (Exception e){
             MorphoApplication.logger.warning("Failed to save image in server");
@@ -418,9 +337,11 @@ public class AppResourcesMethods {
                 }
             }
         }catch (ParseException e){
-
+            MorphoApplication.logger.warning(e.toString());
+            e.printStackTrace();
         }catch (Exception e){
-
+            MorphoApplication.logger.warning(e.toString());
+            e.printStackTrace();
         }
 
         if(equals){
@@ -447,7 +368,8 @@ public class AppResourcesMethods {
                 MorphoApplication.logger.warning(e.toString());
                 e.printStackTrace();
             } catch (Exception e) {
-
+                MorphoApplication.logger.warning(e.toString());
+                e.printStackTrace();
             }
 
             receivedContent = MorphoApplication.searcher.addSearchIdToPiece(receivedContent);
@@ -474,7 +396,6 @@ public class AppResourcesMethods {
                 }
             } else {
                 this.saved = true;
-
             }
         }
         return builder.build();
@@ -631,6 +552,4 @@ public class AppResourcesMethods {
         builder.status(200);
         return builder.build();
     }
-
-
 }

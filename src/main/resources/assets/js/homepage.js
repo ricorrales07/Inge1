@@ -492,9 +492,6 @@ function saveCompositionData(){
 
     console.log(pieces);
 
-   // while(savedImg == "")
-   //   console.log("savedImg (saving attributes): " + savedImg);
-
     var result = false;
 
     $.ajax({
@@ -540,20 +537,7 @@ function loadComposition(){
                 addPart(partData);
             }
         })
-
     });
-
-    /*$.ajax({
-        url: "/methods/loadSavedComposition",
-        type: 'POST',
-        data: pieces,
-        contentType: "text/plain",
-        success:function(data, textStatus, jqXHR){
-            console.log("Composition reloaded succesfully")},
-        error:function(jqXHR, textStatus, errorThrown){
-            console.log(errorThrown);
-        }
-    });*/
 }
 
 //dummy to try out search function
