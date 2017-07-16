@@ -79,6 +79,25 @@ public class AppResourcesMethods {
 
             }
         }
+        FindIterable<org.bson.Document> imgJsons;
+        try
+        {
+            imgJsons = MorphoApplication.DBA.search("piece", "{}");
+
+            //TODO: sacar esto de acá, solo debería ir la línea anterior
+            for (org.bson.Document json : imgJsons)
+            {
+                html += "<modalImages data-dismiss=\"modal\"> <img src=\""
+                        + json.getString("SourceFront")
+                        + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("_id") + "')\" /> </modalImages>";
+            }
+        }catch(Exception e){
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            //builder.status(200);
+            return builder.build();
+        }
         builder = Response.ok("Got images");
         builder.entity(html);
         builder.status(200);
@@ -151,23 +170,23 @@ public class AppResourcesMethods {
     }
 
     //TODO: cambiar este método para que tire pocos resultados (de 10 en 10 o así)
-    @GET
+    @POST
     @Path("getPiecesInDB")
-    public Response getPiecesInDB() {
+    public Response getPiecesInDB(String filter) {
         ResponseBuilder builder;
-        File directory = new File(".\\src\\main\\resources\\assets\\images");
+        //File directory = new File(".\\src\\main\\resources\\assets\\images");
         String html= "";
         FindIterable<org.bson.Document> imgJsons;
         try
         {
-            imgJsons = MorphoApplication.DBA.search("piece", "{}");
+            imgJsons = MorphoApplication.DBA.search("piece", filter);
 
             //TODO: sacar esto de acá, solo debería ir la línea anterior
             for (org.bson.Document json : imgJsons)
             {
-                html += "<modalImage data-dismiss=\"modal\"> <img src=\""
+                html += "<modalImages data-dismiss=\"modal\"> <img src=\""
                     + json.getString("SourceFront")
-                    + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("_id") + "')\" /> </a>";
+                    + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("_id") + "')\" /> </modalImages>";
             }
         }
         catch (Exception e) //DANGER

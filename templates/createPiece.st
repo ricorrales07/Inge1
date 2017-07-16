@@ -36,7 +36,7 @@
                     <!-- <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal"> -->
                          Open saved public images
                     </button>
-                    <button id="btnSavedOwnedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs(); savedOwnedImages();" data-target = "#openOwned" data-dismiss="modal">
+                    <button id="btnSavedOwnedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs(); registeredImages(true);" data-target = "#openOwned" data-dismiss="modal">
                     <!-- <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal"> -->
                          Open my images only
                     </button>

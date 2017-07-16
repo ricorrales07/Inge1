@@ -165,8 +165,8 @@
               <div class = "btn-group-vertical">
                 <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
                 <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Guidelines</button>
-                <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); btnSavedImages();" data-dismiss="modal">Add piece</button>
-                <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="waitImgs(); savedOwnedImages();" data-dismiss="modal">Add owned piece</button>
+                <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false);" data-dismiss="modal">Add piece</button>
+                <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="waitImgs(); registeredImages(true);" data-dismiss="modal">Add owned piece</button>
                 <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
               </div>
               <div class = "btn-group-vertical align-bottom">
