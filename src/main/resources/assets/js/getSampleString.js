@@ -43,21 +43,3 @@ function savedOwnedImages(){
 		}
 	});
 }
-
-/*
-$(document).ready(function(){
-    $('.funSlick').slick({
-        dots: false,
-        infinite: true,
-        speed: 700,
-        autoplay: false,
-        arrows: true,
-        slidesToShow: 1,
-        slidesToScroll: 1
-        variableWidth: true
-        adaptiveHeight: true
-     });
- });
-*/
-
-

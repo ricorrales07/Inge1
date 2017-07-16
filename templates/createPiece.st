@@ -9,8 +9,6 @@
 	    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
-	    <link rel="stylesheet" type="text/css" href="assets/slick/slick.css"/>
-	    <link rel="stylesheet" type="text/css" href="assets/slick/slick-theme.css"/>
 	</head>
 	<body >
 	    <script type="text/javascript" src="assets/jquery/jquery-3.2.1.min.js"></script>
