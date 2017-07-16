@@ -455,7 +455,6 @@ function saveCompositionImage(){
             console.log("image saved in server directory: " + data);
             savedImg = data;
             console.log("savedImg: " + savedImg);
-            saveCompositionData();
           },
         error:function(jqXHR, textStatus, errorThrown ){
             console.log(errorThrown);
@@ -465,8 +464,12 @@ function saveCompositionImage(){
 
 function saveComp()
 {
-  saveCompositionImage();
-  //saveCompositionData();
+    var saved = false;
+    saved = saveCompositionData();
+
+    if(saved) {
+        saveCompositionImage();
+    }
 }
 
 function saveCompositionData(){
@@ -492,6 +495,8 @@ function saveCompositionData(){
    // while(savedImg == "")
    //   console.log("savedImg (saving attributes): " + savedImg);
 
+    var result = false;
+
     $.ajax({
         url: "/methods/saveCompositionData",
         type: 'POST',
@@ -504,13 +509,25 @@ function saveCompositionData(){
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
-            console.log("image saved in server directory")},
+            if(data == "Repeated"){
+                alert("There are another composition with the sames pieces.\n" +
+                    "Please change, add or delete one in your current" +
+                    "composition to be able to save it.")
+                result =  false
+            } else {
+                alert("Composition successfully saved in the server.")
+                console.log("image saved in server directory")
+                result = true
+            }
+        },
         error:function(jqXHR, textStatus, errorThrown ){
             console.log(errorThrown);
-        }
+            result = false
+        },
+        async:false
     });
 
-    //savedImg = "";
+    return result;
 }
 
 function loadComposition(){

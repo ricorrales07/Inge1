@@ -331,7 +331,6 @@ public class AppResourcesMethods {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveAttributes(String receivedContent){
         ResponseBuilder builder = Response.ok("Failed to save image in server");;
-        Boolean localEquals = false;
         JSONObject receivedJSON = null;
         Boolean equals = false;
         try {
@@ -434,51 +433,99 @@ public class AppResourcesMethods {
     public Response saveCompositionData(String receivedContent) {
         ResponseBuilder builder;
         MorphoApplication.logger.info(receivedContent);
+        JSONObject receivedJSON = null;
+        Boolean equals = false;
+        JSONObject data = null;
+        try{
+            receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
 
-        try {
-            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
-            JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
-            try {
-                data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
-            }
-            catch (NullPointerException e)
+            FindIterable<org.bson.Document> imgJsons;
+            imgJsons = MorphoApplication.DBA.search("composition", "{}");
+
+            int equalAttributes;
+
+            JSONObject parts = (JSONObject) receivedJSON.get("composition");
+            JSONArray partsArray = (JSONArray) parts.get("pieces");
+
+            for (org.bson.Document json : imgJsons)
             {
-                data.put("_id", "0C" + compositionCounter);
+                JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
+                equalAttributes = 0;
+
+
+                JSONArray documentArray = (JSONArray) docData.get("pieces");
+
+                for(int i = 0; i < partsArray.size(); i++){
+                    JSONObject o1 = (JSONObject) new JSONParser().parse(partsArray.get(i).toString());
+                    for(int j = 0; j < documentArray.size(); j++){
+                        JSONObject o2 = (JSONObject) new JSONParser().parse(documentArray.get(j).toString());
+                        if(o1.get("Source1").equals(o2.get("Source1"))){
+                            if(o1.get("Source2").equals(o2.get("Source2"))){
+                                equalAttributes++;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if(equalAttributes == partsArray.size()){
+                    equals = true;
+                    break;
+                }
             }
-            receivedJSON.put("composition", data);
-            receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
-            MorphoApplication.logger.info(receivedContent);
-        } catch(ParseException e){
-            MorphoApplication.logger.warning(e.toString());
-            e.printStackTrace();
-        }
 
-        try {
-            PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Composition" + compositionCounter + ".json");
-            writer.print(receivedContent);
-            writer.close();
-
+        }catch(ParseException e){
 
         }catch(Exception e){
-            MorphoApplication.logger.warning(e.toString());
+
         }
-        if(this.saved){
-            this.saved = false;
-            this.compositionCounter++;
+
+        if(equals){
+            System.err.println("Repeated piece");
+            builder = Response.ok("Repeated");
+        }else {
+
             try {
-                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
-                writer.print(""+compositionCounter);
+                JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
+                try {
+                    data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
+                } catch (NullPointerException e) {
+                    data.put("_id", "0C" + compositionCounter);
+                }
+                receivedJSON.put("composition", data);
+                receivedContent = receivedJSON.toJSONString().replaceAll("\\\\", "");
+                MorphoApplication.logger.info(receivedContent);
+            } catch (ParseException e) {
+                MorphoApplication.logger.warning(e.toString());
+                e.printStackTrace();
+            }
+
+            try {
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\Composition" + compositionCounter + ".json");
+                writer.print(receivedContent);
                 writer.close();
-            }catch(Exception e){
+
+
+            } catch (Exception e) {
                 MorphoApplication.logger.warning(e.toString());
             }
-        }else{
-            this.saved = true;
+            if (this.saved) {
+                this.saved = false;
+                this.compositionCounter++;
+                try {
+                    PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
+                    writer.print("" + compositionCounter);
+                    writer.close();
+                } catch (Exception e) {
+                    MorphoApplication.logger.warning(e.toString());
+                }
+            } else {
+                this.saved = true;
+            }
+            receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
+            MorphoApplication.logger.info(receivedContent);
+            builder = queryDB("insert", "composition", receivedContent);
         }
-        receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
-        MorphoApplication.logger.info(receivedContent);
-        builder = queryDB("insert", "composition", receivedContent);
         return builder.build();
     }
 
