@@ -153,7 +153,7 @@ public class SearchEngine {
 
     public ArrayList<String> searchSimilarCompositions(String data, int pageNum)
     {
-        ArrayList<String> results = new ArrayList<>();
+        ArrayList<String> results = new ArrayList<String>();
 
         //Document composition = (Document) Document.parse(addSearchIdToComposition(data)).get("composition");
         Document composition = (Document) Document.parse(data).get("composition");

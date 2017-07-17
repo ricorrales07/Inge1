@@ -9,6 +9,7 @@
 <html>
 <head>
     <link href="assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
     <link rel="stylesheet" href="assets/css/homepage.css">
     <title>MorphoSpace</title>
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
@@ -210,48 +211,132 @@
 
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
-
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">MorphoSpace</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#" data-toggle = "modal" data-target = "#loginModal" data-dismiss="modal">Log in</a></li>
-                    <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
-                </ul>
-                </div>
-        </nav>
+          <nav class="navbar navbar-inverse">
+              <div class="container-fluid">
+                  <div class="navbar-header">
+                      <a class="navbar-brand" href="#">MorphoSpace</a>
+                  </div>
+                  <ul class="nav navbar-nav">
+                      <li class="active"><a href="#">Home</a></li>
+                      <li><a href="#" data-toggle = "modal" data-target = "#loginModal" data-dismiss="modal">Log in</a></li>
+                      <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
+                  </ul>
+                  </div>
+          </nav>
         </div>
+      </div>
+
+      <div class = "row">
+        <div class = "col-lg-2 col-md-2 col-sm-2 h-100" id = "sideBar">
+          <div class = "h-100 btn-toolbar" role="toolbar">
+            <div class = "btn-group-vertical">
+              <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
+              <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Guidelines</button>
+              <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false);" data-dismiss="modal">Add piece</button>
+              <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="waitImgs(); registeredImages(true);" data-dismiss="modal">Add owned piece</button>
+              <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
+            </div>
+            <div class = "btn-group-vertical align-bottom">
+              <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
+              <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
+              <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
+              <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</button>
+            </div>
+                   
+            <div  id="properties-nav-btn">
+                Properties
+            </div>
+       
+          </div>
         </div>
 
-        <div class = "row">
+        <div class = "col-lg-10 col-md-10 col-sm-10">
+            <canvas id="areaDeDibujo" width="1024" height="512">
+                Lo sentimos, su navegador no soporta nuestra aplicación.
+            </canvas>
+        </div>
 
-          <div class = "col-lg-2 col-md-2 col-sm-2 h-100" id = "sideBar">
-            <div class = "h-100 btn-toolbar" role="toolbar">
-              <div class = "btn-group-vertical">
-                <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
-                <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Guidelines</button>
-                <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false);" data-dismiss="modal">Add piece</button>
-                <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="waitImgs(); registeredImages(true);" data-dismiss="modal">Add owned piece</button>
-                <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
+        <span class="toolset" id="attributes-menu">
+
+          <div id="attributes-menu-content" style="display:none">
+            <div id="attribute-card-editor" class="row">
+              <button class="col-md-offset-3 col-md-6 nopadding" id="addProp" onclick="addProperty()">
+                Add Property
+                <i class="fa fa-plus-circle"></i>
+              </button>
+
+            </div>
+            <div id="attribute-card-list" class=" row">
+              <!-- Non optional  Cards -->
+              <div class="attribute-card col-md-offset-1 col-md-10">
+                <div class="row">
+                  <div class="col-md-offset-5 col-md-2">
+                    <label >Author: </label>
+                    <input style="display:none" value="Author"/>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class=" col-md-3 ">
+                    <label >Value: </label>
+                  </div>
+                  <div class="card-input right-icon col-md-8 nopadding">
+                    <i class="fa fa-pencil"></i>
+                    <input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+                  </div>
+                </div>
               </div>
-              <div class = "btn-group-vertical align-bottom">
-                <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
-                <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
-                <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
-                <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</button>
+
+              <div class="attribute-card col-md-offset-1 col-md-10">
+                <div class="row">
+                  <div class="col-md-offset-5 col-md-2">
+                    <label >Public: </label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class=" col-md-3 ">
+                    <input style="display:none" value="Public"/>
+                    <label >Value: </label>
+                    <input type="checkbox" class="att-input attribute-value" unchecked/>
+                  </div>
+                </div>
               </div>
+
+              <!-- END Non optional  Cards -->
+
+              <!-- Template  Card -->
+              <div class="attribute-card col-md-offset-1 col-md-10 cardTemplate">
+                <div class="row attribute-card-header">
+                  <div class="col-md-1 " style="float: right" onclick="deleteCard(this)">
+                    <i class="fa fa-times"></i>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class=" col-md-3">
+                    <label >Name: </label>
+                  </div>
+                  <div class="card-input right-icon col-md-8 nopadding">
+                    <i class="fa fa-pencil"></i>
+                    <input type="search" class="att-input form-control attribute-name"
+                      placeholder="Property name"/>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class=" col-md-3 ">
+                    <label >Value: </label>
+                  </div>
+                  <div class="card-input right-icon col-md-8 nopadding">
+                    <i class="fa fa-pencil"></i>
+                    <input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+                  </div>
+                </div>
+              </div>
+              <!-- End of Template  Card -->
             </div>
           </div>
-
-            <div class = "col-lg-10 col-md-10 col-sm-10">
-
-                <canvas id="areaDeDibujo" width="1024" height="512">
-                    Lo sentimos, su navegador no soporta nuestra aplicación.
-                </canvas>
-            </div>
+        </span>
 
 
 
@@ -267,7 +352,7 @@
                    <li><a href = "#">PHP</a></li>
                 </ul>
             </div-->
-        </div>
+      </div>
     </div>
 
     <!--button onclick="window.location.reload()">reset</button-->
@@ -335,5 +420,6 @@
 <script src="assets/js/login.js" ></script>
 <script src="assets/js/js.cookie.js" ></script>
 <script src="assets/js/getSampleString.js"></script>
+<script src="assets/js/createPieceAttributes.js"></script>
 
 </html>

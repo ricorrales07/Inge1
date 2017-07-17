@@ -67,3 +67,16 @@ canvas {
 #sideBar { //por que no sirve??
   height: 100%;
 }
+
+
+#properties-nav-btn{
+    width: 75%;
+    margin-top: 15px;
+}
+
+#attributes-menu{
+top: -500px;
+right: 15px;
+position: relative;
+
+}

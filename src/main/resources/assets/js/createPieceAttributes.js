@@ -38,8 +38,12 @@ function saveAttributes(){
     var text = [];
     var attributes = "{\n";
 
-    $("input").each(function() {
-        text.push($(this).val());
+    $("#attribute-card-list input").each(function() {
+    	if($(this).type=="checkbox"){
+    		text.push($(this).checked);
+    	}else{
+        	text.push($(this).val());
+    	}
     });
     for(i = 3; i < text.length; i = i+2){
         attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\"";
@@ -83,3 +87,12 @@ function saveAttributes(){
 
     return result;
 }
+
+///Event listerners (with anonymous even handlers) for the different menus. 
+//Toggle open, or close the tool's menu.
+
+
+$( "#properties-nav-btn" ).click(function() {
+  $( "#attributes-menu-content" ).toggle( "slow", function() {
+  });
+});
