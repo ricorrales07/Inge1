@@ -17,6 +17,10 @@ var lastTouchPos = [[-1,-1],[-1,-1]];
 
 var savedImg = ""; //NOT FINAL
 
+var imagesList = [];
+var imagesAttributes = [];
+
+
 /*
 selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
@@ -473,6 +477,17 @@ function saveComp()
 }
 
 function saveCompositionData(){
+    images = [];
+    for(var i = 0; i < imagesAttributes.length; i = i + 3){
+        images.push(
+            {
+                image: "./scr/main/resources/assets/images/" + imagesAttributes[i].split("\\")[2],
+                name: imagesAttributes[i+1],
+                type: imagesAttributes[i+2]
+            }
+        );
+    }
+
     console.log("Test");
     var data = [];
     pieces = [];
@@ -502,7 +517,8 @@ function saveCompositionData(){
                 userID: Cookies.get("userID"),
                 accessToken: Cookies.get("accessToken")
             },
-            composition: {pieces}
+            composition: {pieces},
+            images: {images}
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
@@ -588,6 +604,18 @@ function trySearch(){
                 console.log(errorThrown);
             }
         });
+}
+
+var openFile = function(event) {
+    var input = event.target;
+    imagesList.push("./scr/main/resources/assets/images/" +  input.files[0].name);
+};
+
+function tempSave(){
+
+    $("input").each(function() {
+        imagesAttributes.push($(this).val());
+    });
 }
 
 $("#addPieceButton").click(function() {

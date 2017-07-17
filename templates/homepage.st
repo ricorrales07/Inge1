@@ -138,6 +138,57 @@
        </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
+   <!-- Menu to load images to associate with the composition to save -->
+          <div class = "modal fade" id = "openLocal" tabindex = "-1" role = "dialog"
+             aria-labelledby = "myModalLabel" aria-hidden = "true">
+             <div class = "modal-dialog">
+                <div class = "modal-content">
+                   <div class = "modal-header">
+                      <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                            &times;
+                      </button>
+                      <h4 class = "modal-title" id = "myModalLabel">
+                         Associate images to the composition
+                      </h4>
+                   </div>
+                   <div class = "modal-body">
+                      Click the button below to search for an image
+                      <input type="file" accept='image/*' onchange='openFile(event)'><br>
+                        <div class=" col-md-2">
+                            <label >Name: </label>
+                        </div>
+                        <div class="card-input right-icon col-md-8 nopadding">
+                            <i class="fa fa-pencil"></i>
+                            <input type="search" class="att-input form-control attribute-name"
+                                placeholder="Property name"/>
+                        </div>
+                        <div class=" col-md-2">
+                            <label >Type: </label>
+                        </div>
+                        <div class="card-input right-icon col-md-8 nopadding">
+                            <i class="fa fa-pencil"></i>
+                            <input type="search" class="att-input form-control attribute-name"
+                                placeholder="Property name"/>
+                        </div>
+                        <button type = "button" class = "btn btn-default" onclick = "tempSave()">
+                            Use image
+                        </button>
+                        <button type = "button" class = "btn btn-default" onclick = "saveComp()">
+                            Save composition
+                        </button>
+                   </div>
+                   <div class = "modal-footer">
+                   <button class="btn btn-default pull-left" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
+                        Return
+                   </button>
+                   <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                        Close
+                   </button>
+                   </div>
+                </div><!-- /.modal-content -->
+             </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+
     <div class = "container">
 
       <div class="row">
@@ -171,7 +222,7 @@
               </div>
               <div class = "btn-group-vertical align-bottom">
                 <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
-                <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveComp();">Save composition</button>
+                <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
                 <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</button>
               </div>
             </div>
