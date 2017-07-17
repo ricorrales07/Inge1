@@ -143,13 +143,13 @@
                    </div>
                    <div class = "modal-body">
                       Click the button below to search for an image
-                      <input type="file" accept='image/*' onchange='openFile(event)'><br>
+                      <input type="file" accept='image/*'><br>
                         <div class=" col-md-2">
                             <label >Name: </label>
                         </div>
                         <div class="card-input right-icon col-md-8 nopadding">
                             <i class="fa fa-pencil"></i>
-                            <input type="search" class="att-input form-control attribute-name"
+                            <input type="attr" class="att-input form-control attribute-name"
                                 placeholder="Property name"/>
                         </div>
                         <div class=" col-md-2">
@@ -157,7 +157,7 @@
                         </div>
                         <div class="card-input right-icon col-md-8 nopadding">
                             <i class="fa fa-pencil"></i>
-                            <input type="search" class="att-input form-control attribute-name"
+                            <input type="attr" class="att-input form-control attribute-name"
                                 placeholder="Property name"/>
                         </div>
                         <button type = "button" class = "btn btn-default" onclick = "tempSave()">

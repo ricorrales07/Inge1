@@ -450,9 +450,11 @@ public class AppResourcesMethods {
                 }
             }
         }catch(ParseException e){
-
+            MorphoApplication.logger.warning(e.toString());
+            e.printStackTrace();
         }catch(Exception e){
-
+            MorphoApplication.logger.warning(e.toString());
+            e.printStackTrace();
         }
 
         if(equals){
@@ -574,12 +576,9 @@ public class AppResourcesMethods {
                 for(int i = 0; i < documentArray.size(); i++){
                     JSONObject o = (JSONObject) new JSONParser().parse(documentArray.get(i).toString());
 
-                    html += "<modalImages data-dismiss=\"modal\"> <img src=\""
-                            + o.get("image")
+                    html += "<modalImages data-dismiss=\"modal\"> <img src=\"" + o.get("image")
                             + "\" class = \"img-thumbnail\" /> </modalImages>";
                 }
-
-
             }
         }
         catch (Exception e) //DANGER
@@ -595,58 +594,5 @@ public class AppResourcesMethods {
         builder.entity(html);
         builder.status(200);
         return builder.build();
-
-
-
-
-
-
-
-
-        /*MorphoApplication.logger.info(receivedContent);
-
-
-        try {
-            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
-            JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
-            try {
-                data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
-            }
-            catch (NullPointerException e)
-            {
-                data.put("_id", "0C" + compositionCounter);
-            }
-            receivedJSON.put("composition", data);
-            //receivedContent = receivedJSON.toJSONString().replaceAll("\\\\","");
-            MorphoApplication.logger.info("Received content: " + receivedContent);
-        } catch(ParseException e){
-            MorphoApplication.logger.warning(e.toString());
-            e.printStackTrace();
-        }
-
-        ///TODO aquí meter fotos
-        ArrayList<String> results = new ArrayList<String>();
-
-        builder = Response.ok();
-
-        String jsons = "[";
-
-        for (String j : results) {
-            MorphoApplication.logger.info("Result: " + j);
-            jsons += j + ", ";
-        }
-
-        MorphoApplication.logger.info("Found " + results.size() + " results.");
-
-        if (jsons.length() > 1)
-            jsons = jsons.substring(0, jsons.length() - 2);
-        jsons += "]";
-
-        MorphoApplication.logger.info("Search results: " + jsons);
-
-        builder.entity(jsons);
-        builder.status(200);
-        return builder.build();*/
     }
 }

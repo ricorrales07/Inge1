@@ -17,10 +17,7 @@ var lastTouchPos = [[-1,-1],[-1,-1]];
 
 var savedImg = ""; //NOT FINAL
 
-var imagesList = [];
 var imagesAttributes = [];
-
-var compositionID;
 
 /*
 selectPart: this function is called when a part is tapped or
@@ -606,14 +603,12 @@ function trySearch(){
         });
 }
 
-var openFile = function(event) {
-    var input = event.target;
-    imagesList.push("/assets/images/" +  input.files[0].name);
-};
-
 function tempSave() {
+    $("input[type = file]").each(function () {
+        imagesAttributes.push($(this).val());
+    });
 
-    $("input").each(function () {
+    $("input[type = attr]").each(function () {
         imagesAttributes.push($(this).val());
     });
 }
