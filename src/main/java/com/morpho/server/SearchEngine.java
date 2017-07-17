@@ -151,9 +151,9 @@ public class SearchEngine {
         return dataD.toJson();
     }
 
-    public ArrayList<String> searchSimilarCompositions(String data, int pageNum)
+    public ArrayList<Document> searchSimilarCompositions(String data, int pageNum)
     {
-        ArrayList<String> results = new ArrayList<>();
+        ArrayList<Document> results = new ArrayList<>();
 
         //Document composition = (Document) Document.parse(addSearchIdToComposition(data)).get("composition");
         Document composition = (Document) Document.parse(data).get("composition");
@@ -198,8 +198,8 @@ public class SearchEngine {
 
                 for (Document result : partialResults)
                 {
-                    if (--skip <= 0 && !results.contains(result.toJson())) {
-                        results.add(result.toJson());
+                    if (--skip <= 0 && !results.contains(result)) {
+                        results.add(result);
                         if (results.size() >= 10)
                             break;
                     }
@@ -218,7 +218,7 @@ public class SearchEngine {
         return results;
     }
 
-    public List<String> performSearch(String receivedContent)
+    public List<Document> performSearch(String receivedContent)
     {
         MorphoApplication.logger.info(receivedContent);
         try {
@@ -243,7 +243,7 @@ public class SearchEngine {
         receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
 
 
-        ArrayList<String> results =
+        ArrayList<Document> results =
                 MorphoApplication.searcher.searchSimilarCompositions(receivedContent, 1);
 
         return results;

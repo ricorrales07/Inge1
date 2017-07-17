@@ -118,6 +118,7 @@ function addImageToCanvas(img, id){
                     Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)),0),
                     1,1,0,id];
     addPart(partData);
+    modifySearchButton();
 }
 
 function mirrorImage()
@@ -609,11 +610,58 @@ $("#addPieceButton").click(function() {
 	});
 });
 
-$("#searchButton").click(function() {
+function modifySearchButton()
+{
+  pieces = [];
+      for (var i = 0; i < composicionActual.partsList.length; i++){
+          pieces.push(
+              {_id: composicionActual.partIds[i],
+              positionX: composicionActual.partsList[i].x,
+              positionY: composicionActual.partsList[i].y,
+              ScaleX: composicionActual.partsList[i].scaleX,
+              ScaleY: composicionActual.partsList[i].scaleY,
+              Rotation: composicionActual.partsList[i].rotation,
+              Source1: (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21),
+              Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21)
+              }
+          );
+      }
+
+  console.log(pieces);
+
+  var sJSON = JSON.stringify({
+      auth: {
+          userID: Cookies.get("userID"),
+          accessToken: Cookies.get("accessToken")
+      },
+      composition: {pieces}
+  });
+
+  console.log(sJSON);
+
+  var link = document.getElementById("searchButton");
+  link.setAttribute("href", "/searchResults?searchJSON=" + sJSON);
+}
+
+/*$("#searchButton").click(function() {
     $("modalImage").each(function(){
     	$(this).remove();
 	});
 	console.log("searchButton clicked");
-  trySearch();
-});
 
+
+
+  $.ajax({
+  url: "/searchResults",
+  type: 'GET',
+  data: {
+    searchJSON: sJSON
+  },
+  success:function(data, textStatus, jqXHR){
+
+  },
+  error:function(jqXHR, textStatus, errorThrown ){
+    console.log(errorThrown);
+  }
+});
+});*/

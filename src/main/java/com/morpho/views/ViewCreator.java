@@ -7,6 +7,9 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import sun.awt.ModalExclude;
 
+import org.bson.Document;
+
+//import javax.swing.text.Document;
 import javax.validation.constraints.Max;
 
 /**
@@ -65,9 +68,57 @@ public class ViewCreator {
     public String getResults(String json)
     {
         StringTemplate templateResults = group.getInstanceOf("results4" );
-        List<String> results = MorphoApplication.searcher.performSearch(json);
-        //some code missing in here...
-        templateResults.setAttribute("mainResult", "");
+        List<Document> results = MorphoApplication.searcher.performSearch(json);
+
+        String r = results.get(0).getString("_id");
+
+        String mainResult = "<img id=\"mainResult\" src=\"./assets/images/Composition"
+                + r.substring(r.lastIndexOf('C')+1) + ".png"
+                +"\" alt=\"Main Result\" style=\"max-width:100%;\" />";
+
+        MorphoApplication.logger.info("Main result: " + mainResult);
+
+        String text = "";
+        for(String key : results.get(0).keySet())
+        {
+            if (/*key != "_id" &&*/ key != "pieces" && key != "searchId" && key != "imgSource")
+            text += key + ": " + results.get(0).get(key).toString() + "\n";
+        }
+
+        String bolitas = "<!--li data-target=\"#myCarousel\" data-slide-to=\"0\" class=\"active\"></li>";
+
+        int pages = ((int)(results.size()/3)) + 1;
+
+        for (int i = 1; i < pages; i++) {
+            bolitas += "<li data-target=\"#myCarousel\" data-slide-to=\"" + i + "\"></li>\n";
+        }
+
+        int i = 0;
+
+        String extraResults = "";
+
+        while(i < pages)
+        {
+            extraResults += "<div class=\"item " + ((i==0)? "active" : "") + "\">\n" +
+                    "<div class=\"row-fluid\">\n";
+            int j = 0;
+            while (i*3+j < pages)
+            {
+                extraResults += "<div class=\"col-md-3 col-sm-3 col-lg-3\"><a href=\"#x\" class=\"thumbnail\"><img src=\"" +
+                        results.get(j++).getString("imgSource") +
+                        "\" alt=\"Image\" style=\"max-width:100%;\" /></a></div>\n";
+            }
+
+            extraResults += "</div><!--/row-fluid-->\n" +
+                    "</div><!--/item-->";
+
+            i++;
+        }
+
+        templateResults.setAttribute("mainResult", mainResult);
+        templateResults.setAttribute("texto", text);
+        templateResults.setAttribute("bolitas", bolitas);
+        templateResults.setAttribute("extraResults", extraResults);
         return templateResults.toString();
     }
 }

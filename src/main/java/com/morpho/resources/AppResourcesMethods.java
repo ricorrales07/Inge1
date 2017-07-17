@@ -228,11 +228,13 @@ public class AppResourcesMethods {
         ResponseBuilder builder;
         try {
             URLDecoder.decode(receivedContent, "UTF8");
+            MorphoApplication.logger.info("recievedContent (saveCreatedImageFile): " + receivedContent);
             String[] data = receivedContent.split(",");
             String imgSource = "";
             File f = null;
             if(data[0].equals("Piece")) {
                 f = new File(".\\src\\main\\resources\\assets\\images\\" + data[5]);
+                MorphoApplication.logger.info("filename: " + f.getName());
                 f.mkdir();
                 String imageData = data[2];
                 String imageDataB = data[4];
@@ -244,8 +246,10 @@ public class AppResourcesMethods {
             }else{
                 String imageData = data[2];
                 InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
-                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[3] + "\\Composition" + compositionCounter + ".png"));
-                imgSource = "./src/main/resources/assets/images/Composition/" + data[3] + "/" + compositionCounter + ".png";
+                //ImageIO.write(ImageIO.read(bit), "png", new File(".\\resources\\assets\\images\\" + data[3] + "\\Composition" + compositionCounter + ".png"));
+                //imgSource = "/resources/assets/images/Composition/" + data[3] + "/" + compositionCounter + ".png";
+                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
+                imgSource = "/resources/assets/images/Composition" + compositionCounter + ".png";
                 builder = Response.ok("Image saved");
                 builder.entity(imgSource);
             }
@@ -502,7 +506,7 @@ public class AppResourcesMethods {
         return builder.build();
     }
 
-    @POST
+    /*@POST
     @Path("trySearch")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response trySearch(String receivedContent) {
@@ -551,5 +555,5 @@ public class AppResourcesMethods {
         builder.entity(jsons);
         builder.status(200);
         return builder.build();
-    }
+    }*/
 }

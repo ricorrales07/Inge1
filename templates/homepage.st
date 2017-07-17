@@ -172,7 +172,7 @@
               <div class = "btn-group-vertical align-bottom">
                 <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
                 <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveComp();">Save composition</button>
-                <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</button>
+                <a id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="#">Search</a>
               </div>
             </div>
           </div>

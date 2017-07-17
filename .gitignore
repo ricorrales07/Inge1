@@ -9,6 +9,7 @@ Proyecto.iml
 *.jpeg
 *.gif
 *.orig
+*.lck
 
 src/main/resources/assets/imagesData/CompositionCounter.txt
 src/main/resources/assets/imagesData/PieceCounter.txt
