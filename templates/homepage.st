@@ -170,6 +170,7 @@
                 <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
               </div>
               <div class = "btn-group-vertical align-bottom">
+                <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white">View Photos</button>
                 <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
                 <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveComp();">Save composition</button>
                 <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</button>
