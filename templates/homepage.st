@@ -32,20 +32,10 @@
                             </div>
                             <div class = "modal-body" align="center">
                                <div id="images"></div>
-
                                <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                                <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
-
                             </div><br>
                             <div class = "modal-footer">
-                            <!--
-                            <div class="prev">
-                                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                            </div>
-                            <div class="next">
-                                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            </div>
-                            -->
                                 <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
                                     Return
                                  </button>
@@ -75,7 +65,6 @@
                               <div id="ownedImages"></div>
                               <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                               <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
-
                            </div><br>
                            <div class = "modal-footer">
                                <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
