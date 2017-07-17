@@ -1,14 +1,3 @@
-img{
-    position: relative;
-    float: left;
-    width: 27%;
-    height: 27%;
-    padding: 10px;
-    margin: 10px;
-    background-position: 70% 30%;
-    background-size:     cover;
-}
-
 .img-thumbnail
 {
     width:150px;
@@ -77,4 +66,17 @@ canvas {
 
 #sideBar { //por que no sirve??
   height: 100%;
+}
+
+
+#properties-nav-btn{
+    width: 75%;
+    margin-top: 15px;
+}
+
+#attributes-menu{
+top: -500px;
+right: 15px;
+position: relative;
+
 }

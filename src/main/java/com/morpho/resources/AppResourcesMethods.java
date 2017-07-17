@@ -18,14 +18,14 @@ import javax.ws.rs.core.Response.*;
 import javax.ws.rs.core.Response;
 
 import javax.xml.bind.DatatypeConverter;
-import javax.xml.crypto.Data;
+/*import javax.xml.crypto.Data;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImage;*/
 import java.io.*;
 
 import java.net.URLDecoder;
 import java.util.*;
-import java.util.Base64.Decoder;
+//import java.util.Base64.Decoder;
 
 /**
  * Created by irvin on 29/4/2017.
@@ -454,9 +454,11 @@ public class AppResourcesMethods {
                 }
             }
         }catch(ParseException e){
-
+            MorphoApplication.logger.warning(e.toString());
+            e.printStackTrace();
         }catch(Exception e){
-
+            MorphoApplication.logger.warning(e.toString());
+            e.printStackTrace();
         }
 
         if(equals){
@@ -556,4 +558,45 @@ public class AppResourcesMethods {
         builder.status(200);
         return builder.build();
     }*/
+
+    @POST
+    @Path("loadPhotos")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response loadPhotos(String receivedContent) {
+        ResponseBuilder builder;
+        String html= "";
+        FindIterable<org.bson.Document> imgJsons;
+        try
+        {
+            String rec = "{_id: /^" + receivedContent + "C" + (compositionCounter-1) + "/}";
+            imgJsons = MorphoApplication.DBA.search("composition", rec);
+
+            //TODO: sacar esto de acá, solo debería ir la línea anterior
+            for (org.bson.Document json : imgJsons)
+            {
+                JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
+                JSONArray documentArray = (JSONArray) docData.get("images");
+
+                for(int i = 0; i < documentArray.size(); i++){
+                    JSONObject o = (JSONObject) new JSONParser().parse(documentArray.get(i).toString());
+
+                    html += "<modalImages data-dismiss=\"modal\"> <img src=\"" + o.get("image")
+                            + "\" class = \"img-thumbnail\" /> </modalImages>";
+                }
+            }
+        }
+        catch (Exception e) //DANGER
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            //builder.status(200);
+            return builder.build();
+        }
+
+        builder = Response.ok("Got images");
+        builder.entity(html);
+        builder.status(200);
+        return builder.build();
+    }
 }

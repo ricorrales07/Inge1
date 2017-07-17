@@ -17,6 +17,8 @@ var lastTouchPos = [[-1,-1],[-1,-1]];
 
 var savedImg = ""; //NOT FINAL
 
+var imagesAttributes = [];
+
 /*
 selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
@@ -474,6 +476,17 @@ function saveComp()
 }
 
 function saveCompositionData(){
+    images = [];
+    for(var i = 0; i < imagesAttributes.length; i = i + 3){
+        images.push(
+            {
+                image: "/assets/images/" + imagesAttributes[i].split("\\")[2],
+                name: imagesAttributes[i+1],
+                type: imagesAttributes[i+2]
+            }
+        );
+    }
+
     console.log("Test");
     var data = [];
     pieces = [];
@@ -503,7 +516,7 @@ function saveCompositionData(){
                 userID: Cookies.get("userID"),
                 accessToken: Cookies.get("accessToken")
             },
-            composition: {pieces}
+            composition: {pieces, images},
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
@@ -589,6 +602,37 @@ function trySearch(){
                 console.log(errorThrown);
             }
         });
+}
+
+function tempSave() {
+    $("input[type = file]").each(function () {
+        imagesAttributes.push($(this).val());
+    });
+
+    $("input[type = attr]").each(function () {
+        imagesAttributes.push($(this).val());
+    });
+}
+
+function loadPhotos(){
+    $("modalImages").each(function(){
+        $(this).remove();
+    });
+
+    console.log("loading photos");
+
+    $.ajax({
+        url: "/methods/loadPhotos",
+        type: 'POST',
+        data: Cookies.get("userID"),
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR){
+            $('#associatedImages').append(data)
+        },
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });
 }
 
 $("#addPieceButton").click(function() {
