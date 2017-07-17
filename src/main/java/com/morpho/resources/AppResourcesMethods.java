@@ -18,14 +18,14 @@ import javax.ws.rs.core.Response.*;
 import javax.ws.rs.core.Response;
 
 import javax.xml.bind.DatatypeConverter;
-import javax.xml.crypto.Data;
+/*import javax.xml.crypto.Data;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImage;*/
 import java.io.*;
 
 import java.net.URLDecoder;
 import java.util.*;
-import java.util.Base64.Decoder;
+//import java.util.Base64.Decoder;
 
 /**
  * Created by irvin on 29/4/2017.
@@ -578,7 +578,7 @@ public class AppResourcesMethods {
         }
 
         ///TODO aquí meter fotos
-        ArrayList<String> results = new ArrayList<>();
+        ArrayList<String> results = new ArrayList<String>();
 
         ResponseBuilder builder = Response.ok();
 

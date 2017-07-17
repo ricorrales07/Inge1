@@ -260,7 +260,7 @@
 
 				<span class="toolset" id="attributes-menu">
 
-					<div id="attributes-menu-content" style="display:none" >
+					<div id="attributes-menu-content"  style="display:none" >
 						<div id="attribute-card-editor" class="row">
 							<button class="col-md-offset-3 col-md-6 nopadding" id="addProp" onclick="addProperty()">
 								Add Property

@@ -45,14 +45,7 @@ function cancelSprite(){
 	window.location.href = "/";
 }
 
-///Event listerners (with anonymous even handlers) for the different menus. 
-//Toggle open, or close the tool's menu.
 
-
-$( "#properties-nav-btn" ).click(function() {
-  $( "#attributes-menu-content" ).toggle( "slow", function() {
-  });
-});
 
 
 //Set up tools selector
