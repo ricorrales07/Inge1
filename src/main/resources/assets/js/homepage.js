@@ -611,10 +611,59 @@ var openFile = function(event) {
     imagesList.push("./scr/main/resources/assets/images/" +  input.files[0].name);
 };
 
-function tempSave(){
+function tempSave() {
 
-    $("input").each(function() {
+    $("input").each(function () {
         imagesAttributes.push($(this).val());
+    });
+}
+
+function loadPhotos(){
+    console.log("loading photos");
+    var data = [];
+    pieces = [];
+    for (var i = 0; i < composicionActual.partsList.length; i++){
+        pieces.push(
+            {_id: composicionActual.partIds[i],
+                positionX: composicionActual.partsList[i].x,
+                positionY: composicionActual.partsList[i].y,
+                ScaleX: composicionActual.partsList[i].scaleX,
+                ScaleY: composicionActual.partsList[i].scaleY,
+                Rotation: composicionActual.partsList[i].rotation,
+                Source1: (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21),
+                Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21)
+            }
+        );
+    }
+
+    console.log(pieces);
+
+    $.ajax({
+        url: "/methods/loadPhotos",
+        type: 'POST',
+        data: JSON.stringify({
+            auth: {
+                userID: Cookies.get("userID"),
+                accessToken: Cookies.get("accessToken")
+            },
+            composition: {pieces}
+        }),
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR){
+            console.log("Search results: " + data);
+            var results = JSON.parse(data);
+            var html = "";
+            for (var x in results)
+            {
+                console.log(results[x]);
+                html += "<a data-dismiss=\"modal\"> <img src=\"" + results[x].imgSource.substr(20, results[x].imgSource.length) + "\" style=\"width:27%; height:27%; padding:10px; margin:10px;\" class = \"img-thumbnail\" /> </a>";
+            }
+            console.log(html);
+            $('#resultImages').html(html);
+        },
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
     });
 }
 
@@ -645,3 +694,10 @@ $("#searchButton").click(function() {
   trySearch();
 });
 
+$("#loadPhotosButton").click(function() {
+    $("modalImage").each(function(){
+        $(this).remove();
+    });
+    console.log("loadPhotos clicked");
+    loadPhotos();
+});

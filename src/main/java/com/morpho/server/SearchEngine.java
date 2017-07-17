@@ -11,6 +11,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import sun.security.ssl.Debug;
 
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 //import be.tarsos.lsh.Index;
 //import be.tarsos.lsh;
 
@@ -211,6 +214,37 @@ public class SearchEngine {
             //if (closeness >= 0)
             //   searchCriteria.remove(closeness);
         } while (results.size() < 10 && closeness >= 0);
+
+        return results;
+    }
+
+    public List<String> performSearch(String receivedContent)
+    {
+        MorphoApplication.logger.info(receivedContent);
+        try {
+            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
+            JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
+            try {
+                data.put("_id", id.get("userID").toString() + "C0");
+            }
+            catch (NullPointerException e)
+            {
+                MorphoApplication.logger.warning("Facebook inaccessible.");
+                data.put("_id", "0C0");
+            }
+            receivedJSON.put("composition", data);
+
+            MorphoApplication.logger.info("Received content: " + receivedContent);
+        } catch(ParseException e){
+            MorphoApplication.logger.warning(e.toString());
+            e.printStackTrace();
+        }
+        receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
+
+
+        ArrayList<String> results =
+                MorphoApplication.searcher.searchSimilarCompositions(receivedContent, 1);
 
         return results;
     }
