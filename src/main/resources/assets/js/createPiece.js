@@ -25,7 +25,7 @@ $(window).on("load",function(){
 	heightPer = 600; //Height for the tool's menu. 
 
 	//Set up the height for the tools' menu.
-	$(".toolset").height(heightPer);
+	
 
 	//Let's position the editor in the row:
 	$("#editor-container").css("top",20).css("height", 500);
@@ -47,13 +47,9 @@ function cancelSprite(){
 
 ///Event listerners (with anonymous even handlers) for the different menus. 
 //Toggle open, or close the tool's menu.
-$( "#editor-menu-handle" ).click(function() {
-  $( "#editor-menu-content " ).toggle( "slow", function() {
-  });
-});
 
 
-$( "#attributes-menu-handle" ).click(function() {
+$( "#properties-nav-btn" ).click(function() {
   $( "#attributes-menu-content" ).toggle( "slow", function() {
   });
 });

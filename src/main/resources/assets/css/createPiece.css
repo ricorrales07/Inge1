@@ -139,7 +139,7 @@ body{
 
 .top-nav{
 	background-color: #262626;
-	height: 100px;
+	/*height: 100px;*/
 	border-bottom: 2px solid #222;
 	z-index: 3;
 }
@@ -197,19 +197,53 @@ body{
 	float: right;
 }
 
-.tool{
-	/*background-color: green;*/
-	border-radius: 50%;
-	height: 50px;
-	width: 50px;
-	padding:11px;
-	color: #93928f;
+#properties-nav-btn{
+	padding: 2px;
 	border: 1px solid #93928f;
+	overflow: hidden;
+	border-radius: 5px;
+	font-weight: bold;
+	line-height: 2em;
+	color: #93928f;
+	text-align: center;
+}
+
+.nav-tool-button{
+	padding: 2px;
+	display: inline-block;
+	border: 1px solid #93928f;
+	width: 36px;
+	height: 36px;
+	overflow: hidden;
+	border-radius: 5px;
+}
+
+.tool-options div{
+	display: none;
+}
+
+.nav-button{
+
+	
+	color: #93928f;
+	/*border-radius: 5px;
+	border: 1px solid #222222;
+	border-bottom: 2px solid #222222;
+	border-top: 1px solid #3b3b3b;  /*Shinny part. */
+	
 	text-align: center;
 	font-weight: bold;
 	line-height: 2em;
-	display: inline-block;
+
+	/*Disable selections of children*/
+	 user-select: none;
+     -moz-user-select: none;
+     -khtml-user-select: none;
+     -webkit-user-select: none;
+     -o-user-select: none;
 }
+
+
 
 .tool-btn{
 	border: 1px solid #93928f;
@@ -225,10 +259,6 @@ body{
 	background-color: #34B9AB;
 	color: #262626;
 	border: 1px solid #34B9AB;
-}
-
-#eraser{
-	float: right;
 }
 
 #slider, #slider span:focus{
@@ -247,29 +277,25 @@ body{
 	border: 1px solid #262626;
 }
 
-#addImage {
-	height: 40px;
-	margin-bottom: 15px;
-	margin-top: 30px;
-	padding: 6px;
-	text-align: center;
-	font-weight: bold;
-	line-height: 2em;
-	background-color: #262626;
-	color: #93928f;
-	border: 1px solid #93928f;
-}
+
 
 #addImage i{
 	float: right;
 }
 
-#pointerRadius{
+#pointerRadius, #rotationRadius{
 	font-weight: bold;
 	line-height: 2em;
-	margin-top: 15px;
-	margin-bottom: 15px;
 	color: #93928f;
+}
+
+
+#rotationRadius p, #pointerRadius p{
+	padding-top: 5px;
+}
+
+#rotationRadius .rotation, #pointerRadius .rotation{
+	padding-top: 15px;
 }
 
 
@@ -359,38 +385,10 @@ body{
 	overflow-y: scroll;
 }
 
-.nav-button{
 
-	
-	color: #93928f;
-	border-radius: 5px;
-	border: 1px solid #222222;
-	border-bottom: 2px solid #222222;
-	border-top: 1px solid #3b3b3b;  /*Shinny part. */
-	
-
-	text-align: center;
-	padding: 5px;
-
-	/*Disable selections of children*/
-	 user-select: none;
-     -moz-user-select: none;
-     -khtml-user-select: none;
-     -webkit-user-select: none;
-     -o-user-select: none;
-}
-
-.main-nav-button{
-	width: 60px;
-	margin: 15px;
-}
-
-.nav-button p{
-	margin: 0px;
-}
 
 #cancelButton{
-	float: right;
+	margin-top: 15px;
 }
 
 .nav-button:active{
@@ -427,13 +425,8 @@ body{
 }
 
 #changeView {
-	height: 58px;
-	padding: 15px;
-	padding-top: 30px;
 	text-align: center;
 	color: #93928f;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 #changeView div{
@@ -448,11 +441,8 @@ body{
 }
 
 .facebook-login-container{
-	padding-top: 30px;
-	padding-bottom: 15px;
+
+	padding: 15px;
 }
 
-.facebook-login-container .fb-login-button{
-	float: right;
-}
 
