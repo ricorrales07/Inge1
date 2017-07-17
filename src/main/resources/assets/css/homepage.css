@@ -9,6 +9,14 @@ img{
     background-size:     cover;
 }
 
+.img-thumbnail
+{
+    width:150px;
+    height:150px;
+    padding:10px;
+    margin:10px;
+}
+
 .modal{
     overflow-y:auto;
     max-height:90%;
