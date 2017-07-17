@@ -1,7 +1,13 @@
 package com.morpho.views;
 
+import java.util.*;
+
+import com.morpho.MorphoApplication;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import sun.awt.ModalExclude;
+
+import javax.validation.constraints.Max;
 
 /**
  * Created by Irvin Umaña on 29/4/2017.
@@ -56,9 +62,12 @@ public class ViewCreator {
         return templateHomepage.toString();
     }
 
-    public String getResults()
+    public String getResults(String json)
     {
-        StringTemplate templateHomepage = group.getInstanceOf("results3" );
-        return templateHomepage.toString();
+        StringTemplate templateResults = group.getInstanceOf("results4" );
+        List<String> results = MorphoApplication.searcher.performSearch(json);
+        //some code missing in here...
+        templateResults.setAttribute("mainResult", "");
+        return templateResults.toString();
     }
 }

@@ -9,8 +9,6 @@
 	    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
-	    <link rel="stylesheet" type="text/css" href="assets/slick/slick.css"/>
-	    <link rel="stylesheet" type="text/css" href="assets/slick/slick-theme.css"/>
 	</head>
 	<body >
 	    <script type="text/javascript" src="assets/jquery/jquery-3.2.1.min.js"></script>
@@ -38,7 +36,7 @@
                     <!-- <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal"> -->
                          Open saved public images
                     </button>
-                    <button id="btnSavedOwnedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs(); savedOwnedImages();" data-target = "#openOwned" data-dismiss="modal">
+                    <button id="btnSavedOwnedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" onclick="waitImgs(); registeredImages(true);" data-target = "#openOwned" data-dismiss="modal">
                     <!-- <button id="btnSavedImages" type = "button" class = "btn btn-primary" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal"> -->
                          Open my images only
                     </button>

@@ -3,6 +3,14 @@ body{
 	
 }
 
+.img-thumbnail
+{
+    width:150px;
+    height:150px;
+    padding:10px;
+    margin:10px;
+}
+
 .swipe{
     overflow:auto;
     white-space:nowrap;

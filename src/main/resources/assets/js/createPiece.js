@@ -518,3 +518,4 @@ function cancelImageToSurface(){
 		console.log("Image bitmap deleted*******");
 	}
 }
+

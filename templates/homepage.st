@@ -16,30 +16,67 @@
 <body onload="init();">
     <div id="fb-root"></div>
 
-    <!-- Menu to load an image on the canvas from the server -->
-    <div class = "modal fade" id = "openModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
-        <div class = "modal-dialog">
-            <div class = "modal-content">
-                <div class = "modal-header">
-                    <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
-                        &times;
-                    </button>
-                    <h4 class = "modal-title" id = "myModalLabel">
-                        Saved images
-                    </h4>
-                </div>
-                <div class = "modal-body">
-                    Please select one of the following images:
-                    <div id="images"></div>
-                </div>
-                <div class = "modal-footer">
-                    <button type = "button" class = "btn btn-default" data-dismiss = "modal">
-                        Close
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-   </div><!-- /.modal -->
+    <!-- Menu to load an image on the canvas from the server (public images) -->
+           <div class = "modal fade" id = "openModal" tabindex = "-1" role = "dialog"
+            aria-labelledby = "myModalLabel" aria-hidden = "true">
+                <div class = "modal-dialog">
+                      <div class = "modal-content">
+                            <div class = "modal-header">
+                               <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                                     &times;
+                               </button>
+                               <h4 class = "modal-title" id = "myModalLabel">
+                                  Saved images
+                               </h4>
+                               Please select one of the following images:
+                            </div>
+                            <div class = "modal-body" align="center">
+                               <div id="images"></div>
+                               <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
+                               <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
+                            </div><br>
+                            <div class = "modal-footer">
+                                <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
+                                    Return
+                                 </button>
+                               <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
+                                   Close
+                               </button>
+                            </div>
+                      </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+           </div><!-- /.modal -->
+
+   <!-- Menu to load an image on the canvas from the server (owned images from each user)-->
+          <div class = "modal fade" id = "openOwned" tabindex = "-1" role = "dialog"
+           aria-labelledby = "myModalLabel" aria-hidden = "true">
+               <div class = "modal-dialog">
+                     <div class = "modal-content">
+                           <div class = "modal-header">
+                              <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                                    &times;
+                              </button>
+                              <h4 class = "modal-title" id = "myModalLabel">
+                                 My images
+                              </h4>
+                              Please select one of the following images:
+                           </div>
+                           <div class = "modal-body" align="center">
+                              <div id="ownedImages"></div>
+                              <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
+                              <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
+                           </div><br>
+                           <div class = "modal-footer">
+                               <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
+                                   Return
+                                </button>
+                              <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
+                                  Close
+                              </button>
+                           </div>
+                     </div><!-- /.modal-content -->
+               </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
 
    <div class = "modal fade" id = "resultsModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
        <div class = "modal-dialog">
@@ -90,6 +127,57 @@
        </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
+   <!-- Menu to load images to associate with the composition to save -->
+          <div class = "modal fade" id = "openLocal" tabindex = "-1" role = "dialog"
+             aria-labelledby = "myModalLabel" aria-hidden = "true">
+             <div class = "modal-dialog">
+                <div class = "modal-content">
+                   <div class = "modal-header">
+                      <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                            &times;
+                      </button>
+                      <h4 class = "modal-title" id = "myModalLabel">
+                         Associate images to the composition
+                      </h4>
+                   </div>
+                   <div class = "modal-body">
+                      Click the button below to search for an image
+                      <input type="file" accept='image/*' onchange='openFile(event)'><br>
+                        <div class=" col-md-2">
+                            <label >Name: </label>
+                        </div>
+                        <div class="card-input right-icon col-md-8 nopadding">
+                            <i class="fa fa-pencil"></i>
+                            <input type="search" class="att-input form-control attribute-name"
+                                placeholder="Property name"/>
+                        </div>
+                        <div class=" col-md-2">
+                            <label >Type: </label>
+                        </div>
+                        <div class="card-input right-icon col-md-8 nopadding">
+                            <i class="fa fa-pencil"></i>
+                            <input type="search" class="att-input form-control attribute-name"
+                                placeholder="Property name"/>
+                        </div>
+                        <button type = "button" class = "btn btn-default" onclick = "tempSave()">
+                            Use image
+                        </button>
+                        <button type = "button" class = "btn btn-default" onclick = "saveComp()">
+                            Save composition
+                        </button>
+                   </div>
+                   <div class = "modal-footer">
+                   <button class="btn btn-default pull-left" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
+                        Return
+                   </button>
+                   <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                        Close
+                   </button>
+                   </div>
+                </div><!-- /.modal-content -->
+             </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+
     <div class = "container">
 
       <div class="row">
@@ -117,12 +205,14 @@
               <div class = "btn-group-vertical">
                 <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
                 <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Guidelines</button>
-                <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="btnSavedImages();" data-dismiss="modal">Add piece</button>
+                <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false);" data-dismiss="modal">Add piece</button>
+                <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="waitImgs(); registeredImages(true);" data-dismiss="modal">Add owned piece</button>
                 <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
               </div>
               <div class = "btn-group-vertical align-bottom">
+                <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white">View Photos</button>
                 <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
-                <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveComp();">Save composition</button>
+                <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
                 <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</button>
               </div>
             </div>
@@ -168,6 +258,45 @@
       }
 
 </script>
+
+<script>
+        var slideIndex = 1;
+
+        function waitImgs() {
+          setTimeout("plusDivs(0)", 200);
+        }
+
+        function plusDivs(n) {
+          showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+          var i;
+          var x = document.getElementsByClassName("img-thumbnail");
+          if (n > x.length) {slideIndex = 1}
+          if (n < 1) {slideIndex = x.length}
+          for (i = 0; i < x.length; i++) {
+             x[i].style.display = "none";
+          }
+          x[slideIndex-1].style.display = "inline";
+          x[slideIndex].style.display = "inline";
+          x[slideIndex+1].style.display = "inline";
+          x[slideIndex+2].style.display = "inline";
+          x[slideIndex+3].style.display = "inline";
+          x[slideIndex+4].style.display = "inline";
+        }
+
+        function growImg(x) {
+            x.style.height = "64px";
+            x.style.width = "64px";
+        }
+
+        function normImg(x) {
+            x.style.height = "32px";
+            x.style.width = "32px";
+        }
+
+    </script>
 
 </body>
 

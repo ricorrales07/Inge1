@@ -25,39 +25,31 @@ function btnSavedImages(){
 }
 
 //$("#btnSavedPrivateImages").click(function() {
-function savedOwnedImages(){
-    $("modalImages").each(function(){
+function registeredImages(owned){
+    var filter;
+	if(owned){
+    	filter = "{_id: /^" + Cookies.get("userID") + "C/}";
+	}else{
+		filter = "{}";
+	}
+	$("modalImages").each(function(){
     	$(this).remove();
 	});
 	console.log("btn clicked");
     $.ajax({
-		url: "/methods/getOwnedImages",
+		url: "/methods/getPiecesInDB",
 		type: 'POST',
-		data: Cookies.get("userID"),
+		data: filter,
 		contentType: "text/plain",
 		success:function(data, textStatus, jqXHR){
-			$('#ownedImages').append(data)
+			if(owned) {
+                $('#ownedImages').append(data)
+            }else{
+                $('#images').append(data)
+			}
 		},
 		error:function(jqXHR, textStatus, errorThrown ){
 			console.log(errorThrown);
 		}
 	});
 }
-
-/*
-$(document).ready(function(){
-    $('.funSlick').slick({
-        dots: false,
-        infinite: true,
-        speed: 700,
-        autoplay: false,
-        arrows: true,
-        slidesToShow: 1,
-        slidesToScroll: 1
-        variableWidth: true
-        adaptiveHeight: true
-     });
- });
-*/
-
-
