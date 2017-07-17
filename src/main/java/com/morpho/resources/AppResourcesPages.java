@@ -57,5 +57,8 @@ public class AppResourcesPages {
 
     @GET
     @Path("searchResults")
-    public String getSearchResults() { return viewCreator.getResults(); }
+    public String getSearchResults(@QueryParam("searchJSON") String json)
+    {
+        return viewCreator.getResults(json);
+    }
 }
