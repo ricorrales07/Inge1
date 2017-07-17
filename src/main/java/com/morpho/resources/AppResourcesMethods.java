@@ -557,7 +557,55 @@ public class AppResourcesMethods {
     @Path("loadPhotos")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response loadPhotos(String receivedContent) {
-        MorphoApplication.logger.info(receivedContent);
+        ResponseBuilder builder;
+        String html= "";
+        FindIterable<org.bson.Document> imgJsons;
+        try
+        {
+            String rec = "{_id: /^" + receivedContent + "C" + (compositionCounter-1) + "/}";
+            imgJsons = MorphoApplication.DBA.search("composition", rec);
+
+            //TODO: sacar esto de acá, solo debería ir la línea anterior
+            for (org.bson.Document json : imgJsons)
+            {
+                JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
+                JSONArray documentArray = (JSONArray) docData.get("images");
+
+                for(int i = 0; i < documentArray.size(); i++){
+                    JSONObject o = (JSONObject) new JSONParser().parse(documentArray.get(i).toString());
+
+                    html += "<modalImages data-dismiss=\"modal\"> <img src=\""
+                            + o.get("image")
+                            + "\" class = \"img-thumbnail\" /> </modalImages>";
+                }
+
+
+            }
+        }
+        catch (Exception e) //DANGER
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            //builder.status(200);
+            return builder.build();
+        }
+
+        builder = Response.ok("Got images");
+        builder.entity(html);
+        builder.status(200);
+        return builder.build();
+
+
+
+
+
+
+
+
+        /*MorphoApplication.logger.info(receivedContent);
+
+
         try {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
             JSONObject data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
@@ -580,7 +628,7 @@ public class AppResourcesMethods {
         ///TODO aquí meter fotos
         ArrayList<String> results = new ArrayList<>();
 
-        ResponseBuilder builder = Response.ok();
+        builder = Response.ok();
 
         String jsons = "[";
 
@@ -599,6 +647,6 @@ public class AppResourcesMethods {
 
         builder.entity(jsons);
         builder.status(200);
-        return builder.build();
+        return builder.build();*/
     }
 }
