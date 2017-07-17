@@ -240,13 +240,13 @@
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
               <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
               <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
-              <button id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</button>
+              <a id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</a>
             </div>
-                   
+
             <div  id="properties-nav-btn">
                 Properties
             </div>
-       
+
           </div>
         </div>
 
@@ -285,11 +285,6 @@
                     <input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
                   </div>
                 </div>
-              </div>
-              <div class = "btn-group-vertical align-bottom">
-                <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
-                <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="saveComp();">Save composition</button>
-                <a id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="#">Search</a>
               </div>
 
               <!-- END Non optional  Cards -->
