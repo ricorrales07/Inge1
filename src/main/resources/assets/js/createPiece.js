@@ -90,12 +90,32 @@ var surfaceS = new createjs.Container();
 
 
 //Imágenes proxy para el canvas.
-var direction = "" + document.URL;
-if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.length-1) <= '9'){
-	var bitmapFront = new createjs.Bitmap("\\assets\\images\\odo-head2.png");
-	var bitmapSide = new createjs.Bitmap("\\assets\\images\\odo-zyg-head2.png");
-	surfaceF.addChild(bitmapFront).set({x:150,y:250,scaleX:7,scaleY:7});
-	surfaceS.addChild(bitmapSide).set({x:150,y:250,scaleX:7,scaleY:7});
+var direction = "" + (document.URL).split("=")[1];
+if(direction != "undefined"){
+    var needed = [];
+    var optional = [];
+
+    $.getJSON("assets/imagesData/P" + direction + ".json", function(pieces){
+        var real = pieces.piece;
+
+        var bitmapFront = new createjs.Bitmap(real.SourceFront);
+        var bitmapSide = new createjs.Bitmap(real.SourceSide);
+        surfaceF.addChild(bitmapFront).set({x:0,y:0,scaleX:1,scaleY:1});
+        surfaceS.addChild(bitmapSide).set({x:0,y:0,scaleX:1,scaleY:1});
+
+		/*$.each(real, function(attribute, value){
+		 if(attribute != "_id" && attribute != "SourceFront" && attribute != "SourceSide" && attribute != "Author"
+		 && attribute != "searchID" && attribute != "Public" && attribute != "Scientific Name") {
+		 optional.push(value.attribute);
+		 }else{
+		 needed.push(value.attribute);
+		 }
+		 })*/
+    });
+
+    //addPart(partData);
+
+
 }
 
 
