@@ -38,14 +38,17 @@ function saveAttributes(){
     var text = [];
     var attributes = "{\n";
 
+    //$("attributes-card-list label[]]")
     $("#attribute-card-list input").each(function() {
     	if($(this).type=="checkbox"){
     		text.push($(this).checked);
     	}else{
-        	text.push($(this).val());
-    	}
+    	    if($(this).val() != "") {
+                text.push($(this).val());
+            }
+        }
     });
-    for(i = 3; i < text.length; i = i+2){
+    for(i = 0; i < text.length; i = i+2){
         attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\"";
         if(i < text.length - 2){
             attributes += ",\n";
