@@ -192,13 +192,13 @@
 
 					</div>
 					<div class="col-md-4">
-						<div class="row  " id="pointerRadius">
+						<div class="row tool-options  " id="pointerRadius">
 							<p class="col-md-4" >Thickness</p>
 							<div class=" col-md-8 rotation" title="Thickness">
 								<div id="slider"></div>
 							</div>
 						</div>
-						<div class="row tool-options" id="rotationRadius" style="display:none" >
+						<div class="row tool-options tool-options-hidden" id="rotationRadius">
 							<div class="col-md-8" >
 								<div class="row">
 									<p class="col-md-4" >Rotation</p>

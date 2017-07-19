@@ -52,6 +52,13 @@ function cancelSprite(){
 $(".tool").on("click",function(){
 	$(".tool").removeClass("selectedTool");
 	$(this).addClass("selectedTool");
+	if(this.id=="addImage"){
+		$("#pointerRadius").addClass("tool-options-hidden");
+		$("#rotationRadius").removeClass("tool-options-hidden");
+	}else{
+		$("#pointerRadius").removeClass("tool-options-hidden");
+		$("#rotationRadius").addClass("tool-options-hidden");
+	}
 	createPieceG.toolSelected = this.id+"";
 	console.log(createPieceG.toolSelected);
 });
@@ -495,11 +502,12 @@ function stickImageToSurface(){
 	if(createPieceG.newImage != null){
 		createPieceG.selectedBrush.graphics.clear();
 		createPieceG.selectedBrush.graphics.beginBitmapFill(createPieceG.newImage.image,"no-repeat",createPieceG.newImage.getMatrix());
-		//createPieceG.selectedBrush.graphics.drawRect(createPieceG.newImage.x,createPieceG.newImage.y,createPieceG.newImage.image.width, createPieceG.newImage.image.height);
+		//createPieceG.selectedBrush.graphics.drawRect(crpeatePieceG.newImage.x,createPieceG.newImage.y,createPieceG.newImage.image.width, createPieceG.newImage.image.height);
 		createPieceG.selectedBrush.graphics.drawRect(0,0,createPieceG.canvasStandardWidth, createPieceG.canvasStandardHeight);
 		createPieceG.selectedView.updateCache("source-over");
 		console.log("Image pasted to surface*******");
 		cancelImageToSurface();
+		returnToUsingPencil();
     }
 }
 
@@ -510,5 +518,14 @@ function cancelImageToSurface(){
 		createPieceG.newImage = null;
 		console.log("Image bitmap deleted*******");
 	}
+
 }
 
+
+function returnToUsingPencil(){
+	createPieceG.toolSelected = "pencil";
+	$(".tool").removeClass("selectedTool");
+	$("#pecil").addClass("selectedTool");
+	$("#pointerRadius").removeClass("tool-options-hidden");
+	$("#rotationRadius").addClass("tool-options-hidden");
+}

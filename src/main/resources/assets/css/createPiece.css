@@ -226,7 +226,7 @@ body{
 	border-radius: 5px;
 }
 
-.tool-options div{
+.tool-options-hidden{
 	display: none;
 }
 
