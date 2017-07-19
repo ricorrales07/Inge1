@@ -477,6 +477,7 @@ function saveComp()
 
 function saveCompositionData(){
     images = [];
+
     for(var i = 0; i < imagesAttributes.length; i = i + 3){
         images.push(
             {
@@ -486,6 +487,26 @@ function saveCompositionData(){
             }
         );
     }
+
+    text = [];
+    $("#attribute-card-list input").each(function() {
+        if($(this).type=="checkbox"){
+            text.push($(this).checked);
+        }else{
+            if($(this).val() != "") {
+                text.push($(this).val());
+            }
+        }
+    });
+
+    var attributes = "{\n";
+    for(i = 0; i < text.length; i = i+2){
+        attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\"";
+        if(i < text.length - 2){
+            attributes += ",\n";
+        }
+    }
+    attributes += "\n}";
 
     console.log("Test");
     var data = [];
@@ -504,6 +525,8 @@ function saveCompositionData(){
         );
     }
 
+    attributes = JSON.parse(attributes);
+
     console.log(pieces);
 
     var result = false;
@@ -516,7 +539,7 @@ function saveCompositionData(){
                 userID: Cookies.get("userID"),
                 accessToken: Cookies.get("accessToken")
             },
-            composition: {pieces, images},
+            composition: {attributes, pieces, images},
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
