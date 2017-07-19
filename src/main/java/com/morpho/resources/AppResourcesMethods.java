@@ -616,10 +616,12 @@ public class AppResourcesMethods {
             MorphoApplication.logger.warning("Error when searching for composition: " + e.toString());
         }
 
-        String html = "<h1>" + json.getString("Scientific Name") + "</h1><br>";
+        Document attributes = json.get("attributes", Document.class);
 
-        for(String key : json.keySet()) {
-            if (!(key != "_id" && key.equals("pieces") || key.equals("searchId") || key.equals("imgSource") || key.equals("images")))
+        String html = "<h1>" + attributes.getString("Scientific Name") + "</h1><br>";
+
+        for(String key : attributes.keySet()) {
+            if (!key.equals("Scientific Name"))
                 html += key + ": " + json.get(key).toString() + "<br>";
         }
 

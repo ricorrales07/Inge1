@@ -508,6 +508,8 @@ function saveCompositionData(){
     }
     attributes += "\n}";
 
+    console.log("composition attributes: " + attributes);
+
     console.log("Test");
     var data = [];
     pieces = [];

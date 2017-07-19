@@ -177,15 +177,15 @@
 						<div title="Save" class="nav-tool-button nav-button" id="saveButton" onclick="savePiece();">
 							<i class="fa fa-floppy-o fa-2x"></i>
 						</div>
-			
+
 						<div title="Pencil Tool" class="nav-tool-button tool selectedTool nav-button" id="pencil" >
 							<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
 						</div>
-					
+
 						<div title="Eraser Tool" class="nav-tool-button tool nav-button" id="eraser" >
 							<i class="fa fa-eraser fa-2x" aria-hidden="true"></i>
 						</div>
-					
+
 						<div title="Add Image" class="nav-tool-button tool nav-button" id="addImage" data-toggle = "modal" data-target = "#opcionOpciones">
 							<i class="fa fa-picture-o fa-2x" aria-hidden="true"></i>
 						</div>
@@ -207,7 +207,7 @@
 									</div>
 								</div>
 							</div>
-						
+
 							<div class=" col-md-2">
 								<div class="nav-tool-button nav-button" id="acceptImage" onclick="stickImageToSurface()">
 									<i class="fa fa-check fa-2x" aria-hidden="true"></i>
@@ -246,10 +246,10 @@
 
 		<div class="row ">
 			<div class="col-md-12 toolset">
-				
+
 
 				<!-- FOUR DIFFERENT VIEWS  ui-widget-content-->
-				<div id="editor-container" class=" col-md-10">
+				<div id="editor-container" >
 					<div class="" id="editor" onload="init();"">
 						<canvas id="canvasBackGround"></canvas>
 						<canvas id="leCanvas" ></canvas>

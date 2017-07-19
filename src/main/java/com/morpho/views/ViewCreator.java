@@ -78,11 +78,13 @@ public class ViewCreator {
 
         MorphoApplication.logger.info("Main result: " + mainResult);
 
-        String text = "<h1>" + results.get(0).getString("Scientific Name") + "</h1><br>";
-        for(String key : results.get(0).keySet())
+        Document mainResultAttributes = results.get(0).get("attributes", Document.class);
+
+        String text = "<h1>" + mainResultAttributes.getString("Scientific Name") + "</h1><br>";
+        for(String key : mainResultAttributes.keySet())
         {
-            if (!(/*key != "_id" &&*/ key.equals("pieces") || key.equals("searchId") || key.equals("imgSource") || key.equals("images")))
-                text += key + ": " + results.get(0).get(key).toString() + "\n";
+            if (!key.equals("Scientific Name"))
+                text += key + ": " + mainResultAttributes.get(key).toString() + "<br>";
         }
 
         String bolitas = "<li data-target=\"#myCarousel\" data-slide-to=\"0\" class=\"active\"></li>";
