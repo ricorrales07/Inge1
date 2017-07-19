@@ -249,7 +249,7 @@
 
 
 				<!-- FOUR DIFFERENT VIEWS  ui-widget-content-->
-				<div id="editor-container" >
+				<div id="editor-container" class=" col-md-10">
 					<div class="" id="editor" onload="init();"">
 						<canvas id="canvasBackGround"></canvas>
 						<canvas id="leCanvas" ></canvas>
