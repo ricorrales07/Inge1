@@ -4,7 +4,7 @@ var stage = new createjs.Stage("areaDeDibujo");
 var diffX, diffY;
 //this variable indicates the current view of the insect
 var view = "front";
-//this are the guidelines (it's an image)
+//these are the guidelines (it's an image)
 var lineasDeGuia = new createjs.Bitmap("assets/images/cuadricula.png");
 //this variable represents the current composition
 var composicionActual = {partIds: [], partsList: [], matrices: [[],[]]};

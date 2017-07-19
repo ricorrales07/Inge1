@@ -85,7 +85,7 @@ public class ViewCreator {
                 text += key + ": " + results.get(0).get(key).toString() + "\n";
         }
 
-        String bolitas = "<!--li data-target=\"#myCarousel\" data-slide-to=\"0\" class=\"active\"></li>";
+        String bolitas = "<li data-target=\"#myCarousel\" data-slide-to=\"0\" class=\"active\"></li>";
 
         int pages = ((int)(results.size()/3));
 
@@ -107,9 +107,14 @@ public class ViewCreator {
             while (i*3+j < results.size())
             {
                 String rr = results.get(j++).getString("_id");
-                extraResults += "<div class=\"col-md-3 col-sm-3 col-lg-3\"><a href=\"#x\" class=\"thumbnail\"><img src=\"./assets/images/Composition"
-                    + rr.substring(rr.lastIndexOf('C')+1) + ".png"
-                    +"\" alt=\"Image\" style=\"max-width:100%;\" /></a></div>\n";
+                String src = "./assets/images/Composition"
+                        + rr.substring(rr.lastIndexOf('C')+1) + ".png";
+                extraResults += "<div class=\"col-md-3 col-sm-3 col-lg-3\">"
+                        + "<a onclick=\"setMainResult(&quot;"
+                        + rr + "&quot;, &quot;"
+                        + src + "&quot;);\" class=\"thumbnail\"><img src=\""
+                        + src
+                        + "\" alt=\"Image\" style=\"max-width:100%;\" /></a></div>\n";
             }
 
             extraResults += "</div><!--/row-fluid-->\n" +

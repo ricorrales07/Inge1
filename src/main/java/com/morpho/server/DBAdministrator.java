@@ -76,6 +76,15 @@ public class DBAdministrator implements Managed {
         }
     }
 
+    public Document documentFind(String collection, String filter) throws Exception {
+        try {
+            return db.getCollection(collection).find((Bson) JSON.parse(filter)).first();
+        } catch (Exception e) {
+            MorphoApplication.logger.info(e.toString());
+            return null;
+        }
+    }
+
     public FindIterable<Document> search(String collection, String filter) throws Exception {
         try {
             BasicDBObject f = BasicDBObject.parse(filter);

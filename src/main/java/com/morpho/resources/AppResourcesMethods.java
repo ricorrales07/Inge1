@@ -10,8 +10,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import org.bson.Document;
+
 import javax.imageio.ImageIO;
-import javax.swing.text.Document;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.*;
@@ -595,6 +596,35 @@ public class AppResourcesMethods {
         }
 
         builder = Response.ok("Got images");
+        builder.entity(html);
+        builder.status(200);
+        return builder.build();
+    }
+
+    @GET
+    @Path("getCompositionData")
+    public Response getCompositionData(@QueryParam("id") String id) {
+        ResponseBuilder builder;
+        String html="";
+        Document json = new Document();
+
+        MorphoApplication.logger.info("Recieved id: " + id);
+
+        try {
+            json = MorphoApplication.DBA.documentFind("composition", "{_id: \"" + id + "\"}");
+        }
+        catch (Exception e) {
+            MorphoApplication.logger.warning("Error when searching for composition: " + e.toString());
+        }
+
+        for(String key : json.keySet()) {
+            if (!(/*key != "_id" &&*/ key.equals("pieces") || key.equals("searchId") || key.equals("imgSource") || key.equals("images")))
+                html += key + ": " + json.get(key).toString() + "\n";
+        }
+
+        MorphoApplication.logger.info("html result: " + html);
+
+        builder = Response.ok("Successfuly fetched data");
         builder.entity(html);
         builder.status(200);
         return builder.build();
