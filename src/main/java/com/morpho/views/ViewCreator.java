@@ -78,7 +78,7 @@ public class ViewCreator {
 
         MorphoApplication.logger.info("Main result: " + mainResult);
 
-        String text = "";
+        String text = "<h1>" + results.get(0).getString("Scientific Name") + "</h1><br>";
         for(String key : results.get(0).keySet())
         {
             if (!(/*key != "_id" &&*/ key.equals("pieces") || key.equals("searchId") || key.equals("imgSource") || key.equals("images")))

@@ -13,19 +13,19 @@ createPieceG = {
 	canvasStandardHeight: 500,
 	draggedBitmapFirstPoint: {x: 0, y: 0},
 	capturedFirstBitmapPoint: false,
-	newImage: null, 
+	newImage: null,
 	newImageOriginalWidth: 0,
 	newImageOriginalHeight: 0
 }
 
 //BEGIN SETTING UP STUFF AFTER LOADING THE HTML!
 $(window).on("load",function(){
-	$( "#editor-container" ).resizable({ ghost: true }); //Make things resizable. 
+	$( "#editor-container" ).resizable({ ghost: true }); //Make things resizable.
 	//var heightPer = $(window).height() - $(".top-nav").height();
-	heightPer = 600; //Height for the tool's menu. 
+	heightPer = 600; //Height for the tool's menu.
 
 	//Set up the height for the tools' menu.
-	
+
 
 	//Let's position the editor in the row:
 	$("#editor-container").css("top",20).css("height", 500);
@@ -38,8 +38,8 @@ $(window).on("load",function(){
 });
 
 /**
-* This is the click event handler from the "Cancel" button. Redirectos to the main page. 
-* @return: void. 
+* This is the click event handler from the "Cancel" button. Redirectos to the main page.
+* @return: void.
 */
 function cancelSprite(){
 	window.location.href = "/";
@@ -67,7 +67,7 @@ $(".tool").on("click",function(){
 var stage = new createjs.Stage("leCanvas");
 
 
-//Each of the following surfaces represent a view (instead of having different canvaces for each view). 
+//Each of the following surfaces represent a view (instead of having different canvaces for each view).
 var surfaceF = new createjs.Container();
 var surfaceRS = new createjs.Container();
 var surfaceB = new createjs.Container();
@@ -75,12 +75,12 @@ var surfaceLS = new createjs.Container();
 var surfaceS = new createjs.Container();
 
 
-//Initial brush style. 
+//Initial brush style.
  var brushStyle = new createjs.Graphics();
  brushStyle.setStrokeStyle(2,"round", 1); ////stroke style
  brushStyle.beginStroke("#222121");//stroke color
 
-//Differente brushes dedicated to one view. 
+//Differente brushes dedicated to one view.
 
  var brushF = new createjs.Shape(brushStyle);
  var brushRS = new createjs.Shape(brushStyle);
@@ -89,7 +89,7 @@ var surfaceS = new createjs.Container();
  var brushS = new createjs.Shape(brushStyle);
 
 
-//Imágenes proxy para el canvas. 
+//Imágenes proxy para el canvas.
 var direction = "" + document.URL;
 if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.length-1) <= '9'){
 	var bitmapFront = new createjs.Bitmap("\\assets\\images\\odo-head2.png");
@@ -106,11 +106,11 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
  surfaceS.addChild(brushS);
 
 /**
-* Initiates various configurations related to the state, events, cache, and touch options. 
-* @return: void. 
+* Initiates various configurations related to the state, events, cache, and touch options.
+* @return: void.
 */
  function initiate() {
- 	//Allowing touch and caching each surface. 
+ 	//Allowing touch and caching each surface.
  	createjs.Touch.enable(stage, false, allowDefault=true);
  	//stage.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
 	surfaceF.cache(0,0,$("#leCanvas").attr("width"),$("#leCanvas").attr("height"));
@@ -140,15 +140,15 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
  		 }
 	});
 
-	
+
 	updateStageListeners();
 	stage.update();
 }
 
 /**
 * Creates all the stage's listeners, with anonymous event handlers. These are mostly dedicated to capture the position
-* of the cursor/pointer when differente events. 
-* @return: void. 
+* of the cursor/pointer when differente events.
+* @return: void.
 */
 function updateStageListeners(){
 
@@ -166,7 +166,7 @@ function updateStageListeners(){
 		console.log("stagemousemove on stage");
 		  createPieceG.pointer.x = event.stageX;
 		  createPieceG.pointer.y = event.stageY;
-		  
+
 		  if(createPieceG.newImage != null ){
 		  	$("#leCanvas").css("cursor", getCursorTypeByArea(event.stageX, event.stageY));
 		  }else{
@@ -194,8 +194,8 @@ function getCursorTypeByArea(x, y){
 	 innerXRight = createPieceG.newImageOriginalWidth-cursor_buffer,
 	 innerYBottom = createPieceG.newImageOriginalHeight-cursor_buffer;
 
-	 if( x >= 0 && y >= 0 && x < createPieceG.newImageOriginalWidth && y < createPieceG.newImageOriginalHeight) 
-	 { 
+	 if( x >= 0 && y >= 0 && x < createPieceG.newImageOriginalWidth && y < createPieceG.newImageOriginalHeight)
+	 {
 	 	if(y >= innerYTop && y < innerYBottom && x < innerXLeft)
 	 	{
 	 		return "w-resize"; //LEFT Bar
@@ -203,7 +203,7 @@ function getCursorTypeByArea(x, y){
 	 		return "e-resize"; // RIGHT Barg
 	 	}else if(y >= innerYTop && y < innerYBottom  && x > innerXLeft && x < innerXRight) {
 	 		//console.log("innerYTop "+innerYTop+" innerYBottom "+innerYBottom+" innerXRight "+innerXRight+" innerXLeft "+innerXLeft);
-	 		return "-webkit-grab"; //CENTER SQUARE Might need to change this for different browsers. 
+	 		return "-webkit-grab"; //CENTER SQUARE Might need to change this for different browsers.
 
 	 	}else if(y < innerYBottom) //TOP BUFFER
 	 	{
@@ -225,31 +225,31 @@ function getCursorTypeByArea(x, y){
 	 	return "none";
 	 }
 }
-//Setting up the configuration for the ticker instance from create JS. This 
-// will generate a tick at a certain FPS. 
+//Setting up the configuration for the ticker instance from create JS. This
+// will generate a tick at a certain FPS.
 createjs.Ticker.addEventListener("tick", handleTick);
 createjs.Ticker.interval = 5; // FPS
 
 /**
-* Event handler for each tick event generated by the createJs object. 
-* Executes a canvasCycle. 
+* Event handler for each tick event generated by the createJs object.
+* Executes a canvasCycle.
 * @event: the event generated by the CreateJS Ticker.
-* @return: void. 
+* @return: void.
 */
  function handleTick(event) {
      // Actions carried out each tick (aka frame)
  	canvasCycle();
      if (!event.paused) {
          // Actions carried out when the Ticker is not paused.
-        
+
          //console.log("paused...")
      }
  }
 
 /**
-* Updates the stage (redraws the state of the canvas), and decides if an 
-* initial reference point is needed or if it can start drawing strokes captured from the user. 
-* @return: void. 
+* Updates the stage (redraws the state of the canvas), and decides if an
+* initial reference point is needed or if it can start drawing strokes captured from the user.
+* @return: void.
 */
 function canvasCycle(){
     if (createPieceG.drawing) {
@@ -259,15 +259,15 @@ function canvasCycle(){
 	     }else{
 	     	captureOrigin();
 	     }
-	     
+
   	 }
   	 stage.update();
-     
+
 }
 
 /**
-* Captures the initial drawing point. This is used at the very beggin of a stroke to begin drawing it on the surface. 
-* @return: void. 
+* Captures the initial drawing point. This is used at the very beggin of a stroke to begin drawing it on the surface.
+* @return: void.
 */
  function captureOrigin(){
  	createPieceG.origin = {x: createPieceG.pointer.x, y: createPieceG.pointer.y};
@@ -275,15 +275,15 @@ function canvasCycle(){
  }
 
  /**
- * On a single cicle from the main loop (whether from the TICKER or evens), this function updates 
- * the selected surface to draw a portion of a stroke made by the user. 
- * @brush:  this is the brush that is going to be used to capture the stroke by the user. Each surface has 
- * it's own brush object. 
+ * On a single cicle from the main loop (whether from the TICKER or evens), this function updates
+ * the selected surface to draw a portion of a stroke made by the user.
+ * @brush:  this is the brush that is going to be used to capture the stroke by the user. Each surface has
+ * it's own brush object.
  * @return: void
  */
 
  function drawStroke(brush){
- 	
+
     //clear previous line
     brush.graphics.clear();
     brush.graphics.setStrokeStyle($( "#pointerRadius #slider" ).slider( "option", "value" ),"round", "round", 10); ////stroke style
@@ -301,10 +301,10 @@ function canvasCycle(){
 }
 
 /**
-* Updates the correct vuew (surface) depending on the selection on the dropdown. 
-* This includes updated the correct brush as well. All of this done after removing all chrildren from stage to avoid overlapping. 
-* @select: this is the select element to choose the view. 
-* @return: void. 
+* Updates the correct vuew (surface) depending on the selection on the dropdown.
+* This includes updated the correct brush as well. All of this done after removing all chrildren from stage to avoid overlapping.
+* @select: this is the select element to choose the view.
+* @return: void.
 */
 function updateView(select){
 
@@ -438,7 +438,7 @@ function addImageToCanvas(img){
 	});
 
 
-	
+
 	stage.update();
     console.log("Image added*******");
 }
@@ -457,7 +457,7 @@ function moveOrResizeImage(target, dx, dy, mousex, mousey){
 			createPieceG.newImageOriginalWidth += 2*dx;
 			createPieceG.newImageOriginalHeight += 2*dy;
 			break;
-		case "e-resize": 
+		case "e-resize":
 			target.scaleX += (2*dx)/createPieceG.newImageOriginalWidth;
 			createPieceG.newImageOriginalWidth += 2*dx;
 			break;

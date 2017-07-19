@@ -605,7 +605,6 @@ public class AppResourcesMethods {
     @Path("getCompositionData")
     public Response getCompositionData(@QueryParam("id") String id) {
         ResponseBuilder builder;
-        String html="";
         Document json = new Document();
 
         MorphoApplication.logger.info("Recieved id: " + id);
@@ -617,9 +616,11 @@ public class AppResourcesMethods {
             MorphoApplication.logger.warning("Error when searching for composition: " + e.toString());
         }
 
+        String html = "<h1>" + json.getString("Scientific Name") + "</h1><br>";
+
         for(String key : json.keySet()) {
-            if (!(/*key != "_id" &&*/ key.equals("pieces") || key.equals("searchId") || key.equals("imgSource") || key.equals("images")))
-                html += key + ": " + json.get(key).toString() + "\n";
+            if (!(key != "_id" && key.equals("pieces") || key.equals("searchId") || key.equals("imgSource") || key.equals("images")))
+                html += key + ": " + json.get(key).toString() + "<br>";
         }
 
         MorphoApplication.logger.info("html result: " + html);
