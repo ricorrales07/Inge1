@@ -144,22 +144,16 @@
                    <div class = "modal-body">
                       Click the button below to search for an image
                       <input type="file" accept='image/*'><br>
-                        <div class=" col-md-2">
-                            <label >Name: </label>
-                        </div>
-                        <div class="card-input right-icon col-md-8 nopadding">
-                            <i class="fa fa-pencil"></i>
-                            <input type="attr" class="att-input form-control attribute-name"
-                                placeholder="Property name"/>
-                        </div>
-                        <div class=" col-md-2">
-                            <label >Type: </label>
-                        </div>
-                        <div class="card-input right-icon col-md-8 nopadding">
-                            <i class="fa fa-pencil"></i>
-                            <input type="attr" class="att-input form-control attribute-name"
-                                placeholder="Property name"/>
-                        </div>
+                        <label >Name: </label>
+                        <input type="attr" class="att-in form-control attribute-name"
+                        placeholder="Property name"/>
+                        <br>
+
+                        <label >Type: </label>
+                        <input type="attr" class="att-in form-control attribute-name"
+                        placeholder="Property name"/>
+                        <br>
+
                         <button type = "button" class = "btn btn-default" onclick = "tempSave()">
                             Use image
                         </button>
