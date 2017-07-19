@@ -13,6 +13,23 @@
 
 <div class="container">
 
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+              <div class="navbar-header">
+                  <a class="navbar-brand" href="#">MorphoSpace</a>
+              </div>
+              <ul class="nav navbar-nav">
+                  <li class="active"><a href="/">Home</a></li>
+                  <li><a href="#" data-toggle = "modal" data-target = "#loginModal" data-dismiss="modal">Log in</a></li>
+                  <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
+              </ul>
+              </div>
+      </nav>
+    </div>
+  </div>
+
 	<div class="row">
 		<div class="col-md-6 col-sm-6 col-lg-6">
 			$mainResult$

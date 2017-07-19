@@ -81,13 +81,15 @@ public class ViewCreator {
         String text = "";
         for(String key : results.get(0).keySet())
         {
-            if (/*key != "_id" &&*/ key != "pieces" && key != "searchId" && key != "imgSource")
-            text += key + ": " + results.get(0).get(key).toString() + "\n";
+            if (!(/*key != "_id" &&*/ key.equals("pieces") || key.equals("searchId") || key.equals("imgSource") || key.equals("images")))
+                text += key + ": " + results.get(0).get(key).toString() + "\n";
         }
 
         String bolitas = "<!--li data-target=\"#myCarousel\" data-slide-to=\"0\" class=\"active\"></li>";
 
-        int pages = ((int)(results.size()/3)) + 1;
+        int pages = ((int)(results.size()/3));
+
+        MorphoApplication.logger.info("result pages: " + pages);
 
         for (int i = 1; i < pages; i++) {
             bolitas += "<li data-target=\"#myCarousel\" data-slide-to=\"" + i + "\"></li>\n";
@@ -102,11 +104,12 @@ public class ViewCreator {
             extraResults += "<div class=\"item " + ((i==0)? "active" : "") + "\">\n" +
                     "<div class=\"row-fluid\">\n";
             int j = 0;
-            while (i*3+j < pages)
+            while (i*3+j < results.size())
             {
-                extraResults += "<div class=\"col-md-3 col-sm-3 col-lg-3\"><a href=\"#x\" class=\"thumbnail\"><img src=\"" +
-                        results.get(j++).getString("imgSource") +
-                        "\" alt=\"Image\" style=\"max-width:100%;\" /></a></div>\n";
+                String rr = results.get(j++).getString("_id");
+                extraResults += "<div class=\"col-md-3 col-sm-3 col-lg-3\"><a href=\"#x\" class=\"thumbnail\"><img src=\"./assets/images/Composition"
+                    + rr.substring(rr.lastIndexOf('C')+1) + ".png"
+                    +"\" alt=\"Image\" style=\"max-width:100%;\" /></a></div>\n";
             }
 
             extraResults += "</div><!--/row-fluid-->\n" +
