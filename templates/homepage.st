@@ -287,6 +287,22 @@
                 </div>
               </div>
 
+              <div class="attribute-card col-md-offset-1 col-md-10">
+                <div class="row">
+                  <div class="col-md-offset-5 col-md-2">
+                    <label >Public: </label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class=" col-md-3 ">
+                    <input style="display:none" value="Public"/>
+                    <label >Value: </label>
+                    <input type="checkbox" class="att-input attribute-value" unchecked/>
+                  </div>
+                </div>
+              </div>
+
               <!-- END Non optional  Cards -->
 
               <!-- Template  Card -->
