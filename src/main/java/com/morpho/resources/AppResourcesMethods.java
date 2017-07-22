@@ -1,7 +1,6 @@
 package com.morpho.resources;
 
 import com.mongodb.client.FindIterable;
-import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
 import com.morpho.entities.Authentication;
 import com.morpho.views.ViewCreator;
@@ -19,14 +18,10 @@ import javax.ws.rs.core.Response.*;
 import javax.ws.rs.core.Response;
 
 import javax.xml.bind.DatatypeConverter;
-/*import javax.xml.crypto.Data;
-import java.awt.*;
-import java.awt.image.BufferedImage;*/
 import java.io.*;
 
 import java.net.URLDecoder;
 import java.util.*;
-//import java.util.Base64.Decoder;
 
 /**
  * Created by irvin on 29/4/2017.
@@ -94,7 +89,6 @@ public class AppResourcesMethods {
             MorphoApplication.logger.warning(e.toString());
             builder = Response.status(404);
             builder.entity(e.toString());
-            //builder.status(200);
             return builder.build();
         }
         builder = Response.ok("Got images");
@@ -127,7 +121,6 @@ public class AppResourcesMethods {
             MorphoApplication.logger.warning(e.toString());
             builder = Response.status(404);
             builder.entity(e.toString());
-            //builder.status(200);
             return builder.build();
         }
 
@@ -143,7 +136,7 @@ public class AppResourcesMethods {
     public Response sendToken(String receivedAuth) {
         ResponseBuilder b = Response.ok();
         b.status(200);
-        return b.build();//authorize(receivedAuth).build();
+        return b.build();
     }
 
     private ResponseBuilder queryDB(String queryType, String collection, String receivedContent) {
@@ -157,7 +150,7 @@ public class AppResourcesMethods {
             String receivedAuth = authJSON.get("auth").toString();
             String content = authJSON.get(collection).toString();
             builder = Response.ok();
-            builder.status(200);//authorize(receivedAuth);
+            builder.status(200);
             if(builder.build().getStatus() == 200) { //successful authorization
                 try {
                     builder = Response.ok(collection + " created");
@@ -247,41 +240,35 @@ public class AppResourcesMethods {
             }else{
                 String imageData = data[2];
                 InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
-                //ImageIO.write(ImageIO.read(bit), "png", new File(".\\resources\\assets\\images\\" + data[3] + "\\Composition" + compositionCounter + ".png"));
-                //imgSource = "/resources/assets/images/Composition/" + data[3] + "/" + compositionCounter + ".png";
-                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\Composition" + compositionCounter + ".png"));
-                imgSource = "/resources/assets/images/Composition" + compositionCounter + ".png";
+                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[3] + "\\Composition" + compositionCounter + ".png"));
+                imgSource = "/resources/assets/images/" + data[3] + "/Composition/" + compositionCounter + ".png";
                 builder = Response.ok("Image saved");
                 builder.entity(imgSource);
             }
             builder.status(200);
 
-            if(this.saved){
-                this.saved = false;
-                if(data[0].equals("Piece")){
-                    this.pieceCounter++;
-                    try {
-                        PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
-                        writer.print(""+pieceCounter);
-                        writer.close();
-                    }catch(Exception e){
-                        MorphoApplication.logger.warning(e.toString());
-                        e.printStackTrace();
-                    }
-                }else{
-                    this.compositionCounter++;
-                    try {
-                        PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
-                        writer.print(""+compositionCounter);
-                        writer.close();
-                    }catch(Exception e){
-                        MorphoApplication.logger.warning(e.toString());
-                        e.printStackTrace();
-                    }
+            if(data[0].equals("Piece")){
+                this.pieceCounter++;
+                try {
+                    PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
+                    writer.print(""+pieceCounter);
+                    writer.close();
+                }catch(Exception e){
+                    MorphoApplication.logger.warning(e.toString());
+                    e.printStackTrace();
                 }
             }else{
-                this.saved = true;
+                this.compositionCounter++;
+                try {
+                    PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
+                    writer.print(""+compositionCounter);
+                    writer.close();
+                }catch(Exception e){
+                    MorphoApplication.logger.warning(e.toString());
+                    e.printStackTrace();
+                }
             }
+
             return builder.build();
 
         }catch (Exception e){
@@ -388,19 +375,13 @@ public class AppResourcesMethods {
             } catch (Exception e) {
                 MorphoApplication.logger.warning("Error while inserting piece in DB: " + e.toString());
             }
-            if (this.saved) {
-                this.saved = false;
-                this.pieceCounter++;
-                try {
-                    PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
-                    writer.print("" + pieceCounter);
-                    writer.close();
 
-                } catch (Exception e) {
-                    MorphoApplication.logger.warning(e.toString());
-                }
-            } else {
-                this.saved = true;
+            try {
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
+                writer.print("" + pieceCounter);
+                writer.close();
+            } catch (Exception e) {
+                MorphoApplication.logger.warning(e.toString());
             }
         }
         return builder.build();
@@ -489,18 +470,13 @@ public class AppResourcesMethods {
             } catch (Exception e) {
                 MorphoApplication.logger.warning(e.toString());
             }
-            if (this.saved) {
-                this.saved = false;
-                this.compositionCounter++;
-                try {
-                    PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
-                    writer.print("" + compositionCounter);
-                    writer.close();
-                } catch (Exception e) {
-                    MorphoApplication.logger.warning(e.toString());
-                }
-            } else {
-                this.saved = true;
+
+            try {
+                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
+                writer.print("" + compositionCounter);
+                writer.close();
+            } catch (Exception e) {
+                MorphoApplication.logger.warning(e.toString());
             }
             receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
             MorphoApplication.logger.info(receivedContent);
@@ -586,12 +562,11 @@ public class AppResourcesMethods {
                 }
             }
         }
-        catch (Exception e) //DANGER
+        catch (Exception e)
         {
             MorphoApplication.logger.warning(e.toString());
             builder = Response.status(404);
             builder.entity(e.toString());
-            //builder.status(200);
             return builder.build();
         }
 

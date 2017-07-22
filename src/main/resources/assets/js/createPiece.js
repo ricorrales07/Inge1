@@ -173,7 +173,6 @@ if(direction != "undefined"){
 function updateStageListeners(){
 
 	stage.addEventListener("stagemousedown", function(event) {
-		//console.log("the canvas was mousedown at "+event.stageX+","+event.stageY);
 		console.log("stagemousedown on stage");
 		createPieceG.pointer.x = event.stageX;
 		createPieceG.pointer.y = event.stageY;
@@ -182,7 +181,6 @@ function updateStageListeners(){
 
 
 	stage.addEventListener("stagemousemove", function handleMouseMove(event) {
-		//console.log("the canvas was pressmove at "+event.stageX+","+event.stageY);
 		console.log("stagemousemove on stage");
 		  createPieceG.pointer.x = event.stageX;
 		  createPieceG.pointer.y = event.stageY;
@@ -195,7 +193,6 @@ function updateStageListeners(){
 	});
 
 	stage.addEventListener("stagemouseup", function(event) {
-		//console.log("the canvas was pressup at "+event.stageX+","+event.stageY);
 		//Break the stroke.
 		console.log("stagemouseup on stage");
 		createPieceG.originCaptured = false;
@@ -370,7 +367,6 @@ function saveCreation(){
     $.ajax({
         url: "/methods/saveCreatedImageFile",
         type: 'POST',
-        //data: "Piece," + imageFront + "," + imageSide,
         data: "Piece," + imageFront + "," + imageSide + "," + Cookies.get("userID"),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){

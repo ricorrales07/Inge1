@@ -5,8 +5,6 @@ and the data obtained with it (string) will be loaded in a
 tag with the id "images".
 */
 
-
-//$("#btnSavedImages").click(function() {
 function btnSavedImages(){
     $("modalImages").each(function(){
     	$(this).remove();
@@ -24,7 +22,6 @@ function btnSavedImages(){
 	});
 }
 
-//$("#btnSavedPrivateImages").click(function() {
 function registeredImages(owned){
     var filter;
 	if(owned){
