@@ -35,11 +35,28 @@ function addProperty(){
 }
 
 function saveAttributes(){
-    var text = [];
-    var attributes = "{\n";
+    var required = [];
+    var optional = [];
+    var requiredAttributes = "{\n";
+    var optionalAttributes = "{\n";
 
     //$("attributes-card-list label[]]")
-    $("#attribute-card-list input").each(function() {
+
+    $("#attribute-card-list input[type = required]").each(function() {
+        required.push($(this).val())
+    })
+
+    $("#attribute-card-list input[type = optional]").each(function() {
+        if($(this).val() != "") {
+            optional.push($(this).val())
+        }
+    })
+
+    $("#attribute-card-list input[type = checkbox]").each(function() {
+        required.push($(this).val())
+    })
+
+    /*$("#attribute-card-list input").each(function() {
     	if($(this).type=="checkbox"){
     		text.push($(this).checked);
     	}else{
@@ -47,14 +64,23 @@ function saveAttributes(){
                 text.push($(this).val());
             }
         }
-    });
-    for(i = 0; i < text.length; i = i+2){
-        attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\"";
-        if(i < text.length - 2){
-            attributes += ",\n";
+    });*/
+
+    for(i = 0; i < required.length; i = i+2){
+        requiredAttributes += "\"" + required[i] + "\": \"" + required[i+1] + "\"";
+        if(i < required.length - 2){
+            requiredAttributes += ",\n";
         }
     }
-    attributes += "\n}";
+    requiredAttributes += "\n}";
+
+    for(i = 0; i < optional.length; i = i+2){
+        optionalAttributes += "\"" + optional[i] + "\": \"" + optional[i+1] + "\"";
+        if(i < optional.length - 2){
+            optionalAttributes += ",\n";
+        }
+    }
+    optionalAttributes += "\n}";
 
     var result = false;
 
@@ -66,7 +92,10 @@ function saveAttributes(){
                     userID: Cookies.get("userID"),
                     accessToken: Cookies.get("accessToken")
                 },
-                piece: JSON.parse(attributes)
+                piece: {
+                    required: JSON.parse(requiredAttributes),
+                    optional: JSON.parse(optionalAttributes)
+                }
             }),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){

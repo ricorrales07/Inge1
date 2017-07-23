@@ -274,7 +274,7 @@
 								<div class="row">
 									<div class="col-md-offset-2 col-md-8">
 										<label >Author: </label>
-										<input style="display:none" value="Author"/>
+										<input type="required" style="display:none" value="Author"/>
 									</div>
 								</div>
 
@@ -284,7 +284,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+										<input type="required" class="att-input form-control attribute-value" placeholder="Property value"/>
 									</div>
 								</div>
 							</div>
@@ -292,7 +292,7 @@
 								<div class="row">
 									<div class="col-md-offset-2 col-md-8">
 										<label >Scientific Name: </label>
-										<input style="display:none" value="Scientific Name"/>
+										<input type="required" style="display:none" value="Scientific Name"/>
 									</div>
 								</div>
 
@@ -302,7 +302,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+										<input type="required" class="att-input form-control attribute-value" placeholder="Property value"/>
 									</div>
 								</div>
 							</div>
@@ -316,7 +316,7 @@
 
 								<div class="row">
 									<div class=" col-md-8 ">
-										<input style="display:none" value="Public"/>
+										<input type = "checkbox" style="display:none" value="Public"/>
 										<label >Value: </label>
 										<input type="checkbox" class="att-input attribute-value" unchecked/>
 									</div>
@@ -337,7 +337,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="search" class="att-input form-control attribute-name"
+										<input type="optional" class="att-input form-control attribute-name"
 											placeholder="Property name"/>
 									</div>
 								</div>
@@ -348,7 +348,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+										<input type="optional" class="att-input form-control attribute-value" placeholder="Property value"/>
 									</div>
 								</div>
 							</div>
