@@ -1,6 +1,7 @@
 package com.morpho.resources;
 
 import com.mongodb.client.FindIterable;
+import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
 import com.morpho.entities.Authentication;
 import com.morpho.views.ViewCreator;
@@ -302,29 +303,29 @@ public class AppResourcesMethods {
             int equalAttributes;
 
             JSONObject parts = (JSONObject) receivedJSON.get("piece");
+            JSONObject optionalInPart = (JSONObject) parts.get("optional");
 
             for (org.bson.Document json : imgJsons)
             {
                 if((json.size() - 4) == parts.size()) {
                     equalAttributes = 0;
-                    Set<Map.Entry<String, Object>> currentPiece = parts.entrySet();
-                    for (Map.Entry<String, Object> newKey : currentPiece) {
-                        Set<Map.Entry<String, Object>> currentDocument = json.entrySet();
-                        for (Map.Entry<String, Object> key : currentDocument) {
-                            if (!key.getKey().equalsIgnoreCase("_id") &&
-                                    !key.getKey().equalsIgnoreCase("SourceFront") &&
-                                    !key.getKey().equalsIgnoreCase("SourceSide") &&
-                                    !key.getKey().equalsIgnoreCase("searchId")) {
+
+                    if(parts.get("Scientific Name").toString().equalsIgnoreCase(json.get("Scientific Name").toString())){
+                        Set<Map.Entry<String, Object>> currentPiece = optionalInPart.entrySet();
+                        for (Map.Entry<String, Object> newKey : currentPiece) {
+                            Document docData = (Document) json.get("optional");
+                            Set<Map.Entry<String, Object>> currentDocument = docData.entrySet();
+                            for (Map.Entry<String, Object> key : currentDocument) {
                                 if (key.equals(newKey)) {
                                     equalAttributes++;
                                     break;
                                 }
                             }
                         }
-                    }
-                    if (equalAttributes == parts.size()) {
-                        equals = true;
-                        break;
+                        if (equalAttributes == optionalInPart.size()) {
+                            equals = true;
+                            break;
+                        }
                     }
                 }
             }

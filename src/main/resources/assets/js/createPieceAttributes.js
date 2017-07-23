@@ -56,23 +56,13 @@ function saveAttributes(){
         required.push($(this).val())
     })
 
-    /*$("#attribute-card-list input").each(function() {
-    	if($(this).type=="checkbox"){
-    		text.push($(this).checked);
-    	}else{
-    	    if($(this).val() != "") {
-                text.push($(this).val());
-            }
-        }
-    });*/
-
     for(i = 0; i < required.length; i = i+2){
         requiredAttributes += "\"" + required[i] + "\": \"" + required[i+1] + "\"";
         if(i < required.length - 2){
             requiredAttributes += ",\n";
         }
     }
-    requiredAttributes += "\n}";
+    //requiredAttributes += "\n}";
 
     for(i = 0; i < optional.length; i = i+2){
         optionalAttributes += "\"" + optional[i] + "\": \"" + optional[i+1] + "\"";
@@ -81,6 +71,8 @@ function saveAttributes(){
         }
     }
     optionalAttributes += "\n}";
+
+    var attributes = requiredAttributes + ", \"optional\":" + optionalAttributes + "\n}";
 
     var result = false;
 
@@ -92,10 +84,11 @@ function saveAttributes(){
                     userID: Cookies.get("userID"),
                     accessToken: Cookies.get("accessToken")
                 },
-                piece: {
+                piece: JSON.parse(attributes)
+                /*{
                     required: JSON.parse(requiredAttributes),
                     optional: JSON.parse(optionalAttributes)
-                }
+                }*/
             }),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
