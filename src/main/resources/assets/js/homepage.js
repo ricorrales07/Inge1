@@ -112,9 +112,9 @@ returns: void
     }
 }*/
 
-function addImageToCanvas(img, id){
-    var partData = [img.src,
-                    "assets/images/odo-zyg-head2.png",
+function addImageToCanvas(img, front, side, id){
+    var partData = [front,
+                    side,
                     //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
                     Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)),0),
                     Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)),0),

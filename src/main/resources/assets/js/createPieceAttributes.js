@@ -62,7 +62,6 @@ function saveAttributes(){
             requiredAttributes += ",\n";
         }
     }
-    //requiredAttributes += "\n}";
 
     for(i = 0; i < optional.length; i = i+2){
         optionalAttributes += "\"" + optional[i] + "\": \"" + optional[i+1] + "\"";
@@ -85,10 +84,6 @@ function saveAttributes(){
                     accessToken: Cookies.get("accessToken")
                 },
                 piece: JSON.parse(attributes)
-                /*{
-                    required: JSON.parse(requiredAttributes),
-                    optional: JSON.parse(optionalAttributes)
-                }*/
             }),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){

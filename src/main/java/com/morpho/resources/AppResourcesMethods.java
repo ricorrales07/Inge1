@@ -84,7 +84,7 @@ public class AppResourcesMethods {
             {
                 html += "<modalImages data-dismiss=\"modal\"> <img src=\""
                         + json.getString("SourceFront")
-                        + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("_id") + "')\" /> </modalImages>";
+                        + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("SourceFront") + "','" + json.getString("SourceSide") + "','" + json.getString("_id") + "')\" /> </modalImages>";
             }
         }catch(Exception e){
             MorphoApplication.logger.warning(e.toString());
@@ -114,7 +114,7 @@ public class AppResourcesMethods {
             {
                 html += "<modalImages data-dismiss=\"modal\"> <img src=\""
                     + json.getString("SourceFront")
-                    + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("_id") + "')\" /> </modalImages>";
+                    + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("SourceFront") + "','" + json.getString("SourceSide") + "','" + json.getString("_id") + "')\" /> </modalImages>";
             }
         }
         catch (Exception e) //DANGER
