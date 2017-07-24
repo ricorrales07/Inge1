@@ -270,6 +270,32 @@
 						</div>
 						<div id="attribute-card-list" class=" row">
 							<!-- Non optional  Cards -->
+                            <div class="attribute-card col-md-offset-1 col-md-10">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-8">
+                                        <label>Type: </label>
+                                        <input type="typeData" style="display:none" value="Type"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class =" col-md-3 ">
+                                        <label >Value: </label>
+                                    </div>
+                                    <div id="pieceType">
+                                        <div class="card-input right-icon col-md-8 nopadding">
+                                            <select class="typeAttr">
+                                              <option value="Head" selected>Head</option>
+                                              <option value="Thorax" >Thorax</option>
+                                              <option value="Leg">Leg</option>
+                                              <option value="Antenna">Antenna</option>
+                                              <option value="Wing">Wing</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
 							<div class="attribute-card col-md-offset-1 col-md-10">
 								<div class="row">
 									<div class="col-md-offset-2 col-md-8">

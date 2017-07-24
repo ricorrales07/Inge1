@@ -46,6 +46,9 @@ function saveAttributes(){
         required.push($(this).val())
     })
 
+    required.push(document.querySelector('[type = "typeData"]').value);
+    required.push(document.querySelector('[class = "typeAttr"]').value);
+
     $("#attribute-card-list input[type = optional]").each(function() {
         if($(this).val() != "") {
             optional.push($(this).val())

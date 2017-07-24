@@ -410,7 +410,7 @@ body{
 	box-shadow: 0px 0px 5px 0px #0f0f0f inset;
 }
 
-#changeView .viewInfo{
+#changeView .viewInfo, #pieceType .typeAttr{
 	width: 150px;
 	margin: 0px;
 	background-color: #93928f;
@@ -428,16 +428,16 @@ body{
 
 }
 
-#changeView .viewInfo:focus{
+#changeView .viewInfo:focus, #pieceType .typeAttr:focus{
 	outline: none;
 }
 
-#changeView {
+#changeView, #pieceType {
 	text-align: center;
 	color: #93928f;
 }
 
-#changeView div{
+#changeView, #pieceType div{
 	display: inline-block;
 }
 

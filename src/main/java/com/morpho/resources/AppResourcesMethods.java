@@ -310,7 +310,8 @@ public class AppResourcesMethods {
                 if((json.size() - 4) == parts.size()) {
                     equalAttributes = 0;
 
-                    if(parts.get("Scientific Name").toString().equalsIgnoreCase(json.get("Scientific Name").toString())){
+                    if(parts.get("Scientific Name").toString().equalsIgnoreCase(json.get("Scientific Name").toString())
+                            && parts.get("Type").toString().equalsIgnoreCase(json.get("Type").toString())){
                         Set<Map.Entry<String, Object>> currentPiece = optionalInPart.entrySet();
                         for (Map.Entry<String, Object> newKey : currentPiece) {
                             Document docData = (Document) json.get("optional");
@@ -445,7 +446,7 @@ public class AppResourcesMethods {
         }
 
         if(equals){
-            System.err.println("Repeated piece");
+            System.err.println("Repeated composition");
             builder = Response.ok("Repeated");
         }else {
             try {
