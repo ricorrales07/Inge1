@@ -132,12 +132,67 @@ public class AppResourcesMethods {
     }
 
     @POST
+    @Path("getCompositionsInDB")
+    public Response getCompositionsInDB(String filter) {
+        ResponseBuilder builder;
+        String html= "";
+        FindIterable<org.bson.Document> imgJsons;
+        try
+        {
+            imgJsons = MorphoApplication.DBA.search("composition", filter);
+
+            //TODO: sacar esto de acá, solo debería ir la línea anterior
+            for (org.bson.Document json : imgJsons)
+            {
+                html += "<modalImages data-dismiss=\"modal\"> <img src=\""
+                        + json.getString("imgSource").substring(20)
+                        + "\" class = \"img-thumbnail\" onclick=\"loadComposition('" + json.getString("_id") + "')\" /> </modalImages>";
+            }
+        }
+        catch (Exception e) //DANGER
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        builder = Response.ok("Got images");
+        builder.entity(html);
+        builder.status(200);
+        return builder.build();
+    }
+
+    @POST
     @Path("/sendToken")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendToken(String receivedAuth) {
         ResponseBuilder b = Response.ok();
         b.status(200);
         return b.build();
+    }
+
+    @POST
+    @Path("/getCompositionPieces")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response getCompositionPieces(String id) {
+        FindIterable<org.bson.Document> imgJsons;
+        ResponseBuilder builder = Response.ok();
+        try {
+            imgJsons = MorphoApplication.DBA.search("composition", "{ _id: /^" + id + "/ }");
+            Document json = imgJsons.first();
+            JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
+            JSONArray documentArray = (JSONArray) docData.get("pieces");
+            builder.entity(documentArray.toString());
+
+        }catch(Exception e){
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        return builder.build();
     }
 
     private ResponseBuilder queryDB(String queryType, String collection, String receivedContent) {

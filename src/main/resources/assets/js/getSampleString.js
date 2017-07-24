@@ -50,3 +50,23 @@ function registeredImages(owned){
 		}
 	});
 }
+
+function showCompositions(){
+    var filter = "{_id: /^" + Cookies.get("userID") + "C/}";
+    $("modalImages").each(function(){
+        $(this).remove();
+    });
+    console.log("btn clicked");
+    $.ajax({
+        url: "/methods/getCompositionsInDB",
+        type: 'POST',
+        data: filter,
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR){
+			$('#ownedCompositions').append(data)
+        },
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });
+}

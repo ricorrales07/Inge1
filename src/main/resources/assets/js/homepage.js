@@ -541,18 +541,18 @@ function saveCompositionData(){
                 userID: Cookies.get("userID"),
                 accessToken: Cookies.get("accessToken")
             },
-            composition: {attributes, pieces, images},
+            composition: {attributes, pieces, images}
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             if(data == "Repeated"){
                 alert("There are another composition with the sames pieces.\n" +
                     "Please change, add or delete one in your current" +
-                    "composition to be able to save it.")
+                    "composition to be able to save it.");
                 result =  false
             } else {
-                alert("Composition successfully saved in the server.")
-                console.log("image saved in server directory")
+                alert("Composition successfully saved in the server.");
+                console.log("image saved in server directory");
                 result = true
             }
         },
@@ -566,16 +566,30 @@ function saveCompositionData(){
     return result;
 }
 
-function loadComposition(){
-    $.getJSON("assets/imagesData/Composition0.json", function(pieces){
-        var real = pieces.composition;
-        $.each(real, function(attribute, value){
-            if(attribute != "_id") {
-                var partData = [value.Source1, value.Source2, value.PositionX,
-                    value.PositionY, value.ScaleX, value.ScaleY, value.rotation];
-                addPart(partData);
+function loadComposition(id){
+    $.ajax({
+        url: "/methods/getCompositionPieces",
+        type: 'POST',
+        data: id,
+        contentType: "text/plain",
+        success:function(data, textStatus,jqXHR){
+            var result = JSON.parse(data);
+
+            for(x in result){
+                pieces = [result[x].Source1,
+                    result[x].Source2,
+                    result[x].positionX,
+                    result[x].positionY,
+                    result[x].ScaleX,
+                    result[x].ScaleY,
+                    result[x].Rotation,
+                    result[x]._id];
+                addPart(pieces);
             }
-        })
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            console.log(errorThrown);
+        }
     });
 }
 

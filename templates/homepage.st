@@ -202,6 +202,34 @@
             </div><!-- /.modal-dialog -->
        </div><!-- /.modal -->
 
+    <!-- Menu to load an owned composition to continue editing it -->
+      <div class = "modal fade" id = "openCompositions" tabindex = "-1" role = "dialog"
+       aria-labelledby = "myModalLabel" aria-hidden = "true">
+           <div class = "modal-dialog">
+             <div class = "modal-content">
+               <div class = "modal-header">
+                  <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                        &times;
+                  </button>
+                  <h4 class = "modal-title" id = "myModalLabel">
+                     My compositions
+                  </h4>
+                  Please select one of the following compositions:
+               </div>
+               <div class = "modal-body" align="center">
+                  <div id="ownedCompositions"></div>
+                  <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
+                  <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
+               </div><br>
+               <div class = "modal-footer">
+                  <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
+                      Close
+                  </button>
+               </div>
+             </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
     <div class = "container">
 
       <div class="row">
@@ -233,7 +261,7 @@
             </div>
             <div class = "btn-group-vertical align-bottom">
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
-              <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
+              <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions" onclick="waitImgs(); showCompositions();">Load composition</button>
               <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
               <a id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</a>
             </div>
