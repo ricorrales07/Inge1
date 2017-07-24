@@ -680,11 +680,12 @@ $("#addPieceButton").click(function() {
 	});
 	console.log("addPieceButton clicked");
     $.ajax({
-		url: "/methods/getPiecesInDB",
+		url: "/methods/getImagesDataInDB",
 		type: 'GET',
+        data: JSON.stringify({collection: "pieces", filter: "{}"}),
 		success:function(data, textStatus, jqXHR){
 		    console.log(data);
-		    console.log("getPiecesInDB was successful");
+		    console.log("getImagesDataInDB for pieces was successful");
 			$('#images').append(data);
 		},
 		error:function(jqXHR, textStatus, errorThrown ){

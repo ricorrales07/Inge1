@@ -34,9 +34,9 @@ function registeredImages(owned){
 	});
 	console.log("btn clicked");
     $.ajax({
-		url: "/methods/getPiecesInDB",
+		url: "/methods/getImagesDataInDB",
 		type: 'POST',
-		data: filter,
+		data: JSON.stringify({collection: "piece", filter: filter}),
 		contentType: "text/plain",
 		success:function(data, textStatus, jqXHR){
 			if(owned) {
@@ -58,10 +58,9 @@ function showCompositions(){
     });
     console.log("btn clicked");
     $.ajax({
-        url: "/methods/getCompositionsInDB",
+        url: "/methods/getImagesDataInDB",
         type: 'POST',
-        data: filter,
-        contentType: "text/plain",
+        data: JSON.stringify({collection: "composition", filter: filter}),
         success:function(data, textStatus, jqXHR){
 			$('#ownedCompositions').append(data)
         },

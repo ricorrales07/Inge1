@@ -98,55 +98,31 @@ public class AppResourcesMethods {
         return builder.build();
     }
 
-    //TODO: cambiar este método para que tire pocos resultados (de 10 en 10 o así)
     @POST
-    @Path("getPiecesInDB")
-    public Response getPiecesInDB(String filter) {
+    @Path("getImagesDataInDB")
+    public Response getImagesDataInDB(String receivedContent) {
         ResponseBuilder builder;
         String html= "";
         FindIterable<org.bson.Document> imgJsons;
         try
         {
-            imgJsons = MorphoApplication.DBA.search("piece", filter);
+            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            imgJsons = MorphoApplication.DBA.search(receivedJSON.get("collection").toString(), receivedJSON.get("filter").toString());
 
             //TODO: sacar esto de acá, solo debería ir la línea anterior
             for (org.bson.Document json : imgJsons)
             {
-                html += "<modalImages data-dismiss=\"modal\"> <img src=\""
-                    + json.getString("SourceFront")
-                    + "\" class = \"img-thumbnail\" onclick=\"addImageToCanvas(this, '" + json.getString("SourceFront") + "','" + json.getString("SourceSide") + "','" + json.getString("_id") + "')\" /> </modalImages>";
-            }
-        }
-        catch (Exception e) //DANGER
-        {
-            MorphoApplication.logger.warning(e.toString());
-            builder = Response.status(404);
-            builder.entity(e.toString());
-            return builder.build();
-        }
-
-        builder = Response.ok("Got images");
-        builder.entity(html);
-        builder.status(200);
-        return builder.build();
-    }
-
-    @POST
-    @Path("getCompositionsInDB")
-    public Response getCompositionsInDB(String filter) {
-        ResponseBuilder builder;
-        String html= "";
-        FindIterable<org.bson.Document> imgJsons;
-        try
-        {
-            imgJsons = MorphoApplication.DBA.search("composition", filter);
-
-            //TODO: sacar esto de acá, solo debería ir la línea anterior
-            for (org.bson.Document json : imgJsons)
-            {
-                html += "<modalImages data-dismiss=\"modal\"> <img src=\""
-                        + json.getString("imgSource").substring(20)
-                        + "\" class = \"img-thumbnail\" onclick=\"loadComposition('" + json.getString("_id") + "')\" /> </modalImages>";
+                String src;
+                String parameter;
+                if(receivedJSON.get("collection").toString().equals("piece")){
+                    src = json.getString("SourceFront");
+                    parameter = "this, '" + json.getString("SourceFront") + "','" + json.getString("SourceSide") + "','" + json.getString("_id");
+                }else{
+                    src = json.getString("imgSource").substring(20);
+                    parameter = json.getString("_id");
+                }
+                html += "<modalImages data-dismiss=\"modal\"> <img src=\"" + src
+                        + "\" class = \"img-thumbnail\" onclick=\"loadComposition('" + parameter + "')\" /> </modalImages>";
             }
         }
         catch (Exception e) //DANGER
