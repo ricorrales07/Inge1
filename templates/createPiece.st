@@ -253,7 +253,7 @@
 					<div class="" id="editor" onload="init();"">
 						<canvas id="canvasBackGround"></canvas>
 						<canvas id="leCanvas" ></canvas>
-
+                        <canvas id="wildcard"></canvas>
 					</div>
 				</div>
 				<!-- END FOUR DIFFERENT VIEWS -->

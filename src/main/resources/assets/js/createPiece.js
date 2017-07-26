@@ -361,20 +361,78 @@ function updateView(select){
 }
 
 function saveCreation(){
-    var imageFront = surfaceF.getCacheDataURL();
-    var imageSide =  surfaceS.getCacheDataURL();
+    var canvas = document.getElementById("wildcard");
 
-    $.ajax({
-        url: "/methods/saveCreatedImageFile",
-        type: 'POST',
-        data: "Piece," + imageFront + "," + imageSide + "," + Cookies.get("userID"),
-        contentType: "text/plain",
-        success:function(data, textStatus, jqXHR){
-            console.log("image saved in server directory")},
-        error:function(jqXHR, textStatus, errorThrown ){
-            console.log(errorThrown);
+	var img = new Image;
+    img.src = surfaceF.getCacheDataURL();
+    img.onload = function() {
+        var imageFront = cropImageFromCanvas(canvas, img);
+
+        img = new Image;
+        img.src = surfaceS.getCacheDataURL();
+        img.onload = function() {
+            var imageSide = cropImageFromCanvas(canvas, img);
+
+            $.ajax({
+                url: "/methods/saveCreatedImageFile",
+                type: 'POST',
+                data: "Piece," + imageFront + "," + imageSide + "," + Cookies.get("userID"),
+                contentType: "text/plain",
+                success:function(data, textStatus, jqXHR){
+                    console.log("image saved in server directory")},
+                error:function(jqXHR, textStatus, errorThrown ){
+                    console.log(errorThrown);
+                }
+            });
+
+            canvas.width = 0;
+            canvas.height = 0;
         }
-    });
+    };
+}
+
+/*
+ * Function taken and adapted from
+ * https://stackoverflow.com/questions/11796554/automatically-crop-html5-canvas-to-contents
+ * Created by the user "potomek", answering the question "Automatically Crop HTML5 canvas to contents"
+ * asked by the user "c24w"
+ */
+function cropImageFromCanvas(canvas, img) {
+	canvas.width = 2048;
+	canvas.height = 512;
+    var ctx = document.getElementById("wildcard").getContext("2d");
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+
+	ctx.drawImage(img,0,0);
+	var w = canvas.width,
+		h = canvas.height,
+		pix = {x:[], y:[]},
+		imageData = ctx.getImageData(0,0,canvas.width,canvas.height),
+		x, y, index;
+
+	for (y = 0; y < h; y++) {
+		for (x = 0; x < w; x++) {
+			index = (y * w + x) * 4;
+			if (imageData.data[index+3] > 0) {
+				pix.x.push(x);
+				pix.y.push(y);
+			}
+		}
+	}
+	pix.x.sort(function(a,b){return a-b});
+	pix.y.sort(function(a,b){return a-b});
+	var n = pix.x.length-1;
+
+	w = pix.x[n] - pix.x[0];
+	h = pix.y[n] - pix.y[0];
+	var cut = ctx.getImageData(pix.x[0], pix.y[0], w, h);
+
+	canvas.width = w;
+	canvas.height = h;
+
+	ctx.putImageData(cut, 0, 0);
+
+	return canvas.toDataURL();
 }
 
 function increaseFileNameCounter(){
