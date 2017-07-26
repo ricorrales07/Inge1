@@ -275,6 +275,7 @@
 
         <div class = "col-lg-10 col-md-10 col-sm-10">
             <canvas id="areaDeDibujo" width="1024" height="512">
+            <canvas id="wildcard" />
                 Lo sentimos, su navegador no soporta nuestra aplicación.
             </canvas>
         </div>

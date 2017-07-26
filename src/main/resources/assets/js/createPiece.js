@@ -425,10 +425,10 @@ function cropImageFromCanvas(canvas, img) {
 
 	w = pix.x[n] - pix.x[0];
 	h = pix.y[n] - pix.y[0];
-	var cut = ctx.getImageData(pix.x[0], pix.y[0], w, h);
+	var cut = ctx.getImageData(pix.x[0], pix.y[0], w+1, h+1);
 
-	canvas.width = w;
-	canvas.height = h;
+	canvas.width = w+1;
+	canvas.height = h+1;
 
 	ctx.putImageData(cut, 0, 0);
 

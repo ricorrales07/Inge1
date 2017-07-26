@@ -113,16 +113,16 @@ public class AppResourcesMethods {
             for (org.bson.Document json : imgJsons)
             {
                 String src;
-                String parameter;
+                String method;
                 if(receivedJSON.get("collection").toString().equals("piece")){
                     src = json.getString("SourceFront");
-                    parameter = "this, '" + json.getString("SourceFront") + "','" + json.getString("SourceSide") + "','" + json.getString("_id");
+                    method = "addImageToCanvas(this,'" + json.getString("SourceFront") + "','" + json.getString("SourceSide") + "','" + json.getString("_id") + "')";
                 }else{
                     src = json.getString("imgSource").substring(20);
-                    parameter = json.getString("_id");
+                    method = "loadComposition('" + json.getString("_id") + "')";
                 }
                 html += "<modalImages data-dismiss=\"modal\"> <img src=\"" + src
-                        + "\" class = \"img-thumbnail\" onclick=\"loadComposition('" + parameter + "')\" /> </modalImages>";
+                        + "\" class = \"img-thumbnail\" onclick=\"" + method + "\" /> </modalImages>";
             }
         }
         catch (Exception e) //DANGER
