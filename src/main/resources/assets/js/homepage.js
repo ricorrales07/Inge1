@@ -143,40 +143,43 @@ function addPart(partData) //proxy
   console.log("creating sprite");
   var img1 = new Image();
   img1.src = partData[0];
-  var img2 = new Image();
-  img2.src = partData[1];
+  img1.onload = function(){
+      var img2 = new Image();
+      img2.src = partData[1];
+      img2.onload = function(){
+          var imgs = {
+              images: [img1, img2],
+              frames: [
+                  [0,0,img1.width,img1.height,0,img1.width/2,img1.height/2],
+                  [0,0,img2.width,img2.height,1,img2.width/2,img2.height/2]
+              ],
+              animations: {front: 0, side: 1}
+          };
+          var partSheet = new createjs.SpriteSheet(imgs);
+          var partSprite = new createjs.Sprite(partSheet, view);
 
-  var imgs = {
-      images: [img1, img2],
-      frames: [
-          [0,0,img1.width,img1.height,0,img1.width/2,img1.height/2],
-          [0,0,img2.width,img2.height,1,img2.width/2,img2.height/2]
-      ],
-      animations: {front: 0, side: 1}
+          partSprite.x = partData[2];
+          partSprite.y = partData[3];
+
+          partSprite.name = "" + createjs.UID.get();
+
+          console.log("Sprite " + partSprite.name + " created. visible: " + partSprite.visible);
+
+          partSprite.set({scaleX: partData[4], scaleY: partData[5], rotation: partData[6]});
+
+          addListeners(partSprite);
+
+          stage.addChild(partSprite);
+
+          composicionActual.partIds.push(partData[7]);
+          console.log("Added image with ID: " + partData[7]);
+          composicionActual.partsList.push(partSprite);
+          composicionActual.matrices[0].push(partSprite.getMatrix());
+          composicionActual.matrices[1].push(partSprite.getMatrix());
+
+          selectPart(composicionActual.partsList.length-1);
+      };
   };
-  var partSheet = new createjs.SpriteSheet(imgs);
-  var partSprite = new createjs.Sprite(partSheet, view);
-
-  partSprite.x = partData[2];
-  partSprite.y = partData[3];
-
-  partSprite.name = "" + createjs.UID.get();
-
-  console.log("Sprite " + partSprite.name + " created. visible: " + partSprite.visible);
-
-  partSprite.set({scaleX: partData[4], scaleY: partData[5], rotation: partData[6]});
-
-  addListeners(partSprite);
-
-  stage.addChild(partSprite);
-
-  composicionActual.partIds.push(partData[7]);
-  console.log("Added image with ID: " + partData[7]);
-  composicionActual.partsList.push(partSprite);
-  composicionActual.matrices[0].push(partSprite.getMatrix());
-  composicionActual.matrices[1].push(partSprite.getMatrix());
-
-  selectPart(composicionActual.partsList.length-1);
 }
 
 /*
