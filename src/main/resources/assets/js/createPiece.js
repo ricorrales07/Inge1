@@ -88,8 +88,6 @@ var surfaceS = new createjs.Container();
  var brushLS = new createjs.Shape(brushStyle);
  var brushS = new createjs.Shape(brushStyle);
 
-
-//Imágenes proxy para el canvas.
 var direction = "" + (document.URL).split("=")[1];
 if(direction != "undefined"){
     var needed = [];
@@ -117,7 +115,6 @@ if(direction != "undefined"){
 
 
 }
-
 
  surfaceF.addChild(brushF);
  surfaceRS.addChild(brushRS);
@@ -163,6 +160,8 @@ if(direction != "undefined"){
 
 	updateStageListeners();
 	stage.update();
+
+
 }
 
 /**
@@ -376,7 +375,7 @@ function saveCreation(){
             $.ajax({
                 url: "/methods/saveCreatedImageFile",
                 type: 'POST',
-                data: "Piece," + imageFront + "," + imageSide + "," + Cookies.get("userID"),
+                data: "Piece," + imageFront + "," + imageSide + "," + Cookies.get("userID") + "," + direction,
                 contentType: "text/plain",
                 success:function(data, textStatus, jqXHR){
                     console.log("image saved in server directory")},
