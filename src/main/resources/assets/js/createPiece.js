@@ -93,27 +93,27 @@ if(direction != "undefined"){
     var needed = [];
     var optional = [];
 
-    $.getJSON("assets/imagesData/P" + direction + ".json", function(pieces){
-        var real = pieces.piece;
+    addPiecesToCanvas();
+}
 
-        var bitmapFront = new createjs.Bitmap(real.SourceFront);
-        var bitmapSide = new createjs.Bitmap(real.SourceSide);
-        surfaceF.addChild(bitmapFront).set({x:0,y:0,scaleX:1,scaleY:1});
-        surfaceS.addChild(bitmapSide).set({x:0,y:0,scaleX:1,scaleY:1});
-
-		/*$.each(real, function(attribute, value){
-		 if(attribute != "_id" && attribute != "SourceFront" && attribute != "SourceSide" && attribute != "Author"
-		 && attribute != "searchID" && attribute != "Public" && attribute != "Scientific Name") {
-		 optional.push(value.attribute);
-		 }else{
-		 needed.push(value.attribute);
-		 }
-		 })*/
+function addPiecesToCanvas(){
+    $.ajax({
+        url: "/methods/getPieceData",
+        type: 'POST',
+        data: direction,
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR) {
+            console.log("Piece data obtained");
+            var JSONData = JSON.parse(data);
+            var bitmapFront = new createjs.Bitmap(JSONData.SourceFront);
+            var bitmapSide = new createjs.Bitmap(JSONData.SourceSide);
+            surfaceF.addChild(bitmapFront).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
+            surfaceS.addChild(bitmapSide).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
+        },
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
     });
-
-    //addPart(partData);
-
-
 }
 
  surfaceF.addChild(brushF);

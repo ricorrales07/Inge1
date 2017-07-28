@@ -138,6 +138,30 @@ public class AppResourcesMethods {
     }
 
     @POST
+    @Path("/getPieceData")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response getPieceData(String id){
+        ResponseBuilder builder;
+        Document imgJson;
+        try
+        {
+            imgJson = MorphoApplication.DBA.search("piece", "{_id: \"" + id + "\"}").first();
+        }
+        catch (Exception e) //DANGER
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        builder = Response.ok("Got piece data");
+        builder.entity(imgJson.toJson());
+        builder.status(200);
+        return builder.build();
+    }
+
+    @POST
     @Path("/sendToken")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendToken(String receivedAuth) {
@@ -153,7 +177,7 @@ public class AppResourcesMethods {
         FindIterable<org.bson.Document> imgJsons;
         ResponseBuilder builder = Response.ok();
         try {
-            imgJsons = MorphoApplication.DBA.search("composition", "{ _id: /^" + id + "/ }");
+            imgJsons = MorphoApplication.DBA.search("composition", "{ _id: \"" + id + "\" }");
             Document json = imgJsons.first();
             JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
             JSONArray documentArray = (JSONArray) docData.get("pieces");
@@ -588,7 +612,7 @@ public class AppResourcesMethods {
         FindIterable<org.bson.Document> imgJsons;
         try
         {
-            String rec = "{_id: /^" + receivedContent + "C" + (compositionCounter-1) + "/}";
+            String rec = "{_id: \"" + receivedContent + "C" + (compositionCounter-1) + "\"}";
             imgJsons = MorphoApplication.DBA.search("composition", rec);
 
             //TODO: sacar esto de acá, solo debería ir la línea anterior
