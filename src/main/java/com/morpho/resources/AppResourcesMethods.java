@@ -458,7 +458,7 @@ public class AppResourcesMethods {
     @Path("/saveCompositionData")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response saveCompositionData(String receivedContent) {
-        ResponseBuilder builder;
+        ResponseBuilder builder = Response.ok();
         MorphoApplication.logger.info(receivedContent);
         JSONObject receivedJSON = null;
         Boolean equals = false;
@@ -512,12 +512,14 @@ public class AppResourcesMethods {
 
         if(equals){
             System.err.println("Repeated composition");
-            builder = Response.ok("Repeated");
+            builder.entity("Repeated");
         }else {
+            String compositionID = "";
             try {
                 JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
                 try {
                     data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
+                    compositionID = id.get("userID").toString() + "C" + compositionCounter;
                     data.put("imgSource", "./src/main/resources/assets/images/" + id.get("userID").toString() + "/Composition" + compositionCounter + ".png");
                 } catch (NullPointerException e) {
                     data.put("_id", "0C" + compositionCounter);
@@ -547,7 +549,8 @@ public class AppResourcesMethods {
             }
             receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
             MorphoApplication.logger.info(receivedContent);
-            builder = queryDB("insert", "composition", receivedContent);
+            queryDB("insert", "composition", receivedContent);
+            builder.entity(compositionID);
         }
         return builder.build();
     }
@@ -612,7 +615,7 @@ public class AppResourcesMethods {
         FindIterable<org.bson.Document> imgJsons;
         try
         {
-            String filter = "{_id: \"" + receivedContent + "C" + (compositionCounter - 1 ) + "\"}";
+            String filter = "{_id: \"" + receivedContent + "\"}";
             imgJsons = MorphoApplication.DBA.search("composition", filter);
 
             //TODO: sacar esto de acá, solo debería ir la línea anterior

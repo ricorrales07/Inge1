@@ -19,6 +19,8 @@ var savedImg = ""; //NOT FINAL
 
 var imagesAttributes = [];
 
+var currentCompositionID;
+
 /*
 selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
@@ -602,6 +604,7 @@ function saveCompositionData(){
                     "composition to be able to save it.");
                 result =  false
             } else {
+                currentCompositionID = data;
                 alert("Composition successfully saved in the server.");
                 console.log("image saved in server directory");
                 result = true
@@ -624,6 +627,8 @@ function loadComposition(id){
         data: id,
         contentType: "text/plain",
         success:function(data, textStatus,jqXHR){
+            currentCompositionID = id;
+
             var result = JSON.parse(data);
 
             for(x in result){
@@ -712,7 +717,7 @@ function loadPhotos(){
     $.ajax({
         url: "/methods/loadPhotos",
         type: 'POST',
-        data: Cookies.get("userID"),
+        data: currentCompositionID,
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             $('#associatedImages').append(data)
