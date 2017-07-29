@@ -704,19 +704,18 @@ function tempSave() {
     });
 }
 
-function loadPhotos(){
-    $("modalImages").each(function(){
-        $(this).remove();
-    });
-
+function loadPhotos(id){
     console.log("loading photos");
 
     $.ajax({
         url: "/methods/loadPhotos",
         type: 'POST',
-        data: Cookies.get("userID"),
+        data: id,
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
+            $("modalImages").each(function(){
+                $(this).remove();
+            });
             $('#associatedImages').append(data)
         },
         error:function(jqXHR, textStatus, errorThrown ){

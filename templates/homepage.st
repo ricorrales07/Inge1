@@ -38,9 +38,6 @@
                                <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
                             </div><br>
                             <div class = "modal-footer">
-                                <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
-                                    Return
-                                 </button>
                                <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
                                    Close
                                </button>
@@ -69,9 +66,6 @@
                               <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
                            </div><br>
                            <div class = "modal-footer">
-                               <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
-                                   Return
-                                </button>
                               <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
                                   Close
                               </button>
@@ -163,12 +157,9 @@
                         </button>
                    </div>
                    <div class = "modal-footer">
-                   <button class="btn btn-default pull-left" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
-                        Return
-                   </button>
-                   <button type = "button" class = "btn btn-default" data-dismiss = "modal">
-                        Close
-                   </button>
+                       <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                            Close
+                       </button>
                    </div>
                 </div><!-- /.modal-content -->
              </div><!-- /.modal-dialog -->
@@ -194,6 +185,9 @@
                            <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
                         </div><br>
                         <div class = "modal-footer">
+                           <button class="btn btn-default pull-left pull-down" data-toggle = "modal" onclick="waitImgs(); showCompositions('photos');" data-target = "#openCompositions" data-dismiss = "modal">
+                               Return
+                           </button>
                            <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
                                Close
                            </button>
@@ -260,8 +254,8 @@
               <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
             </div>
             <div class = "btn-group-vertical align-bottom">
-              <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
-              <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions" onclick="waitImgs(); showCompositions();">Load composition</button>
+              <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions" onclick="waitImgs(); showCompositions('data');">Load composition</button>
+              <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions" onclick="waitImgs(); showCompositions('photos')">View Photos</button>
               <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
               <a id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</a>
             </div>

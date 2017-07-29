@@ -112,14 +112,20 @@ public class AppResourcesMethods {
             {
                 String src;
                 String method;
+                String target = "";
                 if(receivedJSON.get("collection").toString().equals("piece")){
                     src = json.getString("SourceFront");
                     method = "addImageToCanvas(this,'" + json.getString("SourceFront") + "','" + json.getString("SourceSide") + "','" + json.getString("_id") + "')";
                 }else{
                     src = json.getString("imgSource").substring(20);
-                    method = "loadComposition('" + json.getString("_id") + "')";
+                    if(receivedJSON.get("type").toString().equals("data")) {
+                        method = "loadComposition('" + json.getString("_id") + "')";
+                    }else{
+                        method = "loadPhotos('" + json.getString("_id") + "');";
+                        target = "data-toggle = \"modal\" data-target= \"#openAssociated\"";
+                    }
                 }
-                html += "<modalImages data-dismiss=\"modal\"> <img src=\"" + src
+                html += "<modalImages " + target + " data-dismiss=\"modal\"> <img src=\"" + src
                         + "\" class = \"img-thumbnail\" onclick=\"" + method + "\" /> </modalImages>";
             }
         }
@@ -612,8 +618,8 @@ public class AppResourcesMethods {
         FindIterable<org.bson.Document> imgJsons;
         try
         {
-            String rec = "{_id: \"" + receivedContent + "C" + (compositionCounter-1) + "\"}";
-            imgJsons = MorphoApplication.DBA.search("composition", rec);
+            String filter = "{_id: \"" + receivedContent + "\"}";
+            imgJsons = MorphoApplication.DBA.search("composition", filter);
 
             //TODO: sacar esto de acá, solo debería ir la línea anterior
             for (org.bson.Document json : imgJsons)
