@@ -19,7 +19,7 @@ var savedImg = ""; //NOT FINAL
 
 var imagesAttributes = [];
 
-var currentCompositionID;
+var currentCompositionID = "undefined";
 
 /*
 selectPart: this function is called when a part is tapped or
@@ -460,12 +460,13 @@ function saveCompositionImage(){
         $.ajax({
             url: "/methods/saveCreatedImageFile",
             type: 'POST',
-            data: "Composition," + image + "," + Cookies.get("userID"),
+            data: "Composition," + image + "," + Cookies.get("userID") + "," + currentCompositionID,
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
                 console.log("image saved in server directory: " + data);
-                savedImg = data;
+                savedImg = data.split(",")[0];
                 console.log("savedImg: " + savedImg);
+                currentCompositionID = data.split(",")[1];
             },
             error:function(jqXHR, textStatus, errorThrown ){
                 console.log(errorThrown);
@@ -594,7 +595,8 @@ function saveCompositionData(){
                 userID: Cookies.get("userID"),
                 accessToken: Cookies.get("accessToken")
             },
-            composition: {attributes, pieces, images}
+            composition: {attributes, pieces, images},
+            file: currentCompositionID
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
@@ -604,7 +606,6 @@ function saveCompositionData(){
                     "composition to be able to save it.");
                 result =  false
             } else {
-                currentCompositionID = data;
                 alert("Composition successfully saved in the server.");
                 console.log("image saved in server directory");
                 result = true

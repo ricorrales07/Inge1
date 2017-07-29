@@ -87,7 +87,7 @@ function saveAttributes(){
                     accessToken: Cookies.get("accessToken")
                 },
                 piece: JSON.parse(attributes),
-                file: direction,
+                file: direction
             }),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){

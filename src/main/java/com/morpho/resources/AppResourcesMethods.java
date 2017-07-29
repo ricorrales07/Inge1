@@ -280,6 +280,8 @@ public class AppResourcesMethods {
             String[] data = receivedContent.split(",");
             String imgSource = "";
             File f = null;
+            String fileID = "";
+            String fileName = "";
             if(data[0].equals("Piece")) {
                 f = new File(".\\src\\main\\resources\\assets\\images\\" + data[5]);
                 MorphoApplication.logger.info("filename: " + f.getName());
@@ -288,7 +290,7 @@ public class AppResourcesMethods {
                 String imageDataB = data[4];
                 InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
                 InputStream bitB = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageDataB));
-                String fileID;
+                fileName = data[6];
                 if(data[6].equals("undefined")){
                     fileID = "" + pieceCounter;
                 }else{
@@ -300,32 +302,40 @@ public class AppResourcesMethods {
             }else{
                 String imageData = data[2];
                 InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
-                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[3] + "\\Composition" + compositionCounter + ".png"));
-                imgSource = "/resources/assets/images/" + data[3] + "/Composition/" + compositionCounter + ".png";
+                fileName = data[4];
+                if(data[4].equals("undefined")){
+                    fileID = "" + compositionCounter;
+                }else{
+                    fileID = data[4].split("C")[1];
+                }
+                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[3] + "\\Composition" + fileID + ".png"));
+                imgSource = "/resources/assets/images/" + data[3] + "/Composition" + fileID + ".png";
                 builder = Response.ok("Image saved");
-                builder.entity(imgSource);
+                builder.entity(imgSource+ "," + data[3] + "C" + fileID);
             }
             builder.status(200);
 
-            if(data[0].equals("Piece") && data[6].equals("undefined")){
-                this.pieceCounter++;
-                try {
-                    PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
-                    writer.print(""+pieceCounter);
-                    writer.close();
-                }catch(Exception e){
-                    MorphoApplication.logger.warning(e.toString());
-                    e.printStackTrace();
-                }
-            }else if (data[0].equals("Composition")){
-                this.compositionCounter++;
-                try {
-                    PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
-                    writer.print(""+compositionCounter);
-                    writer.close();
-                }catch(Exception e){
-                    MorphoApplication.logger.warning(e.toString());
-                    e.printStackTrace();
+            if (fileName.equals("undefined")) {
+                if (data[0].equals("Piece")) {
+                    this.pieceCounter++;
+                    try {
+                        PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
+                        writer.print("" + pieceCounter);
+                        writer.close();
+                    } catch (Exception e) {
+                        MorphoApplication.logger.warning(e.toString());
+                        e.printStackTrace();
+                    }
+                } else {
+                    this.compositionCounter++;
+                    try {
+                        PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
+                        writer.print("" + compositionCounter);
+                        writer.close();
+                    } catch (Exception e) {
+                        MorphoApplication.logger.warning(e.toString());
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -463,8 +473,12 @@ public class AppResourcesMethods {
         JSONObject receivedJSON = null;
         Boolean equals = false;
         JSONObject data = null;
+        String currentFile = "";
         try{
             receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            currentFile = receivedJSON.get("file").toString();
+            receivedJSON.remove("file");
+
             data = (JSONObject) new JSONParser().parse(receivedJSON.get("composition").toString());
 
             FindIterable<org.bson.Document> imgJsons;
@@ -514,15 +528,21 @@ public class AppResourcesMethods {
             System.err.println("Repeated composition");
             builder.entity("Repeated");
         }else {
+            String fileID;
+            if(currentFile.equals("undefined")){
+                fileID = "" + compositionCounter;
+            }else{
+                fileID = currentFile.split("C")[1];
+            }
             String compositionID = "";
             try {
                 JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
                 try {
-                    data.put("_id", id.get("userID").toString() + "C" + compositionCounter);
-                    compositionID = id.get("userID").toString() + "C" + compositionCounter;
-                    data.put("imgSource", "./src/main/resources/assets/images/" + id.get("userID").toString() + "/Composition" + compositionCounter + ".png");
+                    compositionID = id.get("userID").toString() + "C" + fileID;
+                    data.put("_id", compositionID);
+                    data.put("imgSource", "./src/main/resources/assets/images/" + id.get("userID").toString() + "/Composition" + fileID + ".png");
                 } catch (NullPointerException e) {
-                    data.put("_id", "0C" + compositionCounter);
+                    data.put("_id", "0C" + compositionID);
                 }
                 receivedJSON.put("composition", data);
                 receivedContent = receivedJSON.toJSONString().replaceAll("\\\\", "");
@@ -540,16 +560,13 @@ public class AppResourcesMethods {
                 MorphoApplication.logger.warning(e.toString());
             }
 
-            try {
-                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
-                writer.print("" + compositionCounter);
-                writer.close();
-            } catch (Exception e) {
-                MorphoApplication.logger.warning(e.toString());
-            }
             receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
             MorphoApplication.logger.info(receivedContent);
-            queryDB("insert", "composition", receivedContent);
+            if(currentFile.equals("undefined")){
+                queryDB("insert", "composition", receivedContent);
+            }else{
+                builder = queryDB("update", "composition", receivedContent, "{ _id: \"" + currentFile + "\"}");
+            }
             builder.entity(compositionID);
         }
         return builder.build();
