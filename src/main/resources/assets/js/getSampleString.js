@@ -51,22 +51,16 @@ function registeredImages(owned){
 	});
 }
 
-function showCompositions(method){
+function showCompositions(){
     var filter = "{_id: /^" + Cookies.get("userID") + "C/}";
     $("modalImages").each(function(){
         $(this).remove();
     });
     console.log("btn clicked");
-    var toSend;
-    if(method == "photos"){
-    	toSend = JSON.stringify({collection: "composition", filter: filter, type: "photos"});
-	}else{
-    	toSend = JSON.stringify({collection: "composition", filter: filter, type: "data"});
-	}
     $.ajax({
         url: "/methods/getImagesDataInDB",
         type: 'POST',
-        data: toSend,
+        data: JSON.stringify({collection: "composition", filter: filter}),
         success:function(data, textStatus, jqXHR){
 			$('#ownedCompositions').append(data)
         },
