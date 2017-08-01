@@ -246,9 +246,11 @@
             <div class = "btn-group-vertical">
               <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
               <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Grid Lines</button>
-              <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false);" data-dismiss="modal">Add piece</button>
-              <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="waitImgs(); registeredImages(true);" data-dismiss="modal">Add owned piece</button>
+              <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'new');" data-dismiss="modal">Add piece</button>
+              <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="waitImgs(); registeredImages(true, 'new');" data-dismiss="modal">Add owned piece</button>
               <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
+              <button id="deletePieceButton" class="btn btn-basic btn-responsive" onclick="deletePart();">Delete piece</button>
+              <button id="changePieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'change');" data-dismiss="modal">Change piece</button>
             </div>
             <div class = "btn-group-vertical align-bottom">
               <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions" onclick="waitImgs(); showCompositions();">Load composition</button>

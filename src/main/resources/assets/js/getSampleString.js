@@ -22,7 +22,7 @@ function btnSavedImages(){
 	});
 }
 
-function registeredImages(owned){
+function registeredImages(owned, type){
     var filter;
 	if(owned){
     	filter = "{_id: /^" + Cookies.get("userID") + "C/}";
@@ -36,7 +36,7 @@ function registeredImages(owned){
     $.ajax({
 		url: "/methods/getImagesDataInDB",
 		type: 'POST',
-		data: JSON.stringify({collection: "piece", filter: filter}),
+		data: JSON.stringify({collection: "piece", filter: filter, type: type}),
 		contentType: "text/plain",
 		success:function(data, textStatus, jqXHR){
 			if(owned) {

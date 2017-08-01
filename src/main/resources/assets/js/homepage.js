@@ -47,6 +47,14 @@ function selectPart(index)
   link.setAttribute("href", "/editPiece?pieceId=" + composicionActual.partIds[selected]);
 }
 
+function deletePart() {
+    var currentPiece = composicionActual.partsList[selected];
+    composicionActual.partsList.splice(selected, 1);
+    composicionActual.partIds.splice(selected, 1);
+    stage.removeChild(currentPiece);
+    unselectPart();
+}
+
 /*
 unselectPart: this function is called when a piece is moved or scaled.
               It updates the value of "selected" to null, deletes the
@@ -114,14 +122,19 @@ returns: void
     }
 }*/
 
-function addImageToCanvas(img, front, side, id){
-    var partData = [front,
-                    side,
-                    //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
-                    Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)),0),
-                    Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)),0),
-                    1,1,0,id];
-    addPart(partData);
+function addImageToCanvas(img, front, side, id, type){
+    var x;
+    var y;
+    if(type == "new") {
+        //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
+        x = Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)), 0);
+        y = Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)), 0);
+    }else{
+        x = composicionActual.partsList[selected].x;
+        y = composicionActual.partsList[selected].y;
+    }
+    var partData = [front, side, x, y, 1, 1, 0, id];
+    addPart(partData, type);
     modifySearchButton();
 }
 
@@ -140,7 +153,7 @@ addPart: for now, a stub that just adds the same fixed pair of images.
 
 returns: void
 */
-function addPart(partData) //proxy
+function addPart(partData, type) //proxy
 {
   console.log("creating sprite");
   var img1 = new Image();
@@ -171,14 +184,23 @@ function addPart(partData) //proxy
 
           addListeners(partSprite);
 
-          stage.addChild(partSprite);
-
-          composicionActual.partIds.push(partData[7]);
-          console.log("Added image with ID: " + partData[7]);
-          composicionActual.partsList.push(partSprite);
-          composicionActual.matrices[0].push(partSprite.getMatrix());
-          composicionActual.matrices[1].push(partSprite.getMatrix());
-
+          if(type == "change"){
+              var currentPiece = composicionActual.partsList[selected];
+              stage.removeChild(currentPiece);
+              stage.addChild(partSprite);
+              console.log("Changed image with ID: " + composicionActual.partIds[selected] + " to " + partData[7]);
+              composicionActual.partIds[selected] = partData[7];
+              composicionActual.partsList[selected] = partSprite;
+              composicionActual.matrices[0][selected] = partSprite.getMatrix();
+              composicionActual.matrices[1][selected] = partSprite.getMatrix();
+          }else {
+              stage.addChild(partSprite);
+              composicionActual.partIds.push(partData[7]);
+              console.log("Added image with ID: " + partData[7]);
+              composicionActual.partsList.push(partSprite);
+              composicionActual.matrices[0].push(partSprite.getMatrix());
+              composicionActual.matrices[1].push(partSprite.getMatrix());
+          }
           selectPart(composicionActual.partsList.length-1);
       };
   };
@@ -641,7 +663,7 @@ function loadComposition(id){
                     result[x].ScaleY,
                     result[x].Rotation,
                     result[x]._id];
-                addPart(pieces);
+                addPart(pieces, "new");
             }
         },
         error:function(jqXHR, textStatus, errorThrown){
