@@ -21,6 +21,8 @@ var imagesAttributes = [];
 
 var currentCompositionID = "undefined";
 
+var pieceLimits = [0,0,0,0,0]; // Head, Thorax, Legs, Antennas, Wings
+
 /*
 selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
@@ -53,6 +55,7 @@ function deletePart() {
     composicionActual.partIds.splice(selected, 1);
     stage.removeChild(currentPiece);
     unselectPart();
+    pieceLimits[currentPiece.pieceType]--;
 }
 
 /*
@@ -122,20 +125,47 @@ returns: void
     }
 }*/
 
-function addImageToCanvas(img, front, side, id, type){
-    var x;
-    var y;
-    if(type == "new") {
-        //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
-        x = Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)), 0);
-        y = Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)), 0);
-    }else{
-        x = composicionActual.partsList[selected].x;
-        y = composicionActual.partsList[selected].y;
+function addImageToCanvas(img, front, side, id, type, partType){
+    if(((partType == 0 || partType == 1) && pieceLimits[partType] == 1)
+    || (partType == 2 && pieceLimits[2] == 6)
+    || (partType == 3 && pieceLimits[3] == 2)
+    || (partType == 4 && pieceLimits[4] == 4)){
+        var typeName;
+        switch (partType){
+            case 0:
+                typeName = "heads";
+                break;
+            case 1:
+                typeName = "thorax";
+                break;
+            case 2:
+                typeName = "legs";
+                break;
+            case 3:
+                typeName = "antennas";
+                break;
+            case 4:
+                typeName = "wings";
+                break;
+        }
+        alert("Is not possible to add more than " + pieceLimits[partType] + " " + typeName + " to the current composition.\n"
+        + "Delete one to add another or replace it with the one that you want.");
+    }else {
+        pieceLimits[partType]++;
+        var x;
+        var y;
+        if (type == "new") {
+            //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
+            x = Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)), 0);
+            y = Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)), 0);
+        } else {
+            x = composicionActual.partsList[selected].x;
+            y = composicionActual.partsList[selected].y;
+        }
+        var partData = [front, side, x, y, 1, 1, 0, id, partType];
+        addPart(partData, type);
+        modifySearchButton();
     }
-    var partData = [front, side, x, y, 1, 1, 0, id];
-    addPart(partData, type);
-    modifySearchButton();
 }
 
 function mirrorImage()
@@ -182,10 +212,13 @@ function addPart(partData, type) //proxy
 
           partSprite.set({scaleX: partData[4], scaleY: partData[5], rotation: partData[6]});
 
+          partSprite.pieceType = partData[8];
+
           addListeners(partSprite);
 
           if(type == "change"){
               var currentPiece = composicionActual.partsList[selected];
+              pieceLimits[currentPiece.pieceType]--;
               stage.removeChild(currentPiece);
               stage.addChild(partSprite);
               console.log("Changed image with ID: " + composicionActual.partIds[selected] + " to " + partData[7]);
@@ -598,7 +631,8 @@ function saveCompositionData(){
             ScaleY: composicionActual.partsList[i].scaleY,
             Rotation: composicionActual.partsList[i].rotation,
             Source1: (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21),
-            Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21)
+            Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21),
+            PieceType: composicionActual.partsList[i].pieceType
             }
         );
     }
@@ -662,7 +696,9 @@ function loadComposition(id){
                     result[x].ScaleX,
                     result[x].ScaleY,
                     result[x].Rotation,
-                    result[x]._id];
+                    result[x]._id,
+                    result[x].pieceType
+                ];
                 addPart(pieces, "new");
             }
         },

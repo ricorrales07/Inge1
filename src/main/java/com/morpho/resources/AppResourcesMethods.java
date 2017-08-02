@@ -115,7 +115,7 @@ public class AppResourcesMethods {
                 if(receivedJSON.get("collection").toString().equals("piece")){
                     src = json.getString("SourceFront");
                     method = "addImageToCanvas(this,'" + json.getString("SourceFront") + "','" + json.getString("SourceSide")
-                            + "','" + json.getString("_id") + "','" + receivedJSON.get("type").toString() + "')";
+                            + "','" + json.getString("_id") + "','" + receivedJSON.get("type").toString() + "'," + Integer.parseInt(json.getString("Type")) + ")";
                 }else{
                     src = json.getString("imgSource").substring(20);
                     method = "loadComposition('" + json.getString("_id") + "')";
