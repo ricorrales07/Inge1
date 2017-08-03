@@ -31,6 +31,18 @@
                                   Saved images
                                </h4>
                                Please select one of the following images:
+                               <br/><br/>
+                                   Search filter by type:
+                                   <div id="searchType">
+                                      <select class="typeAttr" id = "typeAttr" onchange = "waitImgs(); registeredImages(false, 'previous', this);">
+                                        <option value="All" selected>All</option>
+                                        <option value="Head">Head</option>
+                                        <option value="Thorax">Thorax</option>
+                                        <option value="Leg">Leg</option>
+                                        <option value="Antenna">Antenna</option>
+                                        <option value="Wing">Wing</option>
+                                      </select>
+                                  </div>
                             </div>
                             <div class = "modal-body" align="center">
                                <div id="images"></div>
@@ -59,6 +71,18 @@
                                  My images
                               </h4>
                               Please select one of the following images:
+                              <br/><br/>
+                                 Search filter by type:
+                                 <div id="searchType">
+                                    <select class="typeAttr" id = "typeAttrOwn" onchange = "waitImgs(); registeredImages(true, 'previous', this);">
+                                      <option value="All" selected>All</option>
+                                      <option value="Head">Head</option>
+                                      <option value="Thorax">Thorax</option>
+                                      <option value="Leg">Leg</option>
+                                      <option value="Antenna">Antenna</option>
+                                      <option value="Wing">Wing</option>
+                                    </select>
+                                </div>
                            </div>
                            <div class = "modal-body" align="center">
                               <div id="ownedImages"></div>
@@ -246,11 +270,11 @@
             <div class = "btn-group-vertical">
               <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
               <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Grid Lines</button>
-              <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'new');" data-dismiss="modal">Add piece</button>
-              <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="waitImgs(); registeredImages(true, 'new');" data-dismiss="modal">Add owned piece</button>
+              <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="document.getElementById('typeAttr').selectedIndex = 0; waitImgs(); registeredImages(false, 'new', 'All');" data-dismiss="modal">Add piece</button>
+              <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="document.getElementById('typeAttrOwn').selectedIndex = 0; waitImgs(); registeredImages(true, 'new', 'All');" data-dismiss="modal">Add owned piece</button>
               <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
               <button id="deletePieceButton" class="btn btn-basic btn-responsive" onclick="deletePart();">Delete piece</button>
-              <button id="changePieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'change');" data-dismiss="modal">Change piece</button>
+              <button id="changePieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'change', 'All');" data-dismiss="modal">Change piece</button>
             </div>
             <div class = "btn-group-vertical align-bottom">
               <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions" onclick="waitImgs(); showCompositions();">Load composition</button>

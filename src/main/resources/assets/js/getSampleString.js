@@ -5,6 +5,22 @@ and the data obtained with it (string) will be loaded in a
 tag with the id "images".
 */
 
+var imagesToLoad = "new";
+
+function generateTypeIndex(value){
+    if (value == "Head"){
+        return 0;
+    }else if (value == "Thorax"){
+        return 1;
+    }else if (value == "Leg"){
+        return 2;
+    }else if (value == "Antenna"){
+        return 3;
+    }else if (value == "Wing"){
+        return 4;
+    }
+}
+
 function btnSavedImages(){
     $("modalImages").each(function(){
     	$(this).remove();
@@ -22,12 +38,22 @@ function btnSavedImages(){
 	});
 }
 
-function registeredImages(owned, type){
-    var filter;
-	if(owned){
-    	filter = "{_id: /^" + Cookies.get("userID") + "C/}";
+function registeredImages(owned, type, pieceType){
+    if(type != "previous"){
+    	imagesToLoad = type;
+	}
+
+	if(pieceType == "All" || pieceType.value == "All"){
+    	pieceType = "";
 	}else{
-		filter = "{}";
+		pieceType = ", Type: \"" + generateTypeIndex(pieceType.value) + "\"";
+	}
+
+	var filter;
+	if(owned){
+    	filter = "{_id: /^" + Cookies.get("userID") + "C/" + pieceType + "}";
+	}else{
+		filter = "{" + pieceType.substr(2) + "}";
 	}
 	$("modalImages").each(function(){
     	$(this).remove();
@@ -36,7 +62,7 @@ function registeredImages(owned, type){
     $.ajax({
 		url: "/methods/getImagesDataInDB",
 		type: 'POST',
-		data: JSON.stringify({collection: "piece", filter: filter, type: type}),
+		data: JSON.stringify({collection: "piece", filter: filter, type: imagesToLoad}),
 		contentType: "text/plain",
 		success:function(data, textStatus, jqXHR){
 			if(owned) {
