@@ -19,6 +19,10 @@ var savedImg = ""; //NOT FINAL
 
 var imagesAttributes = [];
 
+var currentCompositionID = "undefined";
+
+var pieceLimits = [0,0,0,0,0]; // Head, Thorax, Legs, Antennas, Wings
+
 /*
 selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
@@ -43,6 +47,15 @@ function selectPart(index)
 
   var link = document.getElementById("pieceEditorLink");
   link.setAttribute("href", "/editPiece?pieceId=" + composicionActual.partIds[selected]);
+}
+
+function deletePart() {
+    var currentPiece = composicionActual.partsList[selected];
+    composicionActual.partsList.splice(selected, 1);
+    composicionActual.partIds.splice(selected, 1);
+    stage.removeChild(currentPiece);
+    unselectPart();
+    pieceLimits[currentPiece.pieceType]--;
 }
 
 /*
@@ -112,15 +125,47 @@ returns: void
     }
 }*/
 
-function addImageToCanvas(img, id){
-    var partData = [img.src,
-                    "assets/images/odo-zyg-head2.png",
-                    //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
-                    Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)),0),
-                    Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)),0),
-                    1,1,0,id];
-    addPart(partData);
-    modifySearchButton();
+function addImageToCanvas(img, front, side, id, type, partType){
+    if(((partType == 0 || partType == 1) && pieceLimits[partType] == 1)
+    || (partType == 2 && pieceLimits[2] == 6)
+    || (partType == 3 && pieceLimits[3] == 2)
+    || (partType == 4 && pieceLimits[4] == 4)){
+        var typeName;
+        switch (partType){
+            case 0:
+                typeName = "heads";
+                break;
+            case 1:
+                typeName = "thorax";
+                break;
+            case 2:
+                typeName = "legs";
+                break;
+            case 3:
+                typeName = "antennas";
+                break;
+            case 4:
+                typeName = "wings";
+                break;
+        }
+        alert("Is not possible to add more than " + pieceLimits[partType] + " " + typeName + " to the current composition.\n"
+        + "Delete one to add another or replace it with the one that you want.");
+    }else {
+        pieceLimits[partType]++;
+        var x;
+        var y;
+        if (type == "new") {
+            //para que no se salga del cuadro hay que restarle el tamaño de la imagen (si da negativo, usarmos 0)
+            x = Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").width - img.width)), 0);
+            y = Math.max(Math.floor(Math.random() * (document.getElementById("areaDeDibujo").height - img.height)), 0);
+        } else {
+            x = composicionActual.partsList[selected].x;
+            y = composicionActual.partsList[selected].y;
+        }
+        var partData = [front, side, x, y, 1, 1, 0, id, partType];
+        addPart(partData, type);
+        modifySearchButton();
+    }
 }
 
 function mirrorImage()
@@ -138,45 +183,60 @@ addPart: for now, a stub that just adds the same fixed pair of images.
 
 returns: void
 */
-function addPart(partData) //proxy
+function addPart(partData, type) //proxy
 {
   console.log("creating sprite");
   var img1 = new Image();
   img1.src = partData[0];
-  var img2 = new Image();
-  img2.src = partData[1];
+  img1.onload = function(){
+      var img2 = new Image();
+      img2.src = partData[1];
+      img2.onload = function(){
+          var imgs = {
+              images: [img1, img2],
+              frames: [
+                  [0,0,img1.width,img1.height,0,img1.width/2,img1.height/2],
+                  [0,0,img2.width,img2.height,1,img2.width/2,img2.height/2]
+              ],
+              animations: {front: 0, side: 1}
+          };
+          var partSheet = new createjs.SpriteSheet(imgs);
+          var partSprite = new createjs.Sprite(partSheet, view);
 
-  var imgs = {
-      images: [img1, img2],
-      frames: [
-          [0,0,img1.width,img1.height,0,img1.width/2,img1.height/2],
-          [0,0,img2.width,img2.height,1,img2.width/2,img2.height/2]
-      ],
-      animations: {front: 0, side: 1}
+          partSprite.x = partData[2];
+          partSprite.y = partData[3];
+
+          partSprite.name = "" + createjs.UID.get();
+
+          console.log("Sprite " + partSprite.name + " created. visible: " + partSprite.visible);
+
+          partSprite.set({scaleX: partData[4], scaleY: partData[5], rotation: partData[6]});
+
+          partSprite.pieceType = partData[8];
+
+          addListeners(partSprite);
+
+          if(type == "change"){
+              var currentPiece = composicionActual.partsList[selected];
+              pieceLimits[currentPiece.pieceType]--;
+              stage.removeChild(currentPiece);
+              stage.addChild(partSprite);
+              console.log("Changed image with ID: " + composicionActual.partIds[selected] + " to " + partData[7]);
+              composicionActual.partIds[selected] = partData[7];
+              composicionActual.partsList[selected] = partSprite;
+              composicionActual.matrices[0][selected] = partSprite.getMatrix();
+              composicionActual.matrices[1][selected] = partSprite.getMatrix();
+          }else {
+              stage.addChild(partSprite);
+              composicionActual.partIds.push(partData[7]);
+              console.log("Added image with ID: " + partData[7]);
+              composicionActual.partsList.push(partSprite);
+              composicionActual.matrices[0].push(partSprite.getMatrix());
+              composicionActual.matrices[1].push(partSprite.getMatrix());
+          }
+          selectPart(composicionActual.partsList.length-1);
+      };
   };
-  var partSheet = new createjs.SpriteSheet(imgs);
-  var partSprite = new createjs.Sprite(partSheet, view);
-
-  partSprite.x = partData[2];
-  partSprite.y = partData[3];
-
-  partSprite.name = "" + createjs.UID.get();
-
-  console.log("Sprite " + partSprite.name + " created. visible: " + partSprite.visible);
-
-  partSprite.set({scaleX: partData[4], scaleY: partData[5], rotation: partData[6]});
-
-  addListeners(partSprite);
-
-  stage.addChild(partSprite);
-
-  composicionActual.partIds.push(partData[7]);
-  console.log("Added image with ID: " + partData[7]);
-  composicionActual.partsList.push(partSprite);
-  composicionActual.matrices[0].push(partSprite.getMatrix());
-  composicionActual.matrices[1].push(partSprite.getMatrix());
-
-  selectPart(composicionActual.partsList.length-1);
 }
 
 /*
@@ -447,22 +507,71 @@ function nombre(auth){
 
 function saveCompositionImage(){
     console.log("Test");
-    var comp = document.getElementById("areaDeDibujo");
-    $.ajax({
-        url: "/methods/saveCreatedImageFile",
-        type: 'POST',
-        //aync: false,
-        data: "Composition," + comp.toDataURL() + "," + Cookies.get("userID"),
-        contentType: "text/plain",
-        success:function(data, textStatus, jqXHR){
-            console.log("image saved in server directory: " + data);
-            savedImg = data;
-            console.log("savedImg: " + savedImg);
-          },
-        error:function(jqXHR, textStatus, errorThrown ){
-            console.log(errorThrown);
+    var canvas = document.getElementById(("wildcard"));
+    var img = new Image;
+    img.src = document.getElementById("areaDeDibujo").toDataURL();
+    img.onload = function(){
+        var image = cropImageFromCanvas(canvas, img);
+        $.ajax({
+            url: "/methods/saveCreatedImageFile",
+            type: 'POST',
+            data: "Composition," + image + "," + Cookies.get("userID") + "," + currentCompositionID,
+            contentType: "text/plain",
+            success:function(data, textStatus, jqXHR){
+                console.log("image saved in server directory: " + data);
+                savedImg = data.split(",")[0];
+                console.log("savedImg: " + savedImg);
+                currentCompositionID = data.split(",")[1];
+            },
+            error:function(jqXHR, textStatus, errorThrown ){
+                console.log(errorThrown);
+            }
+        });
+    };
+}
+
+/*
+ * Function taken and adapted from
+ * https://stackoverflow.com/questions/11796554/automatically-crop-html5-canvas-to-contents
+ * Created by the user "potomek", answering the question "Automatically Crop HTML5 canvas to contents"
+ * asked by the user "c24w"
+ */
+function cropImageFromCanvas(canvas, img) {
+    canvas.width = 1024;
+    canvas.height = 512;
+    var ctx = document.getElementById("wildcard").getContext("2d");
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+
+    ctx.drawImage(img,0,0);
+    var w = canvas.width,
+        h = canvas.height,
+        pix = {x:[], y:[]},
+        imageData = ctx.getImageData(0,0,canvas.width,canvas.height),
+        x, y, index;
+
+    for (y = 0; y < h; y++) {
+        for (x = 0; x < w; x++) {
+            index = (y * w + x) * 4;
+            if (imageData.data[index+3] > 0) {
+                pix.x.push(x);
+                pix.y.push(y);
+            }
         }
-    });
+    }
+    pix.x.sort(function(a,b){return a-b});
+    pix.y.sort(function(a,b){return a-b});
+    var n = pix.x.length-1;
+
+    w = pix.x[n] - pix.x[0];
+    h = pix.y[n] - pix.y[0];
+    var cut = ctx.getImageData(pix.x[0], pix.y[0], w+1, h+1);
+
+    canvas.width = w+1;
+    canvas.height = h+1;
+
+    ctx.putImageData(cut, 0, 0);
+
+    return canvas.toDataURL();
 }
 
 function saveComp()
@@ -522,7 +631,8 @@ function saveCompositionData(){
             ScaleY: composicionActual.partsList[i].scaleY,
             Rotation: composicionActual.partsList[i].rotation,
             Source1: (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21),
-            Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21)
+            Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21),
+            PieceType: composicionActual.partsList[i].pieceType
             }
         );
     }
@@ -542,17 +652,18 @@ function saveCompositionData(){
                 accessToken: Cookies.get("accessToken")
             },
             composition: {attributes, pieces, images},
+            file: currentCompositionID
         }),
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             if(data == "Repeated"){
                 alert("There are another composition with the sames pieces.\n" +
                     "Please change, add or delete one in your current" +
-                    "composition to be able to save it.")
+                    "composition to be able to save it.");
                 result =  false
             } else {
-                alert("Composition successfully saved in the server.")
-                console.log("image saved in server directory")
+                alert("Composition successfully saved in the server.");
+                console.log("image saved in server directory");
                 result = true
             }
         },
@@ -566,16 +677,34 @@ function saveCompositionData(){
     return result;
 }
 
-function loadComposition(){
-    $.getJSON("assets/imagesData/Composition0.json", function(pieces){
-        var real = pieces.composition;
-        $.each(real, function(attribute, value){
-            if(attribute != "_id") {
-                var partData = [value.Source1, value.Source2, value.PositionX,
-                    value.PositionY, value.ScaleX, value.ScaleY, value.rotation];
-                addPart(partData);
+function loadComposition(id){
+    $.ajax({
+        url: "/methods/getCompositionPieces",
+        type: 'POST',
+        data: id,
+        contentType: "text/plain",
+        success:function(data, textStatus,jqXHR){
+            currentCompositionID = id;
+
+            var result = JSON.parse(data);
+
+            for(x in result){
+                pieces = [result[x].Source1,
+                    result[x].Source2,
+                    result[x].positionX,
+                    result[x].positionY,
+                    result[x].ScaleX,
+                    result[x].ScaleY,
+                    result[x].Rotation,
+                    result[x]._id,
+                    result[x].pieceType
+                ];
+                addPart(pieces, "new");
             }
-        })
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            console.log(errorThrown);
+        }
     });
 }
 
@@ -643,13 +772,11 @@ function loadPhotos(){
     $("modalImages").each(function(){
         $(this).remove();
     });
-
     console.log("loading photos");
-
     $.ajax({
         url: "/methods/loadPhotos",
         type: 'POST',
-        data: Cookies.get("userID"),
+        data: currentCompositionID,
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             $('#associatedImages').append(data)
@@ -666,11 +793,12 @@ $("#addPieceButton").click(function() {
 	});
 	console.log("addPieceButton clicked");
     $.ajax({
-		url: "/methods/getPiecesInDB",
+		url: "/methods/getImagesDataInDB",
 		type: 'GET',
+        data: JSON.stringify({collection: "pieces", filter: "{}"}),
 		success:function(data, textStatus, jqXHR){
 		    console.log(data);
-		    console.log("getPiecesInDB was successful");
+		    console.log("getImagesDataInDB for pieces was successful");
 			$('#images').append(data);
 		},
 		error:function(jqXHR, textStatus, errorThrown ){

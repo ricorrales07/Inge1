@@ -81,7 +81,7 @@ public class ViewCreator {
 
         String r = results.get(0).getString("_id");
 
-        String mainResult = "<img id=\"mainResult\" src=\"./assets/images/Composition"
+        String mainResult = "<img id=\"mainResult\" src=\"./assets/images/" + r.split("C")[0] + "/Composition"
                 + r.substring(r.lastIndexOf('C')+1) + ".png"
                 +"\" alt=\"Main Result\" style=\"max-width:100%;\" />";
 
@@ -118,7 +118,7 @@ public class ViewCreator {
             while (i*3+j < results.size())
             {
                 String rr = results.get(j++).getString("_id");
-                String src = "./assets/images/Composition"
+                String src = "./assets/images/" + rr.split("C")[0] + "/Composition"
                         + rr.substring(rr.lastIndexOf('C')+1) + ".png";
                 extraResults += "<div class=\"col-md-3 col-sm-3 col-lg-3\">"
                         + "<a onclick=\"setMainResult(&quot;"

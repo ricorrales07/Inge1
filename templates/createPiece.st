@@ -253,7 +253,7 @@
 					<div class="" id="editor" onload="init();"">
 						<canvas id="canvasBackGround"></canvas>
 						<canvas id="leCanvas" ></canvas>
-
+                        <canvas id="wildcard"></canvas>
 					</div>
 				</div>
 				<!-- END FOUR DIFFERENT VIEWS -->
@@ -270,11 +270,37 @@
 						</div>
 						<div id="attribute-card-list" class=" row">
 							<!-- Non optional  Cards -->
+                            <div class="attribute-card col-md-offset-1 col-md-10">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-8">
+                                        <label>Type: </label>
+                                        <input type="typeData" style="display:none" value="Type"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class =" col-md-3 ">
+                                        <label >Value: </label>
+                                    </div>
+                                    <div id="pieceType">
+                                        <div class="card-input right-icon col-md-8 nopadding">
+                                            <select class="typeAttr">
+                                              <option value="Head" selected>Head</option>
+                                              <option value="Thorax" >Thorax</option>
+                                              <option value="Leg">Leg</option>
+                                              <option value="Antenna">Antenna</option>
+                                              <option value="Wing">Wing</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
 							<div class="attribute-card col-md-offset-1 col-md-10">
 								<div class="row">
 									<div class="col-md-offset-2 col-md-8">
 										<label >Author: </label>
-										<input style="display:none" value="Author"/>
+										<input type="required" style="display:none" value="Author"/>
 									</div>
 								</div>
 
@@ -284,7 +310,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+										<input type="required" class="att-input form-control attribute-value" placeholder="Property value"/>
 									</div>
 								</div>
 							</div>
@@ -292,7 +318,7 @@
 								<div class="row">
 									<div class="col-md-offset-2 col-md-8">
 										<label >Scientific Name: </label>
-										<input style="display:none" value="Scientific Name"/>
+										<input type="required" style="display:none" value="Scientific Name"/>
 									</div>
 								</div>
 
@@ -302,7 +328,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+										<input type="required" class="att-input form-control attribute-value" placeholder="Property value"/>
 									</div>
 								</div>
 							</div>
@@ -316,7 +342,7 @@
 
 								<div class="row">
 									<div class=" col-md-8 ">
-										<input style="display:none" value="Public"/>
+										<input type = "checkbox" style="display:none" value="Public"/>
 										<label >Value: </label>
 										<input type="checkbox" class="att-input attribute-value" unchecked/>
 									</div>
@@ -337,7 +363,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="search" class="att-input form-control attribute-name"
+										<input type="optional" class="att-input form-control attribute-name"
 											placeholder="Property name"/>
 									</div>
 								</div>
@@ -348,7 +374,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+										<input type="optional" class="att-input form-control attribute-value" placeholder="Property value"/>
 									</div>
 								</div>
 							</div>

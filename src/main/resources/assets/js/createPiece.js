@@ -88,16 +88,33 @@ var surfaceS = new createjs.Container();
  var brushLS = new createjs.Shape(brushStyle);
  var brushS = new createjs.Shape(brushStyle);
 
+var direction = "" + (document.URL).split("=")[1];
+if(direction != "undefined"){
+    var needed = [];
+    var optional = [];
 
-//Imágenes proxy para el canvas.
-var direction = "" + document.URL;
-if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.length-1) <= '9'){
-	var bitmapFront = new createjs.Bitmap("\\assets\\images\\odo-head2.png");
-	var bitmapSide = new createjs.Bitmap("\\assets\\images\\odo-zyg-head2.png");
-	surfaceF.addChild(bitmapFront).set({x:150,y:250,scaleX:7,scaleY:7});
-	surfaceS.addChild(bitmapSide).set({x:150,y:250,scaleX:7,scaleY:7});
+    addPiecesToCanvas();
 }
 
+function addPiecesToCanvas(){
+    $.ajax({
+        url: "/methods/getPieceData",
+        type: 'POST',
+        data: direction,
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR) {
+            console.log("Piece data obtained");
+            var JSONData = JSON.parse(data);
+            var bitmapFront = new createjs.Bitmap(JSONData.SourceFront);
+            var bitmapSide = new createjs.Bitmap(JSONData.SourceSide);
+            surfaceF.addChild(bitmapFront).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
+            surfaceS.addChild(bitmapSide).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
+        },
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });
+}
 
  surfaceF.addChild(brushF);
  surfaceRS.addChild(brushRS);
@@ -143,6 +160,8 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
 
 	updateStageListeners();
 	stage.update();
+
+
 }
 
 /**
@@ -153,7 +172,6 @@ if(direction.charAt(direction.length-1) >= '0' && direction.charAt(direction.len
 function updateStageListeners(){
 
 	stage.addEventListener("stagemousedown", function(event) {
-		//console.log("the canvas was mousedown at "+event.stageX+","+event.stageY);
 		console.log("stagemousedown on stage");
 		createPieceG.pointer.x = event.stageX;
 		createPieceG.pointer.y = event.stageY;
@@ -162,7 +180,6 @@ function updateStageListeners(){
 
 
 	stage.addEventListener("stagemousemove", function handleMouseMove(event) {
-		//console.log("the canvas was pressmove at "+event.stageX+","+event.stageY);
 		console.log("stagemousemove on stage");
 		  createPieceG.pointer.x = event.stageX;
 		  createPieceG.pointer.y = event.stageY;
@@ -175,7 +192,6 @@ function updateStageListeners(){
 	});
 
 	stage.addEventListener("stagemouseup", function(event) {
-		//console.log("the canvas was pressup at "+event.stageX+","+event.stageY);
 		//Break the stroke.
 		console.log("stagemouseup on stage");
 		createPieceG.originCaptured = false;
@@ -344,21 +360,78 @@ function updateView(select){
 }
 
 function saveCreation(){
-    var imageFront = surfaceF.getCacheDataURL();
-    var imageSide =  surfaceS.getCacheDataURL();
+    var canvas = document.getElementById("wildcard");
 
-    $.ajax({
-        url: "/methods/saveCreatedImageFile",
-        type: 'POST',
-        //data: "Piece," + imageFront + "," + imageSide,
-        data: "Piece," + imageFront + "," + imageSide + "," + Cookies.get("userID"),
-        contentType: "text/plain",
-        success:function(data, textStatus, jqXHR){
-            console.log("image saved in server directory")},
-        error:function(jqXHR, textStatus, errorThrown ){
-            console.log(errorThrown);
+	var img = new Image;
+    img.src = surfaceF.getCacheDataURL();
+    img.onload = function() {
+        var imageFront = cropImageFromCanvas(canvas, img);
+
+        img = new Image;
+        img.src = surfaceS.getCacheDataURL();
+        img.onload = function() {
+            var imageSide = cropImageFromCanvas(canvas, img);
+
+            $.ajax({
+                url: "/methods/saveCreatedImageFile",
+                type: 'POST',
+                data: "Piece," + imageFront + "," + imageSide + "," + Cookies.get("userID") + "," + direction,
+                contentType: "text/plain",
+                success:function(data, textStatus, jqXHR){
+                    console.log("image saved in server directory")},
+                error:function(jqXHR, textStatus, errorThrown ){
+                    console.log(errorThrown);
+                }
+            });
+
+            canvas.width = 0;
+            canvas.height = 0;
         }
-    });
+    };
+}
+
+/*
+ * Function taken and adapted from
+ * https://stackoverflow.com/questions/11796554/automatically-crop-html5-canvas-to-contents
+ * Created by the user "potomek", answering the question "Automatically Crop HTML5 canvas to contents"
+ * asked by the user "c24w"
+ */
+function cropImageFromCanvas(canvas, img) {
+	canvas.width = 2048;
+	canvas.height = 512;
+    var ctx = document.getElementById("wildcard").getContext("2d");
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+
+	ctx.drawImage(img,0,0);
+	var w = canvas.width,
+		h = canvas.height,
+		pix = {x:[], y:[]},
+		imageData = ctx.getImageData(0,0,canvas.width,canvas.height),
+		x, y, index;
+
+	for (y = 0; y < h; y++) {
+		for (x = 0; x < w; x++) {
+			index = (y * w + x) * 4;
+			if (imageData.data[index+3] > 0) {
+				pix.x.push(x);
+				pix.y.push(y);
+			}
+		}
+	}
+	pix.x.sort(function(a,b){return a-b});
+	pix.y.sort(function(a,b){return a-b});
+	var n = pix.x.length-1;
+
+	w = pix.x[n] - pix.x[0];
+	h = pix.y[n] - pix.y[0];
+	var cut = ctx.getImageData(pix.x[0], pix.y[0], w+1, h+1);
+
+	canvas.width = w+1;
+	canvas.height = h+1;
+
+	ctx.putImageData(cut, 0, 0);
+
+	return canvas.toDataURL();
 }
 
 function increaseFileNameCounter(){

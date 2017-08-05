@@ -31,6 +31,18 @@
                                   Saved images
                                </h4>
                                Please select one of the following images:
+                               <br/><br/>
+                                   Search filter by type:
+                                   <div id="searchType">
+                                      <select class="typeAttr" id = "typeAttr" onchange = "waitImgs(); registeredImages(false, 'previous', this);">
+                                        <option value="All" selected>All</option>
+                                        <option value="Head">Head</option>
+                                        <option value="Thorax">Thorax</option>
+                                        <option value="Leg">Leg</option>
+                                        <option value="Antenna">Antenna</option>
+                                        <option value="Wing">Wing</option>
+                                      </select>
+                                  </div>
                             </div>
                             <div class = "modal-body" align="center">
                                <div id="images"></div>
@@ -38,9 +50,6 @@
                                <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
                             </div><br>
                             <div class = "modal-footer">
-                                <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
-                                    Return
-                                 </button>
                                <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
                                    Close
                                </button>
@@ -62,6 +71,18 @@
                                  My images
                               </h4>
                               Please select one of the following images:
+                              <br/><br/>
+                                 Search filter by type:
+                                 <div id="searchType">
+                                    <select class="typeAttr" id = "typeAttrOwn" onchange = "waitImgs(); registeredImages(true, 'previous', this);">
+                                      <option value="All" selected>All</option>
+                                      <option value="Head">Head</option>
+                                      <option value="Thorax">Thorax</option>
+                                      <option value="Leg">Leg</option>
+                                      <option value="Antenna">Antenna</option>
+                                      <option value="Wing">Wing</option>
+                                    </select>
+                                </div>
                            </div>
                            <div class = "modal-body" align="center">
                               <div id="ownedImages"></div>
@@ -69,9 +90,6 @@
                               <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
                            </div><br>
                            <div class = "modal-footer">
-                               <button class="btn btn-default pull-left pull-down" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
-                                   Return
-                                </button>
                               <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
                                   Close
                               </button>
@@ -163,12 +181,9 @@
                         </button>
                    </div>
                    <div class = "modal-footer">
-                   <button class="btn btn-default pull-left" data-toggle = "modal" data-target = "#opcionOpciones" data-dismiss = "modal">
-                        Return
-                   </button>
-                   <button type = "button" class = "btn btn-default" data-dismiss = "modal">
-                        Close
-                   </button>
+                       <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                            Close
+                       </button>
                    </div>
                 </div><!-- /.modal-content -->
              </div><!-- /.modal-dialog -->
@@ -202,6 +217,34 @@
             </div><!-- /.modal-dialog -->
        </div><!-- /.modal -->
 
+    <!-- Menu to load an owned composition to continue editing it -->
+      <div class = "modal fade" id = "openCompositions" tabindex = "-1" role = "dialog"
+       aria-labelledby = "myModalLabel" aria-hidden = "true">
+           <div class = "modal-dialog">
+             <div class = "modal-content">
+               <div class = "modal-header">
+                  <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                        &times;
+                  </button>
+                  <h4 class = "modal-title" id = "myModalLabel">
+                     My compositions
+                  </h4>
+                  Please select one of the following compositions:
+               </div>
+               <div class = "modal-body" align="center">
+                  <div id="ownedCompositions"></div>
+                  <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
+                  <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
+               </div><br>
+               <div class = "modal-footer">
+                  <button class = "btn btn-default pull-right pull-down" data-dismiss = "modal">
+                      Close
+                  </button>
+               </div>
+             </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
     <div class = "container">
 
       <div class="row">
@@ -227,13 +270,15 @@
             <div class = "btn-group-vertical">
               <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
               <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Grid Lines</button>
-              <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false);" data-dismiss="modal">Add piece</button>
-              <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="waitImgs(); registeredImages(true);" data-dismiss="modal">Add owned piece</button>
+              <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="document.getElementById('typeAttr').selectedIndex = 0; waitImgs(); registeredImages(false, 'new', 'All');" data-dismiss="modal">Add piece</button>
+              <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="document.getElementById('typeAttrOwn').selectedIndex = 0; waitImgs(); registeredImages(true, 'new', 'All');" data-dismiss="modal">Add owned piece</button>
               <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
+              <button id="deletePieceButton" class="btn btn-basic btn-responsive" onclick="deletePart();">Delete piece</button>
+              <button id="changePieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'change', 'All');" data-dismiss="modal">Change piece</button>
             </div>
             <div class = "btn-group-vertical align-bottom">
+              <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions" onclick="waitImgs(); showCompositions();">Load composition</button>
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
-              <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="loadComposition();">Load composition</button>
               <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
               <a id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</a>
             </div>
@@ -247,6 +292,7 @@
 
         <div class = "col-lg-10 col-md-10 col-sm-10">
             <canvas id="areaDeDibujo" width="1024" height="512">
+            <canvas id="wildcard" />
                 Lo sentimos, su navegador no soporta nuestra aplicación.
             </canvas>
         </div>

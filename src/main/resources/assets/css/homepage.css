@@ -80,3 +80,22 @@ right: 15px;
 position: relative;
 
 }
+
+#searchType .typeAttr{
+    display: table-cell;
+    width: 150px;
+    margin: 0px;
+    background-color: #fffef9;
+    border-radius: 5px;
+    color: #333;
+    text-align: left;
+    padding: 5px;
+
+    /*Disable selections of children*/
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+
+}

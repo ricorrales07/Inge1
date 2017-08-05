@@ -12,6 +12,8 @@ import io.dropwizard.lifecycle.Managed;
 import com.mongodb.MongoClient;
 import org.bson.Document;
 
+import javax.print.Doc;
+
 /**
  * Created by Ricardo on 29/4/2017.
  */
@@ -58,7 +60,7 @@ public class DBAdministrator implements Managed {
      * @param update string in serialized JSON
      */
     public void update(String collection, String filter, String update) throws Exception {
-        db.getCollection(collection).updateOne((Bson) JSON.parse(filter), (Bson) JSON.parse(update));
+        db.getCollection(collection).replaceOne((Bson) JSON.parse(filter), Document.parse(update));
     }
 
     /**

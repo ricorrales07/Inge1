@@ -34,27 +34,61 @@ function addProperty(){
 	
 }
 
+function generateTypeIndex(value){
+    if (value == "Head"){
+        return 0;
+    }else if (value == "Thorax"){
+        return 1;
+    }else if (value == "Leg"){
+        return 2;
+    }else if (value == "Antenna"){
+        return 3;
+    }else if (value == "Wing"){
+        return 4;
+    }
+}
+
 function saveAttributes(){
-    var text = [];
-    var attributes = "{\n";
+    var required = [];
+    var optional = [];
+    var requiredAttributes = "{\n";
+    var optionalAttributes = "{\n";
 
     //$("attributes-card-list label[]]")
-    $("#attribute-card-list input").each(function() {
-    	if($(this).type=="checkbox"){
-    		text.push($(this).checked);
-    	}else{
-    	    if($(this).val() != "") {
-                text.push($(this).val());
-            }
+
+    $("#attribute-card-list input[type = required]").each(function() {
+        required.push($(this).val())
+    })
+
+    required.push(document.querySelector('[type = "typeData"]').value);
+    required.push(generateTypeIndex(document.querySelector('[class = "typeAttr"]').value));
+
+    $("#attribute-card-list input[type = optional]").each(function() {
+        if($(this).val() != "") {
+            optional.push($(this).val())
         }
-    });
-    for(i = 0; i < text.length; i = i+2){
-        attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\"";
-        if(i < text.length - 2){
-            attributes += ",\n";
+    })
+
+    $("#attribute-card-list input[type = checkbox]").each(function() {
+        required.push($(this).val())
+    })
+
+    for(i = 0; i < required.length; i = i+2){
+        requiredAttributes += "\"" + required[i] + "\": \"" + required[i+1] + "\"";
+        if(i < required.length - 2){
+            requiredAttributes += ",\n";
         }
     }
-    attributes += "\n}";
+
+    for(i = 0; i < optional.length; i = i+2){
+        optionalAttributes += "\"" + optional[i] + "\": \"" + optional[i+1] + "\"";
+        if(i < optional.length - 2){
+            optionalAttributes += ",\n";
+        }
+    }
+    optionalAttributes += "\n}";
+
+    var attributes = requiredAttributes + ", \"optional\":" + optionalAttributes + "\n}";
 
     var result = false;
 
@@ -66,7 +100,8 @@ function saveAttributes(){
                     userID: Cookies.get("userID"),
                     accessToken: Cookies.get("accessToken")
                 },
-                piece: JSON.parse(attributes)
+                piece: JSON.parse(attributes),
+                file: direction
             }),
             contentType: "text/plain",
             success:function(data, textStatus, jqXHR){
