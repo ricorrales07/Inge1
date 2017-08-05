@@ -70,6 +70,15 @@ public class ViewCreator {
         StringTemplate templateResults = group.getInstanceOf("results4" );
         List<Document> results = MorphoApplication.searcher.performSearch(json);
 
+        if (results.size() == 0)
+        {
+            templateResults.setAttribute("mainResult", "");
+            templateResults.setAttribute("texto", "<h1>No results found.</h1><br>We were not able to find any similar insects.");
+            templateResults.setAttribute("bolitas", "");
+            templateResults.setAttribute("extraResults", "");
+            return templateResults.toString();
+        }
+
         String r = results.get(0).getString("_id");
 
         String mainResult = "<img id=\"mainResult\" src=\"./assets/images/Composition"
