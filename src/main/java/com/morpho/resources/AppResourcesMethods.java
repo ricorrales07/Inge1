@@ -449,9 +449,6 @@ public class AppResourcesMethods {
             MorphoApplication.logger.info("Piece with searchId: " + receivedContent);
 
             try {
-                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\P" + a.get("_id") + ".json");
-                writer.print(receivedContent);
-                writer.close();
                 if(currentFile.equals("undefined")){
                     builder = queryDB("insert", "piece", receivedContent);
                 }else{
@@ -551,14 +548,6 @@ public class AppResourcesMethods {
             } catch (ParseException e) {
                 MorphoApplication.logger.warning(e.toString());
                 e.printStackTrace();
-            }
-
-            try {
-                PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\C" + data.get("_id") + ".json");
-                writer.print(receivedContent);
-                writer.close();
-            } catch (Exception e) {
-                MorphoApplication.logger.warning(e.toString());
             }
 
             receivedContent = MorphoApplication.searcher.addSearchIdToComposition(receivedContent);
