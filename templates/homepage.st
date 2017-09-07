@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="assets/css/homepage.css">
     <title>MorphoSpace</title>
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+    <meta name="google-signin-client_id" content="709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com">
 </head>
 <body onload="init();">
     <div id="fb-root"></div>
@@ -134,9 +135,13 @@
                    </h4>
                </div>
                <div class = "modal-body justify-content-center">
+                <ul>
+                 <li class="g-signin2" data-onsuccess="onSignIn"> </li>
+                 <li <a href="#" onclick="signOut();">Sign out</a></li>
                  <li class="fb-login-button" data-max-rows="1" data-size="large"
                     data-button-type="continue_with" data-show-faces="true"
                       data-auto-logout-link="true" data-use-continue-as="true"></li>
+                </ul>
                </div>
                <div class = "modal-footer">
                    <button type = "button" class = "btn btn-default" data-dismiss = "modal">
@@ -430,6 +435,18 @@
         }
       }
 
+    function onSignInGmail()
+    {
+        document.getElementById("pieceEditorLink").style.visibility = "visible";
+        document.getElementById("saveCompositionButton").disabled = false;
+    }
+
+    function onSignOutGmail()
+    {
+        document.getElementById("pieceEditorLink").style.visibility = "hidden";
+        document.getElementById("saveCompositionButton").disabled = true;
+    }
+
 </script>
 
 <script>
@@ -473,6 +490,7 @@
 
 </body>
 
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="assets/jquery/jquery-3.2.1.js"></script>
 <script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 <script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>

@@ -840,6 +840,67 @@ function modifySearchButton()
   link.setAttribute("href", "/searchResults?searchJSON=" + sJSON);
 }
 
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  var id_token = googleUser.getAuthResponse().id_token; // The ID token you need to pass to your backend:
+  //console.log("ID Token: " + id_token);
+  onSignInGmail();
+  //Pruebas para enviar idtoken
+  /*
+  var xhr = new XMLHttpRequest();
+  //xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
+  xhr.open('POST', '/methods/sendToken');
+  //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.setRequestHeader('text/plain', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+    console.log('Signed in as: ' + xhr.responseText);
+  };
+  xhr.send('idtoken=' + id_token);
+  */
+}
+//Otro pedazo de codigo con el que estaba probando
+/*
+var auth2;
+
+var initClient = function() {
+    gapi.load('auth2', function(){
+
+         //Retrieve the singleton for the GoogleAuth library and set up the client.
+
+        auth2 = gapi.auth2.init({
+            client_id: '709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com'
+        });
+
+        // Attach the click handler to the sign-in button
+        auth2.attachClickHandler('signin-button', {}, onSuccess, onFailure);
+    });
+};
+
+var onSuccess = function(user) {
+    console.log('Signed in as ' + user.getBasicProfile().getName());
+ };
+
+
+var onFailure = function(error) {
+    console.log(error);
+};
+*/
+
+function signOut() {
+    onSignOutGmail();
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+
+
+
 /*$("#searchButton").click(function() {
     $("modalImage").each(function(){
     	$(this).remove();
