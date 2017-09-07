@@ -60,5 +60,4 @@ var logout_event = function(response)
     console.log(response.status);
 }
 
-//Prueba de push porque estoy teniendo problemas
-//Prueba push 2
+//PRUEBAAAAA
