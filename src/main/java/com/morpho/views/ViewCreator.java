@@ -31,6 +31,11 @@ public class ViewCreator {
         return templateSample.toString();
     }
 
+    public String getProfile(){
+        StringTemplate profileTemplate = group.getInstanceOf("profile");
+        return profileTemplate.toString();
+    }
+
     /**
      * Generates the html needed for the createPiecePage.
      * @return HTML of the page in a string object.

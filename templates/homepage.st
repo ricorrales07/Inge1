@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 
-<!--Probado en:
-      Firefox (no funciona el touch)
-      Chrome
--->
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <html>
 <head>

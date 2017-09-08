@@ -61,4 +61,8 @@ public class AppResourcesPages {
     {
         return viewCreator.getResults(json);
     }
+
+    @GET
+    @Path("profile")
+    public String getProfile() { return viewCreator.getProfile(); }
 }
