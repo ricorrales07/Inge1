@@ -130,9 +130,9 @@
                    </h4>
                </div>
                <div class = "modal-body justify-content-center">
-                <ul>
+                <ul id="LogInOut">
                  <li class="g-signin2" data-onsuccess="onSignIn"> </li>
-                 <li <a href="#" onclick="signOut();">Sign out</a></li>
+                 <li class="googleSignOut" <a href="#" onclick="signOut();"><font color="blue"><u>Sign out</u></font></a></li><br><br>
                  <li class="fb-login-button" data-max-rows="1" data-size="large"
                     data-button-type="continue_with" data-show-faces="true"
                       data-auto-logout-link="true" data-use-continue-as="true"></li>
@@ -424,9 +424,13 @@
         if (response.status === 'connected') {
           document.getElementById("pieceEditorLink").style.visibility = "visible";
           document.getElementById("saveCompositionButton").disabled = false;
+          document.getElementById("LogInOut").children[0].style.display = "none";
+          document.getElementById("LogInOut").children[1].style.display = "none";
         } else {
           document.getElementById("pieceEditorLink").style.visibility = "hidden";
           document.getElementById("saveCompositionButton").disabled = true;
+          document.getElementById("LogInOut").children[0].style.display = "initial";
+          document.getElementById("LogInOut").children[1].style.display = "initial";
         }
       }
 
@@ -434,12 +438,14 @@
     {
         document.getElementById("pieceEditorLink").style.visibility = "visible";
         document.getElementById("saveCompositionButton").disabled = false;
+        document.getElementById("LogInOut").children[4].style.display = "none";
     }
 
     function onSignOutGmail()
     {
         document.getElementById("pieceEditorLink").style.visibility = "hidden";
         document.getElementById("saveCompositionButton").disabled = true;
+        document.getElementById("LogInOut").children[4].style.display = "inline";
     }
 
 </script>
