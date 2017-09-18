@@ -17,27 +17,45 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-8 col-xs-9 bhoechie-tab-container">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">MorphoSpace</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#" data-toggle = "modal" data-target = "#loginModal" data-dismiss="modal">Log in</a></li>
+                        <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2 col-md-2"> <!--No entiendo por qué no me deja poner 3-->
+            <img class="img-responsive" src="assets/images/cabeza5.PNG" class="img-circle" alt="Profile picture">
+        </div>
+
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab-container">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
                 <div class="list-group">
                     <a href="#" class="list-group-item active text-center">
-                        <h4 class="glyphicon glyphicon-plane"></h4><br/>Flight
+                        <h4 class="glyphicon glyphicon-plane"></h4><br/>Pieces
                     </a>
                     <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-road"></h4><br/>Train
+                        <h4 class="glyphicon glyphicon-road"></h4><br/>Compositions
                     </a>
                     <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-home"></h4><br/>Hotel
+                        <h4 class="glyphicon glyphicon-menu-up"></h4><br/>Upvotes
                     </a>
                     <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-cutlery"></h4><br/>Restaurant
-                    </a>
-                    <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-credit-card"></h4><br/>Credit Card
+                        <h4 class="glyphicon glyphicon-menu-down"></h4><br/>Downvotes
                     </a>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 bhoechie-tab">
                 <!-- flight section -->
                 <div class="bhoechie-tab-content active">
                     <center>
@@ -58,23 +76,16 @@
                 <!-- hotel search -->
                 <div class="bhoechie-tab-content">
                     <center>
-                        <h1 class="glyphicon glyphicon-home" style="font-size:12em;color:#55518a"></h1>
+                        <h1 class="glyphicon glyphicon-menu-up" style="font-size:12em;color:#55518a"></h1>
                         <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Hotel Directory</h3>
+                        <h3 style="margin-top: 0;color:#55518a">Upvotes</h3>
                     </center>
                 </div>
                 <div class="bhoechie-tab-content">
                     <center>
-                        <h1 class="glyphicon glyphicon-cutlery" style="font-size:12em;color:#55518a"></h1>
+                        <h1 class="glyphicon glyphicon-menu-down" style="font-size:12em;color:#55518a"></h1>
                         <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Restaurant Diirectory</h3>
-                    </center>
-                </div>
-                <div class="bhoechie-tab-content">
-                    <center>
-                        <h1 class="glyphicon glyphicon-credit-card" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Credit Card</h3>
+                        <h3 style="margin-top: 0;color:#55518a">Downvotes</h3>
                     </center>
                 </div>
             </div>
