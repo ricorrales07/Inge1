@@ -35,7 +35,26 @@
 
     <div class="row">
         <div class="col-lg-2 col-md-2"> <!--No entiendo por qué no me deja poner 3-->
-            <img class="img-responsive" src="assets/images/cabeza5.PNG" class="img-circle" alt="Profile picture">
+            <div class = "row">
+                <img class="img-responsive img-circle" src="assets/images/yo.jpg" alt="Profile picture">
+            </div>
+
+            <div class = "caption">
+                <h3> <font color="white">Ricardo Corrales</font></h3>
+            </div>
+
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Personal Information</div>
+                    <div class="panel-body">
+                        University: UCR<br>
+                        <br>
+                        Telephone: +50686402009<br>
+                        <br>
+                        Email: ricardo.corralesbarquero@ucr.ac.cr
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab-container">
