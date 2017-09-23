@@ -454,3 +454,11 @@ body{
 }
 
 
+#canvasSizeOptions{
+   text-align: center;
+   color: #93928f;
+}
+
+#canvasSizeOptions label{
+	   display: block;
+} 

@@ -10,12 +10,13 @@ createPieceG = {
 	toolSelected: "pencil",
 	stage: new createjs.Stage("leCanvas"),
 	canvasStandardWidth: 1024,
-	canvasStandardHeight: 512,
+	canvasStandardHeight: 1200,
 	draggedBitmapFirstPoint: {x: 0, y: 0},
 	capturedFirstBitmapPoint: false,
 	newImage: null,
 	newImageOriginalWidth: 0,
 	newImageOriginalHeight: 0
+
 }
 
 //BEGIN SETTING UP STUFF AFTER LOADING THE HTML!
@@ -25,17 +26,23 @@ $(window).on("load",function(){
 	heightPer = 600; //Height for the tool's menu.
 
 	//Set up the height for the tools' menu.
-
+	canvasResize(1024, 768);
 
 	//Let's position the editor in the row:
 	$("#editor-container").css("top",20).css("height", 500);
 
-	//Setting up the canvas size.
-	$("#canvasBackGround").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
-	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
 
     initiate();
 });
+
+function canvasResize(width, height){
+
+	createPieceG.canvasStandardWidth = width;
+	createPieceG.canvasStandardHeight = height;
+	//Setting up the canvas size.
+	$("#canvasBackGround").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
+	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
+}
 
 /**
 * This is the click event handler from the "Cancel" button. Redirectos to the main page.
@@ -602,3 +609,37 @@ function returnToUsingPencil(){
 	$("#pointerRadius").removeClass("tool-options-hidden");
 	$("#rotationRadius").addClass("tool-options-hidden");
 }
+
+
+//var canvasSizeButtons =  document.getElementsByClassName("canvasSize");
+$( ".canvasSize" ).click(function(e) {
+
+  console.log(this.id);
+
+  switch(this.id){
+  	case "sSize": 
+  		canvasResize(640, 480);
+  		$( "#editor-container" ).height("480").width("680");	
+  		break;
+  	case "mSize": 
+  		canvasResize(1024, 768);
+  		$( "#editor-container" ).height("480").width("1024");	
+  		break;
+  	case "lSize": 
+  		canvasResize(1600, 1200);
+  		$("#editor-container" ).height("480").width("1024");		
+  		break;
+
+  }
+
+});
+
+/*$( "#editor-container" ).resizable({
+  resize: function( event, ui ) {
+  	console
+    ui.size.height = 2;
+  }
+});*/
+
+
+//$( "#editor-container" ).resizable({ ghost: true }); //Make things resizable.

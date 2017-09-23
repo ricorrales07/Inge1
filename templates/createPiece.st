@@ -191,6 +191,23 @@
 						</div>
 
 					</div>
+					
+					<div class="col-md-2" id="canvasSizeOptions">
+						<label>Canvas Size</label>
+						<div title="Small" class="nav-tool-button tool nav-button canvasSize" id="sSize" >
+							S
+						</div>
+
+						<div title="Medium" class="nav-tool-button tool  nav-button canvasSize" id="mSize" >
+							M
+						</div>
+
+						<div title="Large" class="nav-tool-button tool nav-button canvasSize" id="lSize" >
+							L
+						</div>
+
+					</div>
+
 					<div class="col-md-4">
 						<div class="row tool-options  " id="pointerRadius">
 							<p class="col-md-4" >Thickness</p>
@@ -220,7 +237,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-2">
 						<div id="changeView">
 								<label>View: </label>
 								<select class="viewInfo" onchange="updateView(this)">
