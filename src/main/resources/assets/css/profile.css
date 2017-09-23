@@ -24,6 +24,8 @@ div.bhoechie-tab-container{
   background-clip: padding-box;
   opacity: 0.97;
   filter: alpha(opacity=97);
+  display: block;
+  overflow: hidden;
 }
 div.bhoechie-tab-menu{
   padding-right: 0;
@@ -76,4 +78,13 @@ div.bhoechie-tab-content{
 
 div.bhoechie-tab div.bhoechie-tab-content:not(.active){
   display: none;
+}
+
+.item {
+    width: 200px;
+    float: left;
+}
+.item img {
+    display: block;
+    width: 100%;
 }
