@@ -850,19 +850,41 @@ function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token; // The ID token you need to pass to your backend:
   //console.log("ID Token: " + id_token);
   onSignInGmail();
-  //Pruebas para enviar idtoken
-  /*
+
+
+
   var xhr = new XMLHttpRequest();
   //xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
   xhr.open('POST', '/methods/sendToken');
-  //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.setRequestHeader('text/plain', 'application/x-www-form-urlencoded');
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  //xhr.setRequestHeader('Content-Type', 'multipart/form-data');
   xhr.onload = function() {
     console.log('Signed in as: ' + xhr.responseText);
   };
   xhr.send('idtoken=' + id_token);
+
+
+
+
+  /*
+  var xhr = new XMLHttpRequest();
+  //xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
+  xhr.open('POST', '/methods/sendToken', true);
+  xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+  xhr.onreadystatechange = function() {//Call a function when the state changes.
+      if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+          // Request finished. Do processing here.
+          console.log('Signed in as: ' + xhr.responseText);
+      }
+  }
+  xhr.send('idtoken=' + id_token);
+
   */
 }
+
+
+
+
 //Otro pedazo de codigo con el que estaba probando
 /*
 var auth2;
