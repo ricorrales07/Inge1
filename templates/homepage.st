@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
     <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="assets/css/homepage.css">
-    <link rel="import" href="loginModal.st">
     <title>MorphoSpace</title>
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
     <meta name="google-signin-client_id" content="709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com">

@@ -83,10 +83,11 @@ $loginModal$
                 <!-- flight section -->
                 <div class="bhoechie-tab-content active" style="height:100%; max-height:100%">
                     <center style="height:100%; max-height:100%">
-                        <div id="images" style="overflow-y:scroll; max-height:100%; height:100%">
-                            <div class="item">
+                        <div class="images" style="overflow-y:scroll; max-height:100%; height:100%">
+                            $pieces$
+                            <!--div class="item">
                                 <img src="http://lorempixel.com/425/299/nature">
-                            </div>
+                            </div-->
                         </div>
                     </center>
                 </div>
@@ -103,14 +104,14 @@ $loginModal$
                 <div class="bhoechie-tab-content">
                     <center>
                         <h1 class="glyphicon glyphicon-menu-up" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
+                        <h2 style="margin-top: 0;color:#55518a">Coming Soon</h2>
                         <h3 style="margin-top: 0;color:#55518a">Upvotes</h3>
                     </center>
                 </div>
                 <div class="bhoechie-tab-content">
                     <center>
                         <h1 class="glyphicon glyphicon-menu-down" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
+                        <h2 style="margin-top: 0;color:#55518a">Coming Soon</h2>
                         <h3 style="margin-top: 0;color:#55518a">Downvotes</h3>
                     </center>
                 </div>

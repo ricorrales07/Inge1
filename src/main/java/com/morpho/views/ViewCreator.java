@@ -34,6 +34,9 @@ public class ViewCreator {
     public String getProfile(){
         StringTemplate profileTemplate = group.getInstanceOf("profile");
         profileTemplate.setAttribute("loginModal", group.getInstanceOf("loginModal"));
+
+
+
         return profileTemplate.toString();
     }
 
@@ -74,7 +77,7 @@ public class ViewCreator {
 
     public String getResults(String json)
     {
-        StringTemplate templateResults = group.getInstanceOf("results4" );
+        StringTemplate templateResults = group.getInstanceOf("results4");
         List<Document> results = MorphoApplication.searcher.performSearch(json);
 
         if (results.size() == 0)

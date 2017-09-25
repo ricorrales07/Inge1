@@ -17,7 +17,7 @@ $(function () {
     });
 
     // reveal initial images
-    $container.masonryImagesReveal($('#images').find('.item'));
+    $container.masonryImagesReveal($('.images').find('.item'));
 });
 
 $.fn.masonryImagesReveal = function ($items) {
