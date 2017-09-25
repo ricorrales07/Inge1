@@ -182,7 +182,7 @@ public class AppResourcesMethods {
 
     /*
     @POST
-    @Path("/sendFbToken")
+    @Path("/sendGmailToken")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendFbToken(String receivedAuth) throws GeneralSecurityException, IOException {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jacksonFactory)

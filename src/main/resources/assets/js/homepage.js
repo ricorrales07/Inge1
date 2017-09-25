@@ -851,8 +851,23 @@ function onSignIn(googleUser) {
   //console.log("ID Token: " + id_token);
   onSignInGmail();
 
+  		$.ajax({
+  			url: "/methods/sendToken",
+  			type: 'POST',
+  			data: JSON.stringify({
+  			    idToken: id_token
+  			}),
+  			contentType: "text/plain",
+  			success:function(data, textStatus, jqXHR){
+  				console.log("token sent")},
+  			error:function(jqXHR, textStatus, errorThrown ){
+  				console.log(errorThrown);
+  			}
+  		});
+  		Cookies.set("idToken", id_token);
+  	}
 
-
+/*
   var xhr = new XMLHttpRequest();
   //xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
   xhr.open('POST', '/methods/sendToken');
@@ -862,55 +877,6 @@ function onSignIn(googleUser) {
     console.log('Signed in as: ' + xhr.responseText);
   };
   xhr.send('idtoken=' + id_token);
-
-
-
-
-  /*
-  var xhr = new XMLHttpRequest();
-  //xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
-  xhr.open('POST', '/methods/sendToken', true);
-  xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-  xhr.onreadystatechange = function() {//Call a function when the state changes.
-      if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-          // Request finished. Do processing here.
-          console.log('Signed in as: ' + xhr.responseText);
-      }
-  }
-  xhr.send('idtoken=' + id_token);
-
-  */
-}
-
-
-
-
-//Otro pedazo de codigo con el que estaba probando
-/*
-var auth2;
-
-var initClient = function() {
-    gapi.load('auth2', function(){
-
-         //Retrieve the singleton for the GoogleAuth library and set up the client.
-
-        auth2 = gapi.auth2.init({
-            client_id: '709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com'
-        });
-
-        // Attach the click handler to the sign-in button
-        auth2.attachClickHandler('signin-button', {}, onSuccess, onFailure);
-    });
-};
-
-var onSuccess = function(user) {
-    console.log('Signed in as ' + user.getBasicProfile().getName());
- };
-
-
-var onFailure = function(error) {
-    console.log(error);
-};
 */
 
 function signOut() {
