@@ -61,10 +61,10 @@
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
                 <div class="list-group">
                     <a href="#" class="list-group-item active text-center">
-                        <h4 class="glyphicon glyphicon-plane"></h4><br/>Pieces
+                        <h4 class="fa fa-puzzle-piece fa-2x"></h4><br/>Pieces
                     </a>
                     <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-road"></h4><br/>Compositions
+                        <h4 class="fa fa-image fa-2x"></h4><br/>Compositions
                     </a>
                     <a href="#" class="list-group-item text-center">
                         <h4 class="glyphicon glyphicon-menu-up"></h4><br/>Upvotes
