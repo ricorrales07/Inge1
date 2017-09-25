@@ -45,13 +45,13 @@
 
             <div class="row">
                 <div class="panel panel-default" style="word-wrap:break-word">
-                    <div class="panel-heading">Personal Information</div>
+                    <div class="panel-heading">Personal Information <div id="editInfoButton" class="btn btn-xs btn-primary" style="float: right;"><i id="drawing" class="fa fa-pencil" aria-hidden="true"></i></div></div>
                     <div class="panel-body">
-                        University: UCR<br>
+                        University: <span id="university" contenteditable="false">UCR</span><br>
                         <br>
-                        Telephone: +50686402009<br>
+                        Telephone: <span id="phone">+50686402009</span><br>
                         <br>
-                        Email: ricardo.corralesbarquero@ucr.ac.cr
+                        Email: <span id="email">ricardo.corralesbarquero@ucr.ac.cr</span>
                     </div>
                 </div>
             </div>
