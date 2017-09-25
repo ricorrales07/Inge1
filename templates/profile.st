@@ -15,6 +15,8 @@
 <body onload="init();">
 <div id="fb-root"></div>
 
+$loginModal$
+
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -25,8 +27,11 @@
                     </div>
                     <ul class="nav navbar-nav">
                         <li><a href="/">Home</a></li>
-                        <li><a href="#" data-toggle = "modal" data-target = "#loginModal" data-dismiss="modal">Log in</a></li>
                         <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="/profile"><span class="glyphicon glyphicon-user"></span> My profile</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                     </ul>
                 </div>
             </nav>
@@ -81,39 +86,6 @@
                         <div id="images" style="overflow-y:scroll; max-height:100%; height:100%">
                             <div class="item">
                                 <img src="http://lorempixel.com/425/299/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/190/292/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/520/329/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/404/176/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/530/290/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/228/200/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/207/316/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/435/162/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/376/175/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/508/338/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/404/389/nature">
-                            </div>
-                            <div class="item">
-                                <img src="http://lorempixel.com/216/304/nature">
                             </div>
                         </div>
                     </center>

@@ -33,6 +33,7 @@ public class ViewCreator {
 
     public String getProfile(){
         StringTemplate profileTemplate = group.getInstanceOf("profile");
+        profileTemplate.setAttribute("loginModal", group.getInstanceOf("loginModal"));
         return profileTemplate.toString();
     }
 
@@ -67,6 +68,7 @@ public class ViewCreator {
     public String getHomepage()
     {
         StringTemplate templateHomepage = group.getInstanceOf("homepage" );
+        templateHomepage.setAttribute("loginModal",group.getInstanceOf("loginModal"));
         return templateHomepage.toString();
     }
 
