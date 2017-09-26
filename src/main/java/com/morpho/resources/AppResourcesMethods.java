@@ -260,7 +260,7 @@ public class AppResourcesMethods {
                     if(queryType == "insert")
                         MorphoApplication.DBA.set(collection, content);
                     else if(queryType == "update")
-                        MorphoApplication.DBA.update(collection, filter, content);
+                        MorphoApplication.DBA.replace(collection, filter, content);
                     else if(queryType == "delete")
                         MorphoApplication.DBA.delete(collection, content);
                     else {
@@ -291,7 +291,22 @@ public class AppResourcesMethods {
             String accessToken = (String) authJSON.get("accessToken");
             if(MorphoApplication.Auth.verifyUser(userID, accessToken)) {
                 try {
+                    String response = MorphoApplication.Auth.getResponseFromURL("https://graph.facebook.com/"
+                            + userID + "?access_token=" + accessToken
+                            + "&fields=email");
+                    String email="";
+                    try {
+                        JSONObject dataJSON = (JSONObject) new JSONParser().parse(response);
+                        email = (String) dataJSON.get("email");
+                    } catch(ParseException e) {
+                        MorphoApplication.logger.warning(e.toString());
+                    }
+
                     MorphoApplication.DBA.set("users", new Authentication(userID, accessToken).toString());
+
+                    MorphoApplication.DBA.update("users", "{_id: \"" + userID
+                            + "\"}", "{$set: {email: \"" + email + "\"}}");
+
                     builder = Response.ok("Valid token sent");
                     builder.status(200);
                 } catch(Exception e) {

@@ -39,7 +39,8 @@ public class ViewCreator {
         profileTemplate.setAttribute("loginModal", group.getInstanceOf("loginModal"));
 
         String response = MorphoApplication.Auth.getResponseFromURL("https://graph.facebook.com/"
-                + userId + "?access_token=" + accessToken + "&fields=name,picture.height(200)");
+                + userId + "?access_token=" + accessToken
+                + "&fields=name,picture.height(200)");
 
         MorphoApplication.logger.info("JSON gotten when opening profile: " + response);
 
@@ -52,8 +53,23 @@ public class ViewCreator {
             MorphoApplication.logger.warning(e.toString());
         }
 
+        String userInfo = "", email="", institution="", phone="";
+        try {
+            userInfo = MorphoApplication.DBA.find("users", "{_id: \"" + userId + "\"}");
+            JSONObject dataJSON = (JSONObject) new JSONParser().parse(userInfo);
+            institution = (String) dataJSON.get("institution");
+            phone = (String) dataJSON.get("phone");
+            email = (String) dataJSON.get("email");
+        } catch (Exception e) {
+            MorphoApplication.logger.warning(e.toString());
+            institution = phone = email = "ERROR";
+        }
+
         profileTemplate.setAttribute("picture", "\"" + picture + "\"");
         profileTemplate.setAttribute("name", name);
+        profileTemplate.setAttribute("institution", institution);
+        profileTemplate.setAttribute("phone", phone);
+        profileTemplate.setAttribute("email", email);
 
         return profileTemplate.toString();
     }

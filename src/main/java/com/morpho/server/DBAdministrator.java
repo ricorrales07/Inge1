@@ -59,8 +59,12 @@ public class DBAdministrator implements Managed {
      * @param filter string in serialized JSON
      * @param update string in serialized JSON
      */
-    public void update(String collection, String filter, String update) throws Exception {
+    public void replace(String collection, String filter, String update) throws Exception {
         db.getCollection(collection).replaceOne((Bson) JSON.parse(filter), Document.parse(update));
+    }
+
+    public void update(String collection, String filter, String update) throws Exception {
+        db.getCollection(collection).updateOne((Bson) JSON.parse(filter), Document.parse(update));
     }
 
     /**

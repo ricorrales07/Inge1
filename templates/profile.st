@@ -52,17 +52,17 @@ $loginModal$
                 <div class="panel panel-default" style="word-wrap:break-word">
                     <div class="panel-heading">Personal Information <div id="editInfoButton" class="btn btn-xs btn-primary" style="float: right;"><i id="drawing" class="fa fa-pencil" aria-hidden="true"></i></div></div>
                     <div class="panel-body">
-                        University: <span id="university" contenteditable="false">UCR</span><br>
+                        Institution: <span id="university" contenteditable="false">$institution$</span><br>
                         <br>
-                        Telephone: <span id="phone">+50686402009</span><br>
+                        Telephone: <span id="phone">$phone$</span><br>
                         <br>
-                        Email: <span id="email">ricardo.corralesbarquero@ucr.ac.cr</span>
+                        Email: <span id="email">$email$</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab-container" id="col2" style="height:80%;">
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab-container" id="col2" style="height:90%;">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
                 <div class="list-group">
                     <a href="#" class="list-group-item active text-center">
