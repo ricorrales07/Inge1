@@ -599,14 +599,15 @@ function saveCompositionData(){
 
     text = [];
     $("#attribute-card-list input").each(function() {
-        if($(this).type=="checkbox"){
-            text.push($(this).checked);
-        }else{
+        if(($(this).type!="checkbox")){
             if($(this).val() != "") {
                 text.push($(this).val());
             }
         }
     });
+
+    text.push("Public");
+    text.push(document.getElementById("publicAttr").checked);
 
     var attributes = "{\n";
     for(i = 0; i < text.length; i = i+2){

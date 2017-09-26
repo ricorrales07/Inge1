@@ -359,9 +359,9 @@
 
 								<div class="row">
 									<div class=" col-md-8 ">
-										<input type = "checkbox" style="display:none" value="Public"/>
+										<input type = "checkboxTitle" style="display:none" value="Public"/>
 										<label >Value: </label>
-										<input type="checkbox" class="att-input attribute-value" unchecked/>
+										<input id="publicAttr" type="checkbox" class="att-input attribute-value" unchecked/>
 									</div>
 								</div>
 							</div>
