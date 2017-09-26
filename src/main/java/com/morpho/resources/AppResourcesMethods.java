@@ -175,9 +175,7 @@ public class AppResourcesMethods {
     @Path("/sendToken")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendToken(String receivedAuth) {
-        ResponseBuilder b = Response.ok();
-        b.status(200);
-        return b.build();
+        return authorize(receivedAuth).build();
     }
 
     /*
