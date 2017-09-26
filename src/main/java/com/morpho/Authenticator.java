@@ -29,7 +29,7 @@ public class Authenticator {
 
     public Authenticator() {};
 
-    private String getResponseFromURL(String url) {
+    public String getResponseFromURL(String url) {
         HttpsURLConnection c = null;
         try {
             URL u = new URL(url);

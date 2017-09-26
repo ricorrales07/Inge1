@@ -41,11 +41,11 @@ $loginModal$
     <div class="row" style="max-height:80vh; overflow:hidden; height: 5000px;">
         <div class="col-lg-2 col-md-2" id="col1"> <!--No entiendo por qué no me deja poner 3-->
             <div class = "row">
-                <img class="img-responsive img-circle" src="assets/images/yo.jpg" alt="Profile picture">
+                <img class="img-responsive img-circle" src=$picture$ alt="Profile picture">
             </div>
 
             <div class = "caption">
-                <h3> <font color="white">Ricardo Corrales</font></h3>
+                <h3> <font color="white">$name$</font></h3>
             </div>
 
             <div class="row">

@@ -5,6 +5,9 @@ import java.util.*;
 import com.morpho.MorphoApplication;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import sun.awt.ModalExclude;
 
 import org.bson.Document;
@@ -31,11 +34,26 @@ public class ViewCreator {
         return templateSample.toString();
     }
 
-    public String getProfile(){
+    public String getProfile(String accessToken, String userId){
         StringTemplate profileTemplate = group.getInstanceOf("profile");
         profileTemplate.setAttribute("loginModal", group.getInstanceOf("loginModal"));
 
+        String response = MorphoApplication.Auth.getResponseFromURL("https://graph.facebook.com/"
+                + userId + "?access_token=" + accessToken + "&fields=name,picture.height(200)");
 
+        MorphoApplication.logger.info("JSON gotten when opening profile: " + response);
+
+        String name = "Name error", picture = "";
+        try {
+            JSONObject dataJSON = (JSONObject) new JSONParser().parse(response);
+            name = (String) dataJSON.get("name");
+            picture = (String) ((JSONObject) ((JSONObject) dataJSON.get("picture")).get("data")).get("url");
+        } catch(ParseException e) {
+            MorphoApplication.logger.warning(e.toString());
+        }
+
+        profileTemplate.setAttribute("picture", "\"" + picture + "\"");
+        profileTemplate.setAttribute("name", name);
 
         return profileTemplate.toString();
     }
