@@ -288,7 +288,7 @@
             </div>
             <div id="attribute-card-list" class=" row">
               <!-- Non optional  Cards -->
-              <div class="attribute-card col-md-offset-1 col-md-10">
+              <!--div class="attribute-card col-md-offset-1 col-md-10">
                 <div class="row">
                   <div class="col-md-offset-2 col-md-8">
                     <label >Author: </label>
@@ -305,7 +305,7 @@
                     <input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
                   </div>
                 </div>
-              </div>
+              </div-->
 
               <div class="attribute-card col-md-offset-1 col-md-10">
                 <div class="row">

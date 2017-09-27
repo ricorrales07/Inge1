@@ -609,6 +609,11 @@ function saveCompositionData(){
     text.push("Public");
     text.push(document.getElementById("publicAttr").checked);
 
+    text.push("ownerId");
+    text.push(Cookies.get("userID"));
+
+    console.log(text);
+
     var attributes = "{\n";
     for(i = 0; i < text.length; i = i+2){
         attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\"";

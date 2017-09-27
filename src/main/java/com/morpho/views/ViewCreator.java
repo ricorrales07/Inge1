@@ -92,14 +92,14 @@ public class ViewCreator {
         try {
             MorphoApplication.logger.info("Searching for compositions of user with id: "
                     + userId);
-            pieceList = MorphoApplication.DBA.search("composition",
-                    "{ownerId: \"" + userId + "\"}");
+            compositionList = MorphoApplication.DBA.search("composition",
+                    "{\"attributes.ownerId\": \"" + userId + "\"}");
             for(Document composition : compositionList)
             {
                 MorphoApplication.logger.info("Adding composition: "
-                        + composition.getString("SourceFront"));
-                pieces += "<div class=\"item\">\n" +
-                        "<img src=\"" + composition.getString("SourceFront") + "\">\n" +
+                        + composition.getString("imgSource"));
+                compositions += "<div class=\"item\">\n" +
+                        "<img src=\"" + composition.getString("imgSource") + "\">\n" +
                         "</div>";
             }
         } catch (Exception e)
