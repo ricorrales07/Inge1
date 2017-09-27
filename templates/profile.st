@@ -80,7 +80,7 @@ $loginModal$
                 </div>
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 bhoechie-tab" style="height:100%; max-height:100%">
-                <!-- flight section -->
+                <!-- piece section -->
                 <div class="bhoechie-tab-content active" style="height:100%; max-height:100%">
                     <center style="height:100%; max-height:100%">
                         <div class="images" style="overflow-y:scroll; max-height:100%; height:100%">
@@ -91,16 +91,19 @@ $loginModal$
                         </div>
                     </center>
                 </div>
-                <!-- train section -->
-                <div class="bhoechie-tab-content">
-                    <center>
-                        <h1 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Train Reservation</h3>
+                <!-- composition section -->
+                <div class="bhoechie-tab-content" style="height:100%; max-height:100%">
+                    <center style="height:100%; max-height:100%">
+                        <div class="images" style="overflow-y:scroll; max-height:100%; height:100%">
+                            $compositions$
+                            <!--div class="item">
+                                <img src="http://lorempixel.com/425/299/nature">
+                            </div-->
+                        </div>
                     </center>
                 </div>
 
-                <!-- hotel search -->
+                <!-- upvote section -->
                 <div class="bhoechie-tab-content">
                     <center>
                         <h1 class="glyphicon glyphicon-menu-up" style="font-size:12em;color:#55518a"></h1>
