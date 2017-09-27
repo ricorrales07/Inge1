@@ -34,20 +34,6 @@ function addProperty(){
 	
 }
 
-function generateTypeIndex(value){
-    if (value == "Head"){
-        return 0;
-    }else if (value == "Thorax"){
-        return 1;
-    }else if (value == "Leg"){
-        return 2;
-    }else if (value == "Antenna"){
-        return 3;
-    }else if (value == "Wing"){
-        return 4;
-    }
-}
-
 function saveAttributes(){
     var required = [];
     var optional = [];
@@ -60,18 +46,16 @@ function saveAttributes(){
         required.push($(this).val())
     })
 
+    var a = document.querySelector('[class = "typeAttr"]');
+
     required.push(document.querySelector('[type = "typeData"]').value);
-    required.push(generateTypeIndex(document.querySelector('[class = "typeAttr"]').value));
+    required.push(document.querySelector('[class = "typeAttr"]').selectedIndex);
 
     $("#attribute-card-list input[type = optional]").each(function() {
         if($(this).val() != "") {
             optional.push($(this).val())
         }
     })
-
-    /*$("#attribute-card-list input[type = checkbox]").each(function() {
-        required.push($(this).check)
-    })*/
 
     required.push("Public");
     required.push(document.getElementById("publicAttr").checked);

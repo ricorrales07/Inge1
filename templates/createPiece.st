@@ -345,7 +345,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="required" class="att-input form-control attribute-value" placeholder="Property value"/>
+										<input id="scientificNameVal" type="required" class="att-input form-control attribute-value" placeholder="Property value"/>
 									</div>
 								</div>
 							</div>
@@ -380,7 +380,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="optional" class="att-input form-control attribute-name"
+										<input name="opProperty" type="optional" class="att-input form-control attribute-name"
 											placeholder="Property name"/>
 									</div>
 								</div>
@@ -391,7 +391,7 @@
 									</div>
 									<div class="card-input right-icon col-md-8 nopadding">
 										<i class="fa fa-pencil"></i>
-										<input type="optional" class="att-input form-control attribute-value" placeholder="Property value"/>
+										<input name="opValue" type="optional" class="att-input form-control attribute-value" placeholder="Property value"/>
 									</div>
 								</div>
 							</div>
