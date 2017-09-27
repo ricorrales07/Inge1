@@ -5,11 +5,14 @@
 <head>
     <link href="assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
-          <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="assets/css/homepage.css">
     <title>MorphoSpace</title>
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
     <meta name="google-signin-client_id" content="709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com">
+    <style>
+    .googleSignOut{display:none;}
+    </style>
 </head>
 <body onload="init();">
     <div id="fb-root"></div>
@@ -53,6 +56,8 @@
                       </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
            </div><!-- /.modal -->
+
+            $loginModal$
 
    <!-- Menu to load an image on the canvas from the server (owned images from each user)-->
           <div class = "modal fade" id = "openOwned" tabindex = "-1" role = "dialog"
@@ -108,35 +113,6 @@
                <div class = "modal-body">
                    Here are your search results:
                    <div id="resultImages"></div>
-               </div>
-               <div class = "modal-footer">
-                   <button type = "button" class = "btn btn-default" data-dismiss = "modal">
-                       Close
-                   </button>
-               </div>
-           </div><!-- /.modal-content -->
-       </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-   <div class = "modal fade" id = "loginModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
-       <div class = "modal-dialog">
-           <div class = "modal-content">
-               <div class = "modal-header">
-                   <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
-                       &times;
-                   </button>
-                   <h4 class = "modal-title" id = "myModalLabel">
-                       Log in
-                   </h4>
-               </div>
-               <div class = "modal-body justify-content-center">
-                <ul id="LogInOut">
-                 <li class="g-signin2" data-onsuccess="onSignIn"> </li>
-                 <li class="googleSignOut" <a href="#" onclick="signOut();"><font color="blue"><u>Sign out</u></font></a></li><br><br>
-                 <li class="fb-login-button" data-max-rows="1" data-size="large"
-                    data-button-type="continue_with" data-show-faces="true"
-                      data-auto-logout-link="true" data-use-continue-as="true"></li>
-                </ul>
                </div>
                <div class = "modal-footer">
                    <button type = "button" class = "btn btn-default" data-dismiss = "modal">
@@ -256,8 +232,11 @@
                   </div>
                   <ul class="nav navbar-nav">
                       <li class="active"><a href="#">Home</a></li>
-                      <li><a href="#" data-toggle = "modal" data-target = "#loginModal" data-dismiss="modal">Log in</a></li>
                       <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a id="profileLink" href="#"><span class="glyphicon glyphicon-user"></span> My profile</a></li>
+                      <li><a href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                   </ul>
                   </div>
           </nav>
@@ -356,9 +335,9 @@
 
                 <div class="row">
                   <div class="col-md-8 ">
-                    <input style="display:none" value="Public"/>
+                    <input type="checkbox" style="display:none" value="Public"/>
                     <label >Value: </label>
-                    <input type="checkbox" class="att-input attribute-value" unchecked/>
+                    <input id="publicAttr" type="checkbox" class="att-input attribute-value" unchecked/>
                   </div>
                 </div>
               </div>
@@ -438,6 +417,7 @@
     {
         document.getElementById("pieceEditorLink").style.visibility = "visible";
         document.getElementById("saveCompositionButton").disabled = false;
+        document.getElementById("LogInOut").children[1].style.display = "inline";
         document.getElementById("LogInOut").children[4].style.display = "none";
     }
 
@@ -445,6 +425,7 @@
     {
         document.getElementById("pieceEditorLink").style.visibility = "hidden";
         document.getElementById("saveCompositionButton").disabled = true;
+        document.getElementById("LogInOut").children[1].style.display = "none";
         document.getElementById("LogInOut").children[4].style.display = "inline";
     }
 

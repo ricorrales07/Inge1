@@ -1,5 +1,6 @@
 package com.morpho.resources;
 
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.mongodb.client.FindIterable;
 import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
@@ -22,7 +23,12 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 
 import java.net.URLDecoder;
+import java.security.GeneralSecurityException;
 import java.util.*;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 
 /**
  * Created by irvin on 29/4/2017.
@@ -34,6 +40,9 @@ public class AppResourcesMethods {
     ViewCreator viewCreator;
     int pieceCounter = 0;
     int compositionCounter = 0;
+
+
+    private static final JacksonFactory jacksonFactory = new JacksonFactory();
 
     public AppResourcesMethods(){
         viewCreator = new ViewCreator();
@@ -166,10 +175,48 @@ public class AppResourcesMethods {
     @Path("/sendToken")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendToken(String receivedAuth) {
-        ResponseBuilder b = Response.ok();
-        b.status(200);
-        return b.build();
+        return authorize(receivedAuth).build();
     }
+
+    /*
+    @POST
+    @Path("/sendGmailToken")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response sendFbToken(String receivedAuth) throws GeneralSecurityException, IOException {
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jacksonFactory)
+                .setAudience(Collections.singletonList(CLIENT_ID))
+                // Or, if multiple clients access the backend:
+                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+                .build();
+
+// (Receive idTokenString by HTTPS POST)
+
+        GoogleIdToken idToken = verifier.verify(receivedAuth);
+        if (idToken != null) {
+            Payload payload = idToken.getPayload();
+
+            // Print user identifier
+            String userId = payload.getSubject();
+            System.out.println("User ID: " + userId);
+
+            // Get profile information from payload
+            String email = payload.getEmail();
+            boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+            String name = (String) payload.get("name");
+            String pictureUrl = (String) payload.get("picture");
+            String locale = (String) payload.get("locale");
+            String familyName = (String) payload.get("family_name");
+            String givenName = (String) payload.get("given_name");
+
+            // Use or store profile information
+            // ...
+
+        } else {
+            System.out.println("Invalid ID token.");
+        }
+    }
+
+    */
 
     @POST
     @Path("/getCompositionPieces")
@@ -213,7 +260,7 @@ public class AppResourcesMethods {
                     if(queryType == "insert")
                         MorphoApplication.DBA.set(collection, content);
                     else if(queryType == "update")
-                        MorphoApplication.DBA.update(collection, filter, content);
+                        MorphoApplication.DBA.replace(collection, filter, content);
                     else if(queryType == "delete")
                         MorphoApplication.DBA.delete(collection, content);
                     else {
@@ -244,7 +291,22 @@ public class AppResourcesMethods {
             String accessToken = (String) authJSON.get("accessToken");
             if(MorphoApplication.Auth.verifyUser(userID, accessToken)) {
                 try {
+                    String response = MorphoApplication.Auth.getResponseFromURL("https://graph.facebook.com/"
+                            + userID + "?access_token=" + accessToken
+                            + "&fields=email");
+                    String email="";
+                    try {
+                        JSONObject dataJSON = (JSONObject) new JSONParser().parse(response);
+                        email = (String) dataJSON.get("email");
+                    } catch(ParseException e) {
+                        MorphoApplication.logger.warning(e.toString());
+                    }
+
                     MorphoApplication.DBA.set("users", new Authentication(userID, accessToken).toString());
+
+                    MorphoApplication.DBA.update("users", "{_id: \"" + userID
+                            + "\"}", "{$set: {email: \"" + email + "\"}}");
+
                     builder = Response.ok("Valid token sent");
                     builder.status(200);
                 } catch(Exception e) {

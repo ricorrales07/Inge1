@@ -37,13 +37,18 @@ var auth_status_change_callback = function(response) {
 			}),
 			contentType: "text/plain",
 			success:function(data, textStatus, jqXHR){
-				console.log("token sent")},
+				console.log("token sent")
+			},
 			error:function(jqXHR, textStatus, errorThrown ){
 				console.log(errorThrown);
 			}
 		});
 		Cookies.set("userID", response.authResponse.userID);
 		Cookies.set("accessToken", response.authResponse.accessToken);
+
+		$("#profileLink").attr('href', "/profile?access_token="
+		+ response.authResponse.accessToken + "&userId="
+		+ response.authResponse.userID);
 	}
 	else {
 		console.log("disconnected")
@@ -59,5 +64,3 @@ var logout_event = function(response)
     console.log("logout_event");
     console.log(response.status);
 }
-
-//PRUEBAAAAA

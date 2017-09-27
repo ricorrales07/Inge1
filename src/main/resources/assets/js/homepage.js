@@ -599,14 +599,15 @@ function saveCompositionData(){
 
     text = [];
     $("#attribute-card-list input").each(function() {
-        if($(this).type=="checkbox"){
-            text.push($(this).checked);
-        }else{
+        if(($(this).type!="checkbox")){
             if($(this).val() != "") {
                 text.push($(this).val());
             }
         }
     });
+
+    text.push("Public");
+    text.push(document.getElementById("publicAttr").checked);
 
     var attributes = "{\n";
     for(i = 0; i < text.length; i = i+2){
@@ -850,45 +851,33 @@ function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token; // The ID token you need to pass to your backend:
   //console.log("ID Token: " + id_token);
   onSignInGmail();
-  //Pruebas para enviar idtoken
-  /*
+
+  		$.ajax({
+  			url: "/methods/sendToken",
+  			type: 'POST',
+  			data: JSON.stringify({
+  			    idToken: id_token
+  			}),
+  			contentType: "text/plain",
+  			success:function(data, textStatus, jqXHR){
+  				console.log("token sent")},
+  			error:function(jqXHR, textStatus, errorThrown ){
+  				console.log(errorThrown);
+  			}
+  		});
+  		Cookies.set("idToken", id_token);
+  	}
+
+/*
   var xhr = new XMLHttpRequest();
   //xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
   xhr.open('POST', '/methods/sendToken');
-  //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.setRequestHeader('text/plain', 'application/x-www-form-urlencoded');
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  //xhr.setRequestHeader('Content-Type', 'multipart/form-data');
   xhr.onload = function() {
     console.log('Signed in as: ' + xhr.responseText);
   };
   xhr.send('idtoken=' + id_token);
-  */
-}
-//Otro pedazo de codigo con el que estaba probando
-/*
-var auth2;
-
-var initClient = function() {
-    gapi.load('auth2', function(){
-
-         //Retrieve the singleton for the GoogleAuth library and set up the client.
-
-        auth2 = gapi.auth2.init({
-            client_id: '709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com'
-        });
-
-        // Attach the click handler to the sign-in button
-        auth2.attachClickHandler('signin-button', {}, onSuccess, onFailure);
-    });
-};
-
-var onSuccess = function(user) {
-    console.log('Signed in as ' + user.getBasicProfile().getName());
- };
-
-
-var onFailure = function(error) {
-    console.log(error);
-};
 */
 
 function signOut() {

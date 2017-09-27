@@ -17,7 +17,7 @@ $(function () {
     });
 
     // reveal initial images
-    $container.masonryImagesReveal($('#images').find('.item'));
+    $container.masonryImagesReveal($('.images').find('.item'));
 });
 
 $.fn.masonryImagesReveal = function ($items) {
@@ -49,3 +49,32 @@ $.fn.masonryImagesReveal = function ($items) {
         document.getElementById('col2').style.height=left;
     }
 }*/
+
+$("#editInfoButton").bind('click',
+    function(){
+        if($("#university").attr('contenteditable') == "false")
+        {
+            $("#editInfoButton").addClass('active');
+            $("#drawing").removeClass('fa-pencil');
+            $("#drawing").addClass('fa-check');
+            $("#university").attr('contenteditable', "true");
+            $("#university").css('background-color', "aquamarine");
+            $("#phone").attr('contenteditable', "true");
+            $("#phone").css('background-color', "aquamarine");
+            $("#email").attr('contenteditable', "true");
+            $("#email").css('background-color', "aquamarine");
+        }
+        else
+        {
+            $("#editInfoButton").removeClass('active');
+            $("#drawing").removeClass('fa-check');
+            $("#drawing").addClass('fa-pencil');
+            $("#university").attr('contenteditable', "false");
+            $("#university").css('background-color', "white");
+            $("#phone").attr('contenteditable', "false");
+            $("#phone").css('background-color', "white");
+            $("#email").attr('contenteditable', "false");
+            $("#email").css('background-color', "white");
+        }
+    }
+);

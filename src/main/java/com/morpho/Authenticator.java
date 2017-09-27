@@ -5,6 +5,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.validation.constraints.Null;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,7 +30,7 @@ public class Authenticator {
 
     public Authenticator() {};
 
-    private String getResponseFromURL(String url) {
+    public String getResponseFromURL(String url) {
         HttpsURLConnection c = null;
         try {
             URL u = new URL(url);
@@ -80,6 +81,9 @@ public class Authenticator {
             return (String) appTokenJSON.get("access_token");
         } catch(ParseException e) {
             MorphoApplication.logger.warning(e.toString());
+        } catch(NullPointerException e) {
+            MorphoApplication.logger.warning(e.toString());
+            MorphoApplication.logger.info("Recieved app token: " + receivedAppToken);
         }
         return null;
     }

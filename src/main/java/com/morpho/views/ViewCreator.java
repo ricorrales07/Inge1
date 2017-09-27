@@ -5,6 +5,9 @@ import java.util.*;
 import com.morpho.MorphoApplication;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import sun.awt.ModalExclude;
 
 import org.bson.Document;
@@ -31,8 +34,43 @@ public class ViewCreator {
         return templateSample.toString();
     }
 
-    public String getProfile(){
+    public String getProfile(String accessToken, String userId){
         StringTemplate profileTemplate = group.getInstanceOf("profile");
+        profileTemplate.setAttribute("loginModal", group.getInstanceOf("loginModal"));
+
+        String response = MorphoApplication.Auth.getResponseFromURL("https://graph.facebook.com/"
+                + userId + "?access_token=" + accessToken
+                + "&fields=name,picture.height(200)");
+
+        MorphoApplication.logger.info("JSON gotten when opening profile: " + response);
+
+        String name = "Name error", picture = "";
+        try {
+            JSONObject dataJSON = (JSONObject) new JSONParser().parse(response);
+            name = (String) dataJSON.get("name");
+            picture = (String) ((JSONObject) ((JSONObject) dataJSON.get("picture")).get("data")).get("url");
+        } catch(ParseException e) {
+            MorphoApplication.logger.warning(e.toString());
+        }
+
+        String userInfo = "", email="", institution="", phone="";
+        try {
+            userInfo = MorphoApplication.DBA.find("users", "{_id: \"" + userId + "\"}");
+            JSONObject dataJSON = (JSONObject) new JSONParser().parse(userInfo);
+            institution = (String) dataJSON.get("institution");
+            phone = (String) dataJSON.get("phone");
+            email = (String) dataJSON.get("email");
+        } catch (Exception e) {
+            MorphoApplication.logger.warning(e.toString());
+            institution = phone = email = "ERROR";
+        }
+
+        profileTemplate.setAttribute("picture", "\"" + picture + "\"");
+        profileTemplate.setAttribute("name", name);
+        profileTemplate.setAttribute("institution", institution);
+        profileTemplate.setAttribute("phone", phone);
+        profileTemplate.setAttribute("email", email);
+
         return profileTemplate.toString();
     }
 
@@ -67,12 +105,13 @@ public class ViewCreator {
     public String getHomepage()
     {
         StringTemplate templateHomepage = group.getInstanceOf("homepage" );
+        templateHomepage.setAttribute("loginModal",group.getInstanceOf("loginModal"));
         return templateHomepage.toString();
     }
 
     public String getResults(String json)
     {
-        StringTemplate templateResults = group.getInstanceOf("results4" );
+        StringTemplate templateResults = group.getInstanceOf("results4");
         List<Document> results = MorphoApplication.searcher.performSearch(json);
 
         if (results.size() == 0)

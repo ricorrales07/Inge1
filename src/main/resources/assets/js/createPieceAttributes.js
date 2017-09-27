@@ -69,9 +69,12 @@ function saveAttributes(){
         }
     })
 
-    $("#attribute-card-list input[type = checkbox]").each(function() {
-        required.push($(this).val())
-    })
+    /*$("#attribute-card-list input[type = checkbox]").each(function() {
+        required.push($(this).check)
+    })*/
+
+    required.push("Public");
+    required.push(document.getElementById("publicAttr").checked);
 
     for(i = 0; i < required.length; i = i+2){
         requiredAttributes += "\"" + required[i] + "\": \"" + required[i+1] + "\"";

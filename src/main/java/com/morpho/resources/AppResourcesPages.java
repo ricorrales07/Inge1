@@ -64,5 +64,6 @@ public class AppResourcesPages {
 
     @GET
     @Path("profile")
-    public String getProfile() { return viewCreator.getProfile(); }
+    public String getProfile(@QueryParam("access_token") String accessToken, @QueryParam("userId") String userId)
+    { return viewCreator.getProfile(accessToken, userId); }
 }

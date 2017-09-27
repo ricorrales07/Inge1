@@ -4,6 +4,7 @@ package com.morpho.entities;
  * Created by Gabriel on 5/20/2017.
  */
 public class Authentication {
+    //private String source; //Facebook or Gmail TODO: implementar esto
     private String userID;
     private String accessToken;
 
