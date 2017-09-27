@@ -1,3 +1,5 @@
+var userId = 0;
+
 $(document).ready(function() {
     $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
         e.preventDefault();
@@ -75,6 +77,31 @@ $("#editInfoButton").bind('click',
             $("#phone").css('background-color', "white");
             $("#email").attr('contenteditable', "false");
             $("#email").css('background-color', "white");
+
+            console.log("updating info with userId: " + userId);
+
+            $.ajax({
+                url: "/methods/updateUserInfo",
+                type: 'POST',
+                data: JSON.stringify({
+                    id: userId,
+                    institution: $("#university").text(),
+                    phone: $("#phone").text(),
+                    email: $("#email").text()
+                }),
+                contentType: "text/plain",
+                success:function(data, textStatus, jqXHR){
+                    console.log("info successfully updated")},
+                error:function(jqXHR, textStatus, errorThrown ){
+                    console.log(errorThrown);
+                }
+            });
         }
     }
 );
+
+function init(id)
+{
+    userId = id;
+    console.log("userId set to: " + id);
+}

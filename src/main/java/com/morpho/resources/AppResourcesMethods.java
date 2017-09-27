@@ -260,7 +260,7 @@ public class AppResourcesMethods {
                     if(queryType == "insert")
                         MorphoApplication.DBA.set(collection, content);
                     else if(queryType == "update")
-                        MorphoApplication.DBA.update(collection, filter, content);
+                        MorphoApplication.DBA.replace(collection, filter, content);
                     else if(queryType == "delete")
                         MorphoApplication.DBA.delete(collection, content);
                     else {
@@ -291,7 +291,22 @@ public class AppResourcesMethods {
             String accessToken = (String) authJSON.get("accessToken");
             if(MorphoApplication.Auth.verifyUser(userID, accessToken)) {
                 try {
+                    String response = MorphoApplication.Auth.getResponseFromURL("https://graph.facebook.com/"
+                            + userID + "?access_token=" + accessToken
+                            + "&fields=email");
+                    String email="";
+                    try {
+                        JSONObject dataJSON = (JSONObject) new JSONParser().parse(response);
+                        email = (String) dataJSON.get("email");
+                    } catch(ParseException e) {
+                        MorphoApplication.logger.warning(e.toString());
+                    }
+
                     MorphoApplication.DBA.set("users", new Authentication(userID, accessToken).toString());
+
+                    MorphoApplication.DBA.update("users", "{_id: \"" + userID
+                            + "\"}", "{$set: {email: \"" + email + "\"}}");
+
                     builder = Response.ok("Valid token sent");
                     builder.status(200);
                 } catch(Exception e) {
@@ -728,6 +743,53 @@ public class AppResourcesMethods {
 
         builder = Response.ok("Successfuly fetched data");
         builder.entity(html);
+        builder.status(200);
+        return builder.build();
+    }
+
+    @POST
+    @Path("/updateUserInfo")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response updateUserInfo(String receivedContent){
+
+        ResponseBuilder builder;
+
+        String id = "", institution = "", phone = "", email = "";
+
+        try
+        {
+            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            id = "" + (Long) receivedJSON.get("id");
+            institution = (String) receivedJSON.get("institution");
+            phone = (String) receivedJSON.get("phone");
+            email = (String) receivedJSON.get("email");
+        }
+        catch (ParseException e)
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(500);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        MorphoApplication.logger.info("updateUserInfo invoked. Info received: "
+                + "id: " + id + ", institution: " + institution + ", phone: "
+                + phone + ", email: " + email);
+
+        try {
+            MorphoApplication.DBA.update("users", "{_id: \"" + id + "\"}",
+                    "{$set: {institution: \"" + institution + "\", phone: \""
+                            + phone + "\", email: \"" + email + "\"}}");
+        }
+        catch (Exception e)
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        builder = Response.ok("Successfully updated user data");
         builder.status(200);
         return builder.build();
     }

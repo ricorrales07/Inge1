@@ -12,7 +12,7 @@
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
     <meta name="google-signin-client_id" content="709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com">
 </head>
-<body onload="init();">
+<body onload=$initFunction$>
 <div id="fb-root"></div>
 
 $loginModal$
@@ -52,17 +52,17 @@ $loginModal$
                 <div class="panel panel-default" style="word-wrap:break-word">
                     <div class="panel-heading">Personal Information <div id="editInfoButton" class="btn btn-xs btn-primary" style="float: right;"><i id="drawing" class="fa fa-pencil" aria-hidden="true"></i></div></div>
                     <div class="panel-body">
-                        University: <span id="university" contenteditable="false">UCR</span><br>
+                        Institution: <span id="university" contenteditable="false">$institution$</span><br>
                         <br>
-                        Telephone: <span id="phone">+50686402009</span><br>
+                        Telephone: <span id="phone">$phone$</span><br>
                         <br>
-                        Email: <span id="email">ricardo.corralesbarquero@ucr.ac.cr</span>
+                        Email: <span id="email">$email$</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab-container" id="col2" style="height:80%;">
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab-container" id="col2" style="height:90%;">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
                 <div class="list-group">
                     <a href="#" class="list-group-item active text-center">
@@ -80,7 +80,7 @@ $loginModal$
                 </div>
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 bhoechie-tab" style="height:100%; max-height:100%">
-                <!-- flight section -->
+                <!-- piece section -->
                 <div class="bhoechie-tab-content active" style="height:100%; max-height:100%">
                     <center style="height:100%; max-height:100%">
                         <div class="images" style="overflow-y:scroll; max-height:100%; height:100%">
@@ -91,16 +91,19 @@ $loginModal$
                         </div>
                     </center>
                 </div>
-                <!-- train section -->
-                <div class="bhoechie-tab-content">
-                    <center>
-                        <h1 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Train Reservation</h3>
+                <!-- composition section -->
+                <div class="bhoechie-tab-content" style="height:100%; max-height:100%">
+                    <center style="height:100%; max-height:100%">
+                        <div class="images" style="overflow-y:scroll; max-height:100%; height:100%">
+                            $compositions$
+                            <!--div class="item">
+                                <img src="http://lorempixel.com/425/299/nature">
+                            </div-->
+                        </div>
                     </center>
                 </div>
 
-                <!-- hotel search -->
+                <!-- upvote section -->
                 <div class="bhoechie-tab-content">
                     <center>
                         <h1 class="glyphicon glyphicon-menu-up" style="font-size:12em;color:#55518a"></h1>

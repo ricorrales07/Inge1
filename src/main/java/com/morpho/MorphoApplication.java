@@ -86,7 +86,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
     /*Ejemplo de consultas
     private void dbaExample(DBAdministrator dba) {
         dba.insert("pieza", "{_id: 1, ownerID: 21, isPublic: true, size: {w: 100, h: 100}, site: \"foo.com/pic.png\"}");
-        dba.update("pieza", "{_id: 1}", "{$set: {isPublic: false}, $rename: {site: \"url\"}}"); //hay que usar update operators
+        dba.replace("pieza", "{_id: 1}", "{$set: {isPublic: false}, $rename: {site: \"url\"}}"); //hay que usar update operators
         dba.delete("pieza", "{_id: 1}");
     }*/
 }

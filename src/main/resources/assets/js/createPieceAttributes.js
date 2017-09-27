@@ -76,6 +76,9 @@ function saveAttributes(){
     required.push("Public");
     required.push(document.getElementById("publicAttr").checked);
 
+    required.push("ownerId");
+    required.push(Cookies.get("userID"));
+
     for(i = 0; i < required.length; i = i+2){
         requiredAttributes += "\"" + required[i] + "\": \"" + required[i+1] + "\"";
         if(i < required.length - 2){

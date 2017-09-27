@@ -2,6 +2,7 @@ package com.morpho.views;
 
 import java.util.*;
 
+import com.mongodb.client.FindIterable;
 import com.morpho.MorphoApplication;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
@@ -39,7 +40,8 @@ public class ViewCreator {
         profileTemplate.setAttribute("loginModal", group.getInstanceOf("loginModal"));
 
         String response = MorphoApplication.Auth.getResponseFromURL("https://graph.facebook.com/"
-                + userId + "?access_token=" + accessToken + "&fields=name,picture.height(200)");
+                + userId + "?access_token=" + accessToken
+                + "&fields=name,picture.height(200)");
 
         MorphoApplication.logger.info("JSON gotten when opening profile: " + response);
 
@@ -52,8 +54,68 @@ public class ViewCreator {
             MorphoApplication.logger.warning(e.toString());
         }
 
+        String userInfo = "", email="", institution="", phone="";
+        try {
+            userInfo = MorphoApplication.DBA.find("users", "{_id: \"" + userId + "\"}");
+            JSONObject dataJSON = (JSONObject) new JSONParser().parse(userInfo);
+            institution = (String) dataJSON.get("institution");
+            phone = (String) dataJSON.get("phone");
+            email = (String) dataJSON.get("email");
+        } catch (Exception e) {
+            MorphoApplication.logger.warning(e.toString());
+            institution = phone = email = "ERROR";
+        }
+
+        FindIterable<Document> pieceList = null;
+        String pieces = "";
+        try {
+            MorphoApplication.logger.info("Searching for pieces of user with id: "
+                    + userId);
+            pieceList = MorphoApplication.DBA.search("piece",
+                    "{ownerId: \"" + userId + "\"}");
+            for(Document piece : pieceList)
+            {
+                MorphoApplication.logger.info("Adding piece: "
+                        + piece.getString("SourceFront"));
+                pieces += "<div class=\"item\">\n" +
+                        "<img src=\"" + piece.getString("SourceFront") + "\">\n" +
+                        "</div>";
+            }
+        } catch (Exception e)
+        {
+            MorphoApplication.logger.warning(e.toString());
+            pieces = "No pieces found for this user.";
+        }
+
+        FindIterable<Document> compositionList = null;
+        String compositions = "";
+        try {
+            MorphoApplication.logger.info("Searching for compositions of user with id: "
+                    + userId);
+            compositionList = MorphoApplication.DBA.search("composition",
+                    "{\"attributes.ownerId\": \"" + userId + "\"}");
+            for(Document composition : compositionList)
+            {
+                MorphoApplication.logger.info("Adding composition: "
+                        + composition.getString("imgSource"));
+                compositions += "<div class=\"item\">\n" +
+                        "<img src=\"" + composition.getString("imgSource") + "\">\n" +
+                        "</div>";
+            }
+        } catch (Exception e)
+        {
+            MorphoApplication.logger.warning(e.toString());
+            compositions = "No compositions found for this user.";
+        }
+
+        profileTemplate.setAttribute("pieces", pieces);
+        profileTemplate.setAttribute("compositions", compositions);
         profileTemplate.setAttribute("picture", "\"" + picture + "\"");
         profileTemplate.setAttribute("name", name);
+        profileTemplate.setAttribute("institution", institution);
+        profileTemplate.setAttribute("phone", phone);
+        profileTemplate.setAttribute("email", email);
+        profileTemplate.setAttribute("initFunction", "\"init(" + userId + ");\"");
 
         return profileTemplate.toString();
     }

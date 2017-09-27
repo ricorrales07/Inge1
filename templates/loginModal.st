@@ -20,7 +20,8 @@
                     <li class="googleSignOut"> <a href="#" onclick="signOut();"><font color="blue"><u>Sign out</u></font></a></li><br><br>
                     <li class="fb-login-button" data-max-rows="1" data-size="large"
                         data-button-type="continue_with" data-show-faces="true"
-                        data-auto-logout-link="true" data-use-continue-as="true"></li>
+                        data-auto-logout-link="true" data-use-continue-as="true"
+                        scope="email"></li>
                 </ul>
             </div>
             <div class = "modal-footer">
