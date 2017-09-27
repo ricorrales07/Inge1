@@ -746,4 +746,51 @@ public class AppResourcesMethods {
         builder.status(200);
         return builder.build();
     }
+
+    @POST
+    @Path("/updateUserInfo")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response updateUserInfo(String receivedContent){
+
+        ResponseBuilder builder;
+
+        String id = "", institution = "", phone = "", email = "";
+
+        try
+        {
+            JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
+            id = "" + (Long) receivedJSON.get("id");
+            institution = (String) receivedJSON.get("institution");
+            phone = (String) receivedJSON.get("phone");
+            email = (String) receivedJSON.get("email");
+        }
+        catch (ParseException e)
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(500);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        MorphoApplication.logger.info("updateUserInfo invoked. Info received: "
+                + "id: " + id + ", institution: " + institution + ", phone: "
+                + phone + ", email: " + email);
+
+        try {
+            MorphoApplication.DBA.update("users", "{_id: \"" + id + "\"}",
+                    "{$set: {institution: \"" + institution + "\", phone: \""
+                            + phone + "\", email: \"" + email + "\"}}");
+        }
+        catch (Exception e)
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        builder = Response.ok("Successfully updated user data");
+        builder.status(200);
+        return builder.build();
+    }
 }

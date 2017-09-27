@@ -70,6 +70,7 @@ public class ViewCreator {
         profileTemplate.setAttribute("institution", institution);
         profileTemplate.setAttribute("phone", phone);
         profileTemplate.setAttribute("email", email);
+        profileTemplate.setAttribute("initFunction", "\"init(" + userId + ");\"");
 
         return profileTemplate.toString();
     }

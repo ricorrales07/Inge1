@@ -65,6 +65,8 @@ public class DBAdministrator implements Managed {
 
     public void update(String collection, String filter, String update) throws Exception {
         db.getCollection(collection).updateOne((Bson) JSON.parse(filter), Document.parse(update));
+        MorphoApplication.logger.info("Update completed. Collection: " + collection
+                + ", filter: " + filter + ", update: " + update);
     }
 
     /**
