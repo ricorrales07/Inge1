@@ -1,7 +1,11 @@
 package com.morpho.resources;
 
+import com.google.api.client.json.JsonGenerator;
+import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.JsonFactory; //Por si despueés ocupara otra opción para la jsonFactory
 import com.mongodb.client.FindIterable;
+import com.google.api.client.http.LowLevelHttpRequest;
 import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
 import com.morpho.entities.Authentication;
@@ -23,12 +27,20 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+//import com.google.api.client.extensions.appengine.http.UrlFetchTransport
+import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.google.api.client.googleapis.apache.GoogleApacheHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+
+
 
 /**
  * Created by irvin on 29/4/2017.
@@ -43,6 +55,7 @@ public class AppResourcesMethods {
 
 
     private static final JacksonFactory jacksonFactory = new JacksonFactory();
+    
 
     public AppResourcesMethods(){
         viewCreator = new ViewCreator();
@@ -178,45 +191,12 @@ public class AppResourcesMethods {
         return authorize(receivedAuth).build();
     }
 
-    /*
     @POST
-    @Path("/sendGmailToken")
+    @Path("/sendTokenGmail")
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response sendFbToken(String receivedAuth) throws GeneralSecurityException, IOException {
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jacksonFactory)
-                .setAudience(Collections.singletonList(CLIENT_ID))
-                // Or, if multiple clients access the backend:
-                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
-                .build();
-
-// (Receive idTokenString by HTTPS POST)
-
-        GoogleIdToken idToken = verifier.verify(receivedAuth);
-        if (idToken != null) {
-            Payload payload = idToken.getPayload();
-
-            // Print user identifier
-            String userId = payload.getSubject();
-            System.out.println("User ID: " + userId);
-
-            // Get profile information from payload
-            String email = payload.getEmail();
-            boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-            String name = (String) payload.get("name");
-            String pictureUrl = (String) payload.get("picture");
-            String locale = (String) payload.get("locale");
-            String familyName = (String) payload.get("family_name");
-            String givenName = (String) payload.get("given_name");
-
-            // Use or store profile information
-            // ...
-
-        } else {
-            System.out.println("Invalid ID token.");
-        }
+    public Response sendTokenGmail(String receivedAuth) throws GeneralSecurityException, IOException {
+        return authorizeGmail(receivedAuth).build();
     }
-
-    */
 
     @POST
     @Path("/getCompositionPieces")
@@ -323,6 +303,80 @@ public class AppResourcesMethods {
             e.printStackTrace();
             builder = Response.ok("Could not process auth");
             builder.status(422);
+        }
+        return builder;
+    }
+
+    private ResponseBuilder authorizeGmail(String receivedAuth) throws GeneralSecurityException, IOException {
+        ResponseBuilder builder;
+
+
+        HttpTransport transport = new HttpTransport() {
+            @Override
+            protected LowLevelHttpRequest buildRequest(String s, String s1) throws IOException {
+                return null;
+            }
+        };
+
+
+        //HttpTransport transport = new ApacheHttpTransport();
+
+        //HttpTransport HTTP_TRANSPORT = new UrlFetchTransport(); //No he encontrado qué import hay que usar para esta
+        //UrlFetchTransport transport = new UrlFetchTransport();
+
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jacksonFactory)
+                .setAudience(Collections.singletonList("709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com"))
+                // Or, if multiple clients access the backend:
+                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+                .build();
+
+        // (Receive idTokenString by HTTPS POST)
+
+        JSONObject authJSON = null;
+        try {
+            authJSON = (JSONObject) new JSONParser().parse(receivedAuth);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String accessToken = (String) authJSON.get("accessToken"); //Enviarlo exactamente como "accessToken"
+
+        GoogleIdToken idToken = verifier.verify(receivedAuth); //Desde aquí aparece en consola: (400) Bad Request
+        if (idToken != null) {
+            Payload payload = idToken.getPayload();
+
+            // Print user identifier
+            String userId = payload.getSubject();
+            //System.out.println("User ID: " + userId);
+
+            // Get profile information from payload
+            String email = payload.getEmail();
+            boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+            String name = (String) payload.get("name");
+            String pictureUrl = (String) payload.get("picture");
+            String locale = (String) payload.get("locale");
+            String familyName = (String) payload.get("family_name");
+            String givenName = (String) payload.get("given_name");
+
+            // Use or store profile information
+            //Aqui haría los cambios en la BD
+            try {
+                MorphoApplication.DBA.set("users", new Authentication(userId, accessToken).toString());
+                MorphoApplication.DBA.update("users", "{_id: \"" + userId
+                        + "\"}", "{$set: {email: \"" + email + "\"}}");
+                builder = Response.ok("Valid token sent");
+                builder.status(200);
+            } catch (Exception e) {
+                builder = Response.ok("Error inserting into DB");
+                builder.status(404);
+            }
+
+
+            // ...
+
+        } else {
+            //System.out.println("Invalid ID token.");
+            builder = Response.ok("Unauthorized: invalid token");
+            builder.status(401);
         }
         return builder;
     }

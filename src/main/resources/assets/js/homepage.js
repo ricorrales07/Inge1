@@ -813,10 +813,10 @@ function onSignIn(googleUser) {
   onSignInGmail();
 
   		$.ajax({
-  			url: "/methods/sendToken",
+  			url: "/methods/sendTokenGmail",
   			type: 'POST',
   			data: JSON.stringify({
-  			    idToken: id_token
+  			    accessToken: id_token
   			}),
   			contentType: "text/plain",
   			success:function(data, textStatus, jqXHR){
@@ -825,7 +825,7 @@ function onSignIn(googleUser) {
   				console.log(errorThrown);
   			}
   		});
-  		Cookies.set("idToken", id_token);
+  		Cookies.set("accessToken", id_token);
   	}
 
 /*
