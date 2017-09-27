@@ -42,6 +42,7 @@ function canvasResize(width, height){
 	//Setting up the canvas size.
 	$("#canvasBackGround").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
 	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
+	$( "#editor-container" ).width(width > 1024 ? 1024: width).height("480");	
 }
 
 /**
@@ -618,18 +619,14 @@ $( ".canvasSize" ).click(function(e) {
 
   switch(this.id){
   	case "sSize": 
-  		canvasResize(640, 480);
-  		$( "#editor-container" ).height("480").width("680");	
+  		canvasResize(640, 480);	
   		break;
   	case "mSize": 
   		canvasResize(1024, 768);
-  		$( "#editor-container" ).height("480").width("1024");	
   		break;
   	case "lSize": 
-  		canvasResize(1600, 1200);
-  		$("#editor-container" ).height("480").width("1024");		
+  		canvasResize(1600, 1200);	
   		break;
-
   }
 
 });
