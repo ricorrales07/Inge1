@@ -161,9 +161,9 @@
 			<div class="col-md-12">
 				<div class="row">
 					<div class="col-md-4">
-						<div class="facebook-login-container">
+						<!--div class="facebook-login-container">
 							<div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false"></div>
-						</div>
+						</div-->
 					</div>
 					<div class="col-md-offset-6  col-md-2">
 						<div title="Cancel" class=" nav-button" id="cancelButton" onclick="cancelSprite()">
