@@ -369,11 +369,9 @@ function saveCreation(){
     var canvas = document.getElementById("wildcard");
 
 	var imgFront = new Image;
-    surfaceF.cache(0,0,createPieceG.canvasStandardWidth, createPieceG.canvasStandardHeight, 1);
     imgFront.src = surfaceF.getCacheDataURL();
     imgFront.onload = function() {
         var imgSide = new Image;
-        surfaceS.cache(0,0,createPieceG.canvasStandardWidth, createPieceG.canvasStandardHeight, 1);
         imgSide.src = surfaceS.getCacheDataURL();
         imgSide.onload = function() {
             $.ajax({

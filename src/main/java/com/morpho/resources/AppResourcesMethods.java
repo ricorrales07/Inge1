@@ -141,7 +141,7 @@ public class AppResourcesMethods {
                     method = "addImageToCanvas(this,'" + json.getString("SourceFront") + "','" + json.getString("SourceSide")
                             + "','" + json.getString("_id") + "','" + receivedJSON.get("type").toString() + "'," + Integer.parseInt(json.getString("Type")) + ")";
                 }else{
-                    src = json.getString("imgSource").substring(20);
+                    src = json.getString("imgSource");
                     method = "loadComposition('" + json.getString("_id") + "')";
                 }
                 html += "<modalImages data-dismiss=\"modal\"> <img src=\"" + src
