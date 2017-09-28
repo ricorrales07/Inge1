@@ -181,11 +181,17 @@ public class ViewCreator {
 
         Document mainResultAttributes = results.get(0).get("attributes", Document.class);
 
+        Document mainResultsOptional = mainResultAttributes.get("optional", Document.class);
+
         String text = "<h1>" + mainResultAttributes.getString("Scientific Name") + "</h1><br>";
         for(String key : mainResultAttributes.keySet())
         {
-            if (!key.equals("Scientific Name"))
+            if (!key.equals("Scientific Name") && !key.equals("optional"))
                 text += key + ": " + mainResultAttributes.get(key).toString() + "<br>";
+        }
+
+        for(String key: mainResultsOptional.keySet()){
+            text += key + ": " + mainResultsOptional.get(key).toString() + "<br>";
         }
 
         String bolitas = "<li data-target=\"#myCarousel\" data-slide-to=\"0\" class=\"active\"></li>";

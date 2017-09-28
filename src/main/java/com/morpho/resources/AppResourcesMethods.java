@@ -798,11 +798,17 @@ public class AppResourcesMethods {
 
         Document attributes = json.get("attributes", Document.class);
 
+        Document optional = attributes.get("optional", Document.class);
+
         String html = "<h1>" + attributes.getString("Scientific Name") + "</h1><br>";
 
         for(String key : attributes.keySet()) {
-            if (!key.equals("Scientific Name"))
+            if (!key.equals("Scientific Name") && !key.equals("optional"))
                 html += key + ": " + json.get(key).toString() + "<br>";
+        }
+
+        for(String key : optional.keySet()) {
+            html += key + ": " + optional.get(key).toString() + "<br>";
         }
 
         MorphoApplication.logger.info("html result: " + html);
