@@ -63,4 +63,6 @@ var logout_event = function(response)
     });
     console.log("logout_event");
     console.log(response.status);
+    document.location.href = '/';
 }
+
