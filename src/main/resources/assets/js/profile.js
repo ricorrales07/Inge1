@@ -60,11 +60,11 @@ $("#editInfoButton").bind('click',
             $("#drawing").removeClass('fa-pencil');
             $("#drawing").addClass('fa-check');
             $("#university").attr('contenteditable', "true");
-            $("#university").css('background-color', "aquamarine");
+            $("#university").css('border-bottom', "2px solid #30C8FF");
             $("#phone").attr('contenteditable', "true");
-            $("#phone").css('background-color', "aquamarine");
+            $("#phone").css('border-bottom', "2px solid #30C8FF");
             $("#email").attr('contenteditable', "true");
-            $("#email").css('background-color', "aquamarine");
+            $("#email").css('border-bottom', "2px solid #30C8FF");
         }
         else
         {
@@ -72,11 +72,11 @@ $("#editInfoButton").bind('click',
             $("#drawing").removeClass('fa-check');
             $("#drawing").addClass('fa-pencil');
             $("#university").attr('contenteditable', "false");
-            $("#university").css('background-color', "white");
+            $("#university").css('border-bottom', "0px");
             $("#phone").attr('contenteditable', "false");
-            $("#phone").css('background-color', "white");
+            $("#phone").css('border-bottom', "0px");
             $("#email").attr('contenteditable', "false");
-            $("#email").css('background-color', "white");
+            $("#email").css('border-bottom', "0px");
 
             console.log("updating info with userId: " + userId);
 

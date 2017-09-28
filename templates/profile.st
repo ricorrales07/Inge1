@@ -52,11 +52,11 @@ $loginModal$
                 <div class="panel panel-default" style="word-wrap:break-word">
                     <div class="panel-heading">Personal Information <div id="editInfoButton" class="btn btn-xs btn-primary" style="float: right;"><i id="drawing" class="fa fa-pencil" aria-hidden="true"></i></div></div>
                     <div class="panel-body">
-                        Institution: <span id="university" contenteditable="false">$institution$</span><br>
+                        Institution: <span id="university" class="editableInfo" contenteditable="false" spellcheck="false">$institution$</span><br>
                         <br>
-                        Telephone: <span id="phone">$phone$</span><br>
+                        Telephone: <span id="phone" class="editableInfo" spellcheck="false">$phone$</span><br>
                         <br>
-                        Email: <span id="email">$email$</span>
+                        Email: <span id="email" class="editableInfo" spellcheck="false">$email$</span>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@ $loginModal$
                 <!-- piece section -->
                 <div class="bhoechie-tab-content active" style="height:100%; max-height:100%">
                     <center style="height:100%; max-height:100%">
-                        <div class="images" style="overflow-y:scroll; max-height:100%; height:100%">
+                        <div class="images" style="">
                             $pieces$
                             <!--div class="item">
                                 <img src="http://lorempixel.com/425/299/nature">
@@ -94,7 +94,7 @@ $loginModal$
                 <!-- composition section -->
                 <div class="bhoechie-tab-content" style="height:100%; max-height:100%">
                     <center style="height:100%; max-height:100%">
-                        <div class="images" style="overflow-y:scroll; max-height:100%; height:100%">
+                        <div class="images" style="">
                             $compositions$
                             <!--div class="item">
                                 <img src="http://lorempixel.com/425/299/nature">
@@ -104,18 +104,18 @@ $loginModal$
                 </div>
 
                 <!-- upvote section -->
-                <div class="bhoechie-tab-content">
+                <div class="bhoechie-tab-content voteContent">
                     <center>
-                        <h1 class="glyphicon glyphicon-menu-up" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Coming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Upvotes</h3>
+                        <h1 class="glyphicon glyphicon-menu-up" style="font-size:12em;"></h1>
+                        <h2>Coming Soon</h2>
+                        <h3>Upvotes</h3>
                     </center>
                 </div>
-                <div class="bhoechie-tab-content">
+                <div class="bhoechie-tab-content voteContent">
                     <center>
-                        <h1 class="glyphicon glyphicon-menu-down" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Coming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Downvotes</h3>
+                        <h1 class="glyphicon glyphicon-menu-down" style="font-size:12em;"></h1>
+                        <h2>Coming Soon</h2>
+                        <h3>Downvotes</h3>
                     </center>
                 </div>
             </div>
