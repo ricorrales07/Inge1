@@ -666,7 +666,7 @@ public class AppResourcesMethods {
                 try {
                     compositionID = id.get("userID").toString() + "C" + fileID;
                     data.put("_id", compositionID);
-                    data.put("imgSource", "./src/main/resources/assets/images/" + id.get("userID").toString() + "/Composition" + fileID + ".png");
+                    data.put("imgSource", "assets/images/" + id.get("userID").toString() + "/Composition" + fileID + ".png");
                 } catch (NullPointerException e) {
                     data.put("_id", "0C" + compositionID);
                 }
