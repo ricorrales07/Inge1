@@ -330,29 +330,14 @@ public class AppResourcesMethods {
     }
 
     private ResponseBuilder authorizeGmail(String receivedAuth) throws GeneralSecurityException, IOException {
+
         ResponseBuilder builder;
 
-
-        HttpTransport transport = new HttpTransport() {
-            @Override
-            protected LowLevelHttpRequest buildRequest(String s, String s1) throws IOException {
-                return null;
-            }
-        };
-
-
-        //HttpTransport transport = new ApacheHttpTransport();
-
-        //HttpTransport HTTP_TRANSPORT = new UrlFetchTransport(); //No he encontrado qué import hay que usar para esta
-        //UrlFetchTransport transport = new UrlFetchTransport();
+        HttpTransport transport = new ApacheHttpTransport();
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jacksonFactory)
                 .setAudience(Collections.singletonList("709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com"))
-                // Or, if multiple clients access the backend:
-                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                 .build();
-
-        // (Receive idTokenString by HTTPS POST)
 
         JSONObject authJSON = null;
         try {
@@ -362,25 +347,23 @@ public class AppResourcesMethods {
         }
         String accessToken = (String) authJSON.get("accessToken"); //Enviarlo exactamente como "accessToken"
 
-        GoogleIdToken idToken = verifier.verify(receivedAuth); //Desde aquí aparece en consola: (400) Bad Request
+        GoogleIdToken idToken = verifier.verify(accessToken);
         if (idToken != null) {
             Payload payload = idToken.getPayload();
 
-            // Print user identifier
             String userId = payload.getSubject();
             //System.out.println("User ID: " + userId);
 
             // Get profile information from payload
             String email = payload.getEmail();
-            boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-            String name = (String) payload.get("name");
-            String pictureUrl = (String) payload.get("picture");
-            String locale = (String) payload.get("locale");
-            String familyName = (String) payload.get("family_name");
-            String givenName = (String) payload.get("given_name");
+            //boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+            //String name = (String) payload.get("name");
+            //String pictureUrl = (String) payload.get("picture");
+            //String locale = (String) payload.get("locale");
+            //String familyName = (String) payload.get("family_name");
+            //String givenName = (String) payload.get("given_name");
 
-            // Use or store profile information
-            //Aqui haría los cambios en la BD
+            //Aqui se harían los cambios en la BD
             try {
                 MorphoApplication.DBA.set("users", new Authentication(userId, accessToken).toString());
                 MorphoApplication.DBA.update("users", "{_id: \"" + userId
@@ -391,9 +374,6 @@ public class AppResourcesMethods {
                 builder = Response.ok("Error inserting into DB");
                 builder.status(404);
             }
-
-
-            // ...
 
         } else {
             //System.out.println("Invalid ID token.");
