@@ -100,6 +100,40 @@
 
             </div><!--/well-->
 		</div>
+
+		<div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="well">
+                <div id="photosCarousel" class="carousel slide">
+
+                <ol class="carousel-indicators">
+                                    $bolitas2$
+                    <!--li data-target="#photosCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#photosCarousel" data-slide-to="1"></li>
+                    <li data-target="#photosCarousel" data-slide-to="2"></li-->
+                </ol>
+
+                <!-- Carousel items -->
+                <div class="carousel-inner">
+
+                                $compositionPhotos$
+                <!--div class="item active">
+                    <div class="row-fluid">
+                      <div class="col-md-3 col-sm-3 col-lg-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;" /></a></div>
+                      <div class="col-md-3 col-sm-3 col-lg-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;" /></a></div>
+                      <div class="col-md-3 col-sm-3 col-lg-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;" /></a></div>
+                      <div class="col-md-3 col-sm-3 col-lg-3"><a href="#x" class="thumbnail"><img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;" /></a></div>
+                    </div><!--/row-fluid-->
+                <!--/div><!--/item-->
+
+                </div><!--/carousel-inner-->
+
+                <a class="left carousel-control" href="#photosCarousel" data-slide="prev">‹</a>
+                <a class="right carousel-control" href="#photosCarousel" data-slide="next">›</a>
+                </div><!--/photosCarousel-->
+
+            </div><!--/well-->
+        </div>
+
 	</div>
 </div>
 

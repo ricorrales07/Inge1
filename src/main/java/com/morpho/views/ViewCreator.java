@@ -6,6 +6,7 @@ import com.mongodb.client.FindIterable;
 import com.morpho.MorphoApplication;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -194,6 +195,55 @@ public class ViewCreator {
             text += key + ": " + mainResultsOptional.get(key).toString() + "<br>";
         }
 
+        String bolitas2 = "";
+
+        int photosPages;
+
+        String compositionPhotos = "";
+
+        try {
+            JSONObject docData = (JSONObject) new JSONParser().parse(results.get(0).toJson());
+            JSONArray photos = (JSONArray) docData.get("images");
+
+            bolitas2 = "<li data-target=\"#photosCarousel\" data-slide-to=\"0\" class=\"active\"></li>";
+
+            if(photos.size() >= 3){
+                photosPages = ((int)(photos.size()/3));
+            }else{
+                photosPages = 1;
+            }
+
+            for (int i = 1; i < photos.size(); i++) {
+                bolitas2 += "<li data-target=\"#photosCarousel\" data-slide-to=\"" + i + "\"></li>\n";
+            }
+
+            int i = 0;
+
+            while(i < photosPages)
+            {
+                compositionPhotos += "<div class=\"item " + ((i==0)? "active" : "") + "\">\n" +
+                        "<div class=\"row-fluid\">\n";
+                int j = 0;
+                while (i*3+j < photos.size())
+                {
+                    JSONObject o = (JSONObject) new JSONParser().parse(photos.get(j).toString());
+                    String src = "." + o.get("image").toString();
+                    compositionPhotos += "<div class=\"col-md-3 col-sm-3 col-lg-3\">"
+                            + "<a class=\"thumbnail\"><img src=\""
+                            + src
+                            + "\" alt=\"Image\" style=\"max-width:75%;\" /></a></div>\n";
+                    j++;
+                }
+
+                compositionPhotos += "</div><!--/row-fluid-->\n" +
+                        "</div><!--/item-->";
+
+                i++;
+            }
+        }catch (ParseException e){
+
+        }
+
         String bolitas = "<li data-target=\"#myCarousel\" data-slide-to=\"0\" class=\"active\"></li>";
 
         int pages = ((int)(results.size()/3));
@@ -224,6 +274,7 @@ public class ViewCreator {
                         + src + "&quot;);\" class=\"thumbnail\"><img src=\""
                         + src
                         + "\" alt=\"Image\" style=\"max-width:100%;\" /></a></div>\n";
+                j++;
             }
 
             extraResults += "</div><!--/row-fluid-->\n" +
@@ -236,6 +287,8 @@ public class ViewCreator {
         templateResults.setAttribute("texto", text);
         templateResults.setAttribute("bolitas", bolitas);
         templateResults.setAttribute("extraResults", extraResults);
+        templateResults.setAttribute("bolitas2", bolitas2);
+        templateResults.setAttribute("compositionPhotos", compositionPhotos);
         return templateResults.toString();
     }
 }

@@ -2,6 +2,10 @@ $(document).ready(function() {
     $('#myCarousel').carousel({
 	    interval: 10000
 	})
+
+    $('#photosCarousel').carousel({
+        interval: 10000
+    })
 });
 
 function setMainResult(compositionId, source)
