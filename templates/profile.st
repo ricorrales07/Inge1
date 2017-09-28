@@ -12,7 +12,7 @@
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
     <meta name="google-signin-client_id" content="709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com">
 </head>
-<body onload=$initFunction$>
+<body>
 <div id="fb-root"></div>
 
 $loginModal$
@@ -132,7 +132,5 @@ $loginModal$
 <script src="assets/js/profile.js" defer></script>
 <script src="assets/js/login.js" ></script>
 <script src="assets/js/js.cookie.js" ></script>
-<script src="assets/js/getSampleString.js"></script>
-<script src="assets/js/createPieceAttributes.js"></script>
 
 </html>

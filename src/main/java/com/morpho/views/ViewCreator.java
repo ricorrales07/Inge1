@@ -61,6 +61,8 @@ public class ViewCreator {
             institution = (String) dataJSON.get("institution");
             phone = (String) dataJSON.get("phone");
             email = (String) dataJSON.get("email");
+            MorphoApplication.logger.info("Found user: " + userId
+                    + " with institution: " + institution);
         } catch (Exception e) {
             MorphoApplication.logger.warning(e.toString());
             institution = phone = email = "ERROR";
@@ -115,7 +117,7 @@ public class ViewCreator {
         profileTemplate.setAttribute("institution", institution);
         profileTemplate.setAttribute("phone", phone);
         profileTemplate.setAttribute("email", email);
-        profileTemplate.setAttribute("initFunction", "\"init(" + userId + ");\"");
+        //profileTemplate.setAttribute("initFunction", "\"init(" + userId + ");\"");
 
         return profileTemplate.toString();
     }

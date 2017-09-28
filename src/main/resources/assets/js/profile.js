@@ -1,5 +1,3 @@
-var userId = 0;
-
 $(document).ready(function() {
     $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
         e.preventDefault();
@@ -78,13 +76,13 @@ $("#editInfoButton").bind('click',
             $("#email").attr('contenteditable', "false");
             $("#email").css('border-bottom', "0px");
 
-            console.log("updating info with userId: " + userId);
+            console.log("updating info with userId: " + Cookies.get("userID"));
 
             $.ajax({
                 url: "/methods/updateUserInfo",
                 type: 'POST',
                 data: JSON.stringify({
-                    id: userId,
+                    id: Cookies.get("userID"),
                     institution: $("#university").text(),
                     phone: $("#phone").text(),
                     email: $("#email").text()
@@ -99,9 +97,3 @@ $("#editInfoButton").bind('click',
         }
     }
 );
-
-function init(id)
-{
-    userId = id;
-    console.log("userId set to: " + id);
-}
