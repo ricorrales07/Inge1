@@ -31,8 +31,6 @@ $(window).on("load",function(){
 	//Let's position the editor in the row:
 	$("#editor-container").css("top",20).css("height", 500);
 
-
-    initiate();
 });
 
 function canvasResize(width, height){
@@ -43,6 +41,7 @@ function canvasResize(width, height){
 	$("#canvasBackGround").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
 	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
 	$( "#editor-container" ).width(width > 1024 ? 1024: width).height("480");	
+	initiate();
 }
 
 /**
