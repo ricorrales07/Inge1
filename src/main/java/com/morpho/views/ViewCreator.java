@@ -84,6 +84,8 @@ public class ViewCreator {
                         "<img src=\"" + piece.getString("SourceFront") + "\">\n" +
                         "</div>";
             }
+            if (pieces.equals(""))
+                pieces = "No pieces found for this user.";
         } catch (Exception e)
         {
             MorphoApplication.logger.warning(e.toString());
@@ -105,6 +107,8 @@ public class ViewCreator {
                         "<img src=\"" + composition.getString("imgSource") + "\">\n" +
                         "</div>";
             }
+            if (compositions.equals(""))
+                compositions = "No compositions found for this user.";
         } catch (Exception e)
         {
             MorphoApplication.logger.warning(e.toString());
