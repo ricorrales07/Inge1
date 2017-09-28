@@ -4,6 +4,7 @@ import com.google.api.client.json.JsonGenerator;
 import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory; //Por si despueés ocupara otra opción para la jsonFactory
+import com.mongodb.MongoWriteException;
 import com.mongodb.client.FindIterable;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.mongodb.util.JSON;
@@ -304,10 +305,19 @@ public class AppResourcesMethods {
                         MorphoApplication.logger.warning(e.toString());
                     }
 
-                    MorphoApplication.DBA.set("users", new Authentication(userID, accessToken).toString());
+                    try {
+                        MorphoApplication.DBA.insert("users", new Authentication(userID, accessToken).toString());
+                        MorphoApplication.DBA.update("users", "{_id: \"" + userID
+                                + "\"}", "{$set: {email: \"" + email + "\"}}");
+                    }
+                    catch(MongoWriteException e)
+                    {
+                        MorphoApplication.DBA.update("users", "{_id: \"" + userID
+                                + "\"}", "{$set: {accessToken: \"" + accessToken
+                                + "\"}}");
+                    }
 
-                    MorphoApplication.DBA.update("users", "{_id: \"" + userID
-                            + "\"}", "{$set: {email: \"" + email + "\"}}");
+
 
                     builder = Response.ok("Valid token sent");
                     builder.status(200);
@@ -815,7 +825,7 @@ public class AppResourcesMethods {
         try
         {
             JSONObject receivedJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            id = "" + (Long) receivedJSON.get("id");
+            id = (String) receivedJSON.get("id");
             institution = (String) receivedJSON.get("institution");
             phone = (String) receivedJSON.get("phone");
             email = (String) receivedJSON.get("email");
