@@ -761,6 +761,8 @@ function tempSave() {
     $("input[type = attr]").each(function () {
         imagesAttributes.push($(this).val());
     });
+
+    alert("Image now in the images' list to save with this composition.")
 }
 
 function loadPhotos(){
