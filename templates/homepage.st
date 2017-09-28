@@ -232,11 +232,11 @@
                   </div>
                   <ul class="nav navbar-nav">
                       <li class="active"><a href="#">Home</a></li>
-                      <li><a href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
+                      <li><a style="display: none;" href="/createPiece" id="pieceEditorLink">Piece editor</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                      <li><a id="profileLink" href="#"><span class="glyphicon glyphicon-user"></span> My profile</a></li>
-                      <li><a href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                      <li><a style="display: none;" id="profileLink" href="#"><span class="glyphicon glyphicon-user"></span> My profile</a></li>
+                      <li><a  href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                   </ul>
                   </div>
           </nav>

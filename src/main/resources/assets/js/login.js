@@ -46,7 +46,8 @@ var auth_status_change_callback = function(response) {
 		Cookies.set("userID", response.authResponse.userID);
 		Cookies.set("accessToken", response.authResponse.accessToken);
 
-		$("#profileLink").attr('href', "/profile?access_token="
+		$("#pieceEditorLink").show();
+		$("#profileLink").show().attr('href', "/profile?access_token="
 		+ response.authResponse.accessToken + "&userId="
 		+ response.authResponse.userID);
 	}
@@ -62,6 +63,8 @@ var logout_event = function(response)
         statusChangeCallback(response);
     });
     console.log("logout_event");
+    $("#pieceEditorLink").hide();
+    $("#profileLink").hide();
     console.log(response.status);
     document.location.href = '/';
 }
