@@ -18,6 +18,7 @@ import org.json.simple.parser.ParseException;
 import org.bson.Document;
 
 import javax.imageio.ImageIO;
+import javax.print.Doc;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.*;
@@ -179,6 +180,27 @@ public class AppResourcesMethods {
         }
 
         builder = Response.ok("Got piece data");
+        builder.entity(imgJson.toJson());
+        builder.status(200);
+        return builder.build();
+    }
+
+    @POST
+    @Path("getCompositionAttributes")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response getCompositionAttributes(String id){
+        ResponseBuilder builder;
+        Document imgJson = new Document();
+        try{
+            imgJson = (Document) (MorphoApplication.DBA.documentFind("composition", "{_id: \"" + id + "\"}")).get("attributes");
+        }catch(Exception e){
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        builder = Response.ok("Got composition data");
         builder.entity(imgJson.toJson());
         builder.status(200);
         return builder.build();

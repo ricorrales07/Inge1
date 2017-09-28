@@ -466,6 +466,7 @@
 	<script src="assets/jquery/jquery-ui.js"></script>
 	<script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 	<script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
+	<script src="assets/js/loadAttributes.js" ></script>
 	<script src="assets/js/createPiece.js"></script>
 	<script src="assets/js/createPieceAttributes.js"></script>
 	<script src="assets/js/getSampleString.js"></script>

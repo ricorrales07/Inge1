@@ -321,7 +321,7 @@
                   </div>
                   <div class="card-input right-icon col-md-8 nopadding">
                     <i class="fa fa-pencil"></i>
-                    <input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+                    <input id="scientificNameVal" type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
                   </div>
                 </div>
               </div>
@@ -357,7 +357,7 @@
                   </div>
                   <div class="card-input right-icon col-md-8 nopadding">
                     <i class="fa fa-pencil"></i>
-                    <input type="search" class="att-input form-control attribute-name"
+                    <input name="opProperty" type="optional" class="att-input form-control attribute-name"
                       placeholder="Property name"/>
                   </div>
                 </div>
@@ -368,7 +368,7 @@
                   </div>
                   <div class="card-input right-icon col-md-8 nopadding">
                     <i class="fa fa-pencil"></i>
-                    <input type="search" class="att-input form-control attribute-value" placeholder="Property value"/>
+                    <input name="opValue" type="optional" class="att-input form-control attribute-value" placeholder="Property value"/>
                   </div>
                 </div>
               </div>
@@ -476,6 +476,7 @@
 <script src="assets/jquery/jquery-3.2.1.js"></script>
 <script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 <script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>
+<script src="assets/js/loadAttributes.js" ></script>
 <script src="assets/js/homepage.js" defer></script>
 <script src="assets/js/login.js" ></script>
 <script src="assets/js/js.cookie.js" ></script>

@@ -552,31 +552,52 @@ function saveCompositionData(){
         );
     }
 
-    text = [];
-    $("#attribute-card-list input").each(function() {
+    var required = [];
+    var optional = [];
+    var requiredAttributes = "{\n";
+    var optionalAttributes = "{\n";
+
+    /*$("#attribute-card-list input").each(function() {
         if(($(this).type!="checkbox")){
             if($(this).val() != "") {
                 text.push($(this).val());
             }
         }
-    });
+    });*/
 
-    text.push("Public");
-    text.push(document.getElementById("publicAttr").checked);
+    required.push("Scientific Name");
+    required.push(document.getElementById("scientificNameVal").value);
 
-    text.push("ownerId");
-    text.push(Cookies.get("userID"));
+    required.push("Public");
+    required.push(document.getElementById("publicAttr").checked);
 
-    console.log(text);
+    required.push("ownerId");
+    required.push(Cookies.get("userID"));
 
-    var attributes = "{\n";
-    for(i = 0; i < text.length; i = i+2){
-        attributes += "\"" + text[i] + "\": \"" + text[i+1] + "\"";
-        if(i < text.length - 2){
-            attributes += ",\n";
+    $("#attribute-card-list input[type = optional]").each(function() {
+        if($(this).val() != "") {
+            optional.push($(this).val())
+        }
+    })
+
+    for(i = 0; i < required.length; i = i+2){
+        requiredAttributes += "\"" + required[i] + "\": \"" + required[i+1] + "\"";
+        if(i < required.length - 2){
+            requiredAttributes += ",\n";
         }
     }
-    attributes += "\n}";
+
+    for(i = 0; i < optional.length; i = i+2){
+        optionalAttributes += "\"" + optional[i] + "\": \"" + optional[i+1] + "\"";
+        if(i < optional.length - 2){
+            optionalAttributes += ",\n";
+        }
+    }
+    optionalAttributes += "\n}";
+
+    var attributes = requiredAttributes + ", \"optional\":" + optionalAttributes + "\n}";
+
+    //console.log(required);
 
     console.log("composition attributes: " + attributes);
 
@@ -662,6 +683,19 @@ function loadComposition(id){
                 ];
                 addPart(pieces, "new");
             }
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            console.log(errorThrown);
+        }
+    });
+
+    $.ajax({
+        url: "/methods/getCompositionAttributes",
+        type: 'POST',
+        data: id,
+        contentType: "text/plain",
+        success:function(data, textStatus,jqXHR){
+            addAttributes(JSON.parse(data), "composition");
         },
         error:function(jqXHR, textStatus, errorThrown){
             console.log(errorThrown);

@@ -115,30 +115,13 @@ function addPiecesToCanvas(){
             surfaceF.addChild(bitmapFront).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
             surfaceS.addChild(bitmapSide).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
 
-            addAttributes(JSONData);
+            addAttributes(JSONData, "piece");
 
         },
         error:function(jqXHR, textStatus, errorThrown ){
             console.log(errorThrown);
         }
     });
-}
-
-function addAttributes(JSONData){
-	document.getElementById("scientificNameVal").value = JSONData["Scientific Name"];
-    document.querySelector('[class = "typeAttr"]').selectedIndex = JSONData["Type"];
-    document.getElementById("publicAttr").checked = JSON.parse(JSONData["Public"]);
-
-    var JSONOptional = JSONData["optional"];
-	var index = 1;
-    for(i in JSONOptional){
-        console.log($(".cardTemplate").length);
-        var newCard = $(".cardTemplate").clone().attr("display","inline-block").removeClass("cardTemplate");
-        $("#attribute-card-list").append(newCard);
-		document.getElementsByName("opProperty")[index].value = i;
-        document.getElementsByName("opValue")[index].value = JSONOptional[i];
-        index++;
-	}
 }
 
  surfaceF.addChild(brushF);
