@@ -679,8 +679,9 @@ function loadComposition(id){
                     result[x].ScaleY,
                     result[x].Rotation,
                     result[x]._id,
-                    result[x].pieceType
+                    result[x].PieceType
                 ];
+                pieceLimits[result[x].PieceType]++;
                 addPart(pieces, "new");
             }
         },
