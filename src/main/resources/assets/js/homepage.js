@@ -49,6 +49,30 @@ function selectPart(index)
   link.setAttribute("href", "/editPiece?pieceId=" + composicionActual.partIds[selected]);
 }
 
+function newComposition(){
+    unselectPart();
+    var totalPieces = composicionActual.partsList.length;
+    var currentPiece;
+    for (i = 0; i < totalPieces; i++){
+        currentPiece = composicionActual.partsList[i];
+        stage.removeChild(currentPiece);
+    }
+    currentCompositionID = "undefined";
+    composicionActual = {partIds: [], partsList: [], matrices: [[],[]]};
+    pieceLimits = [0,0,0,0,0];
+
+    $(".attribute-card").each(function(i) {
+        if(this.id == "optional-attribute-card" && i > 2){
+            ($(this)).fadeOut("slow", function(){
+                this.remove();
+            });
+        }
+    });
+
+    document.getElementById("scientificNameVal").value = "";
+    document.getElementById("publicAttr").checked = false;
+}
+
 function deletePart() {
     var currentPiece = composicionActual.partsList[selected];
     composicionActual.partsList.splice(selected, 1);

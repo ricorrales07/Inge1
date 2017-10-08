@@ -256,6 +256,7 @@
               <button id="changePieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'change', 'All');" data-dismiss="modal">Change piece</button>
             </div>
             <div class = "btn-group-vertical align-bottom">
+              <button id="newCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="newComposition();">New composition</button>
               <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions" onclick="waitImgs(); showCompositions();">Load composition</button>
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
               <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
@@ -345,7 +346,7 @@
               <!-- END Non optional  Cards -->
 
               <!-- Template  Card -->
-              <div class="attribute-card col-md-offset-1 col-md-10 cardTemplate">
+              <div id = "optional-attribute-card" class="attribute-card col-md-offset-1 col-md-10 cardTemplate">
                 <div class="row attribute-card-header">
                   <div class="col-md-1 " style="float: right" onclick="deleteCard(this)">
                     <i class="fa fa-times"></i>
