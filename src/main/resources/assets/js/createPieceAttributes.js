@@ -34,6 +34,22 @@ function addProperty(){
 	
 }
 
+function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+}
+
+$('#saveButton').on('click', savePiece);
+
+function savePiece() {
+    var saved = false;
+    saved = saveAttributes();
+
+    if(saved){
+        saveCreation();
+    }
+}
+
 function saveAttributes(){
     var required = [];
     var optional = [];

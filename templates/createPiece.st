@@ -174,7 +174,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-2">
-						<div title="Save" class="nav-tool-button nav-button" id="saveButton" onclick="savePiece();">
+						<div title="Save" class="nav-tool-button nav-button" id="saveButton">
 							<i class="fa fa-floppy-o fa-2x"></i>
 						</div>
 
@@ -403,66 +403,9 @@
 		</div>
 	</div>
 
-    <script type="text/javascript" src="assets/slick/slick.min.js"></script>
-
-    <script>
-        var slideIndex = 1;
-
-        function waitImgs() {
-          setTimeout("plusDivs(0)", 200);
-        }
-
-        function plusDivs(n) {
-          showDivs(slideIndex += n);
-        }
-
-        function showDivs(n) {
-          var i;
-          var x = document.getElementsByClassName("img-thumbnail");
-          if (n > x.length) {slideIndex = 1}
-          if (n < 1) {slideIndex = x.length}
-          for (i = 0; i < x.length; i++) {
-             x[i].style.display = "none";
-          }
-          x[slideIndex-1].style.display = "inline";
-          x[slideIndex].style.display = "inline";
-          x[slideIndex+1].style.display = "inline";
-          x[slideIndex+2].style.display = "inline";
-          x[slideIndex+3].style.display = "inline";
-          x[slideIndex+4].style.display = "inline";
-        }
-
-        function growImg(x) {
-            x.style.height = "64px";
-            x.style.width = "64px";
-        }
-
-        function normImg(x) {
-            x.style.height = "32px";
-            x.style.width = "32px";
-        }
-
-    </script>
-
-        <script type="text/javascript">
-
-        function statusChangeCallback(response) {
-                console.log('statusChangeCallback');
-                console.log(response);
-        }
-
-        function savePiece() {
-            var saved = false;
-            saved = saveAttributes();
-
-            if(saved){
-                saveCreation();
-            }
-        }
-        </script>
-
 	</body>
 
+	<script type="text/javascript" src="assets/slick/slick.min.js"></script>
 	<script src="assets/jquery/jquery-ui.js"></script>
 	<script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 	<script src="assets/EaselJS-0.8.2/easeljs-0.8.2.min.js"></script>

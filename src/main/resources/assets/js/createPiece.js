@@ -581,6 +581,42 @@ $( ".canvasSize" ).click(function(e) {
 
 });
 
+var slideIndex = 1;
+
+function waitImgs() {
+  setTimeout("plusDivs(0)", 200);
+}
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("img-thumbnail");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  x[slideIndex-1].style.display = "inline";
+  x[slideIndex].style.display = "inline";
+  x[slideIndex+1].style.display = "inline";
+  x[slideIndex+2].style.display = "inline";
+  x[slideIndex+3].style.display = "inline";
+  x[slideIndex+4].style.display = "inline";
+}
+
+function growImg(x) {
+    x.style.height = "64px";
+    x.style.width = "64px";
+}
+
+function normImg(x) {
+    x.style.height = "32px";
+    x.style.width = "32px";
+}
+
 /*$( "#editor-container" ).resizable({
   resize: function( event, ui ) {
   	console
