@@ -62,13 +62,20 @@ public class AppResourcesMethods {
     public AppResourcesMethods(){
         viewCreator = new ViewCreator();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt"));
-            this.pieceCounter = Integer.parseInt(reader.readLine());
-            reader.close();
-            reader = new BufferedReader(new FileReader(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt"));
-            this.compositionCounter = Integer.parseInt(reader.readLine());
-            reader.close();
-        }catch(Exception e){
+            Document counter = MorphoApplication.DBA.search("counter", "{_id: \"piece\"}").first();
+            if (counter == null) {
+                this.pieceCounter = 0;
+            } else {
+                this.pieceCounter = Integer.parseInt(counter.get("num").toString());
+            }
+
+            counter = MorphoApplication.DBA.search("counter", "{_id: \"composition\"}").first();
+            if(counter == null){
+                this.compositionCounter = 0;
+            }else{
+                this.compositionCounter = Integer.parseInt(counter.get("num").toString());
+            }
+        } catch (Exception e) {
             MorphoApplication.logger.warning(e.toString());
         }
     }
@@ -254,7 +261,7 @@ public class AppResourcesMethods {
         ResponseBuilder builder;
         try {
             JSONObject authJSON = (JSONObject) new JSONParser().parse(receivedContent);
-            String receivedAuth = authJSON.get("auth").toString();
+            //String receivedAuth = authJSON.get("auth").toString();
             String content = authJSON.get(collection).toString();
             builder = Response.ok();
             builder.status(200);
@@ -450,9 +457,12 @@ public class AppResourcesMethods {
                 if (data[0].equals("Piece")) {
                     this.pieceCounter++;
                     try {
-                        PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt");
-                        writer.print("" + pieceCounter);
-                        writer.close();
+                        String queryText = "{ \"counter\" : { \"_id\" : \"piece\", \"num\" : \"" + this.pieceCounter + "\" } }";
+                        if (this.pieceCounter == 1){
+                            queryDB ("insert", "counter", queryText);
+                        }else {
+                            queryDB("update", "counter", queryText, "{ _id: \"piece\"}");
+                        }
                     } catch (Exception e) {
                         MorphoApplication.logger.warning(e.toString());
                         e.printStackTrace();
@@ -460,9 +470,12 @@ public class AppResourcesMethods {
                 } else {
                     this.compositionCounter++;
                     try {
-                        PrintWriter writer = new PrintWriter(".\\src\\main\\resources\\assets\\imagesData\\CompositionCounter.txt");
-                        writer.print("" + compositionCounter);
-                        writer.close();
+                        String queryText = "{ \"counter\" : { \"_id\" : \"composition\", \"num\" : \"" + this.compositionCounter + "\" } }";
+                        if (this.compositionCounter == 1){
+                            queryDB ("insert", "counter", queryText);
+                        }else {
+                            queryDB("update", "counter", queryText, "{ _id: \"composition\"}");
+                        }
                     } catch (Exception e) {
                         MorphoApplication.logger.warning(e.toString());
                         e.printStackTrace();
