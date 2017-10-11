@@ -44,7 +44,7 @@
                                   </div>
                             </div>
                             <div class = "modal-body" align="center">
-                               <div id="images"></div>
+                               <div id="images"><!--aquí van las imágenes (ver método registeredImages en miscelaneous.js)--></div>
                                <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                                <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
                             </div><br>
@@ -249,15 +249,15 @@
             <div class = "btn-group-vertical">
               <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
               <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Grid Lines</button>
-              <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="document.getElementById('typeAttr').selectedIndex = 0; waitImgs(); registeredImages(false, 'new', 'All');" data-dismiss="modal">Add piece</button>
-              <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" onclick="document.getElementById('typeAttrOwn').selectedIndex = 0; waitImgs(); registeredImages(true, 'new', 'All');" data-dismiss="modal">Add owned piece</button>
+              <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
+              <button id="btnOwnedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openOwned" data-dismiss="modal">Add owned piece</button>
               <button id="mirrorImageButton" class="btn btn-basic btn-responsive" onclick="mirrorImage();">Mirror image</button>
               <button id="deletePieceButton" class="btn btn-basic btn-responsive" onclick="deletePart();">Delete piece</button>
               <button id="changePieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'change', 'All');" data-dismiss="modal">Change piece</button>
             </div>
             <div class = "btn-group-vertical align-bottom">
               <button id="newCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="newComposition();">New composition</button>
-              <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions" onclick="waitImgs(); showCompositions();">Load composition</button>
+              <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions">Load composition</button>
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
               <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
               <a id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</a>
@@ -377,21 +377,6 @@
             </div>
           </div>
         </span>
-
-
-
-
-            <!--div class = "col-md-1">
-
-                <ul class = "nav nav-pills nav-stacked">
-                   <li class = "active"><a href = "#">Home</a></li>
-                   <li><a href = "#">SVN</a></li>
-                   <li><a href = "#">iOS</a></li>
-                   <li><a href = "#">VB.Net</a></li>
-                   <li><a href = "#">Java</a></li>
-                   <li><a href = "#">PHP</a></li>
-                </ul>
-            </div-->
       </div>
     </div>
 
@@ -432,45 +417,6 @@
 
 </script>
 
-<script>
-        var slideIndex = 1;
-
-        function waitImgs() {
-          setTimeout("plusDivs(0)", 200);
-        }
-
-        function plusDivs(n) {
-          showDivs(slideIndex += n);
-        }
-
-        function showDivs(n) {
-          var i;
-          var x = document.getElementsByClassName("img-thumbnail");
-          if (n > x.length) {slideIndex = 1}
-          if (n < 1) {slideIndex = x.length}
-          for (i = 0; i < x.length; i++) {
-             x[i].style.display = "none";
-          }
-          x[slideIndex-1].style.display = "inline";
-          x[slideIndex].style.display = "inline";
-          x[slideIndex+1].style.display = "inline";
-          x[slideIndex+2].style.display = "inline";
-          x[slideIndex+3].style.display = "inline";
-          x[slideIndex+4].style.display = "inline";
-        }
-
-        function growImg(x) {
-            x.style.height = "64px";
-            x.style.width = "64px";
-        }
-
-        function normImg(x) {
-            x.style.height = "32px";
-            x.style.width = "32px";
-        }
-
-    </script>
-
 </body>
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -481,7 +427,7 @@
 <script src="assets/js/homepage.js" defer></script>
 <script src="assets/js/login.js" ></script>
 <script src="assets/js/js.cookie.js" ></script>
-<script src="assets/js/getSampleString.js"></script>
+<script src="assets/js/miscelaneous.js"></script>
 <script src="assets/js/createPieceAttributes.js"></script>
 
 </html>

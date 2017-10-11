@@ -144,6 +144,6 @@
 <script src="assets/js/results4.js"></script>
 <script src="assets/js/login.js" ></script>
 <script src="assets/js/js.cookie.js" ></script>
-<script src="assets/js/getSampleString.js"></script>
+<script src="assets/js/miscelaneous.js"></script>
 
 </html>

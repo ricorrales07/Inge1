@@ -201,20 +201,50 @@ function mirrorImage()
 }
 
 /*
-addPart: for now, a stub that just adds the same fixed pair of images.
-         supposedly, one of them is a front view of a piece, and the
-         other one is a side view.
+addPart: adds a part to the canvas
 
 returns: void
 */
-function addPart(partData, type) //proxy
+function addPart(partData, type)
 {
   console.log("creating sprite");
   var img1 = new Image();
-  img1.src = partData[0];
+
+  //img1.src = partData[0];
+
+  $.ajax({
+  		url: "/methods/getImageBinary",
+  		type: 'GET',
+  		data: {src: partData[0]},
+  		success:function(data, textStatus, jqXHR){
+  			img1.src = "data:image/png;base64," + data;
+  			console.log(partData[0] + " loaded successfully: " + data);
+  		},
+  		error:function(jqXHR, textStatus, errorThrown ){
+  		    //TODO: mostrar un error significativo para el usuario acá
+  			console.log(errorThrown);
+  		}
+  	});
+
   img1.onload = function(){
       var img2 = new Image();
-      img2.src = partData[1];
+
+      //img2.src = partData[1];
+
+        $.ajax({
+                url: "/methods/getImageBinary",
+                type: 'GET',
+                data: {src: partData[1]},
+                success:function(data, textStatus, jqXHR){
+                    img2.src = "data:image/png;base64," + data;
+                    console.log(partData[1] + " loaded successfully: " + data);
+                },
+                error:function(jqXHR, textStatus, errorThrown ){
+                    //TODO: mostrar un error significativo para el usuario acá
+                    console.log(errorThrown);
+                }
+            });
+
       img2.onload = function(){
           var imgs = {
               images: [img1, img2],
@@ -569,7 +599,7 @@ function saveCompositionData(){
     for(var i = 0; i < imagesAttributes.length; i = i + 3){
         images.push(
             {
-                image: "/assets/images/" + imagesAttributes[i].split("\\")[2],
+                image: "./userData/" + imagesAttributes[i].split("\\")[2],
                 name: imagesAttributes[i+1],
                 type: imagesAttributes[i+2]
             }
@@ -629,6 +659,7 @@ function saveCompositionData(){
     var data = [];
     pieces = [];
     for (var i = 0; i < composicionActual.partsList.length; i++){
+        var hiddenData = composicionActual.partIds[i].split("C");
         pieces.push(
             {_id: composicionActual.partIds[i],
             positionX: composicionActual.partsList[i].x,
@@ -636,8 +667,8 @@ function saveCompositionData(){
             ScaleX: composicionActual.partsList[i].scaleX,
             ScaleY: composicionActual.partsList[i].scaleY,
             Rotation: composicionActual.partsList[i].rotation,
-            Source1: (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21),
-            Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21),
+            Source1: "./userData/" + hiddenData[0] + "/PieceA" + hiddenData[1] + ".png",
+            Source2: "./userData/" + hiddenData[0] + "/PieceB" + hiddenData[1] + ".png",
             PieceType: composicionActual.partsList[i].pieceType
             }
         );
@@ -663,8 +694,8 @@ function saveCompositionData(){
         contentType: "text/plain",
         success:function(data, textStatus, jqXHR){
             if(data == "Repeated"){
-                alert("There are another composition with the sames pieces.\n" +
-                    "Please change, add or delete one in your current" +
+                alert("There is another composition with the sames pieces.\n" +
+                    "Please change, add or delete one piece in your current" +
                     "composition to be able to save it.");
                 result =  false
             } else {
@@ -734,6 +765,7 @@ function trySearch(){
     var data = [];
     pieces = [];
         for (var i = 0; i < composicionActual.partsList.length; i++){
+            var hiddenData = composicionActual.partIds[i].split("C");
             pieces.push(
                 {_id: composicionActual.partIds[i],
                 positionX: composicionActual.partsList[i].x,
@@ -741,8 +773,8 @@ function trySearch(){
                 ScaleX: composicionActual.partsList[i].scaleX,
                 ScaleY: composicionActual.partsList[i].scaleY,
                 Rotation: composicionActual.partsList[i].rotation,
-                Source1: (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21),
-                Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21)
+                Source1: "./userData/" + hiddenData[0] + "/PieceA" + hiddenData[1] + ".png",
+                Source2: "./userData/" + hiddenData[0] + "/PieceB" + hiddenData[1] + ".png",
                 }
             );
         }
@@ -833,6 +865,7 @@ function modifySearchButton()
 {
   pieces = [];
       for (var i = 0; i < composicionActual.partsList.length; i++){
+          var hiddenData = composicionActual.partIds[i].split("C");
           pieces.push(
               {_id: composicionActual.partIds[i],
               positionX: composicionActual.partsList[i].x,
@@ -840,8 +873,8 @@ function modifySearchButton()
               ScaleX: composicionActual.partsList[i].scaleX,
               ScaleY: composicionActual.partsList[i].scaleY,
               Rotation: composicionActual.partsList[i].rotation,
-              Source1: (composicionActual.partsList[i].spriteSheet._images["0"].src).substr(21),
-              Source2: (composicionActual.partsList[i].spriteSheet._images["1"].src).substr(21)
+              Source1: "./userData/" + hiddenData[0] + "/PieceA" + hiddenData[1] + ".png",
+              Source2: "./userData/" + hiddenData[0] + "/PieceB" + hiddenData[1] + ".png",
               }
           );
       }
@@ -862,29 +895,60 @@ function modifySearchButton()
   link.setAttribute("href", "/searchResults?searchJSON=" + sJSON);
 }
 
+$('#btnSavedImages').on('click', function()
+    {
+        document.getElementById('typeAttr').selectedIndex = 0;
+        waitImgs();
+        registeredImages(false, 'new', 'All');
+    }
+);
 
+$('#btnOwnedImages').on('click', function()
+    {
+        document.getElementById('typeAttrOwn').selectedIndex = 0;
+        waitImgs();
+        registeredImages(true, 'new', 'All');
+    }
+);
 
+var slideIndex = 1;
 
+function waitImgs() {
+  setTimeout("plusDivs(0)", 200);
+}
 
-/*$("#searchButton").click(function() {
-    $("modalImage").each(function(){
-    	$(this).remove();
-	});
-	console.log("searchButton clicked");
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
 
-
-
-  $.ajax({
-  url: "/searchResults",
-  type: 'GET',
-  data: {
-    searchJSON: sJSON
-  },
-  success:function(data, textStatus, jqXHR){
-
-  },
-  error:function(jqXHR, textStatus, errorThrown ){
-    console.log(errorThrown);
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("img-thumbnail");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
   }
+  x[slideIndex-1].style.display = "inline";
+  x[slideIndex].style.display = "inline";
+  x[slideIndex+1].style.display = "inline";
+  x[slideIndex+2].style.display = "inline";
+  x[slideIndex+3].style.display = "inline";
+  x[slideIndex+4].style.display = "inline";
+}
+
+function growImg(x) {
+    x.style.height = "64px";
+    x.style.width = "64px";
+}
+
+function normImg(x) {
+    x.style.height = "32px";
+    x.style.width = "32px";
+}
+
+$('#loadCompositionButton').on('click', function()
+{
+    waitImgs();
+    showCompositions();
 });
-});*/

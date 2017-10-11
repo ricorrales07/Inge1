@@ -18,7 +18,7 @@ function getCompositionData(compositionId){
     $.ajax({
 		url: "/methods/getCompositionData",
 		type: 'GET',
-    data: {id: compositionId},
+        data: {id: compositionId},
 		contentType: "text/plain",
 		success:function(data, textStatus, jqXHR){
       console.log("data received: " + data);

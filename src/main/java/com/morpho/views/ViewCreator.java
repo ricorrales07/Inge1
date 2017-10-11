@@ -1,5 +1,8 @@
 package com.morpho.views;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 import com.mongodb.client.FindIterable;
@@ -16,6 +19,7 @@ import org.bson.Document;
 
 //import javax.swing.text.Document;
 import javax.validation.constraints.Max;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * Created by Irvin Umaña on 29/4/2017.
@@ -80,8 +84,9 @@ public class ViewCreator {
             {
                 MorphoApplication.logger.info("Adding piece: "
                         + piece.getString("SourceFront"));
+
                 pieces += "<div class=\"item\">\n" +
-                        "<img src=\"" + piece.getString("SourceFront") + "\">\n" +
+                        "<img src=\"data:image/png;base64," + MorphoApplication.getImageBytes(piece.getString("SourceFront")) + "\">\n" +
                         "</div>";
             }
             if (pieces.equals(""))
@@ -103,9 +108,12 @@ public class ViewCreator {
             {
                 MorphoApplication.logger.info("Adding composition: "
                         + composition.getString("imgSource"));
+
                 compositions += "<div class=\"item\">\n" +
-                        "<img src=\"" + composition.getString("imgSource") + "\">\n" +
-                        "</div>";
+                                "<img src=\"data:image/png;base64," +
+                                MorphoApplication.getImageBytes(composition.getString("imgSource")) +
+                                "\">\n" +
+                                "</div>";
             }
             if (compositions.equals(""))
                 compositions = "No compositions found for this user.";
@@ -122,7 +130,6 @@ public class ViewCreator {
         profileTemplate.setAttribute("institution", institution);
         profileTemplate.setAttribute("phone", phone);
         profileTemplate.setAttribute("email", email);
-        //profileTemplate.setAttribute("initFunction", "\"init(" + userId + ");\"");
 
         return profileTemplate.toString();
     }

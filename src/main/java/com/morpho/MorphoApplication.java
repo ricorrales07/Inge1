@@ -14,6 +14,10 @@ import io.dropwizard.Application;
 
 import com.mongodb.MongoClient;
 
+import javax.xml.bind.DatatypeConverter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.*;
 
 /**
@@ -81,6 +85,28 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         environment.jersey().register(resourcesMethods);
 
         //dbaExample(DBA); //ejemplo
+    }
+
+    public static String getImageBytes(String src) {
+        try {
+            FileInputStream image = new FileInputStream(src);
+            byte[] imageBytes = new byte[0];
+            for (byte[] ba = new byte[image.available()];
+                 image.read(ba) != -1; ) {
+                byte[] baTmp = new byte[imageBytes.length + ba.length];
+                System.arraycopy(imageBytes, 0, baTmp, 0, imageBytes.length);
+                System.arraycopy(ba, 0, baTmp, imageBytes.length, ba.length);
+                imageBytes = baTmp;
+            }
+
+            return DatatypeConverter.printBase64Binary(imageBytes);
+        } catch (FileNotFoundException e) {
+            logger.warning(e.toString());
+            return "";
+        } catch (IOException e) {
+            logger.warning(e.toString());
+            return "";
+        }
     }
 
     /*Ejemplo de consultas

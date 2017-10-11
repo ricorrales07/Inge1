@@ -134,17 +134,19 @@ public class AppResourcesMethods {
             //TODO: sacar esto de acá, solo debería ir la línea anterior
             for (org.bson.Document json : imgJsons)
             {
-                String src;
+                String srcBytes;
                 String method;
                 if(receivedJSON.get("collection").toString().equals("piece")){
-                    src = json.getString("SourceFront");
+
+                    srcBytes = MorphoApplication.getImageBytes(json.getString("SourceFront"));
+
                     method = "addImageToCanvas(this,'" + json.getString("SourceFront") + "','" + json.getString("SourceSide")
                             + "','" + json.getString("_id") + "','" + receivedJSON.get("type").toString() + "'," + Integer.parseInt(json.getString("Type")) + ")";
                 }else{
-                    src = json.getString("imgSource");
+                    srcBytes = MorphoApplication.getImageBytes(json.getString("imgSource"));
                     method = "loadComposition('" + json.getString("_id") + "')";
                 }
-                html += "<modalImages data-dismiss=\"modal\"> <img src=\"" + src
+                html += "<modalImages data-dismiss=\"modal\"> <img src=\"data:image/png;base64," + srcBytes
                         + "\" class = \"img-thumbnail\" onclick=\"" + method + "\" /> </modalImages>";
             }
         }
@@ -412,7 +414,7 @@ public class AppResourcesMethods {
             String fileID = "";
             String fileName = "";
             if(data[0].equals("Piece")) {
-                f = new File(".\\src\\main\\resources\\assets\\images\\" + data[5]);
+                f = new File("./userData/" + data[5]);
                 MorphoApplication.logger.info("filename: " + f.getName());
                 f.mkdir();
                 String imageData = data[2];
@@ -425,8 +427,8 @@ public class AppResourcesMethods {
                 }else{
                     fileID = data[6].split("C")[1];
                 }
-                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[5] + "\\PieceA" + fileID + ".png"));
-                ImageIO.write(ImageIO.read(bitB), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[5] + "\\PieceB" + fileID + ".png"));
+                ImageIO.write(ImageIO.read(bit), "png", new File("./userData/" + data[5] + "/PieceA" + fileID + ".png"));
+                ImageIO.write(ImageIO.read(bitB), "png", new File("./userData/" + data[5] + "/PieceB" + fileID + ".png"));
                 builder = Response.ok("Image saved");
             }else{
                 String imageData = data[2];
@@ -437,8 +439,8 @@ public class AppResourcesMethods {
                 }else{
                     fileID = data[4].split("C")[1];
                 }
-                ImageIO.write(ImageIO.read(bit), "png", new File(".\\src\\main\\resources\\assets\\images\\" + data[3] + "\\Composition" + fileID + ".png"));
-                imgSource = "/resources/assets/images/" + data[3] + "/Composition" + fileID + ".png";
+                ImageIO.write(ImageIO.read(bit), "png", new File("./userData/" + data[3] + "/Composition" + fileID + ".png"));
+                imgSource = "./userData/" + data[3] + "/Composition" + fileID + ".png";
                 builder = Response.ok("Image saved");
                 builder.entity(imgSource+ "," + data[3] + "C" + fileID);
             }
@@ -553,9 +555,9 @@ public class AppResourcesMethods {
                 }
                 a = (JSONObject) new JSONParser().parse(receivedJSON.get("piece").toString());
                 JSONObject id = (JSONObject) new JSONParser().parse(receivedJSON.get("auth").toString());
-                a.put("SourceFront", "assets/images/" + id.get("userID") + "/PieceA" + fileID + ".png");
-                MorphoApplication.logger.info("Saving piece: " + "assets/images/PieceA" + fileID + ".png");
-                a.put("SourceSide", "assets/images/" + id.get("userID") + "/PieceB" + fileID + ".png");
+                a.put("SourceFront", "./userData/" + id.get("userID") + "/PieceA" + fileID + ".png");
+                MorphoApplication.logger.info("Saving piece: " + "./userData/" + id.get("userID") + "/PieceA" + fileID + ".png");
+                a.put("SourceSide", "./userData/" + id.get("userID") + "/PieceB" + fileID + ".png");
                 try {
                     MorphoApplication.logger.info("Saving piece: user ID: " + id.get("userID").toString());
                     a.put("_id", id.get("userID").toString() + "C" + fileID);
@@ -628,11 +630,9 @@ public class AppResourcesMethods {
                         JSONObject o1 = (JSONObject) new JSONParser().parse(partsArray.get(i).toString());
                         for (int j = 0; j < documentArray.size(); j++) {
                             JSONObject o2 = (JSONObject) new JSONParser().parse(documentArray.get(j).toString());
-                            if (o1.get("Source1").equals(o2.get("Source1"))) {
-                                if (o1.get("Source2").equals(o2.get("Source2"))) {
-                                    equalAttributes++;
-                                    break;
-                                }
+                            if (o1.get("_id").equals(o2.get("_id"))) {
+                                equalAttributes++;
+                                break;
                             }
                         }
                     }
@@ -651,7 +651,7 @@ public class AppResourcesMethods {
         }
 
         if(equals){
-            System.err.println("Repeated composition");
+            MorphoApplication.logger.warning("Repeated composition");
             builder.entity("Repeated");
         }else {
             String fileID;
@@ -666,7 +666,7 @@ public class AppResourcesMethods {
                 try {
                     compositionID = id.get("userID").toString() + "C" + fileID;
                     data.put("_id", compositionID);
-                    data.put("imgSource", "assets/images/" + id.get("userID").toString() + "/Composition" + fileID + ".png");
+                    data.put("imgSource", "./userData/" + id.get("userID").toString() + "/Composition" + fileID + ".png");
                 } catch (NullPointerException e) {
                     data.put("_id", "0C" + compositionID);
                 }
@@ -862,6 +862,24 @@ public class AppResourcesMethods {
         }
 
         builder = Response.ok("Successfully updated user data");
+        builder.status(200);
+        return builder.build();
+    }
+
+    @GET
+    @Path("getImageBinary")
+    public Response getImageBinary(@QueryParam("src") String src) {
+        ResponseBuilder builder;
+        Document json = new Document();
+
+        MorphoApplication.logger.info("Recieved info: " + src);
+
+        String b = MorphoApplication.getImageBytes(src);
+
+        MorphoApplication.logger.info("result: " + b);
+
+        builder = Response.ok("Successfuly fetched data");
+        builder.entity(b);
         builder.status(200);
         return builder.build();
     }
