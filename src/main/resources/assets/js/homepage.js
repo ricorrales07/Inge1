@@ -739,6 +739,7 @@ function loadComposition(id){
                 pieceLimits[result[x].PieceType]++;
                 addPart(pieces, "new");
             }
+            modifySearchButton();
         },
         error:function(jqXHR, textStatus, errorThrown){
             console.log(errorThrown);
