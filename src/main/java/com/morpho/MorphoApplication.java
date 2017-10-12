@@ -66,8 +66,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
     @Override
     public void run(MorphoConfiguration configuration,
                     Environment environment) {
-        AppResourcesPages resourcesPages = new AppResourcesPages();
-        AppResourcesMethods resourcesMethods = new AppResourcesMethods();
+
 
         final MongoClient mongoClient = new MongoClient(configuration.mongohost, configuration.mongoport);
         final MongoHealthCheck mongoHealthCheck = new MongoHealthCheck(mongoClient);
@@ -75,6 +74,9 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         DBA = new DBAdministrator(mongoClient);
         Auth = new Authenticator();
         searcher = new SearchEngine();
+
+        AppResourcesPages resourcesPages = new AppResourcesPages();
+        AppResourcesMethods resourcesMethods = new AppResourcesMethods(DBA);
 
         environment.healthChecks().register("MongoDBHealthCheck", mongoHealthCheck);
         environment.jersey().register(resourcesPages);

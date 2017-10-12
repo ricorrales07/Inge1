@@ -10,6 +10,7 @@ import com.google.api.client.http.LowLevelHttpRequest;
 import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
 import com.morpho.entities.Authentication;
+import com.morpho.server.DBAdministrator;
 import com.morpho.views.ViewCreator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -54,12 +55,14 @@ public class AppResourcesMethods {
     ViewCreator viewCreator;
     int pieceCounter = 0;
     int compositionCounter = 0;
+    DBAdministrator dbA;
 
 
     private static final JacksonFactory jacksonFactory = new JacksonFactory();
     
 
-    public AppResourcesMethods(){
+    public AppResourcesMethods(DBAdministrator dbA){
+        this.dbA = dbA; //I am responsible.
         viewCreator = new ViewCreator();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(".\\src\\main\\resources\\assets\\imagesData\\PieceCounter.txt"));

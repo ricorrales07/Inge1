@@ -96,12 +96,17 @@ public class SearchEngine {
         return code;
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
     public String addSearchIdToPiece(String data)
     {
         Document dataD = Document.parse(data);
         Document piece = (Document)dataD.get("piece");
 
-        digester.update(piece.toJson().getBytes());
+        digester.update(piece.toJson().getBytes()); //
         ByteBuffer buffer = ByteBuffer.wrap(digester.digest());
         int hashValue = buffer.getInt();
 

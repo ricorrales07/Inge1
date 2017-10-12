@@ -1,18 +1,20 @@
 package com.morpho.server;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.MongoWriteException;
+import com.mongodb.*;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
 import org.bson.conversions.Bson;
 import com.mongodb.client.MongoDatabase;
 import io.dropwizard.lifecycle.Managed;
-import com.mongodb.MongoClient;
 import org.bson.Document;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import javax.print.Doc;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ricardo on 29/4/2017.
@@ -20,10 +22,12 @@ import javax.print.Doc;
 public class DBAdministrator implements Managed {
     private final MongoClient client;
     private final MongoDatabase db;
+    private JSONParser jsonParser;
 
     public DBAdministrator(MongoClient client) {
         this.client = client;
         this.db = client.getDatabase("MorphoDB");
+        jsonParser = new JSONParser();
     }
 
     /**
@@ -83,6 +87,23 @@ public class DBAdministrator implements Managed {
             return null;
         }
     }
+
+    public List<String> Search(String collection, String filter) throws Exception{
+        List<String> results = new ArrayList<String>();
+        try{
+            MongoCursor cursor = db.getCollection(collection).find((Bson) JSON.parse(filter)).cursorType(CursorType.Tailable).iterator();
+            while(cursor.hasNext()){
+                results.add(cursor.next().toString());
+            }
+
+        }catch (Exception e){
+            MorphoApplication.logger.info(e.toString());
+            e.printStackTrace(); //We want to see the problem in the console toooooo.
+        }
+        return results;
+    }
+
+
 
     public Document documentFind(String collection, String filter) throws Exception {
         try {
