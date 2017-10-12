@@ -34,10 +34,11 @@ function addProperty(){
 	
 }
 
-function statusChangeCallback(response) {
+//Espero que comentar esto no rompa nada (Ricardo)
+/*function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
-}
+}*/
 
 $('#saveButton').on('click', savePiece);
 

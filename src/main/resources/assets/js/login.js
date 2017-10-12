@@ -7,6 +7,7 @@ window.fbAsyncInit = function() {
 	});
 	FB.AppEvents.logPageView();
 	FB.getLoginStatus(function(response) {
+	  console.log("login/out (facebook)");
       statusChangeCallback(response);
      });
 
@@ -48,6 +49,7 @@ var auth_status_change_callback = function(response) {
 		Cookies.set("accessToken", response.authResponse.accessToken);
 
 		$("#pieceEditorLink").show();
+		$("#profileLink").show();
 		$("#LogButtonText").html("Log Out");
 	}
 	else {
@@ -131,19 +133,38 @@ $('#profileLink').on('click', function(){
         + "userType=" + Cookies.get("userType")
         + "&access_token=" + Cookies.get("accessToken")
         + "&userId=" + Cookies.get("userID");
-
-    /*$.ajax({
-        url: "/profile",
-        type: 'GET',
-        data: {userType: Cookies.get("userType"),
-               access_token: Cookies.get("accessToken"),
-               userId: Cookies.get("userID")},
-        success:function(data, textStatus, jqXHR){
-            console.log("ok");
-            window.location.href = data;
-        },
-        error:function(jqXHR, textStatus, errorThrown ){
-            console.log(errorThrown);
-        }
-    });*/
 });
+
+function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    console.log("quack");
+    console.log(response.status);
+    if (response.status === 'connected') {
+      document.getElementById("pieceEditorLink").style.visibility = "visible";
+      document.getElementById("saveCompositionButton").disabled = false;
+      document.getElementById("LogInOut").children[0].style.display = "none";
+      document.getElementById("LogInOut").children[1].style.display = "none";
+    } else {
+      document.getElementById("pieceEditorLink").style.visibility = "hidden";
+      document.getElementById("saveCompositionButton").disabled = true;
+      document.getElementById("LogInOut").children[0].style.display = "initial";
+      document.getElementById("LogInOut").children[1].style.display = "initial";
+    }
+}
+
+function onSignInGmail()
+{
+    document.getElementById("pieceEditorLink").style.visibility = "visible";
+    document.getElementById("saveCompositionButton").disabled = false;
+    document.getElementById("LogInOut").children[1].style.display = "inline";
+    document.getElementById("LogInOut").children[4].style.display = "none";
+}
+
+function onSignOutGmail()
+{
+    document.getElementById("pieceEditorLink").style.visibility = "hidden";
+    document.getElementById("saveCompositionButton").disabled = true;
+    document.getElementById("LogInOut").children[1].style.display = "none";
+    document.getElementById("LogInOut").children[4].style.display = "inline";
+}

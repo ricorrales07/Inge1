@@ -952,35 +952,3 @@ $('#loadCompositionButton').on('click', function()
     waitImgs();
     showCompositions();
 });
-
-function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    if (response.status === 'connected') {
-      document.getElementById("pieceEditorLink").style.visibility = "visible";
-      document.getElementById("saveCompositionButton").disabled = false;
-      document.getElementById("LogInOut").children[0].style.display = "none";
-      document.getElementById("LogInOut").children[1].style.display = "none";
-    } else {
-      document.getElementById("pieceEditorLink").style.visibility = "hidden";
-      document.getElementById("saveCompositionButton").disabled = true;
-      document.getElementById("LogInOut").children[0].style.display = "initial";
-      document.getElementById("LogInOut").children[1].style.display = "initial";
-    }
-}
-
-function onSignInGmail()
-{
-    document.getElementById("pieceEditorLink").style.visibility = "visible";
-    document.getElementById("saveCompositionButton").disabled = false;
-    document.getElementById("LogInOut").children[1].style.display = "inline";
-    document.getElementById("LogInOut").children[4].style.display = "none";
-}
-
-function onSignOutGmail()
-{
-    document.getElementById("pieceEditorLink").style.visibility = "hidden";
-    document.getElementById("saveCompositionButton").disabled = true;
-    document.getElementById("LogInOut").children[1].style.display = "none";
-    document.getElementById("LogInOut").children[4].style.display = "inline";
-}
