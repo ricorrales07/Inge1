@@ -43,14 +43,12 @@ var auth_status_change_callback = function(response) {
 				console.log(errorThrown);
 			}
 		});
+		Cookies.set("userType", "facebook");
 		Cookies.set("userID", response.authResponse.userID);
 		Cookies.set("accessToken", response.authResponse.accessToken);
 
 		$("#pieceEditorLink").show();
 		$("#LogButtonText").html("Log Out");
-		$("#profileLink").show().attr('href', "/profile?access_token="
-		+ response.authResponse.accessToken + "&userId="
-		+ response.authResponse.userID);
 	}
 	else {
 		console.log("disconnected")
@@ -79,7 +77,7 @@ function onSignIn(googleUser) {
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   var id_token = googleUser.getAuthResponse().id_token; // The ID token you need to pass to your backend:
-  //console.log("ID Token: " + id_token);
+  console.log("ID Token: " + id_token);
   onSignInGmail();
 
   		$.ajax({
@@ -95,8 +93,11 @@ function onSignIn(googleUser) {
   				console.log(errorThrown);
   			}
   		});
+  		Cookies.set("userType", "gmail");
   		Cookies.set("accessToken", id_token);
+  		Cookies.set("userID", profile.getId());
   		$("#pieceEditorLink").show();
+  		$("#profileLink").show();
   		$("#LogButtonText").html("Log Out");
   	}
 
@@ -120,5 +121,29 @@ function signOut() {
     });
     $("#pieceEditorLink").hide();
     $("#LogButtonText").html("Log in");
-    document.location.href = '/';
-  }
+    //document.location.href = '/';
+    $("#profileLink").hide();
+    $("#loginModal").modal('toggle');
+}
+
+$('#profileLink').on('click', function(){
+    window.location.href = "./profile?"
+        + "userType=" + Cookies.get("userType")
+        + "&access_token=" + Cookies.get("accessToken")
+        + "&userId=" + Cookies.get("userID");
+
+    /*$.ajax({
+        url: "/profile",
+        type: 'GET',
+        data: {userType: Cookies.get("userType"),
+               access_token: Cookies.get("accessToken"),
+               userId: Cookies.get("userID")},
+        success:function(data, textStatus, jqXHR){
+            console.log("ok");
+            window.location.href = data;
+        },
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });*/
+});

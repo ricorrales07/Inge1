@@ -33,31 +33,10 @@ public class ViewCreator {
 
     }
 
-    //JUST AN EXAMPLE.
-    public String getSamplePage(){
-        StringTemplate templateSample = group.getInstanceOf("sample");
-        templateSample.setAttribute("ESTUDIANTE","lol");
-        return templateSample.toString();
-    }
-
-    public String getProfile(String accessToken, String userId){
+    private String getProfile(String name, String picture, String userId)
+    {
         StringTemplate profileTemplate = group.getInstanceOf("profile");
         profileTemplate.setAttribute("loginModal", group.getInstanceOf("loginModal"));
-
-        String response = MorphoApplication.Auth.getResponseFromURL("https://graph.facebook.com/"
-                + userId + "?access_token=" + accessToken
-                + "&fields=name,picture.height(200)");
-
-        MorphoApplication.logger.info("JSON gotten when opening profile: " + response);
-
-        String name = "Name error", picture = "";
-        try {
-            JSONObject dataJSON = (JSONObject) new JSONParser().parse(response);
-            name = (String) dataJSON.get("name");
-            picture = (String) ((JSONObject) ((JSONObject) dataJSON.get("picture")).get("data")).get("url");
-        } catch(ParseException e) {
-            MorphoApplication.logger.warning(e.toString());
-        }
 
         String userInfo = "", email="", institution="", phone="";
         try {
@@ -110,10 +89,10 @@ public class ViewCreator {
                         + composition.getString("imgSource"));
 
                 compositions += "<div class=\"item\">\n" +
-                                "<img src=\"data:image/png;base64," +
-                                MorphoApplication.getImageBytes(composition.getString("imgSource")) +
-                                "\">\n" +
-                                "</div>";
+                        "<img src=\"data:image/png;base64," +
+                        MorphoApplication.getImageBytes(composition.getString("imgSource")) +
+                        "\">\n" +
+                        "</div>";
             }
             if (compositions.equals(""))
                 compositions = "No compositions found for this user.";
@@ -132,6 +111,44 @@ public class ViewCreator {
         profileTemplate.setAttribute("email", email);
 
         return profileTemplate.toString();
+    }
+
+    public String getProfileUsingGmail(String accessToken){
+        String response = MorphoApplication.Auth.getResponseFromURL("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token="
+                + accessToken);
+
+        MorphoApplication.logger.info("JSON gotten when opening profile: " + response);
+
+        String name = "Name error", picture = "", userId = "";
+        try {
+            JSONObject dataJSON = (JSONObject) new JSONParser().parse(response);
+            name = (String) dataJSON.get("name");
+            picture = (String) dataJSON.get("picture") + "?sz=200";
+            userId = (String) dataJSON.get("sub");
+        } catch(ParseException e) {
+            MorphoApplication.logger.warning(e.toString());
+        }
+
+        return getProfile(name, picture, userId);
+    }
+
+    public String getProfileUsingFacebook(String accessToken, String userId){
+        String response = MorphoApplication.Auth.getResponseFromURL("https://graph.facebook.com/"
+                + userId + "?access_token=" + accessToken
+                + "&fields=name,picture.height(200)");
+
+        MorphoApplication.logger.info("JSON gotten when opening profile: " + response);
+
+        String name = "Name error", picture = "";
+        try {
+            JSONObject dataJSON = (JSONObject) new JSONParser().parse(response);
+            name = (String) dataJSON.get("name");
+            picture = (String) ((JSONObject) ((JSONObject) dataJSON.get("picture")).get("data")).get("url");
+        } catch(ParseException e) {
+            MorphoApplication.logger.warning(e.toString());
+        }
+
+        return getProfile(name, picture, userId);
     }
 
     /**

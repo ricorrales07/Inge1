@@ -317,13 +317,13 @@ public class AppResourcesMethods {
                     try {
                         MorphoApplication.DBA.insert("users", new Authentication(userID, accessToken).toString());
                         MorphoApplication.DBA.update("users", "{_id: \"" + userID
-                                + "\"}", "{$set: {email: \"" + email + "\"}}");
+                                + "\"}", "{$set: {email: \"" + email + "\", userType: \"facebook\"}}");
                     }
                     catch(MongoWriteException e)
                     {
                         MorphoApplication.DBA.update("users", "{_id: \"" + userID
                                 + "\"}", "{$set: {accessToken: \"" + accessToken
-                                + "\"}}");
+                                + "\", email: \"NOT FOUND\", userType: \"facebook\"}}");
                     }
 
 
@@ -355,7 +355,7 @@ public class AppResourcesMethods {
         HttpTransport transport = new ApacheHttpTransport();
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jacksonFactory)
-                .setAudience(Collections.singletonList("709424385084-659mmq5v3rqar8ufa96ns369ljauf25v.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList("86242289452-aj0nuiv6rgda9600phc9ao4qebppif1p.apps.googleusercontent.com"))
                 .build();
 
         JSONObject authJSON = null;
@@ -365,6 +365,8 @@ public class AppResourcesMethods {
             e.printStackTrace();
         }
         String accessToken = (String) authJSON.get("accessToken"); //Enviarlo exactamente como "accessToken"
+
+        MorphoApplication.logger.info("accessToken received: " + accessToken);
 
         GoogleIdToken idToken = verifier.verify(accessToken);
         if (idToken != null) {
@@ -386,7 +388,7 @@ public class AppResourcesMethods {
             try {
                 MorphoApplication.DBA.set("users", new Authentication(userId, accessToken).toString());
                 MorphoApplication.DBA.update("users", "{_id: \"" + userId
-                        + "\"}", "{$set: {email: \"" + email + "\"}}");
+                        + "\"}", "{$set: {email: \"" + email + "\", userType: \"gmail\"}}");
                 builder = Response.ok("Valid token sent");
                 builder.status(200);
             } catch (Exception e) {

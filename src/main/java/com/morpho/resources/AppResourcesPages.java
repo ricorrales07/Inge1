@@ -1,5 +1,6 @@
 package com.morpho.resources;
 
+import com.morpho.MorphoApplication;
 import com.morpho.views.ViewCreator;
 
 import javax.ws.rs.GET;
@@ -20,12 +21,6 @@ public class AppResourcesPages {
 
     public AppResourcesPages(){
         viewCreator = new ViewCreator();
-    }
-
-    @GET
-    @Path("sample")
-    public String getSamplePage() {
-        return viewCreator.getSamplePage();
     }
 
     /**
@@ -64,6 +59,17 @@ public class AppResourcesPages {
 
     @GET
     @Path("profile")
-    public String getProfile(@QueryParam("access_token") String accessToken, @QueryParam("userId") String userId)
-    { return viewCreator.getProfile(accessToken, userId); }
+    public String getProfile(@QueryParam("userType") String userType, @QueryParam("access_token") String accessToken, @QueryParam("userId") String userId)
+    {
+        if (userType.equals("facebook"))
+            return viewCreator.getProfileUsingFacebook(accessToken, userId);
+        else if (userType.equals("gmail")) {
+            MorphoApplication.logger.info("user type: " + userType);
+            return viewCreator.getProfileUsingGmail(accessToken);
+        }
+        else {
+            MorphoApplication.logger.warning("Unable to determine user type.");
+            return "ERROR";
+        }
+    }
 }
