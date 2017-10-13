@@ -367,17 +367,30 @@ function updateView(select){
 
 function saveCreation(){
     var canvas = document.getElementById("wildcard");
+    canvas.width = createPieceG.canvasStandardWidth
+    canvas.height = createPieceG.canvasStandardHeight;
+    var canvasContext = canvas.getContext("2d");
 
-	var imgFront = new Image;
+    var imgFront = new Image;
     imgFront.src = surfaceF.getCacheDataURL();
+
     imgFront.onload = function() {
+        canvasContext.drawImage(imgFront, 0, 0);
+        var frontView = canvas.toDataURL();
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
         var imgSide = new Image;
         imgSide.src = surfaceS.getCacheDataURL();
+
         imgSide.onload = function() {
-            $.ajax({
+        	canvasContext.drawImage(imgSide, 0, 0);
+            var sideView = canvas.toDataURL();
+            canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+        	$.ajax({
                 url: "/methods/saveCreatedImageFile",
                 type: 'POST',
-                data: "Piece," + imgFront.src + "," + imgSide.src + "," + Cookies.get("userID") + "," + direction,
+                data: "Piece," + frontView + "," + sideView + "," + Cookies.get("userID") + "," + direction,
                 contentType: "text/plain",
                 success:function(data, textStatus, jqXHR){
                     console.log("image saved in server directory")},
