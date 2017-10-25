@@ -34,7 +34,7 @@
 </div>
 
 <div class="row" id="searchResults">
-    <div class="col-md-10 resultsBlock">
+    <div class="col-md-offset-1 col-md-10 resultsBlock">
             <div class="row resultsBlockRow">
                 <div class="col-md-3 resultsCardSpace">
                     <div class="resultsCard">

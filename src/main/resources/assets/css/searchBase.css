@@ -19,11 +19,6 @@ img {
 #searchControlArea{
 	background-color: #3b3b3b;
 	border-bottom: 1px solid #222222;
-
-}
-
-.resultsBlock{
-	overflow-y: scroll;
 }
 
 .resultsCard{
@@ -33,6 +28,10 @@ img {
 		border: 1px solid #222222;
 		border-radius: 5px;
 		background-color: #3b3b3b;
+}
+
+.resultsCard:hover { 
+	border: 1px solid #30C8FF;
 }
 
 .resultsCardImage{
@@ -47,4 +46,8 @@ img {
 	width: 198px;
 	height: 198px;
 	overflow: hidden;
+}
+
+.resultsCardSpace{
+	margin-top: 15px;
 }
