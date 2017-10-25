@@ -1,0 +1,22 @@
+body{
+	background-color: #262626;
+	color: white;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.searchImage{
+	width: 200px;
+}
+
+.searchControls{
+	padding: 15px;
+}
+
+#searchControlArea{
+	background-color: #3b3b3b;
+	border-bottom: 1px solid #222222;
+}
