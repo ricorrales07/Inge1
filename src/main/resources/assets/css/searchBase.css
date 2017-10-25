@@ -22,7 +22,12 @@ img {
 
 }
 
+.resultsBlock{
+	overflow-y: scroll;
+}
+
 .resultsCard{
+		display: inline-block;
 		width: 230px;
 		padding: 15px;
 		border: 1px solid #222222;

@@ -34,22 +34,21 @@
 </div>
 
 <div class="row" id="searchResults">
-    <div class="col-md-12 resultsPage">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="resultsCard">
-                    <div class="resultsCardTop">
-                        <div class="resultsCardImage">
-                            <img src="http://data.whicdn.com/images/34473435/original.jpg">
+    <div class="col-md-10 resultsBlock">
+            <div class="row resultsBlockRow">
+                <div class="col-md-3 resultsCardSpace">
+                    <div class="resultsCard">
+                        <div class="resultsCardTop">
+                            <div class="resultsCardImage">
+                                <img src="http://data.whicdn.com/images/34473435/original.jpg">
+                            </div>
                         </div>
-                    </div>
-                    <div class="resultsCardInfo">
-                        Similarity: 1000%
+                        <div class="resultsCardInfo">
+                            Similarity: 1000%
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
     </div>
 </div>
 
