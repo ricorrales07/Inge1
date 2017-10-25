@@ -58,6 +58,7 @@ function registeredImages(owned, type, pieceType){
 	$("modalImages").each(function(){
     	$(this).remove();
 	});
+    $("#loadingImagesPieces").show();
 	console.log("btn clicked");
     $.ajax({
 		url: "/methods/getImagesDataInDB",
@@ -66,6 +67,7 @@ function registeredImages(owned, type, pieceType){
 		contentType: "text/plain",
 		success:function(data, textStatus, jqXHR){
 			if(owned) {
+                $("#loadingImagesPieces").hide();
                 $('#ownedImages').append(data)
             }else{
                 $('#images').append(data)

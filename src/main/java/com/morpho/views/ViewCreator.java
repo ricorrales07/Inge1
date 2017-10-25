@@ -319,4 +319,10 @@ public class ViewCreator {
         templateResults.setAttribute("compositionPhotos", compositionPhotos);
         return templateResults.toString();
     }
+
+    public String search(String searchType){
+        StringTemplate searchBase = group.getInstanceOf("searchBase");
+
+        return searchBase.toString();
+    }
 }

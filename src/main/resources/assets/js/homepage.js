@@ -810,6 +810,29 @@ function trySearch(){
         });
 }
 
+function searchSimilar(){
+  var url = '/search';
+  var auth = $.cookie('authentication');
+  var searchType = "similarComposition";
+
+  var formParams = "authentication="+auth+
+                    "searchType"+searchType;
+
+  $.ajax({
+      url: url,
+      type: 'POST'.
+      data: formParams,
+      success: function(data, textStatus, jqXHR){
+        console.log("succesSearchSimilar");
+
+      },
+      error:function(jqXHR, textStatus, errorThrown){
+        console.log("failSearchSimilar");
+      }
+  });
+
+}
+
 function tempSave() {
     $("input[type = file]").each(function () {
         imagesAttributes.push($(this).val());

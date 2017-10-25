@@ -3,10 +3,7 @@ package com.morpho.resources;
 import com.morpho.MorphoApplication;
 import com.morpho.views.ViewCreator;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -55,6 +52,13 @@ public class AppResourcesPages {
     public String getSearchResults(@QueryParam("searchJSON") String json)
     {
         return viewCreator.getResults(json);
+    }
+
+    @POST
+    @Path("search")
+    public String search(@FormParam("searchType") String searchType)
+    {
+        return viewCreator.search(searchType);
     }
 
     @GET

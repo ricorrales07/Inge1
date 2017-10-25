@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
     <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="assets/css/homepage.css">
+    <link rel="stylesheet" href="assets/mdl/material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>MorphoSpace</title>
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
     <meta name="google-signin-client_id" content="86242289452-aj0nuiv6rgda9600phc9ao4qebppif1p.apps.googleusercontent.com">
@@ -86,7 +88,10 @@
                                 </div>
                            </div>
                            <div class = "modal-body" align="center">
-                              <div id="ownedImages"></div>
+                              <div id="ownedImages">
+                                <!-- MDL Spinner Component with Single Color -->
+                                  <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active" id="loadingImagesPieces" style="display: none;"></div>
+                              </div>
                               <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                               <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
                            </div><br>
@@ -260,7 +265,7 @@
               <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions">Load composition</button>
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
               <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
-              <a id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</a>
+              <button id="searchSimilar" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="searchSimilar()">Search Similar</button>
             </div>
 
             <div  id="properties-nav-btn">
@@ -383,7 +388,7 @@
     <!--button onclick="window.location.reload()">reset</button-->
 
 </body>
-
+<script src="assets/mdl/material.min.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="assets/jquery/jquery-3.2.1.js"></script>
 <script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
