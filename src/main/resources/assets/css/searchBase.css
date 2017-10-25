@@ -19,4 +19,27 @@ img {
 #searchControlArea{
 	background-color: #3b3b3b;
 	border-bottom: 1px solid #222222;
+
+}
+
+.resultsCard{
+		width: 230px;
+		padding: 15px;
+		border: 1px solid #222222;
+		border-radius: 5px;
+		background-color: #3b3b3b;
+}
+
+.resultsCardImage{
+	width: 200px;
+}
+
+.resultsCardInfo{
+	padding-top: 15px
+}
+
+.resultsCardTop{
+	width: 198px;
+	height: 198px;
+	overflow: hidden;
 }

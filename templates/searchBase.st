@@ -36,7 +36,17 @@
 <div class="row" id="searchResults">
     <div class="col-md-12 resultsPage">
         <div class="row">
-            <div class="resultsCard">
+            <div class="col-md-12">
+                <div class="resultsCard">
+                    <div class="resultsCardTop">
+                        <div class="resultsCardImage">
+                            <img src="http://data.whicdn.com/images/34473435/original.jpg">
+                        </div>
+                    </div>
+                    <div class="resultsCardInfo">
+                        Similarity: 1000%
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -49,5 +59,6 @@
 <script src="assets/jquery/jquery-3.2.1.js"></script>
 <script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
 <script src="assets/js/js.cookie.js" ></script>
+<script src="assets/js/searchBase.js"></script>
 
 </html>
