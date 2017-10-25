@@ -815,6 +815,9 @@ function searchSimilar(){
   var auth = $.cookie('authentication');
   var searchType = "similarComposition";
 
+  //TODO
+  //* Take and send representative image of the composition canvas
+
   var formParams = "authentication="+auth+
                     "searchType"+searchType;
 

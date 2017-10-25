@@ -53,12 +53,19 @@ public class AppResourcesPages {
     {
         return viewCreator.getResults(json);
     }
-
+/*
     @POST
     @Path("search")
     public String search(@FormParam("searchType") String searchType)
     {
         return viewCreator.search(searchType);
+    }*/
+
+    @GET
+    @Path("search")
+    public String search()
+    {
+        return viewCreator.search("compositionSearch");
     }
 
     @GET
