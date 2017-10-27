@@ -263,9 +263,11 @@
               <a id="searchButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" href="/searchResults">Search</a>
             </div>
 
+            <!--
             <div  id="properties-nav-btn">
                 Properties
             </div>
+            -->
 
           </div>
         </div>
@@ -273,13 +275,13 @@
         <div class = "col-lg-10 col-md-10 col-sm-10">
             <canvas id="areaDeDibujo" width="1024" height="512">
             <canvas id="wildcard" />
-                Lo sentimos, su navegador no soporta nuestra aplicación.
+                Lo sentimos, su navegador no soporta nuestra aplicacion.
             </canvas>
         </div>
 
         <span class="toolset" id="attributes-menu">
 
-          <div id="attributes-menu-content" style="display:none">
+          <div id="attributes-menu-content"> <!-- style="display:none" -->
             <div id="attribute-card-editor" class="row">
               <button class="col-md-offset-3 col-md-6 nopadding" id="addProp" onclick="addProperty()">
                 Add Property
@@ -376,6 +378,7 @@
               <!-- End of Template  Card -->
             </div>
           </div>
+          <!-- End of attributes-menu-content -->
         </span>
       </div>
     </div>
