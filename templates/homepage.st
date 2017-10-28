@@ -236,7 +236,7 @@
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
                       <li><a style="display: none;" id="profileLink" href="#"><span class="glyphicon glyphicon-user"></span> My profile</a></li>
-                      <li><a  href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><span class="glyphicon glyphicon-log-in"></span> <span id="LogButtonText">Log In<span></a></li>
+                      <li><a  href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><span id="logIcon" class="glyphicon glyphicon-log-in"></span> <span id="LogButtonText">Log In<span></a></li>
                   </ul>
                   </div>
           </nav>

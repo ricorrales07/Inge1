@@ -51,6 +51,7 @@ var auth_status_change_callback = function(response) {
 		$("#pieceEditorLink").show();
 		$("#profileLink").show();
 		$("#LogButtonText").html("Log Out");
+		$("#logIcon").removeClass("glyphicon-log-in").addClass("glyphicon-log-out");
 	}
 	else {
 		console.log("disconnected")
@@ -67,6 +68,7 @@ var logout_event = function(response)
     $("#pieceEditorLink").hide();
     $("#profileLink").hide();
     $("#LogButtonText").html("Log In");
+    $("#logIcon").removeClass("glyphicon-log-out").addClass("glyphicon-log-in");
     console.log(response.status);
     document.location.href = '/';
 }
@@ -101,6 +103,7 @@ function onSignIn(googleUser) {
   		$("#pieceEditorLink").show();
   		$("#profileLink").show();
   		$("#LogButtonText").html("Log Out");
+  		$("#logIcon").removeClass("glyphicon-log-in").addClass("glyphicon-log-out");
   	}
 
 /*
@@ -123,6 +126,7 @@ function signOut() {
     });
     $("#pieceEditorLink").hide();
     $("#LogButtonText").html("Log in");
+    $("#logIcon").removeClass("glyphicon-log-out").addClass("glyphicon-log-in");
     //document.location.href = '/';
     $("#profileLink").hide();
     $("#loginModal").modal('toggle');
@@ -138,16 +142,30 @@ $('#profileLink').on('click', function(){
 function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
-    console.log("quack");
     console.log(response.status);
     if (response.status === 'connected') {
       document.getElementById("pieceEditorLink").style.visibility = "visible";
-      document.getElementById("saveCompositionButton").disabled = false;
+      try
+      {
+          document.getElementById("saveCompositionButton").disabled = false;
+      }
+      catch (e)
+      {
+          console.log("saveCompositionButton not found");
+      }
       document.getElementById("LogInOut").children[0].style.display = "none";
       document.getElementById("LogInOut").children[1].style.display = "none";
     } else {
+      console.log("not connected to facebook");
       document.getElementById("pieceEditorLink").style.visibility = "hidden";
-      document.getElementById("saveCompositionButton").disabled = true;
+      try
+      {
+          document.getElementById("saveCompositionButton").disabled = false;
+      }
+      catch (e)
+      {
+          console.log("saveCompositionButton not found");
+      }
       document.getElementById("LogInOut").children[0].style.display = "initial";
       document.getElementById("LogInOut").children[1].style.display = "initial";
     }
@@ -155,8 +173,16 @@ function statusChangeCallback(response) {
 
 function onSignInGmail()
 {
+    console.log("onSignInGmail");
     document.getElementById("pieceEditorLink").style.visibility = "visible";
-    document.getElementById("saveCompositionButton").disabled = false;
+    try
+    {
+        document.getElementById("saveCompositionButton").disabled = false;
+    }
+    catch (e)
+    {
+        console.log("saveCompositionButton not found");
+    }
     document.getElementById("LogInOut").children[1].style.display = "inline";
     document.getElementById("LogInOut").children[4].style.display = "none";
 }
@@ -164,7 +190,14 @@ function onSignInGmail()
 function onSignOutGmail()
 {
     document.getElementById("pieceEditorLink").style.visibility = "hidden";
-    document.getElementById("saveCompositionButton").disabled = true;
+    try
+    {
+        document.getElementById("saveCompositionButton").disabled = true;
+    }
+    catch (e)
+    {
+        console.log("saveCompositionButton not found");
+    }
     document.getElementById("LogInOut").children[1].style.display = "none";
     document.getElementById("LogInOut").children[4].style.display = "inline";
 }
