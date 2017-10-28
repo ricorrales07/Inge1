@@ -1,3 +1,8 @@
+.mainContainer
+{
+    padding: 0.01em 40px;
+}
+
 .img-thumbnail
 {
     width:150px;
@@ -75,10 +80,8 @@ canvas {
 }
 
 #attributes-menu{
-top: -480px;
-right: -300px;
-position: relative;
-
+top: 70px;
+right: 0px;
 }
 
 #searchType .typeAttr{

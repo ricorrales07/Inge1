@@ -173,12 +173,12 @@ body{
 }
 
 #attributes-menu-content{
-	width: 310px;
+	width: 260px;
 	float: right;
-	padding: 15px;
+	/*padding: 15px;*/
 	height: 100%;
 	display: inline-block;
-	overflow-y: scroll;
+	/*overflow-y: scroll;*/
 	
 }
 
@@ -390,7 +390,7 @@ body{
 }
 
 #attribute-card-list{
-	overflow-y: scroll;
+	/*overflow-y: scroll;*/
 }
 
 

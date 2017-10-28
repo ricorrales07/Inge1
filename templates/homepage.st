@@ -221,7 +221,7 @@
        </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
 
-    <div class = "container">
+    <div class="mainContainer">
 
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -246,7 +246,7 @@
       <div class = "row">
         <div class = "col-lg-2 col-md-2 col-sm-2 h-100" id = "sideBar">
           <div class = "h-100 btn-toolbar" role="toolbar">
-            <div class = "btn-group-vertical">
+            <div class = "col-lg-11 col-md-11 col-sm-11 btn-group-vertical">
               <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
               <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Grid Lines</button>
               <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
@@ -255,7 +255,7 @@
               <button id="deletePieceButton" class="btn btn-basic btn-responsive" onclick="deletePart();">Delete piece</button>
               <button id="changePieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'change', 'All');" data-dismiss="modal">Change piece</button>
             </div>
-            <div class = "btn-group-vertical align-bottom">
+            <div class = "col-lg-11 col-md-11 col-sm-11 btn-group-vertical align-bottom">
               <button id="newCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="newComposition();">New composition</button>
               <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions">Load composition</button>
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
@@ -272,7 +272,7 @@
           </div>
         </div>
 
-        <div class = "col-lg-10 col-md-10 col-sm-10">
+        <div class = "col-lg-8 col-md-8 col-sm-8">
             <canvas id="areaDeDibujo" width="1024" height="512">
             <canvas id="wildcard" />
                 Lo sentimos, su navegador no soporta nuestra aplicacion.
