@@ -590,6 +590,7 @@ function saveComp()
 
     if(saved) {
         saveCompositionImage();
+        alert("Composition successfully saved in the server.");
     }
 }
 
@@ -699,8 +700,7 @@ function saveCompositionData(){
                     "composition to be able to save it.");
                 result =  false
             } else {
-                alert("Composition successfully saved in the server.");
-                console.log("image saved in server directory");
+                console.log("composition data saved in server directory");
                 result = true
             }
         },
