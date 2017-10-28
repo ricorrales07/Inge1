@@ -87,6 +87,8 @@ $loginModal$
                             $pieces$
                             <!--div class="item">
                                 <img src="http://lorempixel.com/425/299/nature">
+                                <div class="glyphicon glyphicon-menu-up" align="right" style="color:#00a0da">7</div>
+                                <div class="glyphicon glyphicon-menu-down" align="right" style="color:#00a0da">98</div>
                             </div-->
                         </div>
                     </center>
