@@ -111,13 +111,39 @@ function addPiecesToCanvas(){
         success:function(data, textStatus, jqXHR) {
             console.log("Piece data obtained");
             var JSONData = JSON.parse(data);
-            var bitmapFront = new createjs.Bitmap(JSONData.SourceFront);
-            var bitmapSide = new createjs.Bitmap(JSONData.SourceSide);
-            surfaceF.addChild(bitmapFront).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
-            surfaceS.addChild(bitmapSide).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
 
-            addAttributes(JSONData, "piece");
+            $.ajax({
+                url: "/methods/getImageBinary",
+                type: 'GET',
+                data: {src: JSONData.SourceFront},
+                success:function(data, textStatus, jqXHR){
+                    var bitmapFront = new createjs.Bitmap("data:image/png;base64," + data);
+                    console.log(JSONData.SourceFront + " loaded successfully: " + data);
+                    var bitmapFront = new createjs.Bitmap("data:image/png;base64," + data);
+                    $.ajax({
+                        url: "/methods/getImageBinary",
+                        type: 'GET',
+                        data: {src: JSONData.SourceSide},
+                        success:function(data, textStatus, jqXHR){
+                            var bitmapSide = new createjs.Bitmap("data:image/png;base64," + data);
+                            console.log(JSONData.SourceSide + " loaded successfully: " + data);
 
+                            surfaceF.addChild(bitmapFront).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
+                            surfaceS.addChild(bitmapSide).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
+
+                            addAttributes(JSONData, "piece");
+                        },
+                        error:function(jqXHR, textStatus, errorThrown ){
+                            //TODO: mostrar un error significativo para el usuario acá
+                            console.log(errorThrown);
+                        }
+                    })
+                },
+                error:function(jqXHR, textStatus, errorThrown ){
+                    //TODO: mostrar un error significativo para el usuario acá
+                    console.log(errorThrown);
+                }
+			});
         },
         error:function(jqXHR, textStatus, errorThrown ){
             console.log(errorThrown);
