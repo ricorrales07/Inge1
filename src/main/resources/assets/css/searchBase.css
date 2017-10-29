@@ -10,15 +10,39 @@ img {
 
 .searchImage{
 	width: 200px;
+	background-color: white;
+}
+
+.searchImage img{
+	box-shadow: 0px 10px 10px #222222;
+    border-radius: 2px;
 }
 
 .searchControls{
 	padding: 15px;
+	right: 0px;
+	height: 230px;
+	overflow-y: hidden;
+	position: fixed;
+    z-index: 2;
+    background-color: #3b3b3b;
+	box-shadow: 0px 5px 10px #222222;
+}
+
+.searchControls label{
+	font-weight: 700;
+}
+
+.searchControls span{
+	font-style: italic;
+}
+#searchResults{
+		margin-top: 230px;
 }
 
 #searchControlArea{
 	background-color: #3b3b3b;
-	border-bottom: 1px solid #222222;
+	
 }
 
 .resultsCard{
@@ -51,3 +75,44 @@ img {
 .resultsCardSpace{
 	margin-top: 15px;
 }
+
+
+
+
+#goBack{
+	    /* margin-top: 85.5px; */
+    margin-top: 85px;
+    margin-left: 85px;
+    text-align: center;
+    color: #93928f;
+    width: 40px;
+    border-radius: 5px;
+    border: 1px solid #4E4E4E;
+    text-align: center;
+    font-weight: bold;
+    /* line-height: 2em; */
+    padding: 5px;
+}
+
+#goBack:hover{
+    color: #30C8FF;
+	border: 1px solid #30C8FF;
+}
+
+#compositionResultInfomration{
+	background-color: #4E4E4E;
+	   border-radius: 5px;
+    border: 1px solid #2F2F2F;
+        margin-left: 0px;
+    padding: 15px;
+}
+
+.currentCompositionInfo{
+    border-right: 1px dotted #2F2F2F;
+    height: 200px;
+}
+
+.hideInfo{
+	 display: none;
+}
+

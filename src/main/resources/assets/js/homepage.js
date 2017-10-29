@@ -23,6 +23,8 @@ var currentCompositionID = "undefined";
 
 var pieceLimits = [0,0,0,0,0]; // Head, Thorax, Legs, Antennas, Wings
 
+var onSearch = false; // this is helpful to avoid using toggle in the searche's ui
+
 /*
 selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
@@ -812,16 +814,19 @@ function trySearch(){
 
 function searchSimilar(){
   var url = '/search';
-  var auth = $.cookie('authentication');
+  //var auth = $.cookie('authentication');
   var searchType = "similarComposition";
 
   //TODO
   //* Take and send representative image of the composition canvas
 
-  var formParams = "authentication="+auth+
-                    "searchType"+searchType;
+  /*var formParams = "authentication="+auth+
+                    "searchType"+searchType;*/
 
-  $.ajax({
+
+changeContainers();
+
+ /* $.ajax({
       url: url,
       type: 'POST'.
       data: formParams,
@@ -832,7 +837,22 @@ function searchSimilar(){
       error:function(jqXHR, textStatus, errorThrown){
         console.log("failSearchSimilar");
       }
-  });
+  });*/
+
+}
+
+function changeContainers(){
+  var searchImg = new Image();
+  var canvasShot = document.getElementById('areaDeDibujo');
+  searchImg.src = canvasShot.toDataURL();
+  $(".searchImage").empty().append(searchImg);
+
+
+      $("#compositionMaker").toggle( "left" , function(){
+        $("#searchSimilarContainer").toggle("left");
+       });
+   
+   
 
 }
 
