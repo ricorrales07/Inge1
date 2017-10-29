@@ -21,7 +21,7 @@ var imagesAttributes = [];
 
 var currentCompositionID = "undefined";
 
-var pieceLimits = [0,0,0,0,0]; // Head, Thorax, Legs, Antennas, Wings
+var pieceLimits = [0,0,0,0,0]; // Head, Thorax, Legs, Tail, Wings
 
 /*
 selectPart: this function is called when a part is tapped or
@@ -150,14 +150,13 @@ returns: void
 }*/
 
 function addImageToCanvas(img, front, side, id, type, partType){
-    if(((partType == 0 || partType == 1) && pieceLimits[partType] == 1)
+    if(((partType == 0 || partType == 1 || partType == 3) && pieceLimits[partType] == 1)
     || (partType == 2 && pieceLimits[2] == 6)
-    || (partType == 3 && pieceLimits[3] == 2)
     || (partType == 4 && pieceLimits[4] == 4)){
         var typeName;
         switch (partType){
             case 0:
-                typeName = "heads";
+                typeName = "head";
                 break;
             case 1:
                 typeName = "thorax";
@@ -166,7 +165,7 @@ function addImageToCanvas(img, front, side, id, type, partType){
                 typeName = "legs";
                 break;
             case 3:
-                typeName = "antennas";
+                typeName = "tail";
                 break;
             case 4:
                 typeName = "wings";

@@ -14,7 +14,7 @@ function generateTypeIndex(value){
         return 1;
     }else if (value == "Leg"){
         return 2;
-    }else if (value == "Antenna"){
+    }else if (value == "Tail"){
         return 3;
     }else if (value == "Wing"){
         return 4;

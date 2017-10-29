@@ -305,7 +305,7 @@
                                               <option value="Head" selected>Head</option>
                                               <option value="Thorax" >Thorax</option>
                                               <option value="Leg">Leg</option>
-                                              <option value="Antenna">Antenna</option>
+                                              <option value="Tail">Tail</option>
                                               <option value="Wing">Wing</option>
                                             </select>
                                         </div>
