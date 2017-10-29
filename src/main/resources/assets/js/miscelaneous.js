@@ -10,9 +10,9 @@ var imagesToLoad = "new";
 function generateTypeIndex(value){
     if (value == "Head"){
         return 0;
-    }else if (value == "Thorax"){
+    }else if (value == "Torso"){
         return 1;
-    }else if (value == "Leg"){
+    }else if (value == "Feet"){
         return 2;
     }else if (value == "Tail"){
         return 3;

@@ -303,8 +303,8 @@
                                         <div class="card-input right-icon col-md-8 nopadding">
                                             <select class="typeAttr">
                                               <option value="Head" selected>Head</option>
-                                              <option value="Thorax" >Thorax</option>
-                                              <option value="Leg">Leg</option>
+                                              <option value="Torso" >Torso</option>
+                                              <option value="Feet">Feet</option>
                                               <option value="Tail">Tail</option>
                                               <option value="Wing">Wing</option>
                                               <option value="Beak">Beak</option>

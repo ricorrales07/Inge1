@@ -36,8 +36,8 @@
                                       <select class="typeAttr" id = "typeAttr" onchange = "waitImgs(); registeredImages(false, 'previous', this);">
                                         <option value="All" selected>All</option>
                                         <option value="Head">Head</option>
-                                        <option value="Thorax">Thorax</option>
-                                        <option value="Leg">Leg</option>
+                                        <option value="Torso">Torso</option>
+                                        <option value="Feet">Feet</option>
                                         <option value="Tail">Tail</option>
                                         <option value="Wing">Wing</option>
                                         <option value="Beak">Beak</option>
@@ -79,8 +79,8 @@
                                     <select class="typeAttr" id = "typeAttrOwn" onchange = "waitImgs(); registeredImages(true, 'previous', this);">
                                       <option value="All" selected>All</option>
                                       <option value="Head">Head</option>
-                                      <option value="Thorax">Thorax</option>
                                       <option value="Leg">Leg</option>
+                                      <option value="Torso">Torso</option>
                                       <option value="Tail">Tail</option>
                                       <option value="Wing">Wing</option>
                                       <option value="Beak">Beak</option>
