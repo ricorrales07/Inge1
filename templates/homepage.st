@@ -40,6 +40,7 @@
                                         <option value="Leg">Leg</option>
                                         <option value="Tail">Tail</option>
                                         <option value="Wing">Wing</option>
+                                        <option value="Beak">Beak</option>
                                       </select>
                                   </div>
                             </div>
@@ -82,6 +83,7 @@
                                       <option value="Leg">Leg</option>
                                       <option value="Tail">Tail</option>
                                       <option value="Wing">Wing</option>
+                                      <option value="Beak">Beak</option>
                                     </select>
                                 </div>
                            </div>

@@ -21,7 +21,7 @@ var imagesAttributes = [];
 
 var currentCompositionID = "undefined";
 
-var pieceLimits = [0,0,0,0,0]; // Head, Thorax, Legs, Tail, Wings
+var pieceLimits = [0,0,0,0,0,0]; // Head, Thorax, Legs, Tail, Wings, Beak
 
 /*
 selectPart: this function is called when a part is tapped or
@@ -150,7 +150,7 @@ returns: void
 }*/
 
 function addImageToCanvas(img, front, side, id, type, partType){
-    if(((partType == 0 || partType == 1 || partType == 3) && pieceLimits[partType] == 1)
+    if(((partType == 0 || partType == 1 || partType == 3 || partType == 5) && pieceLimits[partType] == 1)
     || (partType == 2 && pieceLimits[2] == 6)
     || (partType == 4 && pieceLimits[4] == 4)){
         var typeName;
@@ -169,6 +169,9 @@ function addImageToCanvas(img, front, side, id, type, partType){
                 break;
             case 4:
                 typeName = "wings";
+                break;
+            case 5:
+                typeName = "beak";
                 break;
         }
         alert("Is not possible to add more than " + pieceLimits[partType] + " " + typeName + " to the current composition.\n"

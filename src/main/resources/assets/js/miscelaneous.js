@@ -18,7 +18,9 @@ function generateTypeIndex(value){
         return 3;
     }else if (value == "Wing"){
         return 4;
-    }
+    }else if (value == "Beak"){
+    	return 5;
+	}
 }
 
 function btnSavedImages(){
