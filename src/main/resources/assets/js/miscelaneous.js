@@ -10,15 +10,17 @@ var imagesToLoad = "new";
 function generateTypeIndex(value){
     if (value == "Head"){
         return 0;
-    }else if (value == "Thorax"){
+    }else if (value == "Torso"){
         return 1;
-    }else if (value == "Leg"){
+    }else if (value == "Feet"){
         return 2;
-    }else if (value == "Antenna"){
+    }else if (value == "Tail"){
         return 3;
     }else if (value == "Wing"){
         return 4;
-    }
+    }else if (value == "Beak"){
+    	return 5;
+	}
 }
 
 function btnSavedImages(){

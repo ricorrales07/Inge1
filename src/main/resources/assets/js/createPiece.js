@@ -111,13 +111,39 @@ function addPiecesToCanvas(){
         success:function(data, textStatus, jqXHR) {
             console.log("Piece data obtained");
             var JSONData = JSON.parse(data);
-            var bitmapFront = new createjs.Bitmap(JSONData.SourceFront);
-            var bitmapSide = new createjs.Bitmap(JSONData.SourceSide);
-            surfaceF.addChild(bitmapFront).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
-            surfaceS.addChild(bitmapSide).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
 
-            addAttributes(JSONData, "piece");
+            $.ajax({
+                url: "/methods/getImageBinary",
+                type: 'GET',
+                data: {src: JSONData.SourceFront},
+                success:function(data, textStatus, jqXHR){
+                    var bitmapFront = new createjs.Bitmap("data:image/png;base64," + data);
+                    console.log(JSONData.SourceFront + " loaded successfully: " + data);
+                    var bitmapFront = new createjs.Bitmap("data:image/png;base64," + data);
+                    $.ajax({
+                        url: "/methods/getImageBinary",
+                        type: 'GET',
+                        data: {src: JSONData.SourceSide},
+                        success:function(data, textStatus, jqXHR){
+                            var bitmapSide = new createjs.Bitmap("data:image/png;base64," + data);
+                            console.log(JSONData.SourceSide + " loaded successfully: " + data);
 
+                            surfaceF.addChild(bitmapFront).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
+                            surfaceS.addChild(bitmapSide).set({x: 0, y: 0, scaleX: 1, scaleY: 1});
+
+                            addAttributes(JSONData, "piece");
+                        },
+                        error:function(jqXHR, textStatus, errorThrown ){
+                            //TODO: mostrar un error significativo para el usuario acá
+                            console.log(errorThrown);
+                        }
+                    })
+                },
+                error:function(jqXHR, textStatus, errorThrown ){
+                    //TODO: mostrar un error significativo para el usuario acá
+                    console.log(errorThrown);
+                }
+			});
         },
         error:function(jqXHR, textStatus, errorThrown ){
             console.log(errorThrown);
@@ -367,17 +393,30 @@ function updateView(select){
 
 function saveCreation(){
     var canvas = document.getElementById("wildcard");
+    canvas.width = createPieceG.canvasStandardWidth
+    canvas.height = createPieceG.canvasStandardHeight;
+    var canvasContext = canvas.getContext("2d");
 
-	var imgFront = new Image;
+    var imgFront = new Image;
     imgFront.src = surfaceF.getCacheDataURL();
+
     imgFront.onload = function() {
+        canvasContext.drawImage(imgFront, 0, 0);
+        var frontView = canvas.toDataURL();
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
         var imgSide = new Image;
         imgSide.src = surfaceS.getCacheDataURL();
+
         imgSide.onload = function() {
-            $.ajax({
+        	canvasContext.drawImage(imgSide, 0, 0);
+            var sideView = canvas.toDataURL();
+            canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+        	$.ajax({
                 url: "/methods/saveCreatedImageFile",
                 type: 'POST',
-                data: "Piece," + imgFront.src + "," + imgSide.src + "," + Cookies.get("userID") + "," + direction,
+                data: "Piece," + frontView + "," + sideView + "," + Cookies.get("userID") + "," + direction,
                 contentType: "text/plain",
                 success:function(data, textStatus, jqXHR){
                     console.log("image saved in server directory")},

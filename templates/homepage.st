@@ -39,10 +39,11 @@
                                       <select class="typeAttr" id = "typeAttr" onchange = "waitImgs(); registeredImages(false, 'previous', this);">
                                         <option value="All" selected>All</option>
                                         <option value="Head">Head</option>
-                                        <option value="Thorax">Thorax</option>
-                                        <option value="Leg">Leg</option>
-                                        <option value="Antenna">Antenna</option>
+                                        <option value="Torso">Torso</option>
+                                        <option value="Feet">Feet</option>
+                                        <option value="Tail">Tail</option>
                                         <option value="Wing">Wing</option>
+                                        <option value="Beak">Beak</option>
                                       </select>
                                   </div>
                             </div>
@@ -81,10 +82,11 @@
                                     <select class="typeAttr" id = "typeAttrOwn" onchange = "waitImgs(); registeredImages(true, 'previous', this);">
                                       <option value="All" selected>All</option>
                                       <option value="Head">Head</option>
-                                      <option value="Thorax">Thorax</option>
                                       <option value="Leg">Leg</option>
-                                      <option value="Antenna">Antenna</option>
+                                      <option value="Torso">Torso</option>
+                                      <option value="Tail">Tail</option>
                                       <option value="Wing">Wing</option>
+                                      <option value="Beak">Beak</option>
                                     </select>
                                 </div>
                            </div>
@@ -227,7 +229,7 @@
        </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
 
-    <div class = "container" id="compositionMaker">
+    <div class = "mainContainer" id="compositionMaker">
 
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -242,7 +244,7 @@
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
                       <li><a style="display: none;" id="profileLink" href="#"><span class="glyphicon glyphicon-user"></span> My profile</a></li>
-                      <li><a  href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><span class="glyphicon glyphicon-log-in"></span> <span id="LogButtonText">Log In<span></a></li>
+                      <li><a  href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><span id="logIcon" class="glyphicon glyphicon-log-in"></span> <span id="LogButtonText">Log In<span></a></li>
                   </ul>
                   </div>
           </nav>
@@ -252,7 +254,7 @@
       <div class = "row">
         <div class = "col-lg-2 col-md-2 col-sm-2 h-100" id = "sideBar">
           <div class = "h-100 btn-toolbar" role="toolbar">
-            <div class = "btn-group-vertical">
+            <div class = "col-lg-11 col-md-11 col-sm-11 btn-group-vertical">
               <button id="changeViewButton" class="btn btn-basic btn-responsive" onclick="changeView();">Side view</button>
               <button id="guidelinesButton" class="btn btn-basic btn-responsive" onclick="guidelines();">Grid Lines</button>
               <button id="btnSavedImages" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" data-dismiss="modal">Add piece</button>
@@ -261,7 +263,7 @@
               <button id="deletePieceButton" class="btn btn-basic btn-responsive" onclick="deletePart();">Delete piece</button>
               <button id="changePieceButton" class="btn btn-basic btn-responsive" data-toggle = "modal" data-target = "#openModal" onclick="waitImgs(); registeredImages(false, 'change', 'All');" data-dismiss="modal">Change piece</button>
             </div>
-            <div class = "btn-group-vertical align-bottom">
+            <div class = "col-lg-11 col-md-11 col-sm-11 btn-group-vertical align-bottom">
               <button id="newCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="newComposition();">New composition</button>
               <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions">Load composition</button>
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
@@ -269,23 +271,25 @@
               <button id="searchSimilar" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="searchSimilar()">Search Similar</button>
             </div>
 
+            <!--
             <div  id="properties-nav-btn">
                 Properties
             </div>
+            -->
 
           </div>
         </div>
 
-        <div class = "col-lg-10 col-md-10 col-sm-10">
+        <div class = "col-lg-8 col-md-8 col-sm-8">
             <canvas id="areaDeDibujo" width="1024" height="512">
             <canvas id="wildcard" />
-                Lo sentimos, su navegador no soporta nuestra aplicación.
+                Lo sentimos, su navegador no soporta nuestra aplicacion.
             </canvas>
         </div>
 
-        <span class="toolset" id="attributes-menu">
+        <span class="toolset col-lg-2 col-md-2 col-sm-2" id="attributes-menu">
 
-          <div id="attributes-menu-content" style="display:none">
+          <div id="attributes-menu-content"> <!-- style="display:none" -->
             <div id="attribute-card-editor" class="row">
               <button class="col-md-offset-3 col-md-6 nopadding" id="addProp" onclick="addProperty()">
                 Add Property
@@ -314,7 +318,7 @@
                 </div>
               </div-->
 
-              <div class="attribute-card col-md-offset-1 col-md-10">
+              <div class="attribute-card col-md-10">
                 <div class="row">
                   <div class="col-md-offset-2 col-md-8">
                     <label >Scientific Name: </label>
@@ -333,7 +337,7 @@
                 </div>
               </div>
 
-              <div class="attribute-card col-md-offset-1 col-md-10">
+              <div class="attribute-card  col-md-10">
                 <div class="row">
                   <div class="col-md-offset-2 col-md-8">
                     <label >Public: </label>
@@ -352,7 +356,7 @@
               <!-- END Non optional  Cards -->
 
               <!-- Template  Card -->
-              <div id = "optional-attribute-card" class="attribute-card col-md-offset-1 col-md-10 cardTemplate">
+              <div id = "optional-attribute-card" class="attribute-card col-md-10 cardTemplate">
                 <div class="row attribute-card-header">
                   <div class="col-md-1 " style="float: right" onclick="deleteCard(this)">
                     <i class="fa fa-times"></i>
@@ -382,6 +386,7 @@
               <!-- End of Template  Card -->
             </div>
           </div>
+          <!-- End of attributes-menu-content -->
         </span>
       </div>
     </div>

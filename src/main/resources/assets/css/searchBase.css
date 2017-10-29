@@ -1,7 +1,9 @@
 body{
 	background-color: #262626;
-	color: white;
+
 }
+
+
 
 img {
     width: 100%;
@@ -110,6 +112,11 @@ img {
 .currentCompositionInfo{
     border-right: 1px dotted #2F2F2F;
     height: 200px;
+}
+
+#searchSimilarContainer{
+	color: white;
+
 }
 
 .hideInfo{

@@ -100,13 +100,8 @@ body{
 }
 
 #attributes-menu{
-	background-color: #262626;
-	z-index: 2;
-	position: absolute;
 	top: 0px;
 	right: 0px;
-	overflow-x: hidden;
-	overflow-y: hidden;
 	float: right;
 }
 
@@ -173,12 +168,11 @@ body{
 }
 
 #attributes-menu-content{
-	width: 310px;
-	float: right;
-	padding: 15px;
+	width: 240px;
+	/*padding: 15px;*/
 	height: 100%;
 	display: inline-block;
-	overflow-y: scroll;
+	/*overflow-y: scroll;*/
 	
 }
 
@@ -390,7 +384,7 @@ body{
 }
 
 #attribute-card-list{
-	overflow-y: scroll;
+	/*overflow-y: scroll;*/
 }
 
 

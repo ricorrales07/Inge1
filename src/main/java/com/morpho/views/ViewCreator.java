@@ -64,8 +64,11 @@ public class ViewCreator {
                 MorphoApplication.logger.info("Adding piece: "
                         + piece.getString("SourceFront"));
 
+                //TODO: obtener votos reales
                 pieces += "<div class=\"item\">\n" +
-                        "<img src=\"data:image/png;base64," + MorphoApplication.getImageBytes(piece.getString("SourceFront")) + "\">\n" +
+                        "<img src=\"data:image/png;base64," + MorphoApplication.getImageBytes(piece.getString("SourceFront")) + "\" style=\"border-style:solid;border-width:1px;border-color:black;\">\n" +
+                        "<div class=\"glyphicon glyphicon-menu-up\" align=\"right\" style=\"color:#00a0da\">" + "0" + "</div>\n" +
+                        "<div class=\"glyphicon glyphicon-menu-down\" align=\"right\" style=\"color:#00a0da\">" + "0" + "</div>" +
                         "</div>";
             }
             if (pieces.equals(""))
@@ -91,7 +94,9 @@ public class ViewCreator {
                 compositions += "<div class=\"item\">\n" +
                         "<img src=\"data:image/png;base64," +
                         MorphoApplication.getImageBytes(composition.getString("imgSource")) +
-                        "\">\n" +
+                        "\" style=\"border-style:solid;border-width:1px;border-color:black;\">\n" +
+                        "<div class=\"glyphicon glyphicon-menu-up\" align=\"right\" style=\"color:#00a0da\">" + "0" + "</div>\n" +
+                        "<div class=\"glyphicon glyphicon-menu-down\" align=\"right\" style=\"color:#00a0da\">" + "0" + "</div>" +
                         "</div>";
             }
             if (compositions.equals(""))

@@ -250,12 +250,13 @@
 								</select>
 						</div>
 					</div>
-
+                    <!--
 					<div class="col-md-2">
 						<div id="properties-nav-btn">
 							Properties
 						</div>
 					</div>
+					-->
 				</div>
 			</div>
 
@@ -277,7 +278,7 @@
 
 				<span class="toolset" id="attributes-menu">
 
-					<div id="attributes-menu-content"  style="display:none" >
+					<div id="attributes-menu-content"> <!-- style="display:none"  -->
 						<div id="attribute-card-editor" class="row">
 							<button class="col-md-offset-3 col-md-6 nopadding" id="addProp" onclick="addProperty()">
 								Add Property
@@ -302,10 +303,11 @@
                                         <div class="card-input right-icon col-md-8 nopadding">
                                             <select class="typeAttr">
                                               <option value="Head" selected>Head</option>
-                                              <option value="Thorax" >Thorax</option>
-                                              <option value="Leg">Leg</option>
-                                              <option value="Antenna">Antenna</option>
+                                              <option value="Torso" >Torso</option>
+                                              <option value="Feet">Feet</option>
+                                              <option value="Tail">Tail</option>
                                               <option value="Wing">Wing</option>
+                                              <option value="Beak">Beak</option>
                                             </select>
                                         </div>
                                     </div>

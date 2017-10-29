@@ -21,7 +21,7 @@ var imagesAttributes = [];
 
 var currentCompositionID = "undefined";
 
-var pieceLimits = [0,0,0,0,0]; // Head, Thorax, Legs, Antennas, Wings
+var pieceLimits = [0,0,0,0,0,0]; // Head, Torso, Feet, Tail, Wings, Beak
 
 var onSearch = false; // this is helpful to avoid using toggle in the searche's ui
 
@@ -152,26 +152,27 @@ returns: void
 }*/
 
 function addImageToCanvas(img, front, side, id, type, partType){
-    if(((partType == 0 || partType == 1) && pieceLimits[partType] == 1)
-    || (partType == 2 && pieceLimits[2] == 6)
-    || (partType == 3 && pieceLimits[3] == 2)
-    || (partType == 4 && pieceLimits[4] == 4)){
+    if((partType != 4 && pieceLimits[partType] == 1)
+    || (partType == 4 && pieceLimits[4] == 2)){
         var typeName;
         switch (partType){
             case 0:
-                typeName = "heads";
+                typeName = "head";
                 break;
             case 1:
-                typeName = "thorax";
+                typeName = "torso";
                 break;
             case 2:
-                typeName = "legs";
+                typeName = "feet";
                 break;
             case 3:
-                typeName = "antennas";
+                typeName = "tail";
                 break;
             case 4:
                 typeName = "wings";
+                break;
+            case 5:
+                typeName = "beak";
                 break;
         }
         alert("Is not possible to add more than " + pieceLimits[partType] + " " + typeName + " to the current composition.\n"
@@ -592,6 +593,7 @@ function saveComp()
 
     if(saved) {
         saveCompositionImage();
+        alert("Composition successfully saved in the server.");
     }
 }
 
@@ -701,8 +703,7 @@ function saveCompositionData(){
                     "composition to be able to save it.");
                 result =  false
             } else {
-                alert("Composition successfully saved in the server.");
-                console.log("image saved in server directory");
+                console.log("composition data saved in server directory");
                 result = true
             }
         },
@@ -741,6 +742,7 @@ function loadComposition(id){
                 pieceLimits[result[x].PieceType]++;
                 addPart(pieces, "new");
             }
+            modifySearchButton();
         },
         error:function(jqXHR, textStatus, errorThrown){
             console.log(errorThrown);
