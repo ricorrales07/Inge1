@@ -76,6 +76,9 @@ function loadResultsToCards(data){
 		$(".currentNewCard #authorField").text("").text(author);
 		$(".currentNewCard #sciNameField").text("").text(scientificName);
 		$(".currentNewCard #similarityScorField").text("").text(similarityScore);
+		var resultingImage = new Image();
+  		resultingImage.src = ""//El url del resultado. 
+  		$(".currentNewCard .resultsCardImage").empty().append(resultingImage);
 		newCard.removeClass("currentNewCard");
 		newCard.appendTo( ".resultsBlockRow" );
 	}
