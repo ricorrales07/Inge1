@@ -885,7 +885,6 @@ public class AppResourcesMethods {
     @Path("getImageBinary")
     public Response getImageBinary(@QueryParam("src") String src) {
         ResponseBuilder builder;
-        Document json = new Document();
 
         MorphoApplication.logger.info("Recieved info: " + src);
 
@@ -895,6 +894,41 @@ public class AppResourcesMethods {
 
         builder = Response.ok("Successfuly fetched data");
         builder.entity(b);
+        builder.status(200);
+        return builder.build();
+    }
+
+    @GET
+    @Path("getSearchResults")
+    public Response getSearchResults(@QueryParam("searchJSON") String json) {
+        ResponseBuilder builder;
+
+        MorphoApplication.logger.info("Recieved info: " + json);
+
+        String resultsString = "[]";
+
+        try {
+            List<Document> results = MorphoApplication.searcher.performSearch(json);
+
+            MorphoApplication.logger.info("results: " + results);
+
+            resultsString = "[";
+
+            for (Document d : results) {
+                resultsString += d.toJson() + ",";
+            }
+
+            resultsString = resultsString.substring(0, resultsString.length() - 1) + "]";
+        }
+        catch (NullPointerException e)
+        {
+            MorphoApplication.logger.warning(e.toString());
+        }
+
+        MorphoApplication.logger.info("resultsString: " + resultsString);
+
+        builder = Response.ok("Successfuly fetched data");
+        builder.entity(resultsString);
         builder.status(200);
         return builder.build();
     }
