@@ -849,10 +849,19 @@ function changeContainers(){
   searchImg.src = canvasShot.toDataURL();
   $(".searchImage").empty().append(searchImg);
 
+      if(onSearch){
+        onSearch=false;
+        $("#searchSimilarContainer").toggle( "left" , function(){
+          $("#compositionMaker").toggle("left");
+         });
+      }else{
+        onSearch=true;
+        $("#compositionMaker").toggle( "left" , function(){
+          $("#searchSimilarContainer").toggle("left");
+         });
+      }
 
-      $("#compositionMaker").toggle( "left" , function(){
-        $("#searchSimilarContainer").toggle("left");
-       });
+
    
    
 
