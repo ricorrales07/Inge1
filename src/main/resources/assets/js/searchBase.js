@@ -2,19 +2,7 @@
 
 $(document).ready(function() {
 
-	$(".resultsCard").hover(function(){
-		$(this).addClass('selectedCard');
-		var scientificName = $(".selectedCard .sciNameFieldCard").text();
-		var author  = $(".selectedCard  .authorFieldCard").text();
-		var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
-		$(this).removeClass('selectedCard');	
 
-		$("#authorField").text("").text(author);
-		$("#sciNameField").text("").text(scientificName);
-		$("#similarityScorField").text("").text(similarityScore);
-
-		$("#resultInformationBlock").toggleClass("hideInfo");
-	});
 
 });
 
@@ -90,6 +78,20 @@ function loadResultsToCards(data){
 		newCard.removeClass("currentNewCard");
 		newCard.appendTo( ".resultsBlockRow" );
 	}
+
+	$(".resultsCard").hover(function(){
+		$(this).addClass('selectedCard');
+		var scientificName = $(".selectedCard .sciNameFieldCard").text();
+		var author  = $(".selectedCard  .authorFieldCard").text();
+		var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
+		$(this).removeClass('selectedCard');	
+
+		$("#authorField").text("").text(author);
+		$("#sciNameField").text("").text(scientificName);
+		$("#similarityScorField").text("").text(similarityScore);
+
+		$("#resultInformationBlock").toggleClass("hideInfo");
+	});
 
 }
 
