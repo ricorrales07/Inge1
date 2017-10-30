@@ -46,7 +46,7 @@ function getSearchResults()
               console.log("data: " + data);
               console.log("type: " + typeof data);
               prepareResults(JSON.parse(data));
-             
+
               //ACÁ TIENE EN DATA LOS RESULTADOS DE BÚSQUEDA.
               //Debería ser un arreglo de JSONS, cada JSON es igual al de la BD.
               //(Mandé los JSONS completos por si en el futuro necesitamos
@@ -73,15 +73,15 @@ function getSimScore(i)
 
 function prepareResults(data){
 	var size = data.length;
-	var scientificName = data[i]['attributes']['Scientific Name'];
+	
 	for(var i= 0; i<size; i++){
-
+		var scientificName = data[i]['attributes']['Scientific Name'];
 		$.ajax({
 	      url: "/methods/getImageBinary",
 	      type: 'GET',
 	      data: {src: data[i]['imgSource']},
 	      success:function(data2, textStatus, jqXHR){
-	          console.log("image binary: " + data2);
+	          //console.log("image binary: " + data2);
 	           var resultingImage = new Image();
 	           resultingImage.src = "data:image/png;base64," + data2//El url del resultado.
 	           loadResultsToCards(resultingImage,scientificName);
@@ -100,7 +100,7 @@ function loadResultsToCards(resultingImage, scientificName){
 	var template = $( ".resultsCardSpace" );
 	//var author = data[i].author; TODO: NO ESTÁ, SOLO EL ID
 	//var similarityScore = getSimScore(i);
-	var newCard = template.clone().addClass("currentNewCard").delay(1000).appendTo( ".resultsBlockRow" );
+	var newCard = template.clone().addClass("oldSearch").addClass("currentNewCard").delay(1000).appendTo( ".resultsBlockRow" );
 	//$(".currentNewCard #authorField").text("").text(author);
 	$(".currentNewCard #sciNameField").text("").text(scientificName);
 	$(".currentNewCard .resultsCardImage").empty().append(resultingImage);
@@ -130,20 +130,17 @@ function changeContainers(){
   searchImg.src = canvasShot.toDataURL();
   $(".searchImage").empty().append(searchImg);
 
-      if(onSearch){
-        onSearch=false;
-        $("#searchSimilarContainer").toggle( "left" , function(){
-          $("#compositionMaker").toggle("left");
-         });
-      }else{
-        onSearch=true;
-        $("#compositionMaker").toggle( "left" , function(){
-          $("#searchSimilarContainer").toggle("left");
-         });
-      }
-
-
-   
-   
-
+  if(onSearch){
+    onSearch=false;
+    $(".oldSearch").remove();
+    $("#searchSimilarContainer").toggle( "left" , function(){
+      $("#compositionMaker").toggle("left");
+     });
+  }else{
+    onSearch=true;
+    $("#compositionMaker").toggle( "left" , function(){
+      $("#searchSimilarContainer").toggle("left");
+     });
+  }
+  
 }

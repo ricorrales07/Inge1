@@ -62,6 +62,7 @@ img {
 
 .resultsCardImage{
 	width: 200px;
+	background-color: white;
 }
 
 .resultsCardInfo{
@@ -120,6 +121,7 @@ img {
 	top: 0px;
 
 }
+
 
 .hideInfo{
 	 display: none;
