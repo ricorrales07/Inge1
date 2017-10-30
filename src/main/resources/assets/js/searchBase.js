@@ -1,4 +1,4 @@
-
+var resultsCounter = 0;
 
 $(document).ready(function() {
 
@@ -83,7 +83,9 @@ function getSimScore(i)
 
 function prepareResults(data){
 	var size = data.length;
-	
+
+	resultsCounter = 0;
+
 	for(var i= 0; i<size; i++){
 		var scientificName = data[i]['attributes']['Scientific Name'];
 		$.ajax({
@@ -94,7 +96,8 @@ function prepareResults(data){
 	          //console.log("image binary: " + data2);
 	           var resultingImage = new Image();
 	           resultingImage.src = "data:image/png;base64," + data2//El url del resultado.
-	           loadResultsToCards(resultingImage,scientificName, i);
+	           loadResultsToCards(resultingImage,scientificName, resultsCounter);
+	           resultsCounter++;
 	      },
 	      error:function(jqXHR, textStatus, errorThrown ){
 	          console.log(errorThrown);
