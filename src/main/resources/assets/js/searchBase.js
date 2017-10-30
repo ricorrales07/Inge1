@@ -110,10 +110,10 @@ function prepareResults(data){
 
 function loadResultsToCards(resultingImage, scientificName, i){
 
-	var template = $( ".resultsCardSpace" );
+	var template = $( ".resultsCardSpaceTemplate" );
 	//var author = data[i].author; TODO: NO ESTÁ, SOLO EL ID
 	var similarityScore = getSimScore(i);
-	var newCard = template.clone().addClass("oldSearch").addClass("currentNewCard").delay(1000).appendTo( ".resultsBlockRow" );
+	var newCard = template.clone().addClass("oldSearch").removeClass("resultsCardSpaceTemplate").addClass("currentNewCard").delay(1000).appendTo( ".resultsBlockRow" );
 	newCard.removeClass("hideInfo");
 	addListenerToResultsCard(newCard);
 	//$(".currentNewCard #authorField").text("").text(author);

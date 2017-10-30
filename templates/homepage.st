@@ -93,7 +93,7 @@
                            <div class = "modal-body" align="center">
                               <div id="ownedImages">
                                 <!-- MDL Spinner Component with Single Color -->
-                                  <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active" id="loadingImagesPieces" style="display: none;"></div>
+                                  <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active" id="loadingImagesPieces" ></div>
                               </div>
                               <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                               <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
@@ -442,7 +442,7 @@
       <div class="row" id="searchResults">
           <div class="col-md-offset-1 col-md-10 resultsBlock">
                   <div class="row resultsBlockRow">
-                      <div class="col-md-3 resultsCardSpace hideInfo">
+                      <div class="col-md-3 resultsCardSpace resultsCardSpaceTemplate hideInfo">
                           <div class="resultsCard">
                               <div class="resultsCardTop">
                                   <div class="resultsCardImage">
