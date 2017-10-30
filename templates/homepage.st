@@ -442,7 +442,7 @@
       <div class="row" id="searchResults">
           <div class="col-md-offset-1 col-md-10 resultsBlock">
                   <div class="row resultsBlockRow">
-                      <div class="col-md-3 resultsCardSpace">
+                      <div class="col-md-3 resultsCardSpace hideInfo">
                           <div class="resultsCard">
                               <div class="resultsCardTop">
                                   <div class="resultsCardImage">

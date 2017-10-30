@@ -101,6 +101,7 @@ function loadResultsToCards(resultingImage, scientificName){
 	//var author = data[i].author; TODO: NO ESTÁ, SOLO EL ID
 	//var similarityScore = getSimScore(i);
 	var newCard = template.clone().addClass("oldSearch").addClass("currentNewCard").delay(1000).appendTo( ".resultsBlockRow" );
+	newCard.removeClass("hideInfo");
 	//$(".currentNewCard #authorField").text("").text(author);
 	$(".currentNewCard #sciNameField").text("").text(scientificName);
 	$(".currentNewCard .resultsCardImage").empty().append(resultingImage);
@@ -110,17 +111,17 @@ function loadResultsToCards(resultingImage, scientificName){
 
 function addListenerToResultsCard(){
 	$(".resultsCard").hover(function(){
-	$(this).addClass('selectedCard');
-	var scientificName = $(".selectedCard .sciNameFieldCard").text();
-	//var author  = $(".selectedCard  .authorFieldCard").text();
-	//var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
-	$(this).removeClass('selectedCard');	
+		$(this).addClass('selectedCard');
+		var scientificName = $(".selectedCard .sciNameFieldCard").text();
+		//var author  = $(".selectedCard  .authorFieldCard").text();
+		//var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
+		$(this).removeClass('selectedCard');	
 
-	//$("#authorField").text("").text(author);
-	$("#sciNameField").text("").text(scientificName);
-	//$("#similarityScorField").text("").text(similarityScore);
+		//$("#authorField").text("").text(author);
+		$("#sciNameField").text("").text(scientificName);
+		//$("#similarityScorField").text("").text(similarityScore);
 
-	$("#resultInformationBlock").toggleClass("hideInfo");
+		$("#resultInformationBlock").toggleClass("hideInfo");
 	});
 }
 
