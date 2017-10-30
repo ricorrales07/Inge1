@@ -91,7 +91,7 @@ function prepareResults(data){
 	      }
 	  	});
 	}
-	addListenerToResultsCard();
+	//addListenerToResultsCard();
 
 }
 
@@ -102,6 +102,7 @@ function loadResultsToCards(resultingImage, scientificName){
 	//var similarityScore = getSimScore(i);
 	var newCard = template.clone().addClass("oldSearch").addClass("currentNewCard").delay(1000).appendTo( ".resultsBlockRow" );
 	newCard.removeClass("hideInfo");
+	addListenerToResultsCard(newCard);
 	//$(".currentNewCard #authorField").text("").text(author);
 	$(".currentNewCard #sciNameField").text("").text(scientificName);
 	$(".currentNewCard .resultsCardImage").empty().append(resultingImage);
@@ -109,8 +110,9 @@ function loadResultsToCards(resultingImage, scientificName){
 
 }
 
-function addListenerToResultsCard(){
-	$(".resultsCard").hover(function(){
+function addListenerToResultsCard(card){
+	//	$(".resultsCard").hover(function(){
+	$(card).hover(function(){
 		$(this).addClass('selectedCard');
 		var scientificName = $(".selectedCard .sciNameFieldCard").text();
 		//var author  = $(".selectedCard  .authorFieldCard").text();
