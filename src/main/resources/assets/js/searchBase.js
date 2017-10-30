@@ -104,7 +104,7 @@ function loadResultsToCards(resultingImage, scientificName){
 	newCard.removeClass("hideInfo");
 	addListenerToResultsCard(newCard);
 	//$(".currentNewCard #authorField").text("").text(author);
-	$(".currentNewCard #sciNameField").text("").text(scientificName);
+	$(".currentNewCard .sciNameFieldCard").text("").text(scientificName);
 	$(".currentNewCard .resultsCardImage").empty().append(resultingImage);
 	$(".currentNewCard").removeClass("currentNewCard");
 
