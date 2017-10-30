@@ -390,7 +390,7 @@
         </span>
       </div>
     </div>
-    <div id="searchSimilarContainer" style="display: none;">
+    <div class = "container" id="searchSimilarContainer" style="display: none;">
       <div class="row" id="searchControlArea">
           <div class="col-md-12 searchControls">
               <div class="row">
@@ -409,7 +409,7 @@
                       </div>
                       
                   </div>
-                  <div class="col-md-2 currentCompositionInfo">
+                  <div class="col-md-2 currentCompositionInfo hideInfo">
                       <label for="currentAuthorField">Author of current composition: </label>
                       <span id="currentAuthorField">Irvin</span>     
                   </div>

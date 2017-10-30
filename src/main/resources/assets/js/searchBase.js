@@ -62,7 +62,8 @@ function getSearchResults()
 function searchSimilar(){
 
   	getSearchResults(); 
-	changeContainers();
+  	changeContainers();
+
 
 }
 
