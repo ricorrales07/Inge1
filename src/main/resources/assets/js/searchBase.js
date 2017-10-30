@@ -43,9 +43,9 @@ function getSearchResults()
           type: 'GET',
           data: {searchJSON: sJSON},
           success:function(data, textStatus, jqXHR){
-              console.log("data: " + data);
+              console.log("data size: " + data.length);
               console.log("type: " + typeof data);
-              prepareResults(JSON.parse(data));
+              prepareResults(data);
 
               //ACÁ TIENE EN DATA LOS RESULTADOS DE BÚSQUEDA.
               //Debería ser un arreglo de JSONS, cada JSON es igual al de la BD.
@@ -75,11 +75,12 @@ function prepareResults(data){
 	var size = data.length;
 	
 	for(var i= 0; i<size; i++){
-		var scientificName = data[i]['attributes']['Scientific Name'];
+		var result = JSON.parse(data[i]);
+		var scientificName = result['attributes']['Scientific Name'];
 		$.ajax({
 	      url: "/methods/getImageBinary",
 	      type: 'GET',
-	      data: {src: data[i]['imgSource']},
+	      data: {src: result['imgSource']},
 	      success:function(data2, textStatus, jqXHR){
 	          //console.log("image binary: " + data2);
 	           var resultingImage = new Image();
