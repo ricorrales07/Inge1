@@ -41,10 +41,12 @@ function getSearchResults()
       $.ajax({
           url: "/methods/getSearchResults",
           type: 'GET',
-          data: sJSON,
+          data: {searchJSON: sJSON},
           success:function(data, textStatus, jqXHR){
-              console.log(data);
-              loadResultsToCards(data);
+              console.log("data: " + data);
+              console.log("type: " + typeof data);
+              prepareResults(JSON.parse(data));
+             
               //ACÁ TIENE EN DATA LOS RESULTADOS DE BÚSQUEDA.
               //Debería ser un arreglo de JSONS, cada JSON es igual al de la BD.
               //(Mandé los JSONS completos por si en el futuro necesitamos
@@ -64,39 +66,62 @@ function searchSimilar(){
 
 }
 
-function loadResultsToCards(data){
+function getSimScore(i)
+{
+
+}
+
+function prepareResults(data){
+	var size = data.length;
+	var scientificName = data[i]['attributes']['Scientific Name'];
+	for(var i= 0; i<size; i++){
+
+		$.ajax({
+	      url: "/methods/getImageBinary",
+	      type: 'GET',
+	      data: {src: data[i]['imgSource']},
+	      success:function(data2, textStatus, jqXHR){
+	          console.log("image binary: " + data2);
+	           var resultingImage = new Image();
+	           resultingImage.src = "data:image/png;base64," + data2//El url del resultado.
+	           loadResultsToCards(resultingImage,scientificName);
+	      },
+	      error:function(jqXHR, textStatus, errorThrown ){
+	          console.log(errorThrown);
+	      }
+	  	});
+	}
+	addListenerToResultsCard();
+
+}
+
+function loadResultsToCards(resultingImage, scientificName){
 
 	var template = $( ".resultsCardSpace" );
-	var size = data.length;
-	for(var i= 0; i<size; i++){
-		var scientificName = i; //data[i].scietificName?
-		var author = i;//data[i].author?
-		var similarityScore = i; //data[i].simScore?
-		var newCard = template.clone().addClass("currentNewCard").delay(1000);
-		$(".currentNewCard #authorField").text("").text(author);
-		$(".currentNewCard #sciNameField").text("").text(scientificName);
-		$(".currentNewCard #similarityScorField").text("").text(similarityScore);
-		var resultingImage = new Image();
-  		resultingImage.src = ""//El url del resultado. 
-  		$(".currentNewCard .resultsCardImage").empty().append(resultingImage);
-		newCard.removeClass("currentNewCard");
-		newCard.appendTo( ".resultsBlockRow" );
-	}
+	//var author = data[i].author; TODO: NO ESTÁ, SOLO EL ID
+	//var similarityScore = getSimScore(i);
+	var newCard = template.clone().addClass("currentNewCard").delay(1000).appendTo( ".resultsBlockRow" );
+	//$(".currentNewCard #authorField").text("").text(author);
+	$(".currentNewCard #sciNameField").text("").text(scientificName);
+	$(".currentNewCard .resultsCardImage").empty().append(resultingImage);
+	$(".currentNewCard").removeClass("currentNewCard");
 
+}
+
+function addListenerToResultsCard(){
 	$(".resultsCard").hover(function(){
-		$(this).addClass('selectedCard');
-		var scientificName = $(".selectedCard .sciNameFieldCard").text();
-		var author  = $(".selectedCard  .authorFieldCard").text();
-		var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
-		$(this).removeClass('selectedCard');	
+	$(this).addClass('selectedCard');
+	var scientificName = $(".selectedCard .sciNameFieldCard").text();
+	//var author  = $(".selectedCard  .authorFieldCard").text();
+	//var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
+	$(this).removeClass('selectedCard');	
 
-		$("#authorField").text("").text(author);
-		$("#sciNameField").text("").text(scientificName);
-		$("#similarityScorField").text("").text(similarityScore);
+	//$("#authorField").text("").text(author);
+	$("#sciNameField").text("").text(scientificName);
+	//$("#similarityScorField").text("").text(similarityScore);
 
-		$("#resultInformationBlock").toggleClass("hideInfo");
+	$("#resultInformationBlock").toggleClass("hideInfo");
 	});
-
 }
 
 function changeContainers(){
