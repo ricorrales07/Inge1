@@ -903,7 +903,7 @@ public class AppResourcesMethods {
     public Response getSearchResults(@QueryParam("searchJSON") String json) {
         ResponseBuilder builder;
 
-        MorphoApplication.logger.info("Recieved info: " + json);
+        MorphoApplication.logger.info("Recieved sJSON: " + json);
 
         String resultsString = "[]";
 

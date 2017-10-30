@@ -41,10 +41,11 @@ function getSearchResults()
       $.ajax({
           url: "/methods/getSearchResults",
           type: 'GET',
-          data: sJSON,
+          data: {searchJSON: sJSON},
           success:function(data, textStatus, jqXHR){
-              console.log(data);
-              loadResultsToCards(data);
+              console.log("data: " + data);
+              console.log("type: " + typeof data);
+              loadResultsToCards(JSON.parse(data));
               //ACÁ TIENE EN DATA LOS RESULTADOS DE BÚSQUEDA.
               //Debería ser un arreglo de JSONS, cada JSON es igual al de la BD.
               //(Mandé los JSONS completos por si en el futuro necesitamos
@@ -64,32 +65,53 @@ function searchSimilar(){
 
 }
 
+function getSimScore(i)
+{
+
+}
+
 function loadResultsToCards(data){
 
 	var template = $( ".resultsCardSpace" );
 	var size = data.length;
 	for(var i= 0; i<size; i++){
-		var scientificName = i; //data[i].scietificName?
-		var author = i;//data[i].author?
-		var similarityScore = i; //data[i].simScore?
+		var scientificName = data[i]['attributes']['Scientific Name'];
+		//var author = data[i].author; TODO: NO ESTÁ, SOLO EL ID
+		//var similarityScore = getSimScore(i);
 		var newCard = template.clone().addClass("currentNewCard").delay(1000);
-		$(".currentNewCard #authorField").text("").text(author);
+		//$(".currentNewCard #authorField").text("").text(author);
 		$(".currentNewCard #sciNameField").text("").text(scientificName);
-		$(".currentNewCard #similarityScorField").text("").text(similarityScore);
+		//$(".currentNewCard #similarityScorField").text("").text(similarityScore);
 		newCard.removeClass("currentNewCard");
 		newCard.appendTo( ".resultsBlockRow" );
+		newCard.id = "card" + i;
+
+		$.ajax({
+              url: "/methods/getImageBinary",
+              type: 'GET',
+              data: {src: data[i]['imgSource']},
+              success:function(data2, textStatus, jqXHR){
+                  console.log("image binary: " + data2);
+                   var resultingImage = new Image();
+                   resultingImage.src = "data:image/png;base64," + data2//El url del resultado.
+                   $("#card" + i).empty().append(resultingImage);
+              },
+              error:function(jqXHR, textStatus, errorThrown ){
+                  console.log(errorThrown);
+              }
+          });
 	}
 
 	$(".resultsCard").hover(function(){
 		$(this).addClass('selectedCard');
 		var scientificName = $(".selectedCard .sciNameFieldCard").text();
-		var author  = $(".selectedCard  .authorFieldCard").text();
-		var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
+		//var author  = $(".selectedCard  .authorFieldCard").text();
+		//var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
 		$(this).removeClass('selectedCard');	
 
-		$("#authorField").text("").text(author);
+		//$("#authorField").text("").text(author);
 		$("#sciNameField").text("").text(scientificName);
-		$("#similarityScorField").text("").text(similarityScore);
+		//$("#similarityScorField").text("").text(similarityScore);
 
 		$("#resultInformationBlock").toggleClass("hideInfo");
 	});
