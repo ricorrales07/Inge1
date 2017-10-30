@@ -44,6 +44,7 @@ function getSearchResults()
           data: sJSON,
           success:function(data, textStatus, jqXHR){
               console.log(data);
+              loadResultsToCards(data);
               //ACÁ TIENE EN DATA LOS RESULTADOS DE BÚSQUEDA.
               //Debería ser un arreglo de JSONS, cada JSON es igual al de la BD.
               //(Mandé los JSONS completos por si en el futuro necesitamos
