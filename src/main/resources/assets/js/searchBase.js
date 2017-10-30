@@ -1,10 +1,6 @@
 
 
 $(document).ready(function() {
-	var original = $( ".resultsCardSpace" );
-    for(var i= 0; i< 15; i++){
-		original.clone().delay(1000).appendTo( ".resultsBlockRow" );
-	}
 
 	$(".resultsCard").hover(function(){
 		$(this).addClass('selectedCard');
@@ -69,4 +65,54 @@ function getSearchResults()
               console.log(errorThrown);
           }
       });
+}
+
+
+function searchSimilar(){
+
+  	getSearchResults(); 
+	changeContainers();
+
+}
+
+function loadResultsToCards(data){
+
+	var template = $( ".resultsCardSpace" );
+	var size = data.length;
+	for(var i= 0; i<size; i++){
+		var scientificName = i; //data[i].scietificName?
+		var author = i;//data[i].author?
+		var similarityScore = i; //data[i].simScore?
+		var newCard = template.clone().addClass("currentNewCard").delay(1000);
+		$(".currentNewCard #authorField").text("").text(author);
+		$(".currentNewCard #sciNameField").text("").text(scientificName);
+		$(".currentNewCard #similarityScorField").text("").text(similarityScore);
+		newCard.removeClass("currentNewCard");
+		newCard.appendTo( ".resultsBlockRow" );
+	}
+
+}
+
+function changeContainers(){
+  var searchImg = new Image();
+  var canvasShot = document.getElementById('areaDeDibujo');
+  searchImg.src = canvasShot.toDataURL();
+  $(".searchImage").empty().append(searchImg);
+
+      if(onSearch){
+        onSearch=false;
+        $("#searchSimilarContainer").toggle( "left" , function(){
+          $("#compositionMaker").toggle("left");
+         });
+      }else{
+        onSearch=true;
+        $("#compositionMaker").toggle( "left" , function(){
+          $("#searchSimilarContainer").toggle("left");
+         });
+      }
+
+
+   
+   
+
 }

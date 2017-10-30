@@ -814,58 +814,7 @@ function trySearch(){
         });
 }
 
-function searchSimilar(){
-  var url = '/search';
-  //var auth = $.cookie('authentication');
-  var searchType = "similarComposition";
 
-  //TODO
-  //* Take and send representative image of the composition canvas
-
-  /*var formParams = "authentication="+auth+
-                    "searchType"+searchType;*/
-
-
-changeContainers();
-
- /* $.ajax({
-      url: url,
-      type: 'POST'.
-      data: formParams,
-      success: function(data, textStatus, jqXHR){
-        console.log("succesSearchSimilar");
-
-      },
-      error:function(jqXHR, textStatus, errorThrown){
-        console.log("failSearchSimilar");
-      }
-  });*/
-
-}
-
-function changeContainers(){
-  var searchImg = new Image();
-  var canvasShot = document.getElementById('areaDeDibujo');
-  searchImg.src = canvasShot.toDataURL();
-  $(".searchImage").empty().append(searchImg);
-
-      if(onSearch){
-        onSearch=false;
-        $("#searchSimilarContainer").toggle( "left" , function(){
-          $("#compositionMaker").toggle("left");
-         });
-      }else{
-        onSearch=true;
-        $("#compositionMaker").toggle( "left" , function(){
-          $("#searchSimilarContainer").toggle("left");
-         });
-      }
-
-
-   
-   
-
-}
 
 function tempSave() {
     $("input[type = file]").each(function () {
