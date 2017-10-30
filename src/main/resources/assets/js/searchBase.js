@@ -66,9 +66,19 @@ function searchSimilar(){
 
 }
 
+//DUMMY
 function getSimScore(i)
 {
+    scores = [76, 65, 61, 50, 44, 10]
 
+    try
+    {
+        return scores[i]
+    }
+    catch(e)
+    {
+        return 0;
+    }
 }
 
 function prepareResults(data){
@@ -85,7 +95,7 @@ function prepareResults(data){
 	          //console.log("image binary: " + data2);
 	           var resultingImage = new Image();
 	           resultingImage.src = "data:image/png;base64," + data2//El url del resultado.
-	           loadResultsToCards(resultingImage,scientificName);
+	           loadResultsToCards(resultingImage,scientificName, i);
 	      },
 	      error:function(jqXHR, textStatus, errorThrown ){
 	          console.log(errorThrown);
@@ -96,16 +106,17 @@ function prepareResults(data){
 
 }
 
-function loadResultsToCards(resultingImage, scientificName){
+function loadResultsToCards(resultingImage, scientificName, i){
 
 	var template = $( ".resultsCardSpace" );
 	//var author = data[i].author; TODO: NO ESTÁ, SOLO EL ID
-	//var similarityScore = getSimScore(i);
+	var similarityScore = getSimScore(i);
 	var newCard = template.clone().addClass("oldSearch").addClass("currentNewCard").delay(1000).appendTo( ".resultsBlockRow" );
 	newCard.removeClass("hideInfo");
 	addListenerToResultsCard(newCard);
 	//$(".currentNewCard #authorField").text("").text(author);
-	$(".currentNewCard #sciNameField").text("").text(scientificName);
+	$(".currentNewCard .sciNameFieldCard").text("").text(scientificName);
+	$(".currentNewCard .similarityScorFieldCard").text("").text(similarityScore + "%")
 	$(".currentNewCard .resultsCardImage").empty().append(resultingImage);
 	$(".currentNewCard").removeClass("currentNewCard");
 
@@ -117,12 +128,12 @@ function addListenerToResultsCard(card){
 		$(this).addClass('selectedCard');
 		var scientificName = $(".selectedCard .sciNameFieldCard").text();
 		//var author  = $(".selectedCard  .authorFieldCard").text();
-		//var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
+		var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
 		$(this).removeClass('selectedCard');	
 
 		//$("#authorField").text("").text(author);
 		$("#sciNameField").text("").text(scientificName);
-		//$("#similarityScorField").text("").text(similarityScore);
+		$("#similarityScorField").text("").text(similarityScore);
 
 		$("#resultInformationBlock").toggleClass("hideInfo");
 	});
