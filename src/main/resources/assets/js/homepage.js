@@ -76,12 +76,14 @@ function newComposition(){
 }
 
 function deletePart() {
-    var currentPiece = composicionActual.partsList[selected];
-    composicionActual.partsList.splice(selected, 1);
-    composicionActual.partIds.splice(selected, 1);
-    stage.removeChild(currentPiece);
-    unselectPart();
-    pieceLimits[currentPiece.pieceType]--;
+    if(selected != null) {
+        var currentPiece = composicionActual.partsList[selected];
+        composicionActual.partsList.splice(selected, 1);
+        composicionActual.partIds.splice(selected, 1);
+        stage.removeChild(currentPiece);
+        unselectPart();
+        pieceLimits[currentPiece.pieceType]--;
+    }
 }
 
 /*
