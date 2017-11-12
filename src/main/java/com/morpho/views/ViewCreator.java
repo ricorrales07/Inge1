@@ -187,7 +187,9 @@ public class ViewCreator {
     public String getHomepage()
     {
         StringTemplate templateHomepage = group.getInstanceOf("homepage" );
+        StringTemplate similaritySearchResults = group.getInstanceOf("similaritySearchResults");
         templateHomepage.setAttribute("loginModal",group.getInstanceOf("loginModal"));
+        templateHomepage.setAttribute("SIMILARITY_SEARCH_RESULTS", similaritySearchResults);
         return templateHomepage.toString();
     }
 
