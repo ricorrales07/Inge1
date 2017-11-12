@@ -281,7 +281,7 @@
         </div>
 
         <div class = "col-lg-8 col-md-8 col-sm-8">
-            <canvas id="areaDeDibujo" width="1024" height="512">
+            <canvas id="areaDeDibujo" width="1024" height="1024">
             <canvas id="wildcard" />
                 Lo sentimos, su navegador no soporta nuestra aplicacion.
             </canvas>
