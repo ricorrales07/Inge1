@@ -2,6 +2,7 @@
 /*
 Global variables for createPiece.
 */
+var onSearch = false; // this is helpful to avoid using toggle in the searche's ui
 createPieceG = {
 	origin: {x: 0, y:0},
 	pointer: {x: 0, y: 0}, //Universal pointer, contains position for the mouse, or whatever else pointer used (touch).

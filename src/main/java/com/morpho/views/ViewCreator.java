@@ -162,6 +162,8 @@ public class ViewCreator {
      */
     public String getCreatePiecePage(){
         StringTemplate templateSample = group.getInstanceOf("createPiece");
+        StringTemplate pieceSearchResults = group.getInstanceOf("pieceSearchResults");
+        templateSample.setAttribute("PIECE_SEARCH_RESULTS", pieceSearchResults);
         return templateSample.toString();
     }
 
