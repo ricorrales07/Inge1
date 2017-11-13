@@ -7,7 +7,7 @@ function searchPieces(){
 
 function getPieceSearchResults()
 {
-  var pieceType = $("typeAttr").val();
+  var pieceType = $("#pieceType select").val();
   console.log(pieceType);
   //TODO: MODIFICAR y crear recursos para solo traer pieces por tipo. 
   /*
