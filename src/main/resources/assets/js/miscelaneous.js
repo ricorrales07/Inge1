@@ -32,7 +32,12 @@ function btnSavedImages(){
 		url: "/methods/getImages",
 		type: 'GET',
 		success:function(data, textStatus, jqXHR){
+		    //TODO: no sé por qué no funciona nada de esto...
+		    console.log("what");
 			$('#images').append(data)
+			console.log("showing");
+			//showDivs(0);
+			console.log("shown");
 		},
 		error:function(jqXHR, textStatus, errorThrown ){
 			console.log(errorThrown);
