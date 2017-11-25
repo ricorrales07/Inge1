@@ -59,10 +59,7 @@ function cancelSprite(){
 $(".tool").on("click",function(){
 	$(".tool").removeClass("selectedTool");
 	$(this).addClass("selectedTool");
-	if(this.id=="addImage"){
-		$("#pointerRadius").addClass("tool-options-hidden");
-		$("#rotationRadius").removeClass("tool-options-hidden");
-	}else{
+	if(this.id!="addImage"){
 		$("#pointerRadius").removeClass("tool-options-hidden");
 		$("#rotationRadius").addClass("tool-options-hidden");
 	}
@@ -512,6 +509,9 @@ function addImageToCanvas(img){
 
 	stage.update();
     console.log("Image added*******");
+
+    $("#pointerRadius").addClass("tool-options-hidden");
+    $("#rotationRadius").removeClass("tool-options-hidden");
 }
 
 function moveOrResizeImage(target, dx, dy, mousex, mousey){
