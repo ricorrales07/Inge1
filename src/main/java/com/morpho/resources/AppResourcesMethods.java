@@ -944,7 +944,7 @@ public class AppResourcesMethods {
 
         FindIterable<Document> results;
         try {
-            results = MorphoApplication.DBA.search("piece", "{Type: \"" + type + "\"}")
+            results = MorphoApplication.DBA.search("piece", "{Type: \"" + type + "\"}");
             for(Document d : results)
             {
                 images += "{_id: \"" + d.getString("_id") + "\", ";
