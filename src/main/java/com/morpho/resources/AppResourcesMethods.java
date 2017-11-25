@@ -932,4 +932,37 @@ public class AppResourcesMethods {
         builder.status(200);
         return builder.build();
     }
+
+    @GET
+    @Path("getPiecesByType")
+    public Response getPiecesByType(@QueryParam("type") String type) {
+        ResponseBuilder builder;
+
+        MorphoApplication.logger.info("Recieved info: " + type);
+
+        String images = "[";
+
+        FindIterable<Document> results;
+        try {
+            results = MorphoApplication.DBA.search("piece", "{Type: \"" + type + "\"}")
+            for(Document d : results)
+            {
+                images += "{_id: \"" + d.getString("_id") + "\", ";
+                images += "image_binary: "
+                        + MorphoApplication.getImageBytes(d.getString("SourceFront")) + "},";
+            }
+            images = images.substring(0,images.length()-1) + "]";
+            builder = Response.ok("Successfuly fetched data");
+            builder.entity(images);
+            builder.status(200);
+            return builder.build();
+        }
+        catch (Exception e) {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.ok("Error");
+            builder.entity("ERROR");
+            builder.status(500);
+            return builder.build();
+        }
+    }
 }
