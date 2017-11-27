@@ -65,7 +65,7 @@ function registeredImages(owned, type, pieceType){
 	$("modalImages").each(function(){
     	$(this).remove();
 	});
-    $("#loadingImagesPieces").show();
+
 	console.log("btn clicked");
     $.ajax({
 		url: "/methods/getImagesDataInDB",
