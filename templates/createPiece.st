@@ -190,10 +190,10 @@
 							</div-->
 						</div>
 						<div class="col-md-offset-6  col-md-2">
-							<div title="Cancel" class=" nav-button" id="cancelButton" onclick="cancelSprite()">
+							<!--div title="Cancel" class=" nav-button" id="cancelButton" onclick="cancelSprite()">
 								<i class="fa fa-times  fa-2x"></i>
 								</br>
-							</div>
+							</div-->
 						</div>
 					</div>
 					<div class="row">
