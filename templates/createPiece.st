@@ -16,6 +16,8 @@
 	    <script type="text/javascript" src="assets/jquery/jquery-migrate-1.2.1.min.js"></script>
     	<div id="fb-root"></div>
 
+		$loginModal$
+
         <!-- Menu to choose how to load an image to the canvas (from server publicly, from server privately or locally) -->
     	<div class = "modal fade" id = "opcionOpciones" tabindex = "-1" role = "dialog"
            aria-labelledby = "myModalLabel" aria-hidden = "true">
@@ -158,6 +160,27 @@
         </div><!-- /.modal -->
 
 		<div class="container-fluid" id="pieceMakerContainer">
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<nav class="navbar navbar-inverse">
+						<div class="container-fluid">
+							<div class="navbar-header">
+								<a class="navbar-brand" href="/">MorphoSpace</a>
+							</div>
+							<ul class="nav navbar-nav">
+								<li><a href="/">Home</a></li>
+								<li><a class="active" style="display: none;" href="#" id="pieceEditorLink">Piece editor</a></li>
+							</ul>
+							<ul class="nav navbar-nav navbar-right">
+								<li><a style="display: none;" id="profileLink" href="#"><span class="glyphicon glyphicon-user"></span> My profile</a></li>
+								<li><a  href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><span id="logIcon" class="glyphicon glyphicon-log-in"></span> <span id="LogButtonText">Log In<span></a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</div>
+
 			<div class="row top-nav">
 				<div class="col-md-12">
 					<div class="row">
@@ -192,7 +215,7 @@
 							</div>
 
 						</div>
-						
+
 						<div class="col-md-2" id="canvasSizeOptions">
 							<label>Canvas Size</label>
 							<div title="Small" class="nav-tool-button tool nav-button canvasSize" id="sSize" >
@@ -253,19 +276,19 @@
 									</select>
 							</div>
 						</div>
-	                    
+
 						<div class="col-md-2">
 							<button id="seachPieceButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="searchPieces()">
 								Search Pieces
 							</button>
 						</div>
-						
+
 					</div>
 				</div>
 			</div>
 
 			<div class="row ">
-				<div class="col-md-12 toolset">
+				<div class="col-md-12 toolset" id="parent-thingy">
 
 
 					<!-- FOUR DIFFERENT VIEWS  ui-widget-content-->
@@ -278,7 +301,7 @@
 					</div>
 					<!-- END FOUR DIFFERENT VIEWS -->
 
-					<span class="toolset" id="attributes-menu">
+					<span class="toolset col-md-2" id="attributes-menu">
 
 						<div id="attributes-menu-content"> <!-- style="display:none"  -->
 							<div id="attribute-card-editor" class="row">

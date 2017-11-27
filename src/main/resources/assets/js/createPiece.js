@@ -20,9 +20,12 @@ createPieceG = {
 
 }
 
+
 //BEGIN SETTING UP STUFF AFTER LOADING THE HTML!
 $(window).on("load",function(){
-	$( "#editor-container" ).resizable({ ghost: true }); //Make things resizable.
+	$( "#editor-container" ).resizable({
+	    ghost: true
+	}); //Make things resizable.
 	//var heightPer = $(window).height() - $(".top-nav").height();
 	heightPer = 600; //Height for the tool's menu.
 
@@ -43,7 +46,7 @@ function canvasResize(width, height){
 	//Setting up the canvas size.
 	$("#canvasBackGround").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
 	$("#leCanvas").attr("width", createPieceG.canvasStandardWidth).attr("height", createPieceG.canvasStandardHeight);
-	$( "#editor-container" ).width(width > 1024 ? 1024: width).height("480");	
+	$( "#editor-container" ).width(width > 0.8 * $("#parent-thingy").width() ? 0.8 * $("#parent-thingy").width() : width).height("480");
 
 }
 
