@@ -64,11 +64,19 @@ public class ViewCreator {
                 MorphoApplication.logger.info("Adding piece: "
                         + piece.getString("SourceFront"));
 
-                //TODO: obtener votos reales
+                String pieceId = piece.getString("_id");
+                int upvotes = MorphoApplication.DBA.findRelatedUsers(pieceId, "composition", "up").size();
+                int downvotes = MorphoApplication.DBA.findRelatedUsers(pieceId, "composition", "down").size();
+
+
                 pieces += "<div class=\"item\">\n" +
                         "<img src=\"data:image/png;base64," + MorphoApplication.getImageBytes(piece.getString("SourceFront")) + "\" style=\"border-style:solid;border-width:1px;border-color:black;\">\n" +
-                        "<div class=\"glyphicon glyphicon-menu-up\" align=\"right\" style=\"color:#00a0da\">" + "0" + "</div>\n" +
-                        "<div class=\"glyphicon glyphicon-menu-down\" align=\"right\" style=\"color:#00a0da\">" + "0" + "</div>" +
+                        "<div class=\"glyphicon glyphicon-menu-up\" align=\"right\" style=\"color:#00a0da\">" +
+                        upvotes +
+                        "</div>\n" +
+                        "<div class=\"glyphicon glyphicon-menu-down\" align=\"right\" style=\"color:#00a0da\">" +
+                        downvotes +
+                        "</div>" +
                         "</div>";
             }
             if (pieces.equals(""))
@@ -88,6 +96,10 @@ public class ViewCreator {
                     "{\"attributes.ownerId\": \"" + userId + "\"}");
             for(Document composition : compositionList)
             {
+                String compositionId = composition.getString("_id");
+                int upvotes = MorphoApplication.DBA.findRelatedUsers(compositionId, "composition", "up").size();
+                int downvotes = MorphoApplication.DBA.findRelatedUsers(compositionId, "composition", "down").size();
+
                 MorphoApplication.logger.info("Adding composition: "
                         + composition.getString("imgSource"));
 
@@ -95,8 +107,12 @@ public class ViewCreator {
                         "<img src=\"data:image/png;base64," +
                         MorphoApplication.getImageBytes(composition.getString("imgSource")) +
                         "\" style=\"border-style:solid;border-width:1px;border-color:black;\">\n" +
-                        "<div class=\"glyphicon glyphicon-menu-up\" align=\"right\" style=\"color:#00a0da\">" + "0" + "</div>\n" +
-                        "<div class=\"glyphicon glyphicon-menu-down\" align=\"right\" style=\"color:#00a0da\">" + "0" + "</div>" +
+                        "<div class=\"glyphicon glyphicon-menu-up\" align=\"right\" style=\"color:#00a0da\">" +
+                        upvotes +
+                        "</div>\n" +
+                        "<div class=\"glyphicon glyphicon-menu-down\" align=\"right\" style=\"color:#00a0da\">" +
+                        downvotes +
+                        "</div>" +
                         "</div>";
             }
             if (compositions.equals(""))
