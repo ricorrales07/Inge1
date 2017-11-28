@@ -117,6 +117,6 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
     //Ejemplo de consultas
     private void dbaExample(DBAdministrator dba) {
         System.out.println("Test!");
-        dba.findRelated("100126517238799C0");
+        dba.findRelated("100126517238799C0", "piece");
     }
 }
