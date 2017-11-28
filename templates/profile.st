@@ -17,7 +17,7 @@
 
 $loginModal$
 
-<div class="container">
+<div class="mainContainer">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <nav class="navbar navbar-inverse">

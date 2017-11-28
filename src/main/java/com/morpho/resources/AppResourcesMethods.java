@@ -4,15 +4,18 @@ import com.google.api.client.json.JsonGenerator;
 import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory; //Por si despueés ocupara otra opción para la jsonFactory
+import com.google.gson.Gson;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.FindIterable;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.mongodb.util.JSON;
 import com.morpho.MorphoApplication;
+import com.morpho.PieceSearchResult;
 import com.morpho.entities.Authentication;
 import com.morpho.views.ViewCreator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -956,5 +959,44 @@ public class AppResourcesMethods {
         builder.entity(resultsString);
         builder.status(200);
         return builder.build();
+    }
+
+    @GET
+    @Path("getPiecesByType")
+    public Response getPiecesByType(@QueryParam("type") String type) {
+        ResponseBuilder builder;
+
+        MorphoApplication.logger.info("Recieved info: " + type);
+
+        String images = "";
+        ArrayList<PieceSearchResult> responsePieces = new ArrayList<PieceSearchResult>();
+
+        FindIterable<Document> results;
+        try {
+            results = MorphoApplication.DBA.search("piece", "{Type: \"" + "4" + "\"}");
+            for(Document d : results)
+            {
+                PieceSearchResult piece = new PieceSearchResult();
+                piece.set_id(d.getString("_id"));
+                piece.setImage_binary(MorphoApplication.getImageBytes(d.getString("SourceFront")));
+                //images = "{_id: \"" + d.getString("_id") + "\", ";
+                //images += "image_binary: "+ MorphoApplication.getImageBytes(d.getString("SourceFront")) + "}";
+                responsePieces.add(piece);
+            }
+
+
+            String objectsInString = new Gson().toJson(responsePieces);
+            builder = Response.ok("Successfuly fetched data");
+            builder.entity(objectsInString);
+            builder.status(200);
+            return builder.build();
+        }
+        catch (Exception e) {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.ok("Error");
+            builder.entity("ERROR");
+            builder.status(500);
+            return builder.build();
+        }
     }
 }

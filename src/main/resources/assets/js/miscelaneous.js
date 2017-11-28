@@ -55,6 +55,7 @@ function registeredImages(owned, type, pieceType){
 	}else{
 		pieceType = ", Type: \"" + generateTypeIndex(pieceType.value) + "\"";
 	}
+	$("#loadingImagesPieces").show();
 
 	var filter;
 	if(owned){
@@ -65,7 +66,7 @@ function registeredImages(owned, type, pieceType){
 	$("modalImages").each(function(){
     	$(this).remove();
 	});
-    $("#loadingImagesPieces").show();
+
 	console.log("btn clicked");
     $.ajax({
 		url: "/methods/getImagesDataInDB",
@@ -73,8 +74,9 @@ function registeredImages(owned, type, pieceType){
 		data: JSON.stringify({collection: "piece", filter: filter, type: imagesToLoad}),
 		contentType: "text/plain",
 		success:function(data, textStatus, jqXHR){
+			 $("#loadingImagesPieces").hide();
 			if(owned) {
-                $("#loadingImagesPieces").hide();
+               
                 $('#ownedImages').append(data)
             }else{
                 $('#images').append(data)

@@ -61,7 +61,7 @@
                                       <label for="authorFieldCard">Author: </label>
                                       <span class="authorFieldCard">Ricardo</span>     
                                   </div>
-                                  <div class="hideInfo" >
+                                  <div class="" >
                                       <label for="scieNameFieldCard">Scientific Name: </label>
                                       <span class="sciNameFieldCard">Pichoto</span>  
                                   </div>

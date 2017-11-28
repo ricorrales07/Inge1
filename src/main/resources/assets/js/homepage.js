@@ -922,11 +922,14 @@ $('#btnOwnedImages').on('click', function()
 var slideIndex = 1;
 
 function waitImgs() {
+  
   setTimeout("plusDivs(0)", 10000);
 }
 
 function plusDivs(n) {
+
   showDivs(slideIndex += n);
+
 }
 
 function showDivs(n) {

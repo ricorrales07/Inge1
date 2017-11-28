@@ -164,6 +164,7 @@ public class ViewCreator {
         StringTemplate templateSample = group.getInstanceOf("createPiece");
         StringTemplate pieceSearchResults = group.getInstanceOf("pieceSearchResults");
         templateSample.setAttribute("PIECE_SEARCH_RESULTS", pieceSearchResults);
+        templateSample.setAttribute("loginModal",group.getInstanceOf("loginModal"));
         return templateSample.toString();
     }
 
@@ -179,6 +180,7 @@ public class ViewCreator {
         //templateSample.setAttribute("ESTUDIANTE","lol");  //Así como este atributo se puede meter las imagenes y
         //las propiedades de la pieza en la página. Tal vez en un div que tenga display:none. Despues con javascript
         //selecciono este div, le saco los datos que quiero, and "populate" las diferentes tarjetas y las vistas (surfaces en easel).
+        templateSample.setAttribute("loginModal",group.getInstanceOf("loginModal"));
         return templateSample.toString();
     }
 
