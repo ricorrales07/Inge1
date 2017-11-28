@@ -56,5 +56,9 @@ public class MorphoConfiguration extends Configuration{
 
     @JsonProperty
     @NotEmpty
+    public String neo4jURI = "bolt://localhost:7687";
+
+    @JsonProperty
+    @NotEmpty
     public String mongodb = "Inge1";
 }

@@ -13,6 +13,8 @@ import io.dropwizard.setup.Environment;
 import io.dropwizard.Application;
 
 import com.mongodb.MongoClient;
+import org.neo4j.driver.v1.Driver;
+import org.neo4j.driver.v1.GraphDatabase;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.FileInputStream;
@@ -74,7 +76,9 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         final MongoClient mongoClient = new MongoClient(configuration.mongohost, configuration.mongoport);
         final MongoHealthCheck mongoHealthCheck = new MongoHealthCheck(mongoClient);
 
-        DBA = new DBAdministrator(mongoClient);
+        final Driver neo4jDriver = GraphDatabase.driver(configuration.neo4jURI);
+
+        DBA = new DBAdministrator(mongoClient, neo4jDriver);
         Auth = new Authenticator();
         searcher = new SearchEngine();
 
@@ -85,7 +89,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         environment.jersey().register(resourcesPages);
         environment.jersey().register(resourcesMethods);
 
-        //dbaExample(DBA); //ejemplo
+        dbaExample(DBA); //ejemplo
     }
 
     public static String getImageBytes(String src) {
@@ -110,10 +114,9 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         }
     }
 
-    /*Ejemplo de consultas
+    //Ejemplo de consultas
     private void dbaExample(DBAdministrator dba) {
-        dba.insert("pieza", "{_id: 1, ownerID: 21, isPublic: true, size: {w: 100, h: 100}, site: \"foo.com/pic.png\"}");
-        dba.replace("pieza", "{_id: 1}", "{$set: {isPublic: false}, $rename: {site: \"url\"}}"); //hay que usar update operators
-        dba.delete("pieza", "{_id: 1}");
-    }*/
+        System.out.println("Test!");
+        dba.findRelated("100126517238799C0");
+    }
 }

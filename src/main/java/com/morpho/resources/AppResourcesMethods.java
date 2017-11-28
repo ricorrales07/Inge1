@@ -21,13 +21,14 @@ import org.bson.Document;
 import javax.imageio.ImageIO;
 import javax.print.Doc;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.*;
-import javax.ws.rs.core.Response;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 
+import java.lang.annotation.Annotation;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
@@ -895,6 +896,30 @@ public class AppResourcesMethods {
         builder = Response.ok("Successfuly fetched data");
         builder.entity(b);
         builder.status(200);
+        return builder.build();
+    }
+
+    @POST
+    @Path("voteUp")
+    public Response voteUp(@QueryParam("dataJSON") String dataJSON) {
+        ResponseBuilder builder;
+        builder = Response.ok();
+        return builder.build();
+    }
+
+    @POST
+    @Path("voteDown")
+    public Response voteDown(@QueryParam("dataJSON") String dataJSON) {
+        ResponseBuilder builder;
+        builder = Response.ok();
+        return builder.build();
+    }
+
+    @GET
+    @Path("getVotes")
+    public Response getVotes(@QueryParam("dataJSON") String dataJSON) {
+        ResponseBuilder builder;
+        builder = Response.ok();
         return builder.build();
     }
 
