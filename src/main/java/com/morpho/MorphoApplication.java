@@ -89,7 +89,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         environment.jersey().register(resourcesPages);
         environment.jersey().register(resourcesMethods);
 
-        dbaExample(DBA); //ejemplo
+        //dbaExample(DBA); //ejemplo
     }
 
     public static String getImageBytes(String src) {
@@ -115,9 +115,10 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
     }
 
     //Ejemplo de consultas
-    private void dbaExample(DBAdministrator dba) {
+    /*private void dbaExample(DBAdministrator dba) {
         System.out.println("Test!");
-        System.out.println(dba.findRelatedUsers("100126517238799C0", "piece").toString());
-        System.out.println(dba.findRelatedObjects("100126517238799", "piece").toString());
-    }
+        dba.setRelationship("100126517238799", "100126517238799C0", "piece", "down");
+        System.out.println(dba.findRelatedUsers("100126517238799C0", "piece", "down").toString());
+        System.out.println(dba.findRelatedObjects("100126517238799", "piece", "down").toString());
+    }*/
 }
