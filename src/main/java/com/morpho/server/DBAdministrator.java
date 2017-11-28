@@ -122,9 +122,18 @@ public class DBAdministrator implements Managed {
         db.getCollection(collection).deleteMany((Bson) JSON.parse(filter));
     }
 
-    public List<JSONObject> findRelated(String id, String type) {
-        List<JSONObject> result = new ArrayList<>();
+    public List<JSONObject> findRelatedUsers(String id, String type) {
         String query = "MATCH ({_id : \"" + id + "\"})-[" + type + "_user]->(n) RETURN n";
+        return neo4jQuery(query, id);
+    }
+
+    public List<JSONObject> findRelatedObjects(String user_id, String type) {
+        String query = "MATCH ({_id : \"" + user_id + "\"})<-[" + type + "_user]-(n) RETURN n";
+        return neo4jQuery(query, user_id);
+    }
+
+    private List<JSONObject> neo4jQuery(String query, String id) {
+        List<JSONObject> result = new ArrayList<>();
         try (Transaction tx = neo4jSession.beginTransaction())
         {
             StatementResult sr = tx.run(query);
