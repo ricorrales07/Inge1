@@ -808,6 +808,49 @@ public class AppResourcesMethods {
         return builder.build();
     }
 
+    @POST
+    @Path("loadPhotos2")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response loadPhotos2(String receivedContent) {
+        ResponseBuilder builder;
+        String r = "[";
+        FindIterable<org.bson.Document> imgJsons;
+        try
+        {
+            String filter = "{_id: \"" + receivedContent + "\"}";
+            imgJsons = MorphoApplication.DBA.search("composition", filter);
+
+            boolean something = false;
+            for (org.bson.Document json : imgJsons)
+            {
+                something = true;
+                JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
+                JSONArray documentArray = (JSONArray) docData.get("images");
+
+                for(int i = 0; i < documentArray.size(); i++){
+                    JSONObject o = (JSONObject) new JSONParser().parse(documentArray.get(i).toString());
+
+                    r += MorphoApplication.getImageBytes(o.get("image").toString()) + ",";
+                }
+            }
+            if (something)
+                r = r.substring(0, r.length() - 1);
+            r += "]";
+        }
+        catch (Exception e)
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(500);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        builder = Response.ok("Got images");
+        builder.entity(r);
+        builder.status(200);
+        return builder.build();
+    }
+
     @GET
     @Path("getCompositionData")
     public Response getCompositionData(@QueryParam("id") String id) {
