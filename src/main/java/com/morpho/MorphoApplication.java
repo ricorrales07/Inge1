@@ -77,7 +77,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         final MongoClient mongoClient = new MongoClient(configuration.mongohost, configuration.mongoport);
         final MongoHealthCheck mongoHealthCheck = new MongoHealthCheck(mongoClient);
 
-        final Driver neo4jDriver = GraphDatabase.driver(configuration.neo4jURI, AuthTokens.basic("NEO4J", "NEO4J"));
+        final Driver neo4jDriver = GraphDatabase.driver(configuration.neo4jURI, AuthTokens.basic("neo4j", "neo4j"));
 
         DBA = new DBAdministrator(mongoClient, neo4jDriver);
         Auth = new Authenticator();
