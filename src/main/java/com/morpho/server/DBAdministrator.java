@@ -130,7 +130,7 @@ public class DBAdministrator implements Managed {
      * @param relation "up" or "down"
      */
     public void setRelationship(String userID, String objectID, String type, String relation) {
-        String query = "MATCH (u:user {_id:\"" + userID + "\"}), (o:" + type + " {_id:\"" + objectID + "\"})" +
+        String query = "MATCH (u:users {_id:\"" + userID + "\"}), (o:" + type + " {_id:\"" + objectID + "\"})" +
                 "CREATE (u)<-[:" + type + "_" + relation + "]-(o)";
         try (Transaction tx = neo4jSession.beginTransaction())
         {
