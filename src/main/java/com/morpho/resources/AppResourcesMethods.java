@@ -443,7 +443,7 @@ public class AppResourcesMethods {
                 ImageIO.write(ImageIO.read(bit), "png", new File("./userData/" + data[5] + "/PieceA" + fileID + ".png"));
                 ImageIO.write(ImageIO.read(bitB), "png", new File("./userData/" + data[5] + "/PieceB" + fileID + ".png"));
                 builder = Response.ok("Image saved");
-            }else{
+            }else if(data[0].equals("Composition")){
                 String imageData = data[2];
                 InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
                 fileName = data[4];
@@ -456,6 +456,14 @@ public class AppResourcesMethods {
                 imgSource = "./userData/" + data[3] + "/Composition" + fileID + ".png";
                 builder = Response.ok("Image saved");
                 builder.entity(imgSource+ "," + data[3] + "C" + fileID);
+            } else {
+                String imageData = data[1];
+                InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
+                fileName = data[2];
+                ImageIO.write(ImageIO.read(bit), "png", new File("./userData/" + fileName));
+                imgSource = "./userData/" + fileName;
+                builder = Response.ok("Image saved");
+                builder.entity(imgSource);
             }
             builder.status(200);
 
@@ -495,7 +503,7 @@ public class AppResourcesMethods {
             MorphoApplication.logger.warning("Failed to save image in server");
             MorphoApplication.logger.warning(e.toString());
             builder = Response.ok("Failed to save image in server");
-            builder.status(404);
+            builder.status(500);
             return builder.build();
         }
 
@@ -772,7 +780,6 @@ public class AppResourcesMethods {
             String filter = "{_id: \"" + receivedContent + "\"}";
             imgJsons = MorphoApplication.DBA.search("composition", filter);
 
-            //TODO: sacar esto de acá, solo debería ir la línea anterior
             for (org.bson.Document json : imgJsons)
             {
                 JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
@@ -781,7 +788,8 @@ public class AppResourcesMethods {
                 for(int i = 0; i < documentArray.size(); i++){
                     JSONObject o = (JSONObject) new JSONParser().parse(documentArray.get(i).toString());
 
-                    html += "<modalImages data-dismiss=\"modal\"> <img src=\"" + o.get("image")
+                    html += "<modalImages data-dismiss=\"modal\"> <img src=\"data:image/png;base64," +
+                            MorphoApplication.getImageBytes(o.get("image").toString())
                             + "\" class = \"img-thumbnail\" /> </modalImages>";
                 }
             }

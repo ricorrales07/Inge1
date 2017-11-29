@@ -588,6 +588,29 @@ function saveCompositionImage(){
     };
 }
 
+function saveCompositionPhotographs(){
+    console.log("saving photographs");
+
+    for(var i = 0; i < imagesAttributes.length; i = i + 4) {
+        console.log("saving: " + imagesAttributes[i].split(",")[1]);
+        $.ajax({
+            url: "/methods/saveCreatedImageFile",
+            type: 'POST',
+            data: "Photo," + imagesAttributes[i].split(",")[1] + "," + imagesAttributes[i+1].split("\\")[2],
+            contentType: "text/plain", //TODO: revisar esto
+            success:function(data, textStatus, jqXHR){
+                console.log("image saved in server directory: " + data);
+                savedImg = data.split(",")[0];
+                console.log("savedImg: " + savedImg);
+                currentCompositionID = data.split(",")[1];
+            },
+            error:function(jqXHR, textStatus, errorThrown ){
+                console.log(errorThrown);
+            }
+        });
+    }
+}
+
 function saveComp()
 {
     var saved = false;
@@ -595,6 +618,7 @@ function saveComp()
 
     if(saved) {
         saveCompositionImage();
+        saveCompositionPhotographs();
         alert("Composition successfully saved in the server.");
     }
 }
@@ -602,12 +626,12 @@ function saveComp()
 function saveCompositionData(){
     images = [];
 
-    for(var i = 0; i < imagesAttributes.length; i = i + 3){
+    for(var i = 0; i < imagesAttributes.length; i = i + 4){
         images.push(
             {
-                image: "./userData/" + imagesAttributes[i].split("\\")[2],
-                name: imagesAttributes[i+1],
-                type: imagesAttributes[i+2]
+                image: "./userData/" + imagesAttributes[i+1].split("\\")[2],
+                name: imagesAttributes[i+2],
+                type: imagesAttributes[i+3]
             }
         );
     }
@@ -816,7 +840,16 @@ function trySearch(){
         });
 }
 
-
+function tempSaveImg(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      imagesAttributes.push(e.target.result);
+      console.log(imagesAttributes);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 
 function tempSave() {
     $("input[type = file]").each(function () {
@@ -828,6 +861,7 @@ function tempSave() {
     });
 
     alert("Image now in the images' list to save with this composition.")
+    console.log(imagesAttributes);
 }
 
 function loadPhotos(){
