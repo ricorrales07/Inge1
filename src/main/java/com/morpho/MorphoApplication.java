@@ -13,6 +13,7 @@ import io.dropwizard.setup.Environment;
 import io.dropwizard.Application;
 
 import com.mongodb.MongoClient;
+import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
 
@@ -76,7 +77,7 @@ public class MorphoApplication extends Application<MorphoConfiguration>{
         final MongoClient mongoClient = new MongoClient(configuration.mongohost, configuration.mongoport);
         final MongoHealthCheck mongoHealthCheck = new MongoHealthCheck(mongoClient);
 
-        final Driver neo4jDriver = GraphDatabase.driver(configuration.neo4jURI);
+        final Driver neo4jDriver = GraphDatabase.driver(configuration.neo4jURI, AuthTokens.basic("NEO4J", "NEO4J"));
 
         DBA = new DBAdministrator(mongoClient, neo4jDriver);
         Auth = new Authenticator();
