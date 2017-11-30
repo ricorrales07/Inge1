@@ -110,3 +110,7 @@ canvas {
     border: 1px solid #bbb;
     border-radius: 5px;
 }
+
+.reaction-btn{
+    display: inline-block;
+}

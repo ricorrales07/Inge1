@@ -962,7 +962,7 @@ var slideIndex = 1;
 
 function waitImgs() {
   
-  setTimeout("plusDivs(0)", 10000);
+  setTimeout("plusDivs(0)", 3000);
 }
 
 function plusDivs(n) {
@@ -974,32 +974,33 @@ function plusDivs(n) {
 function showDivs(n) {
     var i;
     var j;
-    var x = document.getElementsByClassName("img-thumbnail");
-    var y = document.getElementsByClassName("positivo"); //Botones positivos a la izquierda
-    var z = document.getElementsByClassName("negativo"); //Botones negativos a la derecha
+    var x = $(".imagenBonita");
+    //var y = document.getElementsByClassName("positivo"); //Botones positivos a la izquierda
+    //var z = document.getElementsByClassName("negativo"); //Botones negativos a la derecha
     if (n > x.length) {slideIndex = 1}
     if (n < 1) {slideIndex = x.length}
     for (i = 0; i < x.length; i++) { //Siempre sería la misma cantidad de imagenes que numero de botones positivos o negativos
         x[i].style.display = "none"; //Se esconden las imagenes que no se quieran mostrar por el momento
-        y[i].style.display = "none"; //Igual con los botones
-        z[i].style.display = "none";
+        //y[i].style.display = "none"; //Igual con los botones
+        //z[i].style.display = "none";
     }
 
-     for (j = -1; j <= 4; j++){
+     /*for (j = -1; j <= 4; j++){
      x[slideIndex+j].style.display = "block";
      y[slideIndex+j].style.display = "inline";
      z[slideIndex+j].style.display = "inline";
-     }
+     }*/
 
 
-    /*x[slideIndex-1].style.display = "inline"; //Se muestran las 6 imagenes que sí
-    x[slideIndex].style.display = "inline";
-    x[slideIndex+1].style.display = "inline";
-    x[slideIndex+2].style.display = "inline";
-    x[slideIndex+3].style.display = "inline";
-    x[slideIndex+4].style.display = "inline";
+    x[slideIndex-1].style.display = "inline-block"; //Se muestran las 6 imagenes que sí
+    x[slideIndex].style.display = "inline-block";
+    x[slideIndex+1].style.display = "inline-block";
+    x[slideIndex+2].style.display = "inline-block";
+    x[slideIndex+3].style.display = "inline-block";
+    x[slideIndex+4].style.display = "inline-block";
+    //x[slideIndex+5].style.display = "inline";
 
-    y[slideIndex-1].style.display = "inline"; //Los 6 botones positivos
+    /*y[slideIndex-1].style.display = "inline"; //Los 6 botones positivos
     y[slideIndex].style.display = "inline";
     y[slideIndex+1].style.display = "inline";
     y[slideIndex+2].style.display = "inline";

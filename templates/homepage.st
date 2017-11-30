@@ -301,7 +301,7 @@
               <button id="newCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="newComposition();">New composition</button>
               <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions">Load composition</button>
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
-              <button id="uploadPhotoButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#addImageModal">Add Photograph</button>
+              <!--button id="uploadPhotoButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#addImageModal">Add Photograph</button-->
               <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
               <button id="searchSimilar" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="searchSimilar()">Search Similar</button>
             </div>

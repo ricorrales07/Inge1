@@ -159,8 +159,12 @@ function addListenerToResultsCard(card){
 
 		//$("#authorField").text("").text(author);
     var chosenImages =  $("#images"+compositionId+"");
+    var clone2 = $("#images"+compositionId+" img");
     var cloneImages = chosenImages.clone();
-    $("#relatedImages").empty().append(cloneImages);
+    if (clone2.length > 0)
+    {
+        $("#relatedImages").empty().append(cloneImages);
+    }
 
 
 		$("#sciNameField").text("").text(scientificName);

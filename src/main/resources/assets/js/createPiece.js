@@ -627,7 +627,7 @@ $( ".canvasSize" ).click(function(e) {
 var slideIndex = 1;
 
 function waitImgs() {
-  setTimeout("plusDivs(0)", 200);
+  setTimeout("plusDivs(0)", 3000);
 }
 
 function plusDivs(n) {

@@ -82,7 +82,7 @@ function registeredImages(owned, type, pieceType){
 	            }else{
 	                $('#images').append(data)
 				}
-			}, 1000);
+			}, 500);
 
 		},
 		error:function(jqXHR, textStatus, errorThrown ){

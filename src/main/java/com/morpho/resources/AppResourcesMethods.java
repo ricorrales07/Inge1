@@ -165,13 +165,13 @@ public class AppResourcesMethods {
                 int upvotes = MorphoApplication.DBA.findRelatedUsers(piezaID, collection, "up").size();
                 int downvotes = MorphoApplication.DBA.findRelatedUsers(piezaID, collection, "down").size();
 
-                html += "<modalImages> <img src=\"data:image/png;base64," + srcBytes
+                html += "<modalImages class=\"imagenBonita\"> <img src=\"data:image/png;base64," + srcBytes
                         + "\" data-dismiss=\"modal\" class = \"img-thumbnail\" onclick=\"" + method + "\" /> " +
-                        "<br><div class = \"positivo\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-up\" id = \"positiveVoteBtn\" \" onclick=\"updateVote(this, this.innerHTML,'" + usuarioID +"','" + piezaID +"','" + collection + "','up')\">" +
+                        "<br><div class = \"positivo reaction-btn\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-up\" id = \"positiveVoteBtn\" \" onclick=\"updateVote(this, this.innerHTML,'" + usuarioID +"','" + piezaID +"','" + collection + "','up')\">" +
                         + upvotes + "</button></div>" + //Boton de voto positivo
-                        "<div class = \"negativo\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-down\" id = \"begativeVoteBtn\" \" onclick=\"updateVote(this, this.innerHTML,'" + usuarioID + "','" + piezaID + "','" + collection + "','down')\">" +
+                        "<div class = \"negativo reaction-btn\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-down\" id = \"begativeVoteBtn\" \" onclick=\"updateVote(this, this.innerHTML,'" + usuarioID + "','" + piezaID + "','" + collection + "','down')\">" +
                         + downvotes + "</button></div>" + //Boton de voto negativo
-                        "</modalImages><br><br>";
+                        "</modalImages>";
             }
         }
         catch (Exception e) //DANGER
@@ -199,7 +199,7 @@ public class AppResourcesMethods {
         {
             MorphoApplication.DBA.setRelationship(partes[0], partes[1], partes[2], partes[3]);
         }
-        catch (Exception e) //DANGER
+        catch (Exception e)
         {
             MorphoApplication.logger.warning(e.toString());
             builder = Response.status(404);

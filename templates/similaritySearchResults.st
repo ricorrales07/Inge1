@@ -84,14 +84,5 @@
 
       <div id="hiddenImages" class="hideInfo">
       	
-      	<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
-		              			<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
-		              			<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
-		              			<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
-		              			<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
-		              			<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
-		              			<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
-		              			<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
-		              			<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
-		              			<img class="resultsRelatedImages" src="http://webneel.com/daily/sites/default/files/images/daily/04-2014/1-bird-drawing.jpg">
+
       </div>
