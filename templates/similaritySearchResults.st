@@ -21,7 +21,7 @@
                       <div class="col-md-4 ">
                           <h4> Result information </h4>
                           <div class="row" id="compositionResultInfomration">
-                              <div class="col-md-12">
+                              <div class="col-md-12 hideInfo">
                                   <label for="authorField">Author: </label>
                                   <span id="authorField">Irvin</span>     
                               </div>

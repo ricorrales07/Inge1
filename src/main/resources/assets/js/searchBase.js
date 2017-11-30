@@ -43,8 +43,8 @@ function getSearchResults()
           type: 'GET',
           data: {searchJSON: sJSON},
           success:function(data, textStatus, jqXHR){
-              console.log("data: " + data);
-              console.log("type: " + typeof data);
+              //console.log("data: " + data);
+              //console.log("type: " + typeof data);
               prepareResults(JSON.parse(data));
 
               //ACÁ TIENE EN DATA LOS RESULTADOS DE BÚSQUEDA.
@@ -90,7 +90,7 @@ function prepareResults(data){
 	for(var i= 0; i<size; i++){
 		var scientificName = data[i]['attributes']['Scientific Name'];
 		var similarityScore = data[i]['similarityScore'];
-    var compositionId = data[i]['compositionId'];
+    var compositionId = data[i]['_id'];
 		var resultingImage = new Image();
 		resultingImage.src = "data:image/png;base64," + data[i]['imageBinaryCover'];
     recoverRelatedPhotos(compositionId);
@@ -105,11 +105,11 @@ function recoverRelatedPhotos(compositionId){
   //Se busca con 
         $.ajax({
           url: "/methods/loadPhotos2",
-          type: 'GET',
+          type: 'POST',
           data: compositionId,
           contentType: "text/plain",
           success:function(data, textStatus, jqXHR){
-              appedRelatedPhotos(JSON.parse(data), compositionId);
+              appedRelatedPhotos(data, compositionId);
           },
           error:function(jqXHR, textStatus, errorThrown ){
               console.log(errorThrown);
@@ -117,13 +117,15 @@ function recoverRelatedPhotos(compositionId){
       });
 }
 
-function appedRelatedPhotos(imgArray, compostionId){
-  $("#hiddenImages").append("<div id=\"images"+compostionId+"\"></div>");
+function appedRelatedPhotos(imgArray, compositionId){
+    var bla = imgArray.substring(1, imgArray.length - 1).split(",");
+  $("#hiddenImages").append("<div id=\"images"+compositionId+"\"></div>");
 
-  for(var i = 0; i < imgArray; i++){
+  for(var i = 0; i < bla.length; i++){
     var newImage = new Image();
-    newImage.src = imgArray[i];
-    $("#images"+compositionId+"").append();
+    newImage.src = "data:image/png;base64," + bla[i];
+    $("#images"+compositionId+"").append(newImage);
+    $("#images"+compositionId+" img").addClass("resultsRelatedImages");
   }
 }
 
@@ -147,6 +149,7 @@ function loadResultsToCards(resultingImage, scientificName, similarityScore, com
 function addListenerToResultsCard(card){
 	//	$(".resultsCard").hover(function(){
 	$(card).hover(function(){
+	    console.log("hover called");
 		$(this).addClass('selectedCard');
 		var scientificName = $(".selectedCard .sciNameFieldCard").text();
 		//var author  = $(".selectedCard  .authorFieldCard").text();
@@ -155,8 +158,9 @@ function addListenerToResultsCard(card){
 		$(this).removeClass('selectedCard');	
 
 		//$("#authorField").text("").text(author);
-    var chosenImages =  $("#images"+compositionId+" img");
-    $("#relatedImages").empty().append(chosenImages);
+    var chosenImages =  $("#images"+compositionId+"");
+    var cloneImages = chosenImages.clone();
+    $("#relatedImages").empty().append(cloneImages);
 
 
 		$("#sciNameField").text("").text(scientificName);

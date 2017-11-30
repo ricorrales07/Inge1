@@ -156,6 +156,7 @@ public class SearchEngine {
     public ArrayList<Document> searchSimilarCompositions(String data, int pageNum)
     {
         ArrayList<Document> results = new ArrayList<Document>();
+        ArrayList<String> resultsSimilarityScores = new ArrayList<String>();
 
         //Document composition = (Document) Document.parse(addSearchIdToComposition(data)).get("composition");
         Document composition = (Document) Document.parse(data).get("composition");
@@ -208,14 +209,15 @@ public class SearchEngine {
                     if (--skip <= 0 && !results.contains(result)) {
                         ArrayList<Document> queryResult = (ArrayList<Document>) result.get("pieces");
                         int queryResultSize = queryResult.size();
-                        double average = (queryResultSize+queryResultSize)/2;
-                        double similarityScore = closeness / average;
+                        double average = (queryResultSize+querySize)/2;
+                        double similarityScore = (closeness+1) / average * 100;
 
                         //Decimal format
                         DecimalFormat df = new DecimalFormat("#.###");
                         df.setRoundingMode(RoundingMode.CEILING);
 
-                        result.put("similarityScore",df.format(similarityScore));
+                        //result.put("similarityScore",df.format(similarityScore));
+                        resultsSimilarityScores.add(df.format(similarityScore));
                         results.add(result);
                         if (results.size() >= 10)
                             break;
@@ -231,6 +233,13 @@ public class SearchEngine {
             //if (closeness >= 0)
             //   searchCriteria.remove(closeness);
         } while (results.size() < 10 && closeness >= 0);
+
+        for (int i = 0; i < results.size(); i++)
+        {
+            Document d = results.get(i);
+            d.put("similarityScore", resultsSimilarityScores.get(i));
+            results.set(i, d);
+        }
 
         return results;
     }

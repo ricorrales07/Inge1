@@ -580,7 +580,7 @@ function saveCompositionImage(){
             success:function(data, textStatus, jqXHR){
                 console.log("image saved in server directory: " + data);
                 savedImg = data.split(",")[0];
-                console.log("savedImg: " + savedImg);
+                //console.log("savedImg: " + savedImg);
                 currentCompositionID = data.split(",")[1];
             },
             error:function(jqXHR, textStatus, errorThrown ){
@@ -595,7 +595,7 @@ function saveCompositionPhotographs(){
     console.log("saving photographs");
 
     for(var i = 0; i < imagesAttributes.length; i = i + 4) {
-        console.log("saving: " + imagesAttributes[i].split(",")[1]);
+        //console.log("saving: " + imagesAttributes[i].split(",")[1]);
         $.ajax({
             url: "/methods/saveCreatedImageFile",
             type: 'POST',
@@ -604,7 +604,7 @@ function saveCompositionPhotographs(){
             success:function(data, textStatus, jqXHR){
                 console.log("image saved in server directory: " + data);
                 savedImg = data.split(",")[0];
-                console.log("savedImg: " + savedImg);
+                //console.log("savedImg: " + savedImg);
                 currentCompositionID = data.split(",")[1];
             },
             error:function(jqXHR, textStatus, errorThrown ){
@@ -857,9 +857,9 @@ function tempSaveImg(input) {
 }
 
 function tempSave() {
-    $("input[type = file]").each(function () {
+    /*$("input[type = file]").each(function () {
         imagesAttributes.push($(this).val());
-    });
+    });*/
 
     $("input[type = attr]").each(function () {
         imagesAttributes.push($(this).val());

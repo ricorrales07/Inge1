@@ -839,6 +839,7 @@ public class AppResourcesMethods {
     @Path("loadPhotos2")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response loadPhotos2(String receivedContent) {
+        MorphoApplication.logger.info(receivedContent);
         ResponseBuilder builder;
         String r = "[";
         FindIterable<org.bson.Document> imgJsons;
