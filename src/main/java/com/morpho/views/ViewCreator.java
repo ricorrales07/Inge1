@@ -7,6 +7,7 @@ import java.util.*;
 
 import com.mongodb.client.FindIterable;
 import com.morpho.MorphoApplication;
+import com.morpho.server.DBAdministrator;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.json.simple.JSONArray;
@@ -18,6 +19,7 @@ import sun.awt.ModalExclude;
 import org.bson.Document;
 
 //import javax.swing.text.Document;
+import javax.servlet.http.Cookie;
 import javax.validation.constraints.Max;
 import javax.xml.bind.DatatypeConverter;
 
@@ -65,8 +67,8 @@ public class ViewCreator {
                         + piece.getString("SourceFront"));
 
                 String pieceId = piece.getString("_id");
-                int upvotes = MorphoApplication.DBA.findRelatedUsers(pieceId, "composition", "up").size();
-                int downvotes = MorphoApplication.DBA.findRelatedUsers(pieceId, "composition", "down").size();
+                int upvotes = MorphoApplication.DBA.findRelatedUsers(pieceId, "piece", "up").size();
+                int downvotes = MorphoApplication.DBA.findRelatedUsers(pieceId, "piece", "down").size();
 
 
                 pieces += "<div class=\"item\">\n" +
@@ -79,6 +81,7 @@ public class ViewCreator {
                         "</div>" +
                         "</div>";
             }
+
             if (pieces.equals(""))
                 pieces = "No pieces found for this user.";
         } catch (Exception e)
@@ -123,8 +126,54 @@ public class ViewCreator {
             compositions = "No compositions found for this user.";
         }
 
+        String upvotePieceImages = "";
+
+        List<JSONObject> pieceUpvotesList = MorphoApplication.DBA.findRelatedObjects(userId, "piece", "up");
+
+        for(JSONObject upvoteObject : pieceUpvotesList){
+            MorphoApplication.logger.info("Loading upvote: " + upvoteObject.get("SourceFront"));
+            upvotePieceImages += "<div class=\"item\">\n" +
+                    "<img src=\"data:image/png;base64," + MorphoApplication.getImageBytes(upvoteObject.get("SourceFront").toString()) + "\" style=\"border-style:solid;border-width:1px;border-color:black;\">\n" +
+                    "</div>";
+        }
+
+        List<JSONObject> compositionUpvotesList = MorphoApplication.DBA.findRelatedObjects(userId, "composition", "up");
+
+        String upvoteCompositionImages = "";
+
+        for(JSONObject upvoteObject : compositionUpvotesList){
+            MorphoApplication.logger.info("Loading upvote: " + upvoteObject.get("imgSource"));
+            upvoteCompositionImages += "<div class=\"item\">\n" +
+                    "<img src=\"data:image/png;base64," + MorphoApplication.getImageBytes(upvoteObject.get("imgSource").toString()) + "\" style=\"border-style:solid;border-width:1px;border-color:black;\">\n" +
+                    "</div>";
+        }
+
+        String downvotePieceImages = "";
+
+        List<JSONObject> pieceDownvotesByUser = MorphoApplication.DBA.findRelatedObjects(userId, "piece", "down");
+        for(JSONObject upvoteObject : pieceDownvotesByUser){
+            MorphoApplication.logger.info("Loading upvote: " + upvoteObject.get("SourceFront"));
+            downvotePieceImages += "<div class=\"item\">\n" +
+                    "<img src=\"data:image/png;base64," + MorphoApplication.getImageBytes(upvoteObject.get("SourceFront").toString()) + "\" style=\"border-style:solid;border-width:1px;border-color:black;\">\n" +
+                    "</div>";
+        }
+
+        String downvoteCompositionImages = "";
+
+        List<JSONObject> compositionDownvotesByUser = MorphoApplication.DBA.findRelatedObjects(userId, "composition", "down");
+        for(JSONObject upvoteObject : compositionDownvotesByUser){
+            MorphoApplication.logger.info("Loading upvote: " + upvoteObject.get("imgSource"));
+            downvoteCompositionImages += "<div class=\"item\">\n" +
+                    "<img src=\"data:image/png;base64," + MorphoApplication.getImageBytes(upvoteObject.get("imgSource").toString()) + "\" style=\"border-style:solid;border-width:1px;border-color:black;\">\n" +
+                    "</div>";
+        }
+
         profileTemplate.setAttribute("pieces", pieces);
         profileTemplate.setAttribute("compositions", compositions);
+        profileTemplate.setAttribute("upvotePieceImages", upvotePieceImages);
+        profileTemplate.setAttribute("downvotePieceImages", downvotePieceImages);
+        profileTemplate.setAttribute("upvoteCompositionImages", upvoteCompositionImages);
+        profileTemplate.setAttribute("downvoteCompositionImages", downvoteCompositionImages);
         profileTemplate.setAttribute("picture", "\"" + picture + "\"");
         profileTemplate.setAttribute("name", name);
         profileTemplate.setAttribute("institution", institution);

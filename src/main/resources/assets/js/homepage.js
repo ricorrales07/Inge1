@@ -1023,3 +1023,21 @@ function attachPhotographToComposition(){
   photographCompostion[size] = $("#imgToUpload")[0].src;
  
 }
+
+function updateVote(usuarioID, piezaID, type, updown){ //Recibe parámetros para crear relacion en Neo4J
+    console.log("Updating votes");
+    var envio = usuarioID+"/"+piezaID+"/"+type+"/"+updown; //Se envia con los valores separados por '/'
+    $.ajax({
+        url: "/methods/updateVote",
+        type: 'POST',
+        data: envio,
+        contentType: "text/plain",
+        success:function(data, textStatus, jqXHR){
+            console.log(data);
+            alert("Your vote has been saved");
+        },
+        error:function(jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
+    });
+}

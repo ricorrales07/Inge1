@@ -72,10 +72,20 @@ $loginModal$
                         <h4 class="fa fa-image fa-2x"></h4><br/>Compositions
                     </a>
                     <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-menu-up"></h4><br/>Upvotes
+                        <h4 class="fa fa-puzzle-piece fa-2x"></h4>
+                        <h4 class="glyphicon glyphicon-menu-up"></h4><br/>Piece upvotes
                     </a>
                     <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-menu-down"></h4><br/>Downvotes
+                        <h4 class="fa fa-puzzle-piece fa-2x"></h4>
+                        <h4 class="glyphicon glyphicon-menu-down"></h4><br/>Piece downvotes
+                    </a>
+                    <a href="#" class="list-group-item text-center">
+                        <h4 class="fa fa-image fa-2x">
+                        <h4 class="glyphicon glyphicon-menu-up"></h4><br/>Composition upvotes
+                    </a>
+                    <a href="#" class="list-group-item text-center">
+                        <h4 class="fa fa-image fa-2x">
+                        <h4 class="glyphicon glyphicon-menu-down"></h4><br/>Composition downvotes
                     </a>
                 </div>
             </div>
@@ -105,21 +115,41 @@ $loginModal$
                     </center>
                 </div>
 
-                <!-- upvote section -->
-                <div class="bhoechie-tab-content voteContent">
-                    <center>
-                        <h1 class="glyphicon glyphicon-menu-up" style="font-size:12em;"></h1>
-                        <h2>Coming Soon</h2>
-                        <h3>Upvotes</h3>
+                <div class="bhoechie-tab-content voteContent" style="height:100%; max-height:100%">
+                    <center style="height:100%; max-height:100%">
+                        <div class="images" style="">
+                            $upvotePieceImages$
+                        </div>
                     </center>
                 </div>
-                <div class="bhoechie-tab-content voteContent">
-                    <center>
-                        <h1 class="glyphicon glyphicon-menu-down" style="font-size:12em;"></h1>
-                        <h2>Coming Soon</h2>
-                        <h3>Downvotes</h3>
+
+                <div class="bhoechie-tab-content voteContent" style="height:100%; max-height:100%">
+                    <center style="height:100%; max-height:100%">
+                        <div class="images" style="">
+                            $downvotePieceImages$
+                        </div>
                     </center>
                 </div>
+
+                <div class="bhoechie-tab-content voteContent" style="height:100%; max-height:100%">
+                    <center style="height:100%; max-height:100%">
+                        <div class="images" style="">
+                            $upvoteCompositionImages$
+                        </div>
+                    </center>
+                </div>
+
+                <div class="bhoechie-tab-content voteContent" style="height:100%; max-height:100%">
+                    <center style="height:100%; max-height:100%">
+                        <div class="images" style="">
+                            $downvoteCompositionImages$
+                        </div>
+                    </center>
+                </div>
+
+                <!--<h1 style="font-size:10em;"></h1>-->
+                <!--<h3>Pieces downvoted</h3>-->
+
             </div>
         </div>
     </div>

@@ -146,20 +146,28 @@ public class AppResourcesMethods {
             //TODO: sacar esto de acá, solo debería ir la línea anterior
             for (org.bson.Document json : imgJsons)
             {
+                String piezaID = json.getString("_id");
+                String usuarioID = piezaID.split("C")[0]; //Para sacar el ID del usuario del ID de la pieza
                 String srcBytes;
                 String method;
-                if(receivedJSON.get("collection").toString().equals("piece")){
+                String collection = receivedJSON.get("collection").toString();
+                if(collection.equals("piece")){
 
                     srcBytes = MorphoApplication.getImageBytes(json.getString("SourceFront"));
 
                     method = "addImageToCanvas(this,'" + json.getString("SourceFront") + "','" + json.getString("SourceSide")
-                            + "','" + json.getString("_id") + "','" + receivedJSON.get("type").toString() + "'," + Integer.parseInt(json.getString("Type")) + ")";
+                            + "','" + json.getString("_id") + "','" + receivedJSON.get("type").toString() + "'," + Integer.parseInt(json.getString("Type")) + ");";
                 }else{
                     srcBytes = MorphoApplication.getImageBytes(json.getString("imgSource"));
-                    method = "loadComposition('" + json.getString("_id") + "')";
+                    method = "loadComposition('" + json.getString("_id") + "');";
                 }
-                html += "<modalImages data-dismiss=\"modal\"> <img src=\"data:image/png;base64," + srcBytes
-                        + "\" class = \"img-thumbnail\" onclick=\"" + method + "\" /> </modalImages>";
+                html += "<modalImages> <img src=\"data:image/png;base64," + srcBytes
+                        + "\" data-dismiss=\"modal\" class = \"img-thumbnail\" onclick=\"" + method + "\" /> " +
+                        "<br><div class = \"positivo\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-up\" \" onclick=\"updateVote('" + usuarioID +"','" + piezaID +"','" + collection + "','up')\">" +
+                        + MorphoApplication.DBA.findRelatedUsers(piezaID, collection, "up").size() + "</button></div>" + //Boton de voto positivo
+                        "<div class = \"negativo\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-down\" \" onclick=\"updateVote('" + usuarioID + "','" + piezaID + "','" + collection + "','down')\">" +
+                        + MorphoApplication.DBA.findRelatedUsers(piezaID, collection, "down").size() + "</button></div>" + //Boton de voto negativo
+                        "</modalImages>";
             }
         }
         catch (Exception e) //DANGER
@@ -172,6 +180,30 @@ public class AppResourcesMethods {
 
         builder = Response.ok("Got images");
         builder.entity(html);
+        builder.status(200);
+        return builder.build();
+    }
+
+    @POST
+    @Path("updateVote")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response updateVote(String receivedContent){
+        ResponseBuilder builder;
+        String[] partes;
+        partes = receivedContent.split("/"); //Se separan los valores por '/'
+        try
+        {
+            MorphoApplication.DBA.setRelationship(partes[0], partes[1], partes[2], partes[3]);
+        }
+        catch (Exception e) //DANGER
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(404);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        builder = Response.ok("Neo4j relationships made");
         builder.status(200);
         return builder.build();
     }
