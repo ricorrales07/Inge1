@@ -8,7 +8,7 @@
 	    <link rel="stylesheet" type="text/css" href="assets/bootstrap-3.3.7/css/bootstrap.min.css">
 	    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/createPiece.css">
-	    <link rel="stylesheet" href="assets/css/searchBase.css">
+	    <link rel="stylesheet" type="text/css" href="assets/css/searchBase.css">
 	    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
 	</head>
 	<body >
@@ -161,7 +161,7 @@
 
 		<div class="container-fluid" id="pieceMakerContainer">
 
-			<div class="row">
+			<!--div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12">
 					<nav class="navbar navbar-inverse">
 						<div class="container-fluid">
@@ -179,7 +179,7 @@
 						</div>
 					</nav>
 				</div>
-			</div>
+			</div-->
 
 			<div class="row top-nav">
 				<div class="col-md-12">
@@ -190,10 +190,10 @@
 							</div-->
 						</div>
 						<div class="col-md-offset-6  col-md-2">
-							<!--div title="Cancel" class=" nav-button" id="cancelButton" onclick="cancelSprite()">
+							<div title="Cancel" class=" nav-button" id="cancelButton" onclick="cancelSprite()">
 								<i class="fa fa-times  fa-2x"></i>
 								</br>
-							</div-->
+							</div>
 						</div>
 					</div>
 					<div class="row">

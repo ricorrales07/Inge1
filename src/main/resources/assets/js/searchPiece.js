@@ -9,7 +9,7 @@ function getPieceSearchResults()
 {
   var pieceType = $("#pieceType select").val();
   console.log(pieceType);
-      var params = "type="+pieceType;
+      var params = "type="+generateTypeIndex(pieceType);
       $.ajax({
           url: "/methods/getPiecesByType",
           type: 'GET',

@@ -1054,7 +1054,7 @@ public class AppResourcesMethods {
 
         FindIterable<Document> results;
         try {
-            results = MorphoApplication.DBA.search("piece", "{Type: \"" + "4" + "\"}");
+            results = MorphoApplication.DBA.search("piece", "{Type: \"" + type + "\"}");
             for(Document d : results)
             {
                 PieceSearchResult piece = new PieceSearchResult();

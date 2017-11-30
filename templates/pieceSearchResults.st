@@ -21,7 +21,7 @@
                       <span id="currentAuthorField">Irvin</span>     
                   </div>
                   <div class="col-md-offset-1 col-md-3">
-                      <span id="resultInformationBlock" class="hideInfo">
+                      <!--span id="resultInformationBlock" class="hideInfo">
                           <h3> Result information </h3>
                           <div class="row" id="compositionResultInfomration">
                               <div class="col-md-12">
@@ -39,7 +39,7 @@
 
 
                           </div>
-                      </span>
+                      </span-->
                   </div>
               </div>
               
@@ -57,7 +57,7 @@
                                   </div>
                               </div>
                               <div class="resultsCardInfo">
-                                  <div class="hideInfo">
+                                  <!--div class="hideInfo">
                                       <label for="authorFieldCard">Author: </label>
                                       <span class="authorFieldCard">Ricardo</span>     
                                   </div>
@@ -67,7 +67,7 @@
                                   </div>
                                   <div>
                                       <label for="similarityScoreFieldCard">Similarity Score: </label>
-                                      <span class="similarityScorFieldCard">33%</span>  
+                                      <span class="similarityScorFieldCard">33%</span-->
                                   </div>
                               </div>
                           </div>
