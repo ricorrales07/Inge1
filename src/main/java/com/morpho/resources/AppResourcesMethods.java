@@ -171,7 +171,7 @@ public class AppResourcesMethods {
                         + upvotes + "</button></div>" + //Boton de voto positivo
                         "<div class = \"negativo\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-down\" id = \"begativeVoteBtn\" \" onclick=\"updateVote(this, this.innerHTML,'" + usuarioID + "','" + piezaID + "','" + collection + "','down')\">" +
                         + downvotes + "</button></div>" + //Boton de voto negativo
-                        "</modalImages>";
+                        "</modalImages><br><br>";
             }
         }
         catch (Exception e) //DANGER
