@@ -25,6 +25,8 @@ var pieceLimits = [0,0,0,0,0,0]; // Head, Torso, Feet, Tail, Wings, Beak
 
 var onSearch = false; // this is helpful to avoid using toggle in the searche's ui
 
+var photographCompostion = [];
+
 /*
 selectPart: this function is called when a part is tapped or
             clicked on. It draws a rectangle around the
@@ -588,6 +590,29 @@ function saveCompositionImage(){
     };
 }
 
+function savePhotographsComposition(){
+        var blah = currentCompositionID == undefined ? "puesNoSe": currentCompositionID;
+        var imagesData = ""+blah;
+        for(var j = 0; j < photographCompostion.length; j++){
+          imagesData += "!"+photographCompostion[j];
+        }
+     
+
+        $.ajax({
+            url: "/methods/saveAssociatedPhotographs",
+            type: 'POST',
+            data: imagesData,
+            contentType: "text/plain",
+            success:function(data, textStatus, jqXHR){
+                console.log("Associated Images saved!");
+            },
+            error:function(jqXHR, textStatus, errorThrown ){
+                console.log(errorThrown);
+            }
+        });
+        photographCompostion = [];
+}
+
 function saveComp()
 {
     var saved = false;
@@ -595,6 +620,7 @@ function saveComp()
 
     if(saved) {
         saveCompositionImage();
+        savePhotographsComposition()
         alert("Composition successfully saved in the server.");
     }
 }
@@ -963,3 +989,24 @@ $('#loadCompositionButton').on('click', function()
     waitImgs();
     showCompositions();
 });
+
+
+function uploadPhotograph(event){
+  var input = event.target;
+  var reader = new FileReader();
+  reader.onload = function(){
+      var dataURL = reader.result;
+      var output = document.getElementById('imgToUpload');
+      output.src = dataURL;
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+
+function attachPhotographToComposition(){
+  var newImageToAdd = new Image();
+  newImageToAdd.src = $("#imgToUpload")[0].src;
+  var size = photographCompostion.length;
+  photographCompostion[size] = $("#imgToUpload")[0].src;
+ 
+}

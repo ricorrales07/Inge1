@@ -48,6 +48,8 @@
                                   </div>
                             </div>
                             <div class = "modal-body" align="center">
+                            <!-- MDL Spinner Component with Single Color -->
+                            <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active loadingImagesPieces" id="" ></div>
                                <div id="images"><!--aquí van las imágenes (ver método registeredImages en miscelaneous.js)--></div>
                                <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                                <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
@@ -93,7 +95,7 @@
                            <div class = "modal-body" align="center">
                               <div id="ownedImages">
                                 <!-- MDL Spinner Component with Single Color -->
-                                  <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active" id="loadingImagesPieces" ></div>
+                                <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active loadingImagesPieces" id="" ></div>
                               </div>
                               <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                               <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
@@ -120,7 +122,10 @@
                </div>
                <div class = "modal-body">
                    Here are your search results:
-                   <div id="resultImages"></div>
+                   <div id="resultImages">
+                     <!-- MDL Spinner Component with Single Color -->
+                      <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active loadingImagesPieces" id="" ></div>
+                   </div>
                </div>
                <div class = "modal-footer">
                    <button type = "button" class = "btn btn-default" data-dismiss = "modal">
@@ -216,6 +221,8 @@
                   Please select one of the following compositions:
                </div>
                <div class = "modal-body" align="center">
+                  <!-- MDL Spinner Component with Single Color -->
+                  <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active loadingImagesPieces" id="" ></div>
                   <div id="ownedCompositions"></div>
                   <button class="btn pull-left pull-up" onclick="plusDivs(-6)">&#10094;</button>
                   <button class="btn pull-right pull-up" onclick="plusDivs(6)">&#10095;</button>
@@ -228,6 +235,33 @@
              </div><!-- /.modal-content -->
        </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
+
+    <div class = "modal fade" id = "addImageModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
+         <div class = "modal-dialog">
+             <div class = "modal-content">
+                 <div class = "modal-header">
+                     <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                         &times;
+                     </button>
+                     <h4 class = "modal-title" id = "myModalLabel">
+                         Let's Add an Image
+                     </h4>
+                 </div>
+                 <div class = "modal-body">
+                     <input type='file' accept='image/*' onchange='uploadPhotograph(event)'><br>
+                      <img id='imgToUpload'>
+                 </div>
+                 <div class = "modal-footer">
+                     <button type = "button" class = "btn btn-default" data-dismiss = "modal" onclick="attachPhotographToComposition()">
+                         Close
+                     </button>
+                 </div>
+             </div><!-- /.modal-content -->
+         </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div id="hiddenCompositionImages" style="display: none;">
+    </div>
 
     <div class = "mainContainer" id="compositionMaker">
 
@@ -267,6 +301,7 @@
               <button id="newCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="newComposition();">New composition</button>
               <button id="loadCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openCompositions">Load composition</button>
               <button id="loadPhotosButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#openAssociated" onclick="loadPhotos();">View Photos</button>
+              <button id="uploadPhotoButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target= "#addImageModal">Add Photograph</button>
               <button id="saveCompositionButton" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" data-toggle = "modal" data-target = "#openLocal" >Save composition</button>
               <button id="searchSimilar" class="btn btn-primary btn-responsive mw-100 bg-inverse text-white" onclick="searchSimilar()">Search Similar</button>
             </div>

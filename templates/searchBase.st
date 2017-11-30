@@ -14,7 +14,7 @@
 <div class="row" id="searchControlArea">
     <div class="col-md-12 searchControls">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-1">
 
                 <div title="Go back to making the composition" id="goBack" >
                     <i class="fa fa-chevron-circle-left fa-2x" aria-hidden="true"></i>
@@ -29,11 +29,11 @@
                 </div>
                 
             </div>
-            <div class="col-md-2 currentCompositionInfo">
+            <!--div class="col-md-2 currentCompositionInfo">
                 <label for="currentAuthorField">Author of current composition: </label>
                 <span id="currentAuthorField">Irvin</span>     
-            </div>
-            <div class="col-md-offset-1 col-md-3">
+            </div-->
+            <div class="col-md-3">
                 <span id="resultInformationBlock" class="hideInfo">
                     <h3> Result information </h3>
                     <div class="row" id="compositionResultInfomration">

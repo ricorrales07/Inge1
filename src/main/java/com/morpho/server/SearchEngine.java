@@ -20,7 +20,9 @@ import org.json.simple.parser.ParseException;
 import javax.print.Doc;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.nio.ByteBuffer;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -162,8 +164,13 @@ public class SearchEngine {
 
         FindIterable<Document> partialResults;
 
+
         ArrayList<ArrayList<Integer>> searchCriteria =
                 (ArrayList<ArrayList<Integer>>) composition.get("searchId"); //THIS API'S DOCS SUCK!!
+
+        ArrayList<Document> pieces = (ArrayList<Document>)composition.get("pieces");
+        int querySize = pieces.size();
+
 
         /*System.out.println("" + preSearchCriteria);
 
@@ -199,6 +206,16 @@ public class SearchEngine {
                 for (Document result : partialResults)
                 {
                     if (--skip <= 0 && !results.contains(result)) {
+                        ArrayList<Document> queryResult = (ArrayList<Document>) result.get("pieces");
+                        int queryResultSize = queryResult.size();
+                        double average = (queryResultSize+queryResultSize)/2;
+                        double similarityScore = closeness / average;
+
+                        //Decimal format
+                        DecimalFormat df = new DecimalFormat("#.###");
+                        df.setRoundingMode(RoundingMode.CEILING);
+
+                        result.put("similarityScore",df.format(similarityScore));
                         results.add(result);
                         if (results.size() >= 10)
                             break;

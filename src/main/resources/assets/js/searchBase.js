@@ -89,35 +89,54 @@ function prepareResults(data){
 
 	for(var i= 0; i<size; i++){
 		var scientificName = data[i]['attributes']['Scientific Name'];
-		$.ajax({
-	      url: "/methods/getImageBinary",
-	      type: 'GET',
-	      data: {src: data[i]['imgSource']},
-	      success:function(data2, textStatus, jqXHR){
-	          //console.log("image binary: " + data2);
-	           var resultingImage = new Image();
-	           resultingImage.src = "data:image/png;base64," + data2//El url del resultado.
-	           loadResultsToCards(resultingImage,scientificName, resultsCounter);
-	           resultsCounter++;
-	      },
-	      error:function(jqXHR, textStatus, errorThrown ){
-	          console.log(errorThrown);
-	      }
-	  	});
+		var similarityScore = data[i]['similarityScore'];
+    var compositionId = data[i]['compositionId'];
+		var resultingImage = new Image();
+		resultingImage.src = "data:image/png;base64," + data[i]['imageBinaryCover'];
+    recoverRelatedPhotos(compositionId);
+		loadResultsToCards(resultingImage,scientificName, similarityScore, compositionId);
 	}
 	//addListenerToResultsCard();
 
 }
 
-function loadResultsToCards(resultingImage, scientificName, i){
+
+function recoverRelatedPhotos(compositionId){
+  //Se busca con 
+        $.ajax({
+          url: "/methods/loadPhotos2",
+          type: 'GET',
+          data: compositionId,
+          contentType: "text/plain",
+          success:function(data, textStatus, jqXHR){
+              appedRelatedPhotos(JSON.parse(data), compositionId);
+          },
+          error:function(jqXHR, textStatus, errorThrown ){
+              console.log(errorThrown);
+          }
+      });
+}
+
+function appedRelatedPhotos(imgArray, compostionId){
+  $("#hiddenImages").append("<div id=\"images"+compostionId+"\"></div>");
+
+  for(var i = 0; i < imgArray; i++){
+    var newImage = new Image();
+    newImage.src = imgArray[i];
+    $("#images"+compositionId+"").append();
+  }
+}
+
+function loadResultsToCards(resultingImage, scientificName, similarityScore, compositionId){
 
 	var template = $( ".resultsCardSpaceTemplate" );
 	//var author = data[i].author; TODO: NO ESTÁ, SOLO EL ID
-	var similarityScore = getSimScore(i);
+	
 	var newCard = template.clone().addClass("oldSearch").removeClass("resultsCardSpaceTemplate").addClass("currentNewCard").delay(1000).appendTo( ".resultsBlockRow" );
 	newCard.removeClass("hideInfo");
 	addListenerToResultsCard(newCard);
 	//$(".currentNewCard #authorField").text("").text(author);
+  $(".currentNewCard .compositionId").text("").text(compositionId);
 	$(".currentNewCard .sciNameFieldCard").text("").text(scientificName);
 	$(".currentNewCard .similarityScorFieldCard").text("").text(similarityScore + "%")
 	$(".currentNewCard .resultsCardImage").empty().append(resultingImage);
@@ -132,9 +151,14 @@ function addListenerToResultsCard(card){
 		var scientificName = $(".selectedCard .sciNameFieldCard").text();
 		//var author  = $(".selectedCard  .authorFieldCard").text();
 		var similarityScore = $(".selectedCard  .similarityScorFieldCard").text();
+    var compositionId = $(".selectedCard .compositionId").text();
 		$(this).removeClass('selectedCard');	
 
 		//$("#authorField").text("").text(author);
+    var chosenImages =  $("#images"+compositionId+" img");
+    $("#relatedImages").empty().append(chosenImages);
+
+
 		$("#sciNameField").text("").text(scientificName);
 		$("#similarityScorField").text("").text(similarityScore);
 
@@ -151,6 +175,7 @@ function changeContainers(){
   if(onSearch){
     onSearch=false;
     $(".oldSearch").remove();
+    $("#hiddenImages").empty();
     $("#searchSimilarContainer").toggle( "left" , function(){
       $("#compositionMaker").toggle("left");
      });

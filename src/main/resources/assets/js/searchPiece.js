@@ -1,4 +1,4 @@
-
+var associatedImagesToResults = [];
 
 function searchPieces(){
   getPieceSearchResults();

@@ -85,7 +85,6 @@ img {
 #goBack{
 	    /* margin-top: 85.5px; */
     margin-top: 85px;
-    margin-left: 85px;
     text-align: center;
     color: #93928f;
     width: 40px;
@@ -102,12 +101,12 @@ img {
 	border: 1px solid #30C8FF;
 }
 
-#compositionResultInfomration{
+#resultInformationBlock{
 	background-color: #4E4E4E;
 	   border-radius: 5px;
     border: 1px solid #2F2F2F;
         margin-left: 0px;
-    padding: 15px;
+        padding: 15px;
 }
 
 .currentCompositionInfo{
@@ -122,8 +121,57 @@ img {
 
 }
 
-
 .hideInfo{
 	 display: none;
 }
 
+
+#relatedImages{
+    height: 140px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    border-radius: 5px;
+    box-shadow: inset 0px 7px 20px 3px rgba(0,0,0,0.3);
+}
+
+
+.resultsRelatedImages{
+	width: 100px;
+	height: 100px;
+	margin: 15px;
+}
+
+
+#relatedImages::-webkit-scrollbar-track
+{
+	/*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+	border-radius: 10px;
+	background-color: #4E4E4E;
+}
+
+#relatedImages::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: rgba(0,0,0,0);
+}
+
+#relatedImages::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+	background-color: #3b3b3b;
+}
+
+#resultInformationBlock h4{
+	margin: 0px;
+}
+
+#compositionResultInfomration{
+	margin: 15px;
+}
+
+#relatedImages img{
+	box-shadow: 0px 5px 5px #222222;
+    border-radius: 2px;
+}

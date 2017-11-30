@@ -103,3 +103,10 @@ canvas {
     -o-user-select: none;
 
 }
+
+
+#imgToUpload{
+    height: 250px; width: 250px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+}

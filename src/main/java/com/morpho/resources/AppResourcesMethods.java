@@ -5,6 +5,7 @@ import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory; //Por si despueés ocupara otra opción para la jsonFactory
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.FindIterable;
 import com.google.api.client.http.LowLevelHttpRequest;
@@ -405,6 +406,32 @@ public class AppResourcesMethods {
             builder.status(401);
         }
         return builder;
+    }
+
+
+    @POST
+    @Path("/saveAssociatedPhotographs")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response saveAssociatedPhotographs( String imagesStuff){
+        ResponseBuilder builder;
+        try{
+            String[] stuffies = imagesStuff.split("!");
+            String compositionId = "blah"; //stuffies[0];//I know, this is horrible
+            String photographName = UUID.randomUUID().toString().replace("-", "");
+
+            for(int i = 1; i < stuffies.length; i++){
+                String d =  stuffies[i];
+                InputStream decodeImage = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary( d ));
+                ImageIO.write(ImageIO.read(decodeImage), "png", new File("./userData/CompositionAssocImgs/" + compositionId + "/" + photographName + ".png"));
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        builder = Response.ok("Got photographs");
+        builder.entity("MUAH!");
+        builder.status(200);
+        return builder.build();
     }
 
     /**
@@ -918,6 +945,8 @@ public class AppResourcesMethods {
             resultsString = "[";
 
             for (Document d : results) {
+                String imageBinary = MorphoApplication.getImageBytes(d.getString("imgSource"));
+                d.put("imageBinaryCover", imageBinary);
                 resultsString += d.toJson() + ",";
             }
 

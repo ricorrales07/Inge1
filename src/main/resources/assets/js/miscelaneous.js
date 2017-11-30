@@ -55,7 +55,7 @@ function registeredImages(owned, type, pieceType){
 	}else{
 		pieceType = ", Type: \"" + generateTypeIndex(pieceType.value) + "\"";
 	}
-	$("#loadingImagesPieces").show();
+	$(".loadingImagesPieces").show();
 
 	var filter;
 	if(owned){
@@ -74,13 +74,16 @@ function registeredImages(owned, type, pieceType){
 		data: JSON.stringify({collection: "piece", filter: filter, type: imagesToLoad}),
 		contentType: "text/plain",
 		success:function(data, textStatus, jqXHR){
-			 $("#loadingImagesPieces").hide();
-			if(owned) {
-               
-                $('#ownedImages').append(data)
-            }else{
-                $('#images').append(data)
-			}
+			
+			setTimeout(function(){
+				$(".loadingImagesPieces").hide();
+				if(owned) {
+	                $('#ownedImages').append(data)
+	            }else{
+	                $('#images').append(data)
+				}
+			}, 1000);
+
 		},
 		error:function(jqXHR, textStatus, errorThrown ){
 			console.log(errorThrown);
