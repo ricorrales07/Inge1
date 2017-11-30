@@ -17,7 +17,7 @@
                       
                   </div>
                   <div class="col-md-8">
-                  	<div class="row hideInfo" id="resultInformationBlock">
+                  	<div class="row" id="resultInformationBlock">
                       <div class="col-md-4 ">
                           <h4> Result information </h4>
                           <div class="row" id="compositionResultInfomration">

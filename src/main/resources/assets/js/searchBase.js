@@ -162,7 +162,7 @@ function addListenerToResultsCard(card){
 		$("#sciNameField").text("").text(scientificName);
 		$("#similarityScorField").text("").text(similarityScore);
 
-		$("#resultInformationBlock").toggleClass("hideInfo");
+		//$("#resultInformationBlock").toggleClass("hideInfo");
 	});
 }
 
