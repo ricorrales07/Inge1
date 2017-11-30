@@ -151,7 +151,7 @@
                    </div>
                    <div class = "modal-body">
                       Click the button below to search for an image
-                      <input type="file" accept='image/*'><br>
+                      <input type="file" accept='image/*' onchange="tempSaveImg(this);"><br>
                         <label >Name: </label>
                         <input type="attr" class="att-in form-control attribute-name"
                         placeholder="Property name"/>

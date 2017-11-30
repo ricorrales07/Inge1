@@ -1,7 +1,6 @@
 package com.morpho.server;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.util.JSON;
@@ -11,8 +10,15 @@ import com.mongodb.client.MongoDatabase;
 import io.dropwizard.lifecycle.Managed;
 import com.mongodb.MongoClient;
 import org.bson.Document;
+import org.json.simple.JSONObject;
+import org.neo4j.driver.v1.*;
+import org.neo4j.driver.v1.types.Node;
 
-import javax.print.Doc;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Created by Ricardo on 29/4/2017.
@@ -20,10 +26,12 @@ import javax.print.Doc;
 public class DBAdministrator implements Managed {
     private final MongoClient client;
     private final MongoDatabase db;
+    private final Session neo4jSession;
 
-    public DBAdministrator(MongoClient client) {
+    public DBAdministrator(MongoClient client, Driver neo4jDriver) {
         this.client = client;
         this.db = client.getDatabase("MorphoDB");
+        this.neo4jSession = neo4jDriver.session();
     }
 
     /**
@@ -112,6 +120,64 @@ public class DBAdministrator implements Managed {
      */
     public void delete(String collection, String filter) throws Exception{
         db.getCollection(collection).deleteMany((Bson) JSON.parse(filter));
+    }
+
+    /**
+     * Sets relationship in Neo4j DB between user and comp/piece
+     * @param userID id of user
+     * @param objectID id of comp or piece
+     * @param type "composition" or "piece"
+     * @param relation "up" or "down"
+     */
+    public void setRelationship(String userID, String objectID, String type, String relation) {
+        String query = "MATCH (u:users {_id:\"" + userID + "\"}), (o:" + type + " {_id:\"" + objectID + "\"})" +
+                "CREATE (u)<-[:" + type + "_" + relation + "]-(o)";
+        try (Transaction tx = neo4jSession.beginTransaction())
+        {
+            tx.run(query);
+            tx.success();
+        }
+    }
+
+    /**
+     * Finds users related to comp/piece
+     * @param id id of piece/comp
+     * @param type "composition" or "piece"
+     * @param relation "up" or "down"
+     * @return List of users in JSONObject format
+     */
+    public List<JSONObject> findRelatedUsers(String id, String type, String relation) {
+        String query = "MATCH ({_id : \"" + id + "\"})-[:" + type + "_" + relation + "]->(n) RETURN n";
+        return neo4jQuery(query, id);
+    }
+
+    /**
+     * Finds comps/pieces related to users
+     * @param user_id user id
+     * @param type "composition" or "piece"
+     * @param relation "up" or "down"
+     * @return List of users in JSONObject format
+     */
+    public List<JSONObject> findRelatedObjects(String user_id, String type, String relation) {
+        String query = "MATCH ({_id : \"" + user_id + "\"})<-[:" + type + "_" + relation + "]-(n) RETURN n";
+        return neo4jQuery(query, user_id);
+    }
+
+    private List<JSONObject> neo4jQuery(String query, String id) {
+        List<JSONObject> result = new ArrayList<>();
+        try (Transaction tx = neo4jSession.beginTransaction())
+        {
+            StatementResult sr = tx.run(query);
+            while ( sr.hasNext() )
+            {
+                Node nextNode = sr.next().get("n").asNode();
+                JSONObject nodeAsJSON = new JSONObject(nextNode.asMap());
+                if(!nodeAsJSON.get("_id").equals(id)) {
+                    result.add(nodeAsJSON);
+                }
+            }
+        }
+        return result;
     }
 
     public void start() throws Exception {

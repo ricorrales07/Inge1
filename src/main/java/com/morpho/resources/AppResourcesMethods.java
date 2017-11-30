@@ -25,13 +25,14 @@ import org.bson.Document;
 import javax.imageio.ImageIO;
 import javax.print.Doc;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.*;
-import javax.ws.rs.core.Response;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 
+import java.lang.annotation.Annotation;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
@@ -469,7 +470,7 @@ public class AppResourcesMethods {
                 ImageIO.write(ImageIO.read(bit), "png", new File("./userData/" + data[5] + "/PieceA" + fileID + ".png"));
                 ImageIO.write(ImageIO.read(bitB), "png", new File("./userData/" + data[5] + "/PieceB" + fileID + ".png"));
                 builder = Response.ok("Image saved");
-            }else{
+            }else if(data[0].equals("Composition")){
                 String imageData = data[2];
                 InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
                 fileName = data[4];
@@ -482,6 +483,14 @@ public class AppResourcesMethods {
                 imgSource = "./userData/" + data[3] + "/Composition" + fileID + ".png";
                 builder = Response.ok("Image saved");
                 builder.entity(imgSource+ "," + data[3] + "C" + fileID);
+            } else {
+                String imageData = data[1];
+                InputStream bit = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(imageData));
+                fileName = data[2];
+                ImageIO.write(ImageIO.read(bit), "png", new File("./userData/" + fileName));
+                imgSource = "./userData/" + fileName;
+                builder = Response.ok("Image saved");
+                builder.entity(imgSource);
             }
             builder.status(200);
 
@@ -521,7 +530,7 @@ public class AppResourcesMethods {
             MorphoApplication.logger.warning("Failed to save image in server");
             MorphoApplication.logger.warning(e.toString());
             builder = Response.ok("Failed to save image in server");
-            builder.status(404);
+            builder.status(500);
             return builder.build();
         }
 
@@ -798,7 +807,6 @@ public class AppResourcesMethods {
             String filter = "{_id: \"" + receivedContent + "\"}";
             imgJsons = MorphoApplication.DBA.search("composition", filter);
 
-            //TODO: sacar esto de acá, solo debería ir la línea anterior
             for (org.bson.Document json : imgJsons)
             {
                 JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
@@ -807,7 +815,8 @@ public class AppResourcesMethods {
                 for(int i = 0; i < documentArray.size(); i++){
                     JSONObject o = (JSONObject) new JSONParser().parse(documentArray.get(i).toString());
 
-                    html += "<modalImages data-dismiss=\"modal\"> <img src=\"" + o.get("image")
+                    html += "<modalImages data-dismiss=\"modal\"> <img src=\"data:image/png;base64," +
+                            MorphoApplication.getImageBytes(o.get("image").toString())
                             + "\" class = \"img-thumbnail\" /> </modalImages>";
                 }
             }
@@ -822,6 +831,49 @@ public class AppResourcesMethods {
 
         builder = Response.ok("Got images");
         builder.entity(html);
+        builder.status(200);
+        return builder.build();
+    }
+
+    @POST
+    @Path("loadPhotos2")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response loadPhotos2(String receivedContent) {
+        ResponseBuilder builder;
+        String r = "[";
+        FindIterable<org.bson.Document> imgJsons;
+        try
+        {
+            String filter = "{_id: \"" + receivedContent + "\"}";
+            imgJsons = MorphoApplication.DBA.search("composition", filter);
+
+            boolean something = false;
+            for (org.bson.Document json : imgJsons)
+            {
+                something = true;
+                JSONObject docData = (JSONObject) new JSONParser().parse(json.toJson());
+                JSONArray documentArray = (JSONArray) docData.get("images");
+
+                for(int i = 0; i < documentArray.size(); i++){
+                    JSONObject o = (JSONObject) new JSONParser().parse(documentArray.get(i).toString());
+
+                    r += MorphoApplication.getImageBytes(o.get("image").toString()) + ",";
+                }
+            }
+            if (something)
+                r = r.substring(0, r.length() - 1);
+            r += "]";
+        }
+        catch (Exception e)
+        {
+            MorphoApplication.logger.warning(e.toString());
+            builder = Response.status(500);
+            builder.entity(e.toString());
+            return builder.build();
+        }
+
+        builder = Response.ok("Got images");
+        builder.entity(r);
         builder.status(200);
         return builder.build();
     }
@@ -925,6 +977,30 @@ public class AppResourcesMethods {
         builder = Response.ok("Successfuly fetched data");
         builder.entity(b);
         builder.status(200);
+        return builder.build();
+    }
+
+    @POST
+    @Path("voteUp")
+    public Response voteUp(@QueryParam("dataJSON") String dataJSON) {
+        ResponseBuilder builder;
+        builder = Response.ok();
+        return builder.build();
+    }
+
+    @POST
+    @Path("voteDown")
+    public Response voteDown(@QueryParam("dataJSON") String dataJSON) {
+        ResponseBuilder builder;
+        builder = Response.ok();
+        return builder.build();
+    }
+
+    @GET
+    @Path("getVotes")
+    public Response getVotes(@QueryParam("dataJSON") String dataJSON) {
+        ResponseBuilder builder;
+        builder = Response.ok();
         return builder.build();
     }
 
