@@ -161,12 +161,16 @@ public class AppResourcesMethods {
                     srcBytes = MorphoApplication.getImageBytes(json.getString("imgSource"));
                     method = "loadComposition('" + json.getString("_id") + "');";
                 }
+
+                int upvotes = MorphoApplication.DBA.findRelatedUsers(piezaID, collection, "up").size();
+                int downvotes = MorphoApplication.DBA.findRelatedUsers(piezaID, collection, "down").size();
+
                 html += "<modalImages> <img src=\"data:image/png;base64," + srcBytes
                         + "\" data-dismiss=\"modal\" class = \"img-thumbnail\" onclick=\"" + method + "\" /> " +
-                        "<br><div class = \"positivo\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-up\" \" onclick=\"updateVote('" + usuarioID +"','" + piezaID +"','" + collection + "','up')\">" +
-                        + MorphoApplication.DBA.findRelatedUsers(piezaID, collection, "up").size() + "</button></div>" + //Boton de voto positivo
-                        "<div class = \"negativo\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-down\" \" onclick=\"updateVote('" + usuarioID + "','" + piezaID + "','" + collection + "','down')\">" +
-                        + MorphoApplication.DBA.findRelatedUsers(piezaID, collection, "down").size() + "</button></div>" + //Boton de voto negativo
+                        "<br><div class = \"positivo\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-up\" id = \"positiveVoteBtn\" \" onclick=\"updateVote(this, this.innerHTML,'" + usuarioID +"','" + piezaID +"','" + collection + "','up')\">" +
+                        + upvotes + "</button></div>" + //Boton de voto positivo
+                        "<div class = \"negativo\"><button class=\"btn btn-basic btn-responsive glyphicon glyphicon-menu-down\" id = \"begativeVoteBtn\" \" onclick=\"updateVote(this, this.innerHTML,'" + usuarioID + "','" + piezaID + "','" + collection + "','down')\">" +
+                        + downvotes + "</button></div>" + //Boton de voto negativo
                         "</modalImages>";
             }
         }

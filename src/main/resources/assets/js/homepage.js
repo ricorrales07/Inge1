@@ -1024,7 +1024,7 @@ function attachPhotographToComposition(){
  
 }
 
-function updateVote(usuarioID, piezaID, type, updown){ //Recibe parámetros para crear relacion en Neo4J
+function updateVote(btn, votes, usuarioID, piezaID, type, updown){ //Recibe parámetros para crear relacion en Neo4J
     console.log("Updating votes");
     var envio = usuarioID+"/"+piezaID+"/"+type+"/"+updown; //Se envia con los valores separados por '/'
     $.ajax({
@@ -1035,6 +1035,7 @@ function updateVote(usuarioID, piezaID, type, updown){ //Recibe parámetros para
         success:function(data, textStatus, jqXHR){
             console.log(data);
             alert("Your vote has been saved");
+            btn.innerHTML = (parseInt(votes) + 1);
         },
         error:function(jqXHR, textStatus, errorThrown ){
             console.log(errorThrown);
